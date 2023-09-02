@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='实习进度汇报 这几天在做什么: 掌握 statefulset、deployment 用法，实现2副本高可用并将两个pod调度至不同node（反亲和） client-go 实现demo（创建deployment编排之前的docker镜像并运行）； 这些事情的进度: 1.使用hugo更新实习日记至github主页 github主页 (linjianshu.github.io)
+https://github.com/linjianshu/e-book-Gin
+https://github.com/linjianshu/client-go
+2.学习statefulset和deployment 反亲和操作 反亲和 先给不同的工作节点打上了label
+kubectl label nodes minikube-m02 node=worker01
+kubectl label nodes minikube-m03 node=worker02
+kubectl label nodes minikube node=master
+apiVersion: apps/v1 kind: Deployment metadata: name: e-book-gin labels: app: e-book-gin #deployment的标签 version: v1.0.0 spec: replicas: 6 #副本数量 selector: #pod标签选择器，匹配pod标签，默认使用pods的标签 定义标签选择器,部署需要管理的pod（带有该标签的的会被管理）需在pod 模板中定义 matchLabels: app: webapp version: v1.0.0 strategy: type: RollingUpdate #将现有pod替换为新pod的部署策略 滚动更新 template: #pod的定义 metadata: labels: app: webapp #与12行对应 version: v1.'><title>20220812实习进度汇报</title>
+
+<link rel='canonical' href='https://jianrongma.github.io/p/20220812%E5%AE%9E%E4%B9%A0%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%8A%A5/'>
+
+<link rel="stylesheet" href="/scss/style.min.css">
+<style>
+     
+    body{
+        background-repeat: repeat;
+        background-attachment: fixed;
+        background-size:cover;
+         cursor: url(https://files.cnblogs.com/files/monster-jian/cursor.ico),auto;
+    }
+     
+    #div_digg {
+      position: fixed;
+      bottom: 10px;
+      right: 15px;
+      border: 2px solid #ECD7B1;
+      padding: 10px;
+      width: 140px;
+      background-color: #fff;
+      border-radius: 5px 5px 5px 5px !important;
+      box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+    }
+    </style><script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://files.cnblogs.com/files/liyhbk/js.js" color="0,0,255" opacity="1" count="119" zindex="-2"></script>
+<script src="https://files.cnblogs.com/files/liyhbk/js.js" color="0,0,255" opacity="1" count="119" zindex="-2">
+</script>
+<script type="text/javascript" color="255,0,0" pointcolor="255,0,0" opacity="0.7" zindex="-2" count="100" src="/dist/canvas-nest.js"></script>
+<script type="text/javascript" src="/dist/canvas-nest.umd.js"></script>
+<script type="text/javascript">
+    var cn = new CanvasNest(document.getElementById('area-render'), {
+        color: '255,0,255',
+        count: 50,
+      });
+      
+      function asyncLoad() {
+        
+        var i = document.createElement("iframe");
+        i.src = "https://ghbtns.com/github-btn.html?user=hustcc&repo=canvas-nest.js&type=star&count=true";
+        i.scrolling = "no";
+        i.frameborder = "0";
+        i.border = "0";
+        i.setAttribute("frameborder", "0", 0);
+        i.width = "100px";
+        i.height = "20px";
+        document.getElementById("github-iframe").appendChild(i);
+      }
+      function loadGitHubBtn() {
+        if (window.addEventListener) {window.addEventListener("load", asyncLoad, false);}
+        else if (window.attachEvent) {window.attachEvent("onload", asyncLoad);}
+        else {window.onload = asyncLoad;}
+      }
+      loadGitHubBtn();
+</script>
+<script src="/canvas-nest.js?version=10"></script><canvas width="1536" height="454" style="display: block; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; overflow: hidden; pointer-events: none;"></canvas>
+<script src="https://files.cnblogs.com/files/monster-jian/mouse-click.js"></script>
+<script type="text/javascript">
+    
+     
+    var a_idx = 0;
+    jQuery(document).ready(function($) {
+        $("body").click(function(e) {
+            var a = new Array("❤不做咸鱼！❤","❤拒绝懒惰！❤","❤想做吃货❤","❤向大佬学习❤","❤扶我起来~❤","❤come on❤","❤一直在路上~❤","❤累了~❤","❤再趴一会❤","❤66666❤","❤高兴的飞起*****❤");
+            var $i = $("<span></span>").text(a[a_idx]);
+            a_idx = (a_idx + 1) % a.length;
+            var x = e.pageX,
+            y = e.pageY;
+            $i.css({
+                "z-index": 999999999999999999999999999999999999999999999999999999999999999999999,
+                "top": y - 20,
+                "left": x,
+                "position": "absolute",
+                "font-weight": "bold",
+                "color": "rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"
+            });
+            $("body").append($i);
+            $i.animate({
+                "top": y - 180,
+                "opacity": 0
+            },
+            1500,
+            function() {
+                $i.remove();
+            });
+        });
+    });
+    </script>
+
+    <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>  
+
+ 
+   
+      
+      
+          
+         <script>         
+            L2Dwidget.init({ "model": { jsonPath:          "https://unpkg.com/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json",  
+                  "scale": 1 }, "display": { "position": "right", "width": 66, "height": 88,        "hOffset": 0, "vOffset": -20 },
+                   "mobile": { "show": true, "scale": 0.5 },      "react": { "opacityDefault": 0.8, "opacityOnHover": 0.1 } }); 
+                    </script><meta property='og:title' content='20220812实习进度汇报'>
+<meta property='og:description' content='实习进度汇报 这几天在做什么: 掌握 statefulset、deployment 用法，实现2副本高可用并将两个pod调度至不同node（反亲和） client-go 实现demo（创建deployment编排之前的docker镜像并运行）； 这些事情的进度: 1.使用hugo更新实习日记至github主页 github主页 (linjianshu.github.io)
+https://github.com/linjianshu/e-book-Gin
+https://github.com/linjianshu/client-go
+2.学习statefulset和deployment 反亲和操作 反亲和 先给不同的工作节点打上了label
+kubectl label nodes minikube-m02 node=worker01
+kubectl label nodes minikube-m03 node=worker02
+kubectl label nodes minikube node=master
+apiVersion: apps/v1 kind: Deployment metadata: name: e-book-gin labels: app: e-book-gin #deployment的标签 version: v1.0.0 spec: replicas: 6 #副本数量 selector: #pod标签选择器，匹配pod标签，默认使用pods的标签 定义标签选择器,部署需要管理的pod（带有该标签的的会被管理）需在pod 模板中定义 matchLabels: app: webapp version: v1.0.0 strategy: type: RollingUpdate #将现有pod替换为新pod的部署策略 滚动更新 template: #pod的定义 metadata: labels: app: webapp #与12行对应 version: v1.'>
+<meta property='og:url' content='https://jianrongma.github.io/p/20220812%E5%AE%9E%E4%B9%A0%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%8A%A5/'>
+<meta property='og:site_name' content='think hy how to learn'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2022-08-12T09:18:55&#43;08:00'/><meta property='article:modified_time' content='2022-08-12T09:18:55&#43;08:00'/><meta property='og:image' content='https://jianrongma.github.io/img/avatar.png' />
+<meta name="twitter:site" content="@ljsljs56495989">
+    <meta name="twitter:creator" content="@ljsljs56495989"><meta name="twitter:title" content="20220812实习进度汇报">
+<meta name="twitter:description" content="实习进度汇报 这几天在做什么: 掌握 statefulset、deployment 用法，实现2副本高可用并将两个pod调度至不同node（反亲和） client-go 实现demo（创建deployment编排之前的docker镜像并运行）； 这些事情的进度: 1.使用hugo更新实习日记至github主页 github主页 (linjianshu.github.io)
+https://github.com/linjianshu/e-book-Gin
+https://github.com/linjianshu/client-go
+2.学习statefulset和deployment 反亲和操作 反亲和 先给不同的工作节点打上了label
+kubectl label nodes minikube-m02 node=worker01
+kubectl label nodes minikube-m03 node=worker02
+kubectl label nodes minikube node=master
+apiVersion: apps/v1 kind: Deployment metadata: name: e-book-gin labels: app: e-book-gin #deployment的标签 version: v1.0.0 spec: replicas: 6 #副本数量 selector: #pod标签选择器，匹配pod标签，默认使用pods的标签 定义标签选择器,部署需要管理的pod（带有该标签的的会被管理）需在pod 模板中定义 matchLabels: app: webapp version: v1.0.0 strategy: type: RollingUpdate #将现有pod替换为新pod的部署策略 滚动更新 template: #pod的定义 metadata: labels: app: webapp #与12行对应 version: v1."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://jianrongma.github.io/img/avatar.png' />
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <style>
+            * {
+              margin: 0;
+              padding: 0;
+            }
+            html, body {
+              height: 100%;
+              width: 100%;
+            }
+            #github-iframe {
+              position: fixed;
+              left: 32px;
+              top: 32px;
+            }
+             
+        </style>
+   
+
+
+<link rel="stylesheet" type="texts" href="https://blog-static.cnblogs.com/files/monster-jian/waifu.css"/>
+
+
+</head>
+
+
+
+
+
+
+
+<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1280473365'%3E%3C/span%3E%3Cscript src='https://s9.cnzz.com/z_stat.php%3Fid%3D1280473365%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<body size-sensor-id="1" style="position: relative;">
+    
+    <div id="area-render"></div>
+   
+
+</body>
+
+<canvas width="1777" height="841" style="position: fixed; left: 0px; top: 0px; z-index: 2147483647; pointer-events: none;"></canvas>
+
+</html>
+
+
+    </head>
+    <body class="
+    article-page 
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        on-phone--column extended
+    
+">
+    
+        <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/hanbagui_hu1992e2ef3ca17530e3489d97af7cbea6_3164_300x0_resize_box.bmp" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        <h1 class="site-name"><a href="https://jianrongma.github.io/">think hy how to learn</a></h1>
+        <h2 class="site-description">好运暴富,就在今日.</h2>
+    </header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+
+    <h2 class="article-title">
+        <a href="/p/20220812%E5%AE%9E%E4%B9%A0%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%8A%A5/">20220812实习进度汇报</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Aug 12, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <h3 id="实习进度汇报">实习进度汇报</h3>
+<h4 id="这几天在做什么">这几天在做什么:</h4>
+<ul>
+<li>掌握 statefulset、deployment 用法，实现2副本高可用并将两个pod调度至不同node（反亲和）</li>
+<li>client-go 实现demo（创建deployment编排之前的docker镜像并运行）；</li>
+</ul>
+<h4 id="这些事情的进度">这些事情的进度:</h4>
+<h5 id="1使用hugo更新实习日记至github主页">1.使用hugo更新实习日记至github主页</h5>
+<p><a class="link" href="https://linjianshu.github.io/"  target="_blank" rel="noopener"
+    >github主页 (linjianshu.github.io)</a></p>
+<p><a class="link" href="https://github.com/linjianshu/e-book-Gin"  target="_blank" rel="noopener"
+    >https://github.com/linjianshu/e-book-Gin</a></p>
+<p><a class="link" href="https://github.com/linjianshu/client-go"  target="_blank" rel="noopener"
+    >https://github.com/linjianshu/client-go</a></p>
+<h5 id="2学习statefulset和deployment-反亲和操作">2.学习statefulset和deployment 反亲和操作</h5>
+<ul>
+<li>反亲和</li>
+</ul>
+<p>先给不同的工作节点打上了label</p>
+<p>kubectl label nodes minikube-m02 node=worker01</p>
+<p>kubectl label nodes minikube-m03 node=worker02</p>
+<p>kubectl label nodes minikube node=master</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Deployment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">e-book-gin</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">e-book-gin </span><span class="w"> </span><span class="c">#deployment的标签</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l">v1.0.0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">6</span><span class="w">  </span><span class="c">#副本数量</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w">  </span><span class="c">#pod标签选择器，匹配pod标签，默认使用pods的标签 定义标签选择器,部署需要管理的pod（带有该标签的的会被管理）需在pod 模板中定义</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">webapp</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l">v1.0.0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">strategy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">RollingUpdate  </span><span class="w"> </span><span class="c">#将现有pod替换为新pod的部署策略 滚动更新</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="c">#pod的定义</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">webapp </span><span class="w"> </span><span class="c">#与12行对应</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l">v1.0.0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">affinity</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c">#节点的亲和性  好像是没有节点反亲和的</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">nodeAffinity</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">requiredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">nodeSelectorTerms</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span>- <span class="nt">matchExpressions</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                  </span>- <span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">node  </span><span class="w"> </span><span class="c">#要求pod不允许运行在标签node=master的节点上</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l">NotIn</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="nt">values</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                      </span>- <span class="l">master</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c">#pod的反亲和性</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">podAntiAffinity</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">requiredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="nt">labelSelector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nt">matchExpressions</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span>- <span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;app&#34;</span><span class="w">  </span><span class="c">#要求pod不允许运行在已有pod标签为webapp的节点上</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                  </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l">In</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                  </span><span class="nt">values</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                  </span>- <span class="s2">&#34;webapp&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">topologyKey</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;kubernetes.io/hostname&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">ccr.ccs.tencentyun.com/hfut-ie/e-book-gin:v3.0</span><span class="w"> </span><span class="c">#容器的镜像地址</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">e-book-gin </span><span class="w"> </span><span class="c">#容器的名字</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">7777</span><span class="w"> </span><span class="c">#对service暴露端口</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">http</span><span class="w">
+</span></span></span></code></pre></div><h5 id="3client-go-实现demo">3.client-go 实现demo</h5>
+<p>1.尝试create deployment web应用</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">   <span class="s">&#34;context&#34;</span>
+</span></span><span class="line"><span class="cl">   <span class="s">&#34;flag&#34;</span>
+</span></span><span class="line"><span class="cl">   <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">v1</span> <span class="s">&#34;k8s.io/api/apps/v1&#34;</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">v12</span> <span class="s">&#34;k8s.io/api/core/v1&#34;</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">metav1</span> <span class="s">&#34;k8s.io/apimachinery/pkg/apis/meta/v1&#34;</span>
+</span></span><span class="line"><span class="cl">   <span class="s">&#34;k8s.io/client-go/kubernetes&#34;</span>
+</span></span><span class="line"><span class="cl">   <span class="s">&#34;k8s.io/client-go/tools/clientcmd&#34;</span>
+</span></span><span class="line"><span class="cl">   <span class="s">&#34;k8s.io/client-go/util/homedir&#34;</span>
+</span></span><span class="line"><span class="cl">   <span class="s">&#34;path&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="kd">var</span> <span class="nx">kubeconfig</span> <span class="o">*</span><span class="kt">string</span>
+</span></span><span class="line"><span class="cl">   <span class="k">if</span> <span class="nx">home</span> <span class="o">:=</span> <span class="nx">homedir</span><span class="p">.</span><span class="nf">HomeDir</span><span class="p">();</span> <span class="nx">home</span> <span class="o">!=</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">kubeconfig</span> <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;kubeconfig&#34;</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nf">Join</span><span class="p">(</span><span class="nx">home</span><span class="p">,</span> <span class="s">&#34;.kube&#34;</span><span class="p">,</span> <span class="s">&#34;config&#34;</span><span class="p">),</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">kubeconfig</span> <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;kubeconfig&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="nx">config</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">clientcmd</span><span class="p">.</span><span class="nf">BuildConfigFromFlags</span><span class="p">(</span><span class="s">&#34;&#34;</span><span class="p">,</span> <span class="o">*</span><span class="nx">kubeconfig</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="nx">clientset</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">kubernetes</span><span class="p">.</span><span class="nf">NewForConfig</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="nx">nodeAffinity</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">v12</span><span class="p">.</span><span class="nx">NodeAffinity</span><span class="p">{</span><span class="nx">RequiredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">v12</span><span class="p">.</span><span class="nx">NodeSelector</span><span class="p">{</span><span class="nx">NodeSelectorTerms</span><span class="p">:</span> <span class="p">[]</span><span class="nx">v12</span><span class="p">.</span><span class="nx">NodeSelectorTerm</span><span class="p">{{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">MatchExpressions</span><span class="p">:</span> <span class="p">[]</span><span class="nx">v12</span><span class="p">.</span><span class="nx">NodeSelectorRequirement</span><span class="p">{{</span>
+</span></span><span class="line"><span class="cl">         <span class="nx">Key</span><span class="p">:</span>      <span class="s">&#34;node&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">         <span class="nx">Operator</span><span class="p">:</span> <span class="s">&#34;NotIn&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">         <span class="nx">Values</span><span class="p">:</span>   <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;master&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}},</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">MatchFields</span><span class="p">:</span> <span class="p">[]</span><span class="nx">v12</span><span class="p">.</span><span class="nx">NodeSelectorRequirement</span><span class="p">{},</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}}}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="nx">podAntiAffinity</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">v12</span><span class="p">.</span><span class="nx">PodAntiAffinity</span><span class="p">{</span><span class="nx">RequiredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span> <span class="p">[]</span><span class="nx">v12</span><span class="p">.</span><span class="nx">PodAffinityTerm</span><span class="p">{{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">LabelSelector</span><span class="p">:</span>     <span class="o">&amp;</span><span class="nx">metav1</span><span class="p">.</span><span class="nx">LabelSelector</span><span class="p">{</span><span class="nx">MatchLabels</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{},</span> <span class="nx">MatchExpressions</span><span class="p">:</span> <span class="p">[]</span><span class="nx">metav1</span><span class="p">.</span><span class="nx">LabelSelectorRequirement</span><span class="p">{{</span><span class="nx">Key</span><span class="p">:</span> <span class="s">&#34;app&#34;</span><span class="p">,</span> <span class="nx">Operator</span><span class="p">:</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">LabelSelectorOpIn</span><span class="p">,</span> <span class="nx">Values</span><span class="p">:</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;webapp&#34;</span><span class="p">}}}},</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">Namespaces</span><span class="p">:</span>        <span class="kc">nil</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">TopologyKey</span><span class="p">:</span>       <span class="s">&#34;kubernetes.io/hostname&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">NamespaceSelector</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="nx">deployment</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">v1</span><span class="p">.</span><span class="nx">Deployment</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">TypeMeta</span><span class="p">:</span>   <span class="nx">metav1</span><span class="p">.</span><span class="nx">TypeMeta</span><span class="p">{</span><span class="nx">Kind</span><span class="p">:</span> <span class="s">&#34;Deployment&#34;</span><span class="p">,</span> <span class="nx">APIVersion</span><span class="p">:</span> <span class="s">&#34;apps/v1&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">ObjectMeta</span><span class="p">:</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ObjectMeta</span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span> <span class="s">&#34;e-book-gin&#34;</span><span class="p">,</span> <span class="nx">Labels</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;app&#34;</span><span class="p">:</span> <span class="s">&#34;e-book-gin&#34;</span><span class="p">,</span> <span class="s">&#34;version&#34;</span><span class="p">:</span> <span class="s">&#34;v1.0.0&#34;</span><span class="p">}},</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">Spec</span><span class="p">:</span> <span class="nx">v1</span><span class="p">.</span><span class="nx">DeploymentSpec</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">         <span class="nx">Replicas</span><span class="p">:</span> <span class="nf">int32Ptr</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">         <span class="nx">Selector</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">metav1</span><span class="p">.</span><span class="nx">LabelSelector</span><span class="p">{</span><span class="nx">MatchLabels</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;app&#34;</span><span class="p">:</span> <span class="s">&#34;webapp&#34;</span><span class="p">,</span> <span class="s">&#34;version&#34;</span><span class="p">:</span> <span class="s">&#34;v1.0.0&#34;</span><span class="p">}},</span>
+</span></span><span class="line"><span class="cl">         <span class="nx">Strategy</span><span class="p">:</span> <span class="nx">v1</span><span class="p">.</span><span class="nx">DeploymentStrategy</span><span class="p">{</span><span class="nx">Type</span><span class="p">:</span> <span class="nx">v1</span><span class="p">.</span><span class="nx">RollingUpdateDeploymentStrategyType</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">         <span class="nx">Template</span><span class="p">:</span> <span class="nx">v12</span><span class="p">.</span><span class="nx">PodTemplateSpec</span><span class="p">{</span><span class="nx">metav1</span><span class="p">.</span><span class="nx">ObjectMeta</span><span class="p">{</span><span class="nx">Labels</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;app&#34;</span><span class="p">:</span> <span class="s">&#34;webapp&#34;</span><span class="p">,</span> <span class="s">&#34;version&#34;</span><span class="p">:</span> <span class="s">&#34;v1.0.0&#34;</span><span class="p">}},</span> <span class="nx">v12</span><span class="p">.</span><span class="nx">PodSpec</span><span class="p">{</span><span class="nx">Affinity</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">v12</span><span class="p">.</span><span class="nx">Affinity</span><span class="p">{</span><span class="nx">NodeAffinity</span><span class="p">:</span> <span class="nx">nodeAffinity</span><span class="p">,</span> <span class="nx">PodAntiAffinity</span><span class="p">:</span> <span class="nx">podAntiAffinity</span><span class="p">},</span> <span class="nx">Containers</span><span class="p">:</span> <span class="p">[]</span><span class="nx">v12</span><span class="p">.</span><span class="nx">Container</span><span class="p">{{</span><span class="nx">Image</span><span class="p">:</span> <span class="s">&#34;ccr.ccs.tencentyun.com/hfut-ie/e-book-gin:v3.0&#34;</span><span class="p">,</span> <span class="nx">Name</span><span class="p">:</span> <span class="s">&#34;e-book-gin&#34;</span><span class="p">,</span> <span class="nx">Ports</span><span class="p">:</span> <span class="p">[]</span><span class="nx">v12</span><span class="p">.</span><span class="nx">ContainerPort</span><span class="p">{{</span><span class="nx">ContainerPort</span><span class="p">:</span> <span class="mi">7777</span><span class="p">,</span> <span class="nx">Name</span><span class="p">:</span> <span class="s">&#34;http&#34;</span><span class="p">}}}}}},</span>
+</span></span><span class="line"><span class="cl">      <span class="p">},</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">Status</span><span class="p">:</span> <span class="nx">v1</span><span class="p">.</span><span class="nx">DeploymentStatus</span><span class="p">{},</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">dep</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">clientset</span><span class="p">.</span><span class="nf">AppsV1</span><span class="p">().</span><span class="nf">Deployments</span><span class="p">(</span><span class="nx">metav1</span><span class="p">.</span><span class="nx">NamespaceDefault</span><span class="p">).</span><span class="nf">Create</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nf">TODO</span><span class="p">(),</span> <span class="nx">deployment</span><span class="p">,</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">CreateOptions</span><span class="p">{})</span>
+</span></span><span class="line"><span class="cl">   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">dep</span><span class="p">.</span><span class="nx">Status</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">int32Ptr</span><span class="p">(</span><span class="nx">i</span> <span class="kt">int32</span><span class="p">)</span> <span class="o">*</span><span class="kt">int32</span> <span class="p">{</span> <span class="k">return</span> <span class="o">&amp;</span><span class="nx">i</span> <span class="p">}</span>
+</span></span></code></pre></div><h4 id="存在哪些问题">存在哪些问题:</h4>
+<ul>
+<li>core dns问题 nslookup找不到headless service的ip</li>
+</ul>
+<h4 id="打算接下来做什么">打算接下来做什么:</h4>
+<ul>
+<li>持久化 pvc pv sc</li>
+<li>secret + configmap</li>
+</ul>
+<h5 id="kubectl常用指令">kubectl常用指令</h5>
+<p>minikube添加工作节点</p>
+<p>minikube node add</p>
+<p>打标签</p>
+<p>kubectl label nodes minikube-m02 node=worker01</p>
+<p>kubectl label nodes minikube-m03 node=worker02</p>
+<p>kubectl label nodes minikube node=master</p>
+<p>查看statefulset</p>
+<p>kubectl get sts</p>
+<p>查看标签</p>
+<p>kubectl get nodes &ndash;show-labels</p>
+<p>查看hostname</p>
+<p><em>for i in 0 1 2; do kubectl exec redis-statefulset-$i &ndash; sh -c &lsquo;hostname&rsquo;; done</em></p>
+<p>nslookup redis-statefulset-0</p>
+<p>检测dns是否正常</p>
+<p>查看kube-system命名空间的pod状态</p>
+<p>kubectl get pods -n kube-system -o wide</p>
+<p>查看dnscore有没有问题</p>
+<p>kubectl logs -f coredns-65c54cc984-9wxzc -n kube-system</p>
+<p><a class="link" href="https://blog.csdn.net/qq_34988341/article/details/106310667"  target="_blank" rel="noopener"
+    >k8s一些常用的小细节_永远在路上啊的博客-CSDN博客</a></p>
+<p><a class="link" href="https://coredns.io/plugins/loop/#troubleshooting-loops-in-kubernetes-clusters"  target="_blank" rel="noopener"
+    >loop (coredns.io)</a></p>
+<p>[CoreDNS Error：<a class="link" href="https://blog.51cto.com/hexiaoshuai/2812394"  target="_blank" rel="noopener"
+    >FATAL] plugin/loop: Loop_你好阳光的技术博客_51CTO博客</a></p>
+<p>[插件 <a class="link" href="https://github.com/coredns/coredns/issues/2087"  target="_blank" rel="noopener"
+    >循环] 不适用于系统解析的运行 ·第 2087 期 ·科伦斯/科伦斯 ·GitHub</a></p>
+<pre tabindex="0"><code>修改配置
+kubectl -n kube-system edit configmap coredns
+
+删除loop
+</code></pre><p>相关资料</p>
+<p><a class="link" href="https://www.it610.com/article/1304836244370395136.htm"  target="_blank" rel="noopener"
+    >https://www.it610.com/article/1304836244370395136.htm</a></p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/405150555"  target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/405150555</a>  亲和与反亲和</p>
+<p><a class="link" href="https://blog.csdn.net/qq_39578545/article/details/125011953"  target="_blank" rel="noopener"
+    >https://blog.csdn.net/qq_39578545/article/details/125011953</a> yaml文件释义</p>
+<p><a class="link" href="https://blog.csdn.net/yujia_666/article/details/116532953"  target="_blank" rel="noopener"
+    >https://blog.csdn.net/yujia_666/article/details/116532953</a>  topologyKeyhttps://blog.csdn.net/a772304419/article/details/110943111 亲和与反亲和</p>
+<p><a class="link" href="https://blog.csdn.net/zhuchance/article/details/117995309"  target="_blank" rel="noopener"
+    >https://blog.csdn.net/zhuchance/article/details/117995309</a> client-go创建deployment</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2023 think hy how to learn
+    </section>
+    
+    <section class="powerby">
+         <br />
+        
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<!doctype html>
+<html lang="en">
+<head>
+   
+</head>
+
+
+
+
+
+
+
+
+
+<body>
+</body>
+
+</html>
+
+
+    </body>
+</html>

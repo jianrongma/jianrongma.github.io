@@ -1,0 +1,3271 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='docker学习 docker概述
+docker安装
+docker命令
+镜像命令 容器命令 操作命令 &amp;hellip; docker镜像
+容器数据卷
+dockerfile
+docker网络原理
+idea整合docker
+以上单机版本docker
+集群 docker compose docker swarm 简化版k8s ci/cd jenkins docker概述
+开发&amp;ndash;上线 两套环境 应用环境，应用配置
+开发人员 运维人员
+开发即运维！
+环境配置麻烦，每个机器都要部署环境（集群redis、es、hadoop&amp;hellip;）费事费力
+发布项目 jar（redis mysql jdk es） war
+jar带上环境进行发布，项目能不能带上环境安装打包
+之前在服务器配置一个应用的环境 redis mysql jdk es hadoop ，配置超麻烦，不能跨平台
+windows与linux
+传统：开发提供jar 运维部署环境
+现在：开发打包部署上线，一套流程做完
+docker给以上的问题，提出解决方案
+java&amp;mdash;apk&amp;mdash;发布（应用商店） &amp;mdash;张三使用apk &amp;mdash;安装即可用
+java&amp;mdash;jar（环境）&amp;mdash;打包项目带上环境（镜像） &amp;mdash;-docker仓库：商店 &amp;mdash;- 下载我们发布的镜像 &amp;ndash;直接运行即可
+docker思想就来自于集装箱！
+jre&amp;mdash;多个应用 （端口冲突）&amp;mdash;原来都是交叉的
+隔离：Docker核心思想，打包装箱！每个箱子都是互相隔离的！
+docker通过隔离机制，可以将服务器利用到极致
+本质：所有的技术都是因为出现了一些问题，我们需要去解决，才去学习。
+docker历史
+容器化技术命名就是docker
+刚刚诞生的时候没有引起行业注意！dotcloud，开源
+开源，docker优点
+在容器技术出来之前，我们都是使用虚拟机技术，
+虚拟机：在windows中装一个虚拟机软件vmware，通过这个软件我们可以虚拟出来一台或者多台电脑！笨重！
+虚拟机：也是属于虚拟化技术，docker容器技术，也是一种虚拟化技术'><title>Docker Learning</title>
+
+<link rel='canonical' href='https://jianrongma.github.io/p/docker-learning/'>
+
+<link rel="stylesheet" href="/scss/style.min.css">
+<style>
+     
+    body{
+        background-repeat: repeat;
+        background-attachment: fixed;
+        background-size:cover;
+         cursor: url(https://files.cnblogs.com/files/monster-jian/cursor.ico),auto;
+    }
+     
+    #div_digg {
+      position: fixed;
+      bottom: 10px;
+      right: 15px;
+      border: 2px solid #ECD7B1;
+      padding: 10px;
+      width: 140px;
+      background-color: #fff;
+      border-radius: 5px 5px 5px 5px !important;
+      box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+    }
+    </style><script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://files.cnblogs.com/files/liyhbk/js.js" color="0,0,255" opacity="1" count="119" zindex="-2"></script>
+<script src="https://files.cnblogs.com/files/liyhbk/js.js" color="0,0,255" opacity="1" count="119" zindex="-2">
+</script>
+<script type="text/javascript" color="255,0,0" pointcolor="255,0,0" opacity="0.7" zindex="-2" count="100" src="/dist/canvas-nest.js"></script>
+<script type="text/javascript" src="/dist/canvas-nest.umd.js"></script>
+<script type="text/javascript">
+    var cn = new CanvasNest(document.getElementById('area-render'), {
+        color: '255,0,255',
+        count: 50,
+      });
+      
+      function asyncLoad() {
+        
+        var i = document.createElement("iframe");
+        i.src = "https://ghbtns.com/github-btn.html?user=hustcc&repo=canvas-nest.js&type=star&count=true";
+        i.scrolling = "no";
+        i.frameborder = "0";
+        i.border = "0";
+        i.setAttribute("frameborder", "0", 0);
+        i.width = "100px";
+        i.height = "20px";
+        document.getElementById("github-iframe").appendChild(i);
+      }
+      function loadGitHubBtn() {
+        if (window.addEventListener) {window.addEventListener("load", asyncLoad, false);}
+        else if (window.attachEvent) {window.attachEvent("onload", asyncLoad);}
+        else {window.onload = asyncLoad;}
+      }
+      loadGitHubBtn();
+</script>
+<script src="/canvas-nest.js?version=10"></script><canvas width="1536" height="454" style="display: block; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; overflow: hidden; pointer-events: none;"></canvas>
+<script src="https://files.cnblogs.com/files/monster-jian/mouse-click.js"></script>
+<script type="text/javascript">
+    
+     
+    var a_idx = 0;
+    jQuery(document).ready(function($) {
+        $("body").click(function(e) {
+            var a = new Array("❤不做咸鱼！❤","❤拒绝懒惰！❤","❤想做吃货❤","❤向大佬学习❤","❤扶我起来~❤","❤come on❤","❤一直在路上~❤","❤累了~❤","❤再趴一会❤","❤66666❤","❤高兴的飞起*****❤");
+            var $i = $("<span></span>").text(a[a_idx]);
+            a_idx = (a_idx + 1) % a.length;
+            var x = e.pageX,
+            y = e.pageY;
+            $i.css({
+                "z-index": 999999999999999999999999999999999999999999999999999999999999999999999,
+                "top": y - 20,
+                "left": x,
+                "position": "absolute",
+                "font-weight": "bold",
+                "color": "rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"
+            });
+            $("body").append($i);
+            $i.animate({
+                "top": y - 180,
+                "opacity": 0
+            },
+            1500,
+            function() {
+                $i.remove();
+            });
+        });
+    });
+    </script>
+
+    <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>  
+
+ 
+   
+      
+      
+          
+         <script>         
+            L2Dwidget.init({ "model": { jsonPath:          "https://unpkg.com/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json",  
+                  "scale": 1 }, "display": { "position": "right", "width": 66, "height": 88,        "hOffset": 0, "vOffset": -20 },
+                   "mobile": { "show": true, "scale": 0.5 },      "react": { "opacityDefault": 0.8, "opacityOnHover": 0.1 } }); 
+                    </script><meta property='og:title' content='Docker Learning'>
+<meta property='og:description' content='docker学习 docker概述
+docker安装
+docker命令
+镜像命令 容器命令 操作命令 &amp;hellip; docker镜像
+容器数据卷
+dockerfile
+docker网络原理
+idea整合docker
+以上单机版本docker
+集群 docker compose docker swarm 简化版k8s ci/cd jenkins docker概述
+开发&amp;ndash;上线 两套环境 应用环境，应用配置
+开发人员 运维人员
+开发即运维！
+环境配置麻烦，每个机器都要部署环境（集群redis、es、hadoop&amp;hellip;）费事费力
+发布项目 jar（redis mysql jdk es） war
+jar带上环境进行发布，项目能不能带上环境安装打包
+之前在服务器配置一个应用的环境 redis mysql jdk es hadoop ，配置超麻烦，不能跨平台
+windows与linux
+传统：开发提供jar 运维部署环境
+现在：开发打包部署上线，一套流程做完
+docker给以上的问题，提出解决方案
+java&amp;mdash;apk&amp;mdash;发布（应用商店） &amp;mdash;张三使用apk &amp;mdash;安装即可用
+java&amp;mdash;jar（环境）&amp;mdash;打包项目带上环境（镜像） &amp;mdash;-docker仓库：商店 &amp;mdash;- 下载我们发布的镜像 &amp;ndash;直接运行即可
+docker思想就来自于集装箱！
+jre&amp;mdash;多个应用 （端口冲突）&amp;mdash;原来都是交叉的
+隔离：Docker核心思想，打包装箱！每个箱子都是互相隔离的！
+docker通过隔离机制，可以将服务器利用到极致
+本质：所有的技术都是因为出现了一些问题，我们需要去解决，才去学习。
+docker历史
+容器化技术命名就是docker
+刚刚诞生的时候没有引起行业注意！dotcloud，开源
+开源，docker优点
+在容器技术出来之前，我们都是使用虚拟机技术，
+虚拟机：在windows中装一个虚拟机软件vmware，通过这个软件我们可以虚拟出来一台或者多台电脑！笨重！
+虚拟机：也是属于虚拟化技术，docker容器技术，也是一种虚拟化技术'>
+<meta property='og:url' content='https://jianrongma.github.io/p/docker-learning/'>
+<meta property='og:site_name' content='think hy how to learn'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='容器化' /><meta property='article:published_time' content='2021-07-26T00:23:34&#43;08:00'/><meta property='article:modified_time' content='2021-07-26T00:23:34&#43;08:00'/><meta property='og:image' content='https://jianrongma.github.io/img/avatar.png' />
+<meta name="twitter:site" content="@ljsljs56495989">
+    <meta name="twitter:creator" content="@ljsljs56495989"><meta name="twitter:title" content="Docker Learning">
+<meta name="twitter:description" content="docker学习 docker概述
+docker安装
+docker命令
+镜像命令 容器命令 操作命令 &amp;hellip; docker镜像
+容器数据卷
+dockerfile
+docker网络原理
+idea整合docker
+以上单机版本docker
+集群 docker compose docker swarm 简化版k8s ci/cd jenkins docker概述
+开发&amp;ndash;上线 两套环境 应用环境，应用配置
+开发人员 运维人员
+开发即运维！
+环境配置麻烦，每个机器都要部署环境（集群redis、es、hadoop&amp;hellip;）费事费力
+发布项目 jar（redis mysql jdk es） war
+jar带上环境进行发布，项目能不能带上环境安装打包
+之前在服务器配置一个应用的环境 redis mysql jdk es hadoop ，配置超麻烦，不能跨平台
+windows与linux
+传统：开发提供jar 运维部署环境
+现在：开发打包部署上线，一套流程做完
+docker给以上的问题，提出解决方案
+java&amp;mdash;apk&amp;mdash;发布（应用商店） &amp;mdash;张三使用apk &amp;mdash;安装即可用
+java&amp;mdash;jar（环境）&amp;mdash;打包项目带上环境（镜像） &amp;mdash;-docker仓库：商店 &amp;mdash;- 下载我们发布的镜像 &amp;ndash;直接运行即可
+docker思想就来自于集装箱！
+jre&amp;mdash;多个应用 （端口冲突）&amp;mdash;原来都是交叉的
+隔离：Docker核心思想，打包装箱！每个箱子都是互相隔离的！
+docker通过隔离机制，可以将服务器利用到极致
+本质：所有的技术都是因为出现了一些问题，我们需要去解决，才去学习。
+docker历史
+容器化技术命名就是docker
+刚刚诞生的时候没有引起行业注意！dotcloud，开源
+开源，docker优点
+在容器技术出来之前，我们都是使用虚拟机技术，
+虚拟机：在windows中装一个虚拟机软件vmware，通过这个软件我们可以虚拟出来一台或者多台电脑！笨重！
+虚拟机：也是属于虚拟化技术，docker容器技术，也是一种虚拟化技术"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://jianrongma.github.io/img/avatar.png' />
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <style>
+            * {
+              margin: 0;
+              padding: 0;
+            }
+            html, body {
+              height: 100%;
+              width: 100%;
+            }
+            #github-iframe {
+              position: fixed;
+              left: 32px;
+              top: 32px;
+            }
+             
+        </style>
+   
+
+
+<link rel="stylesheet" type="texts" href="https://blog-static.cnblogs.com/files/monster-jian/waifu.css"/>
+
+
+</head>
+
+
+
+
+
+
+
+<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1280473365'%3E%3C/span%3E%3Cscript src='https://s9.cnzz.com/z_stat.php%3Fid%3D1280473365%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<body size-sensor-id="1" style="position: relative;">
+    
+    <div id="area-render"></div>
+   
+
+</body>
+
+<canvas width="1777" height="841" style="position: fixed; left: 0px; top: 0px; z-index: 2147483647; pointer-events: none;"></canvas>
+
+</html>
+
+
+    </head>
+    <body class="
+    article-page 
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        on-phone--column extended
+    
+">
+    
+        <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/hanbagui_hu1992e2ef3ca17530e3489d97af7cbea6_3164_300x0_resize_box.bmp" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        <h1 class="site-name"><a href="https://jianrongma.github.io/">think hy how to learn</a></h1>
+        <h2 class="site-description">好运暴富,就在今日.</h2>
+    </header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/-%E5%AE%B9%E5%99%A8/" >
+                -容器
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/docker-learning/">Docker Learning</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jul 26, 2021</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 18 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <h3 id="docker学习">docker学习</h3>
+<ul>
+<li>
+<p>docker概述</p>
+</li>
+<li>
+<p>docker安装</p>
+</li>
+<li>
+<p>docker命令</p>
+<ul>
+<li>镜像命令</li>
+<li>容器命令</li>
+<li>操作命令</li>
+<li>&hellip;</li>
+</ul>
+</li>
+<li>
+<p>docker镜像</p>
+</li>
+<li>
+<p>容器数据卷</p>
+</li>
+<li>
+<p>dockerfile</p>
+</li>
+<li>
+<p>docker网络原理</p>
+</li>
+<li>
+<p>idea整合docker</p>
+</li>
+</ul>
+<p>以上单机版本docker</p>
+<ul>
+<li>集群 docker compose</li>
+<li>docker swarm  简化版k8s</li>
+<li>ci/cd jenkins</li>
+</ul>
+<p>docker概述</p>
+<p>开发&ndash;上线 两套环境 应用环境，应用配置</p>
+<p>开发人员   运维人员</p>
+<p>开发即运维！</p>
+<p>环境配置麻烦，每个机器都要部署环境（集群redis、es、hadoop&hellip;）费事费力</p>
+<p>发布项目 jar（redis mysql jdk es） war</p>
+<p>jar带上环境进行发布，项目能不能带上环境安装打包</p>
+<p>之前在服务器配置一个应用的环境 redis mysql jdk es hadoop ，配置超麻烦，不能跨平台</p>
+<p>windows与linux</p>
+<p>传统：开发提供jar 运维部署环境</p>
+<p>现在：开发打包部署上线，一套流程做完</p>
+<p>docker给以上的问题，提出解决方案</p>
+<p>java&mdash;apk&mdash;发布（应用商店） &mdash;张三使用apk &mdash;安装即可用</p>
+<p>java&mdash;jar（环境）&mdash;打包项目带上环境（镜像） &mdash;-docker仓库：商店 &mdash;- 下载我们发布的镜像 &ndash;直接运行即可</p>
+<p>docker思想就来自于集装箱！</p>
+<p>jre&mdash;多个应用 （端口冲突）&mdash;原来都是交叉的</p>
+<p>隔离：Docker核心思想，打包装箱！每个箱子都是互相隔离的！</p>
+<p>docker通过隔离机制，可以将服务器利用到极致</p>
+<p>本质：所有的技术都是因为出现了一些问题，我们需要去解决，才去学习。</p>
+<p>docker历史</p>
+<p>容器化技术命名就是docker</p>
+<p>刚刚诞生的时候没有引起行业注意！dotcloud，开源</p>
+<p>开源，docker优点</p>
+<p>在容器技术出来之前，我们都是使用虚拟机技术，</p>
+<p>虚拟机：在windows中装一个虚拟机软件vmware，通过这个软件我们可以虚拟出来一台或者多台电脑！笨重！</p>
+<p>虚拟机：也是属于虚拟化技术，docker容器技术，也是一种虚拟化技术</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">vm：linux centos 原生镜像（一个电脑） 隔离：需要开启多个虚拟机  几分钟
+</span></span><span class="line"><span class="cl">docker：隔离  镜像机制（最核心的环境 4m +jdk+mysql）十分小巧，运行镜像就可以了 几M 几s
+</span></span></code></pre></div><p>docker是基于go语言开发的！开源</p>
+<p>docker的文档超级详细</p>
+<p>仓库地址：pull push</p>
+<p>docker能干嘛</p>
+<p>之前的虚拟机技术！</p>
+<p>从内核到库函数到app</p>
+<p>虚拟机技术缺点：</p>
+<p>1.资源占用十分多</p>
+<p>2.冗余步骤多</p>
+<p>3.启动很慢</p>
+<p>容器化技术</p>
+<p>容器化技术不是模拟一个完整的操作系统</p>
+<p>比较docker和虚拟机技术的不同：</p>
+<ul>
+<li>传统虚拟机，虚拟出一个硬件，运行一个完整的操作系统，然后再这个系统上安装和运行软件</li>
+<li>容器内的应用直接运行在宿主机的内，容器是没有自己的内核的，也没有虚拟我们的硬件，所以就轻便了</li>
+<li>每个容器间互相隔离，每个容器内都有一个属于自己的文件系统，互不影响</li>
+</ul>
+<p>devops</p>
+<p>更快速的交付和部署</p>
+<p>传统：一堆帮助文档，安装程序</p>
+<p>docker：一键运行，打包镜像，发布测试</p>
+<p>更便捷的升级和扩缩容</p>
+<p>使用了docker之后，我们部署应用就和搭积木一样</p>
+<p>springboot1.5  redis5 tomcat8</p>
+<p>项目打包为一个镜像，扩展，服务器A！开服务器B，做扩展</p>
+<p>更简单的系统运维</p>
+<p>在容器化之后，我们的开发，测试环境高度一致</p>
+<p>更高效的利用计算资源：</p>
+<p>1核 2g的服务器！</p>
+<p>docker是内核级别的虚拟化，可以在一个物理机上可以运行很多的容器实例，服务器的性能可以运行到极致</p>
+<p>docker的基本组成</p>
+<p>镜像：image  就是一个类，好比一个模版，可以通过这个模版来创建容器服务，tomcat镜像&ndash;&gt;run&mdash;&ndash;&gt;tomcat01容器（提供服务） 通过这个镜像可以创建多个容器（最终服务或者项目运行就是在容器中）</p>
+<p>容器：container   docker利用容器技术，独立运行一个或者一个组应用，通过镜像来创建的。启动、停止、删除、基本命令！目前就可以吧容器理解为就是一个简易的linux系统</p>
+<p>仓库：respository  仓库就是存放镜像的地方 仓库分为公有仓库和私有仓库！ dockerhub 阿里云 都有容器服务器（配置镜像加速）！</p>
+<p>安装docker</p>
+<p>1.需要linux基础</p>
+<p>2.centos7</p>
+<p>3.使用xshell连接远程服务器进行操作</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210607214021379.png" >
+		<img src="/DockerLearning.assets/image-20210607214021379.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210607214021379">
+	</a>
+	
+	<figcaption>image-20210607214021379</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210607214316440.png" >
+		<img src="/DockerLearning.assets/image-20210607214316440.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210607214316440">
+	</a>
+	
+	<figcaption>image-20210607214316440</figcaption>
+	
+</figure></p>
+<p>查看一下下载的这个hello-world镜像</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210607214400376.png" >
+		<img src="/DockerLearning.assets/image-20210607214400376.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210607214400376">
+	</a>
+	
+	<figcaption>image-20210607214400376</figcaption>
+	
+</figure></p>
+<p>阿里云镜像加速</p>
+<p>1.登陆阿里云</p>
+<p>2.容器镜像服务</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210607215031767.png" >
+		<img src="/DockerLearning.assets/image-20210607215031767.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210607215031767">
+	</a>
+	
+	<figcaption>image-20210607215031767</figcaption>
+	
+</figure></p>
+<p>3.配置使用</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo mkdir -p /etc/docker
+</span></span><span class="line"><span class="cl">sudo tee /etc/docker/daemon.json <span class="s">&lt;&lt;-&#39;EOF&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">{
+</span></span></span><span class="line"><span class="cl"><span class="s">  &#34;registry-mirrors&#34;: [&#34;https://lufuant6.mirror.aliyuncs.com&#34;]
+</span></span></span><span class="line"><span class="cl"><span class="s">}
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">sudo systemctl daemon-reload
+</span></span><span class="line"><span class="cl">sudo systemctl restart docker
+</span></span></code></pre></div><p>回顾helloworld流程</p>
+<p>开始&ndash;&gt;本地寻找镜像&ndash;&gt;如果有就使用这个镜像运行，如果没有就去仓库下载pull</p>
+<p>底层原理</p>
+<p>docker怎么工作的</p>
+<p>docker是一个client&ndash;server结构的系统，docker的守护进程运行在主机上，通过socket从客户端访问</p>
+<p>dockerserver接收到docker-client的指令，就会执行这个命令</p>
+<p>docker为什么比vm快</p>
+<p>1.docker有着比虚拟机更少的抽象层</p>
+<p>2.docker利用的是宿主机的内核，vm需要guest OS</p>
+<p>所以新建一个容器的时候， docker不需要像虚拟机一样重新加载一个操作系统内核，避免引导。虚拟机是加载guestOS，分钟级别的，而docker是利用宿主；机加的操作系统，省略了这个复杂的过程，妙级的</p>
+<p>docker的常用命令</p>
+<p>帮助命令</p>
+<p>docker version</p>
+<p>docker info</p>
+<p>docker 命令 &ndash;help</p>
+<p>镜像命令</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker images
+</span></span><span class="line"><span class="cl">docker search 
+</span></span><span class="line"><span class="cl">docker pull
+</span></span><span class="line"><span class="cl">docker rmi 
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210607222535947.png" >
+		<img src="/DockerLearning.assets/image-20210607222535947.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210607222535947">
+	</a>
+	
+	<figcaption>image-20210607222535947</figcaption>
+	
+</figure></p>
+<p>容器命令</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker pull centos
+</span></span></code></pre></div><p>新建容器并启动</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker run <span class="o">[]</span> image
+</span></span><span class="line"><span class="cl">--name <span class="o">=</span><span class="s2">&#34;&#34;</span> 容器名字
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-d 后台方式运行
+</span></span><span class="line"><span class="cl">-i  使用交互方式运行， 进入容器查看内容 
+</span></span><span class="line"><span class="cl">-t
+</span></span><span class="line"><span class="cl">-p 指定容器的端口-p 8080:8080
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">主机端口：容器端口
+</span></span><span class="line"><span class="cl">-p 容器端口
+</span></span><span class="line"><span class="cl">-p ip：主机端口：容器端口
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">exit</span> 从容器中退回主机
+</span></span><span class="line"><span class="cl">docker ps 列出所有运行容器
+</span></span><span class="line"><span class="cl">-a 所有正在运行的容器+运行过的容器
+</span></span><span class="line"><span class="cl">-n<span class="o">=</span>? 显示最近创建的容器
+</span></span><span class="line"><span class="cl">docker ps -q 只显示容器的编号
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210608200503679.png" >
+		<img src="/DockerLearning.assets/image-20210608200503679.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210608200503679">
+	</a>
+	
+	<figcaption>image-20210608200503679</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210608200706097.png" >
+		<img src="/DockerLearning.assets/image-20210608200706097.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210608200706097">
+	</a>
+	
+	<figcaption>image-20210608200706097</figcaption>
+	
+</figure></p>
+<p>退出容器</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">exit</span> 退出容器，并停止
+</span></span><span class="line"><span class="cl">ctrl+P+Q
+</span></span></code></pre></div><p>删除容器</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker rm 容器id		
+</span></span><span class="line"><span class="cl">docker rm -f <span class="k">$(</span>docker ps -aq<span class="k">)</span>
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210608201640486.png" >
+		<img src="/DockerLearning.assets/image-20210608201640486.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210608201640486">
+	</a>
+	
+	<figcaption>image-20210608201640486</figcaption>
+	
+</figure></p>
+<p>启动停止容器</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker start 容器id
+</span></span><span class="line"><span class="cl">docker restart 容器id
+</span></span><span class="line"><span class="cl">docker stop 容器id
+</span></span><span class="line"><span class="cl">docker <span class="nb">kill</span> 容器id
+</span></span><span class="line"><span class="cl"> 
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210608203048244.png" >
+		<img src="/DockerLearning.assets/image-20210608203048244.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210608203048244">
+	</a>
+	
+	<figcaption>image-20210608203048244</figcaption>
+	
+</figure></p>
+<p>常用其他命令</p>
+<p>后台启动</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker run -d centos 
+</span></span><span class="line"><span class="cl">docker容器使用后台运行，就必须要有一个前台进程，docker发现没有应用，就会自动停止
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dockerlogs 
+</span></span></code></pre></div><p>查看容器当中的进程信息</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker top 命令
+</span></span><span class="line"><span class="cl">docker inspect 容器id 查看容器信息
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210609223653271.png" >
+		<img src="/DockerLearning.assets/image-20210609223653271.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210609223653271">
+	</a>
+	
+	<figcaption>image-20210609223653271</figcaption>
+	
+</figure></p>
+<p>进入当前正在进行的容器</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">我们通常容器都是使用后台方式运行的，需要进入容器，修改一些配置
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it 容器id 
+</span></span><span class="line"><span class="cl">docker attach 容器id
+</span></span><span class="line"><span class="cl">正在执行当前的代码
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">exec进入容器后开启一个新的终端，可以在里面操作（常用）
+</span></span><span class="line"><span class="cl">attach 进入容器正在执行的终端，不会启动新的进程
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210609224319430.png" >
+		<img src="/DockerLearning.assets/image-20210609224319430.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210609224319430">
+	</a>
+	
+	<figcaption>image-20210609224319430</figcaption>
+	
+</figure></p>
+<p>从容器内拷贝文件到主机上</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker cp 容器id ：容器内路径  目的的主机路径 
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210609230304773.png" >
+		<img src="/DockerLearning.assets/image-20210609230304773.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210609230304773">
+	</a>
+	
+	<figcaption>image-20210609230304773</figcaption>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">当前主机目录
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# <span class="nb">cd</span> /home
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home#  ls
+</span></span><span class="line"><span class="cl">kuanshen.java  test.java
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home# touch kuangshen.java
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home#  ls
+</span></span><span class="line"><span class="cl">kuangshen.java  kuanshen.java  test.java
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">进入容器内部
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home# docker attach 3a26ef468c27
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@3a26ef468c27 /<span class="o">]</span><span class="c1"># cd /home</span>
+</span></span><span class="line"><span class="cl">bash: cd: <span class="s1">$&#39;\343/home&#39;</span>: No such file or directory
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@3a26ef468c27 /<span class="o">]</span><span class="c1"># ls</span>
+</span></span><span class="line"><span class="cl">bin  dev  etc  home  lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@3a26ef468c27 /<span class="o">]</span><span class="c1"># cd /home</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@3a26ef468c27 home<span class="o">]</span><span class="c1"># ls</span>
+</span></span><span class="line"><span class="cl">创建文件
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@3a26ef468c27 home<span class="o">]</span><span class="c1"># touch test1.java</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@3a26ef468c27 home<span class="o">]</span><span class="c1"># ls</span>
+</span></span><span class="line"><span class="cl">test1.java
+</span></span><span class="line"><span class="cl">退出容器
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@3a26ef468c27 home<span class="o">]</span><span class="c1"># exit</span>
+</span></span><span class="line"><span class="cl"><span class="nb">exit</span>
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home# docker ps
+</span></span><span class="line"><span class="cl">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home# docker ps -a
+</span></span><span class="line"><span class="cl">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                           PORTS               NAMES
+</span></span><span class="line"><span class="cl">3a26ef468c27        centos              <span class="s2">&#34;/bin/bash&#34;</span>         <span class="m">20</span> minutes ago      Exited <span class="o">(</span>0<span class="o">)</span> <span class="m">16</span> seconds ago                            suspicious_wilbur
+</span></span><span class="line"><span class="cl">cee72dcd9187        centos              <span class="s2">&#34;-it /bin/bash&#34;</span>     <span class="m">21</span> minutes ago      Created                                              eager_einstein
+</span></span><span class="line"><span class="cl">73d060aad5ac        centos              <span class="s2">&#34;/bin/bash&#34;</span>         <span class="m">27</span> hours ago        Exited <span class="o">(</span>255<span class="o">)</span> About an hour ago                       optimistic_leakey
+</span></span><span class="line"><span class="cl">从容器内拷贝文件至主机
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home# docker cp 3a26ef468c27:/home/test1.java /home
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home# ls
+</span></span><span class="line"><span class="cl">kuangshen.java  kuanshen.java  test.java  test1.java
+</span></span><span class="line"><span class="cl">拷贝是一个手动过程，未来我们使用 -v 卷的技术，可以实现自动同步
+</span></span></code></pre></div><p>docker命令很多，以上是最常用的</p>
+<p>docker安装nginx</p>
+<p>1.搜索镜像</p>
+<p>2.下载镜像</p>
+<p>3.启动镜像</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210609233757534.png" >
+		<img src="/DockerLearning.assets/image-20210609233757534.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210609233757534">
+	</a>
+	
+	<figcaption>image-20210609233757534</figcaption>
+	
+</figure></p>
+<p>测试</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210609234211565.png" >
+		<img src="/DockerLearning.assets/image-20210609234211565.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210609234211565">
+	</a>
+	
+	<figcaption>image-20210609234211565</figcaption>
+	
+</figure></p>
+<p>端口映射</p>
+<p>进入容器，查看文件</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210609234650627.png" >
+		<img src="/DockerLearning.assets/image-20210609234650627.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210609234650627">
+	</a>
+	
+	<figcaption>image-20210609234650627</figcaption>
+	
+</figure></p>
+<p>思考问题：每次改动nignx配置文件，都需要进入容器内部？都十分麻烦，我要是可以在容器外部提供一个映射路径，达到在容器外部修改文件，容器内部就可以自动修改？  -v 数据卷技术</p>
+<p>docker装一个tomcat</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker run -it --rm tomcat:9.0
+</span></span><span class="line"><span class="cl">之前的启动都是后台，停止了容器之后，容器还是可以查到
+</span></span><span class="line"><span class="cl">docker run -it --rm 一般用来测试，用完就删除
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">进入容器
+</span></span><span class="line"><span class="cl">PS C:<span class="se">\U</span>sers<span class="se">\S</span>weetie&gt; docker run -d -p 3355:8080 --name tomcat01 tomcat
+</span></span><span class="line"><span class="cl">c42f39b1590834eb3720faa3cee74b79a909550fe02bc2ed383676908c3accf2
+</span></span><span class="line"><span class="cl">PS C:<span class="se">\U</span>sers<span class="se">\S</span>weetie&gt; docker <span class="nb">exec</span> -it tomcat01 /bin/bash
+</span></span><span class="line"><span class="cl">root@c42f39b15908:/usr/local/tomcat# ls
+</span></span><span class="line"><span class="cl">linux命令少了
+</span></span><span class="line"><span class="cl">没有webapps
+</span></span><span class="line"><span class="cl">阿里云镜像原因，默认是最小的镜像，所有的不必要的都剔除了。
+</span></span><span class="line"><span class="cl">保证最小可运行的环境
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">root@c42f39b15908:/usr/local/tomcat/webapps# <span class="nb">cd</span> ..
+</span></span><span class="line"><span class="cl">root@c42f39b15908:/usr/local/tomcat# ls
+</span></span><span class="line"><span class="cl">BUILDING.txt     LICENSE  README.md      RUNNING.txt  conf  logs            temp     webapps.dist
+</span></span><span class="line"><span class="cl">CONTRIBUTING.md  NOTICE   RELEASE-NOTES  bin          lib   native-jni-lib  webapps  work
+</span></span><span class="line"><span class="cl">root@c42f39b15908:/usr/local/tomcat# <span class="nb">cd</span> webapps.dist
+</span></span><span class="line"><span class="cl">root@c42f39b15908:/usr/local/tomcat/webapps.dist# ls
+</span></span><span class="line"><span class="cl">ROOT  docs  examples  host-manager  manager
+</span></span><span class="line"><span class="cl">root@c42f39b15908:/usr/local/tomcat/webapps.dist# <span class="nb">cd</span> ..
+</span></span><span class="line"><span class="cl">root@c42f39b15908:/usr/local/tomcat# cp -r webapps.dist/* webapps
+</span></span><span class="line"><span class="cl">root@c42f39b15908:/usr/local/tomcat# <span class="nb">cd</span> webapps
+</span></span><span class="line"><span class="cl">root@c42f39b15908:/usr/local/tomcat/webapps# ls
+</span></span><span class="line"><span class="cl">ROOT  docs  examples  host-manager  manager
+</span></span></code></pre></div><p>以后要部署项目，如果每次都要进入容器是不是十分麻烦，要是可以在容器外部提供一个映射路径，达到在容器修改文件名，容器内部就可以自动修改？ -v 数据卷技术</p>
+<p>webapps，在外部放置项目，就自动同步到内部就好了！！！</p>
+<p>docker容器 tomcat+网站 docker+mysql</p>
+<p>部署es+kibana</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">es暴露的端口很多
+</span></span><span class="line"><span class="cl">es十分耗内存
+</span></span><span class="line"><span class="cl">es的数据一般需要放置在安全目录！挂载
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--net somenetwork ? 网络配置
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">下载启动
+</span></span><span class="line"><span class="cl">docker run -d --name elasticsearch  -p 9200:9200 -p 9300:9300 -e <span class="s2">&#34;discovery.type=single-node&#34;</span>
+</span></span><span class="line"><span class="cl">elasticsearch:7.6.2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">一启动就顶不住了，很好内存
+</span></span><span class="line"><span class="cl">docker statuc 查看cpu的状态
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">赶紧关闭，增加内存的限制，修改配置文件 -e 配置修改
+</span></span><span class="line"><span class="cl">docker run -d --name elasticsearch -p 9200:9200 -p 9300:9300 -e <span class="s2">&#34;discovery.type=single-node&#34;</span> -e <span class="nv">ES_JAVA_OPTS</span><span class="o">=</span><span class="s2">&#34;-Xms64m -Xmx512m&#34;</span> elasticsearch:7.6.2
+</span></span><span class="line"><span class="cl">环境配置
+</span></span></code></pre></div><p>作业：使用kibana 连接elasticsearch</p>
+<p>因为相互隔离，所以直接localhost来连不现实，可以使用linux内网ip来搞，需要了解docker网络原理，网络的基本知识</p>
+<p>可视化</p>
+<ul>
+<li>
+<p>portainer先用这个</p>
+</li>
+<li>
+<p>rancher（CI、CD再用）</p>
+</li>
+</ul>
+<p>什么是portainer</p>
+<p>docker图形化界面管理工具！提供一个后台面板，供我们操作！</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker run -d -p 8088:9000 --restart<span class="o">=</span>always -v /var/run/docker.sock:/var/run/docker.sock --privileged<span class="o">=</span><span class="nb">true</span> portainer/portainer
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">访问测试 外网8088端口
+</span></span><span class="line"><span class="cl">通过它来访问
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">可视化面板，我们平时不会使用，测试玩玩即可
+</span></span></code></pre></div><p>docker镜像讲解</p>
+<p>镜像是什么</p>
+<p>镜像是一种轻量级、可执行的独立软件包，用来打包软件运行环境和基于运行环境开发的软件，它包含运行某个软件所需的所有内容，包括代码、运行时、库、环境变量和配置文件</p>
+<p>所有的应用，直接打包docker镜像，就可以直接跑起来</p>
+<p>如何得到镜像：</p>
+<ul>
+<li>从远程仓库下载</li>
+<li>朋友拷贝给你</li>
+<li>自己制作一个镜像 dockerfile</li>
+</ul>
+<p>unionFS联合文件系统</p>
+<p>我们下载的时候看到的一层层的就是这个</p>
+<p>unionfs联合文件系统，是一种分层、轻量级并且高性能的文件系统，它支持对文件系统的修改，作为一次提交来一层层叠加，同时可以将不同目录挂在到同一个虚拟文件系统下unite several directories into a single virtual filesystem 。union文件系统是docker 镜像的基础，镜像可以通过分层来进行继承，基于基础镜像（没有父镜像），可以制作各种具体的应用镜像</p>
+<p>特性：一次同时加载多个文件系统，但从外面看起来，只能看到一个文件系统，联合加载会把各层文件系统叠加起来，这样最终的文件系统会包含所有底层的文件和目录</p>
+<p>docker镜像加载原理</p>
+<p>docker的镜像实际上是由一层一层的文件系统组成，这种层级的文件系统UnionFS</p>
+<p>bootfs （boot file system ） 主要包含bootloader 和 kernel ，bootloader 主要是引导加载kernel ， linux 刚启动时会加载 bootfs 文件系统，在docker 镜像的最底层是bootfs。这一层与我们典型的linu/unix系统是一样的，包含boot加载器和内核。当boot加载完成之后整个内核就都在内存中了，此时内存的使用权已由bootfs转交给内核，此时系统也会卸载bootfs</p>
+<p>rootfs（root file system），在bootfs之上，包含的就是典型linux系统中的 /dev , /proc / bin , /etc等标准目录和文件。rootfs就是各种不同的操作系统发行版，比如ubuntu，centos等等</p>
+<p>平时我们安装进虚拟机的centos都是好几个G，为什么docker这里才200M</p>
+<p>对于一个精简的OS，rootfs可以很小，只需要包含最基本的命令，工具和程序库就可以了，因为底层直接用host的kernel，自己只需要提供rootfs就可以了，由此可见对于不同的linux发行版，bootfs基本是一致的，rootfs会有差别，因此不同的发行版本可以共用bootfs</p>
+<p>分层理解</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">PS C:<span class="se">\U</span>sers<span class="se">\S</span>weetie&gt; docker pull redis
+</span></span><span class="line"><span class="cl">Using default tag: latest
+</span></span><span class="line"><span class="cl">latest: Pulling from library/redis
+</span></span><span class="line"><span class="cl">69692152171a: Already exists
+</span></span><span class="line"><span class="cl">a4a46f2fd7e0: Pull <span class="nb">complete</span>
+</span></span><span class="line"><span class="cl">bcdf6fddc3bd: Pull <span class="nb">complete</span>
+</span></span><span class="line"><span class="cl">2902e41faefa: Pull <span class="nb">complete</span>
+</span></span><span class="line"><span class="cl">df3e1d63cdb1: Pull <span class="nb">complete</span>
+</span></span><span class="line"><span class="cl">fa57f005a60d: Pull <span class="nb">complete</span>
+</span></span></code></pre></div><p>我们可以去下载一个镜像，注意观察下载的日志输出，可以看到是一层一层在下载的！</p>
+<p>思考：为什么docker镜像要采用这种分层的结构呢？</p>
+<p>最大的好处，我觉得莫过于是资源共享！比如有多个镜像都从相同的base镜像构建而来，那么宿主机只需要在磁盘上保留一份base镜像，同时内存中也只需要加载一份base镜像，这样就可以为所有的容器服务了，而且镜像的每一层都可以被共享</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">     <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;RootFS&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Type&#34;</span>: <span class="s2">&#34;layers&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Layers&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;sha256:02c055ef67f5904019f43a41ea5f099996d8e7633749b6e606c400526b2c4b33&#34;</span>,
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;sha256:ec5652c3523d96657d66169c0eb71b572ff065711c705a15ec02f60a21c212c3&#34;</span>,
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;sha256:76d3e24d63f60e6a73af70be15959eb4021dd7a5a09da6925037d3b4a1673fca&#34;</span>,
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;sha256:f06719b0aa43029f32c821c8f14f9f5941a8be6d3b61dcd9f3f884b39e9a4f23&#34;</span>,
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;sha256:b896f490f2edc62cc9d190465bbeab871619590d1e9beeffb92e4ca9cc08116d&#34;</span>,
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;sha256:e3f4077f577bf07c0940d6345ddd17014ff824d3f4f7f3effc9a8c4dae3e527b&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">]</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Metadata&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;LastTagTime&#34;</span>: <span class="s2">&#34;0001-01-01T00:00:00Z&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span></code></pre></div><p>理解：</p>
+<p>所有的docker镜像都起始于一个基础镜像层，当进行修改或者增加新的内容时，就会在当前镜像层之上，创建新的镜像层。举一个简单的例子，假如基于ubuntu linux 16.04 创建一个新的镜像，这就是新镜像的第一层；如果在该镜像中添加python包，该镜像就会在基础镜像层之上创建第二个镜像层，如果继续添加一个安全不定，就会创建第三个镜像层。</p>
+<p>在添加额外的镜像层的同时，镜像始终保持是当前所有镜像的组合，理解这一点非常重要。</p>
+<p>这种情况下，上层镜像层中的文件覆盖了底层镜像层中的文件。这样就使得文件的更新版本作为一个新镜像层添加到镜像中。docker通过存储引擎（新版本采用快照机制）的方式来实现惊险层堆栈，并保证多镜像层对外展示为统一的文件系统。</p>
+<p>linux上可用的存储引擎有AUFS、Overlay2、Device Mapper、Btrfs以及ZFS。顾名思义，每种存储引擎都基于Linux中对应的文件系统或者块设备技术，并且每种引擎都有其独有的性能特点。</p>
+<p>Docker在windows上仅支持windowsfilter一种存储引擎，该引擎基于NTFS文件系统之上实现了分层和cow</p>
+<p>docker镜像都是只读的，一个新的刻写层被加载到镜像的顶部！</p>
+<p>这一层就是我们通常说的容器层，容器之下的都叫镜像</p>
+<p>如何提交一个自己的镜像</p>
+<p>commit镜像</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker commit 提交容器成为一个新的副本
+</span></span><span class="line"><span class="cl">docker commit -m<span class="o">=</span><span class="s2">&#34;提交的描述信息&#34;</span> -a<span class="o">=</span><span class="s2">&#34;作者&#34;</span> 容器id 目标镜像名:<span class="o">[</span>TAG<span class="o">]</span>  
+</span></span></code></pre></div><p>测试</p>
+<ul>
+<li>启动默认tomcat</li>
+<li>没有文件的webapps</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@e7c2f9ef26e4:/usr/local/tomcat# cp -r webapps.dist/* webapps
+</span></span><span class="line"><span class="cl">root@e7c2f9ef26e4:/usr/local/tomcat# ls
+</span></span><span class="line"><span class="cl">BUILDING.txt     LICENSE  README.md      RUNNING.txt  conf  logs            temp     webapps.dist
+</span></span><span class="line"><span class="cl">CONTRIBUTING.md  NOTICE   RELEASE-NOTES  bin          lib   native-jni-lib  webapps  work
+</span></span><span class="line"><span class="cl">root@e7c2f9ef26e4:/usr/local/tomcat# <span class="nb">cd</span> webapps
+</span></span><span class="line"><span class="cl">root@e7c2f9ef26e4:/usr/local/tomcat/webapps# ls
+</span></span><span class="line"><span class="cl">ROOT  docs  examples  host-manager  manager
+</span></span></code></pre></div><ul>
+<li>cp命令拷贝进webapps</li>
+</ul>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210612162156751.png" >
+		<img src="/DockerLearning.assets/image-20210612162156751.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210612162156751">
+	</a>
+	
+	<figcaption>image-20210612162156751</figcaption>
+	
+</figure></p>
+<ul>
+<li>浏览器可以访问</li>
+<li>commit提交为一个新的镜像，我们以后就使用我们修改过的镜像即可，这就是我们自己的一个修改过的镜像</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">PS C:<span class="se">\U</span>sers<span class="se">\S</span>weetie&gt; docker commit -m<span class="o">=</span><span class="s2">&#34;add webapps app&#34;</span> -a<span class="o">=</span><span class="s2">&#34;ljs&#34;</span> e7c2f9ef26e4  tomcatupdate1.0
+</span></span><span class="line"><span class="cl">sha256:2a308d5b7f5a2b5b471a193c596369ee1ec2168d04221397ced9c9201a94075e
+</span></span><span class="line"><span class="cl">PS C:<span class="se">\U</span>sers<span class="se">\S</span>weetie&gt; docker images
+</span></span><span class="line"><span class="cl">REPOSITORY            TAG       IMAGE ID       CREATED         SIZE
+</span></span><span class="line"><span class="cl">tomcatupdate1.0       latest    2a308d5b7f5a   <span class="m">8</span> seconds ago   672MB
+</span></span><span class="line"><span class="cl">redis                 latest    fad0ee7e917a   <span class="m">10</span> days ago     105MB
+</span></span><span class="line"><span class="cl">nginx                 latest    d1a364dc548d   <span class="m">2</span> weeks ago     133MB
+</span></span><span class="line"><span class="cl">tomcat                latest    c43a65faae57   <span class="m">4</span> weeks ago     667MB
+</span></span><span class="line"><span class="cl">portainer/portainer   latest    580c0e4e98b0   <span class="m">2</span> months ago    79.1MB
+</span></span><span class="line"><span class="cl">centos                latest    300e315adb2f   <span class="m">6</span> months ago    209MB
+</span></span><span class="line"><span class="cl">elasticsearch         7.6.2     f29a1ee41030   <span class="m">14</span> months ago   791MB
+</span></span><span class="line"><span class="cl">elasticsearch         latest    5acf0e8da90b   <span class="m">2</span> years ago     486MB
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210612162537739.png" >
+		<img src="/DockerLearning.assets/image-20210612162537739.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210612162537739">
+	</a>
+	
+	<figcaption>image-20210612162537739</figcaption>
+	
+</figure></p>
+<p>如果你想要保存当前容器的状态，就可以通过commit来提交，获得一个镜像。</p>
+<p>就好比以前我们学习VM的时候，快照</p>
+<p>到这里才算入门</p>
+<p>容器数据卷、dockerfile、docker网络：docker精髓</p>
+<p>企业实战</p>
+<p>docker compose</p>
+<p>docker swarm</p>
+<p>ci 、 cd  jenkins 流水线</p>
+<p>容器数据卷</p>
+<p>什么是容器数据卷</p>
+<p>docker的理念回顾：</p>
+<p>将应用和环境打包成一个镜像！</p>
+<p>数据？如果数据都在容器中，那么我们把容器删除，数据就会丢失！</p>
+<p>需求：数据可以持久化</p>
+<p>MYsql，容器删了，删库跑路!</p>
+<p>需求：MYsql的数据可以存储在本地！</p>
+<p>容器之间可以有一个容器共享的技术！docker容器中产生的数据，同步到本地！</p>
+<p>这就是数据卷技术！目录的挂载，将容器内的目录挂载linux上</p>
+<p>总结一句话：容器的持久化和同步操作！容器间也是可以数据共享的！</p>
+<p>使用数据卷</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">方式一：直接使用命令挂载
+</span></span><span class="line"><span class="cl">-v 
+</span></span><span class="line"><span class="cl">docker run -it -v 主机目录地址：容器内目录地址 -p 主机端口：容器端口
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# <span class="nb">cd</span> /home
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home# ls
+</span></span><span class="line"><span class="cl">kuangshen.java  kuanshen.java  test.java  test1.java
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home# <span class="nb">cd</span> ..
+</span></span><span class="line"><span class="cl">root@yourtreedad:/# docker run -it -v /home/ceshi:/home centos /bin/bash
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210612164241555.png" >
+		<img src="/DockerLearning.assets/image-20210612164241555.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210612164241555">
+	</a>
+	
+	<figcaption>image-20210612164241555</figcaption>
+	
+</figure></p>
+<p>使用 docker inspect 容器id 查看具体信息</p>
+<p>在外面建立文件，可以看到里面也有</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>root@ffb011d1322a /<span class="o">]</span><span class="c1"># cd home</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@ffb011d1322a home<span class="o">]</span><span class="c1"># ls</span>
+</span></span><span class="line"><span class="cl">outtoint.txt
+</span></span></code></pre></div><p>在里面见文件，可以看到里面也有</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>root@ffb011d1322a home<span class="o">]</span><span class="c1"># touch intoout.java</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@ffb011d1322a home<span class="o">]</span><span class="c1"># ls</span>
+</span></span><span class="line"><span class="cl">intoout.java  outtoint.txt
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@ffb011d1322a home<span class="o">]</span><span class="c1"># exit</span>
+</span></span><span class="line"><span class="cl"><span class="nb">exit</span>
+</span></span><span class="line"><span class="cl">root@yourtreedad:/# docker ps
+</span></span><span class="line"><span class="cl">CONTAINER ID        IMAGE                 COMMAND             CREATED             STATUS              PORTS                                       NAMES
+</span></span><span class="line"><span class="cl">ffb011d1322a        centos                <span class="s2">&#34;/bin/bash&#34;</span>         <span class="m">12</span> minutes ago      Up <span class="m">10</span> minutes                                                   eager_heyrovsky
+</span></span><span class="line"><span class="cl">e7c2f9ef26e4        tomcat:latest         <span class="s2">&#34;catalina.sh run&#34;</span>   <span class="m">34</span> minutes ago      Up <span class="m">34</span> minutes       0.0.0.0:5555-&gt;8080/tcp                      sweet_ramanujan
+</span></span><span class="line"><span class="cl">b90d3528ae04        portainer/portainer   <span class="s2">&#34;/portainer&#34;</span>        <span class="m">6</span> hours ago         Up <span class="m">37</span> minutes       0.0.0.0:8088-&gt;9000/tcp, :::8088-&gt;9000/tcp   confident_villani
+</span></span><span class="line"><span class="cl">root@yourtreedad:/# <span class="nb">cd</span> home
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home# <span class="nb">cd</span> ceshi
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/ceshi# ls
+</span></span><span class="line"><span class="cl">intoout.java  outtoint.txt
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/ceshi#
+</span></span></code></pre></div><p>容器停止了，但是只要容器还在，就能实现同步数据，类似双向绑定</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210612165925505.png" >
+		<img src="/DockerLearning.assets/image-20210612165925505.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210612165925505">
+	</a>
+	
+	<figcaption>image-20210612165925505</figcaption>
+	
+</figure></p>
+<p>好处：我们以后修改只需要在本地修改即可，容器内会自动同步！</p>
+<p>实战：安装mysql</p>
+<p>思考：mysql的数据持久化的问题！</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">获取镜像
+</span></span><span class="line"><span class="cl">docker pull mysql
+</span></span><span class="line"><span class="cl">运行容器，需要做数据挂载，需要配置密码，这需要注意
+</span></span><span class="line"><span class="cl">官方测试：docker run --name some-mysql -e <span class="nv">MYSQL_ROOT_PASSWORD</span><span class="o">=</span>my-secret-pw -d mysql:tag
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-d 后台运行
+</span></span><span class="line"><span class="cl">-p 端口映射
+</span></span><span class="line"><span class="cl">-v 数据卷挂在
+</span></span><span class="line"><span class="cl">-e 环境配置
+</span></span><span class="line"><span class="cl">--name
+</span></span><span class="line"><span class="cl">docker run -d -p 3310:3306 -v /home/mysql/conf:/etc/mysql/conf.d -v /home/mysql/data:/var/lib/mysql -e <span class="nv">MYSQL_ROOT_PASSWORD</span><span class="o">=</span><span class="m">123456</span> --name mysql01 mysql:5.7
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">启动成功之后，我们在本地使用 sqlyog 来测试一下
+</span></span><span class="line"><span class="cl">sqlyog --h -u -p 连接到服务器的3310 ----3310 和容器内的3306进行映射，这个时候我们就可以连接上了 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">在本地测试创建一个数据库，查看一下映射的路径是否ok
+</span></span><span class="line"><span class="cl">假设我们将容器删除，发现我们挂载到本地的数据卷依旧没有丢失，这就实现了容器数据持久化功能
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210612172111412.png" >
+		<img src="/DockerLearning.assets/image-20210612172111412.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210612172111412">
+	</a>
+	
+	<figcaption>image-20210612172111412</figcaption>
+	
+</figure></p>
+<p>具名挂载和匿名挂载</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">匿名挂载
+</span></span><span class="line"><span class="cl">-v 容器内路径   相当于不指定主机的地址，直接指定容器地址
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">root@yourtreedad:/# docker run -d -P --name nginx01 -v /etc/nginx nginx
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">查看所有卷的情况
+</span></span><span class="line"><span class="cl">docker volume ls
+</span></span><span class="line"><span class="cl">这里发现 
+</span></span><span class="line"><span class="cl">DRIVER              VOLUME NAME
+</span></span><span class="line"><span class="cl"><span class="nb">local</span>               0faef3ffc2187555023c9a8e5dca5c11e47f0b436657e48f95e972e33c951c49
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">这种就是匿名挂载，我们-v的时候只写了容器的路径，没有写容器外的路径！
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">通过-v 卷名：容器内路径
+</span></span><span class="line"><span class="cl">这就是具名挂载
+</span></span><span class="line"><span class="cl">root@yourtreedad:/# docker run -d -P --name nginx02 -v juming-nginx:/etc/nginx nginx
+</span></span><span class="line"><span class="cl">11c306e0a80402c0c235042326f5db9da58570e01abac55379414d9d53abc797
+</span></span><span class="line"><span class="cl">root@yourtreedad:/# docker volume ls
+</span></span><span class="line"><span class="cl">DRIVER              VOLUME NAME
+</span></span><span class="line"><span class="cl"><span class="nb">local</span>               0faef3ffc2187555023c9a8e5dca5c11e47f0b436657e48f95e972e33c951c49
+</span></span><span class="line"><span class="cl"><span class="nb">local</span>               3c63eeef73128b24bbf1830f9cec7d383aae8413e232a857f1216456fb07fedf
+</span></span><span class="line"><span class="cl"><span class="nb">local</span>               941b4501fa7cefd9a341366fbe18cfeddd0f2d223c1eb87addf1a77a42c2ace8
+</span></span><span class="line"><span class="cl"><span class="nb">local</span>               3826373b692739fc44eac10a00d8ddada7b0200c5833963c459d6db001384a70
+</span></span><span class="line"><span class="cl"><span class="nb">local</span>               8440372a24dc57f1bcf100c1ef256abbff5713f1c96c2bd65276aea10f54864d
+</span></span><span class="line"><span class="cl"><span class="nb">local</span>               cb64d53be430f816088a1f1bbd1f5aea8885a1be33ddd98a5fb98a9d452fa03c
+</span></span><span class="line"><span class="cl"><span class="nb">local</span>               juming-nginx
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">查看一下这个卷挂载在主机的哪个位置了呢
+</span></span><span class="line"><span class="cl">root@yourtreedad:/# docker volume inspect juming-nginx
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;CreatedAt&#34;</span>: <span class="s2">&#34;2021-06-13T02:11:30Z&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Driver&#34;</span>: <span class="s2">&#34;local&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Labels&#34;</span>: null,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Mountpoint&#34;</span>: <span class="s2">&#34;/var/lib/docker/volumes/juming-nginx/_data&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Name&#34;</span>: <span class="s2">&#34;juming-nginx&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Options&#34;</span>: null,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Scope&#34;</span>: <span class="s2">&#34;local&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span><span class="line"><span class="cl">所有docker容器内的卷，如果没有指定目录的情况下，都是在/var/lib/docker/volumes/xxxx下
+</span></span><span class="line"><span class="cl">我们通过具名挂载可以方便的找到我们的一个卷，大多数情况下使用的是具名挂载
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210613100849422.png" >
+		<img src="/DockerLearning.assets/image-20210613100849422.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210613100849422">
+	</a>
+	
+	<figcaption>image-20210613100849422</figcaption>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">如何确定是具名挂载还是匿名挂载 ，还是指定路径挂载
+</span></span><span class="line"><span class="cl">-v 容器内路径 这就是匿名挂载
+</span></span><span class="line"><span class="cl">-v 卷名：容器内路径 这就是具名挂载
+</span></span><span class="line"><span class="cl">-v /宿主机路径：/容器内路径 这就是指定路径挂载
+</span></span><span class="line"><span class="cl">拓展：
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">通过 -v 容器内路径，ro 、 rw 改变读写权限
+</span></span><span class="line"><span class="cl">docker run -d -P --name nginx02 -v juming-nginx:/etc/nginx:ro nginx
+</span></span><span class="line"><span class="cl">docker run -d -P --name nginx02 -v juming-nginx:/etc/nginx:rw nginx
+</span></span><span class="line"><span class="cl">只读ro <span class="nb">readonly</span>
+</span></span><span class="line"><span class="cl">可读可写rw readwrite
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">一旦设置了ro 容器对我们挂载出来的内容就有限定了！
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ro只要看到ro，就说明这个路径只能通过宿主机来操作，容器内部是无法操作的
+</span></span></code></pre></div><p>初识dockerfile</p>
+<p>方式二：</p>
+<p>dockerfile就是用来构建docker镜像的构建文件！命令脚本！先体验一下！</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ctrl+U 删除当前命令
+</span></span><span class="line"><span class="cl">mkdir 生成文件夹
+</span></span><span class="line"><span class="cl">rm -rf 文件夹名字 强制删除文件夹名字
+</span></span><span class="line"><span class="cl"><span class="nb">pwd</span>  查看当前在那个目录中
+</span></span><span class="line"><span class="cl">进入文件后 esc 再：wq就是保存并退出
+</span></span><span class="line"><span class="cl">vim 使用文本编辑器进入文件
+</span></span><span class="line"><span class="cl">a后就可以编辑
+</span></span><span class="line"><span class="cl">通过脚本可以生成镜像，镜像是一层一层的 
+</span></span><span class="line"><span class="cl">touch 创建一个文件
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">##创建一个dockerfile文件，名字可以随机，建议 dockerfile</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##文件中的内容 指令都是大写  参数</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##这里的每个命令，都是镜像的一层</span>
+</span></span><span class="line"><span class="cl">FROM centos
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">VOLUME<span class="o">[</span><span class="s2">&#34;volume01&#34;</span>,<span class="s2">&#34;volume02&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">CMD <span class="nb">echo</span> <span class="s2">&#34;-----end-----&#34;</span>
+</span></span><span class="line"><span class="cl">CMD /bin/bash
+</span></span><span class="line"><span class="cl">好像要空行！！！！
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">通过dockerfile 去构建镜像
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/docker-test-volume# docker build -f /home/docker-test-volume/dockerfile1 -t kuangshen/centos:1.0 .
+</span></span></code></pre></div><p>启动一下自己的生成的容器</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/# docker images
+</span></span><span class="line"><span class="cl">REPOSITORY               TAG                 IMAGE ID            CREATED             SIZE
+</span></span><span class="line"><span class="cl">tomcatupdate             1.0                 ee149e8cdc20        <span class="m">5</span> hours ago         672MB
+</span></span><span class="line"><span class="cl">portainer/portainer-ce   latest              45be17a5903a        <span class="m">2</span> weeks ago         209MB
+</span></span><span class="line"><span class="cl">nginx                    latest              d1a364dc548d        <span class="m">2</span> weeks ago         133MB
+</span></span><span class="line"><span class="cl">tomcat                   latest              c43a65faae57        <span class="m">4</span> weeks ago         667MB
+</span></span><span class="line"><span class="cl">mysql                    latest              c0cdc95609f1        <span class="m">4</span> weeks ago         556MB
+</span></span><span class="line"><span class="cl">portainer/portainer      latest              580c0e4e98b0        <span class="m">2</span> months ago        79.1MB
+</span></span><span class="line"><span class="cl">kuangshen/centos         1.0                 f75a47123694        <span class="m">6</span> months ago        209MB
+</span></span><span class="line"><span class="cl">root@yourtreedad:/# docker run -it f75a47123694 /bin/bash
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">但是这个地方报错了，好象是说现在的destination 不能为相对路径 
+</span></span><span class="line"><span class="cl">docker: Error response from daemon: OCI runtime create failed: invalid mount <span class="o">{</span>Destination:volume01 Type:bind Source:/var/lib/docker/volumes/67cb8e440bfc475a6b8e0f091779f2c56fed443d1ca4e6edd10ca37f37d09e05/_data Options:<span class="o">[</span>rbind<span class="o">]}</span>: mount destination volume01 not absolute: unknown.
+</span></span><span class="line"><span class="cl">ERRO<span class="o">[</span>0000<span class="o">]</span> error waiting <span class="k">for</span> container: context canceled
+</span></span></code></pre></div><p>查看一下卷挂载的路径</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210613192809990.png" >
+		<img src="/DockerLearning.assets/image-20210613192809990.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210613192809990">
+	</a>
+	
+	<figcaption>image-20210613192809990</figcaption>
+	
+</figure></p>
+<p>测试一下刚才的文件是否同步出去了，可以在卷里写个文件，在宿主机的挂载位置处查看是否有这个文件就可以辣</p>
+<p>这种方式我们未来使用的十分多，因为我们通常会构建自己的镜像！</p>
+<p>假设构建镜像的时候没有挂载卷，要手动镜像挂载 -v卷名：容器内路径</p>
+<p>数据卷容器：多个容器之间同步数据</p>
+<p>两个mysql同步数据！</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">主从复制之类的就可能使用这个技术
+</span></span><span class="line"><span class="cl">使用 --volumes-from
+</span></span><span class="line"><span class="cl">docker run -it --name docker02 --volumes-from docker01 centos
+</span></span><span class="line"><span class="cl">docker run -it --name docker03 --volumes-from docker01 centos
+</span></span><span class="line"><span class="cl">很像继承
+</span></span><span class="line"><span class="cl">启动3个容器，通过我们刚才自己写的镜像启动
+</span></span></code></pre></div><p>启动完了就测试，测试的时候在主docker01中创建文件看看docker0203中会不会有就好了</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/# docker ps
+</span></span><span class="line"><span class="cl">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+</span></span><span class="line"><span class="cl">dfb328e8f37f        centos              <span class="s2">&#34;/bin/bash&#34;</span>         <span class="m">3</span> minutes ago       Up <span class="m">2</span> minutes                            docker03
+</span></span><span class="line"><span class="cl">5787d6ea92e4        centos              <span class="s2">&#34;/bin/bash&#34;</span>         <span class="m">5</span> minutes ago       Up <span class="m">3</span> minutes                            docker02
+</span></span><span class="line"><span class="cl">c8ba46a34155        centos              <span class="s2">&#34;/bin/bash&#34;</span>         <span class="m">13</span> minutes ago      Up <span class="m">12</span> minutes                           docker01
+</span></span><span class="line"><span class="cl">root@yourtreedad:/# docker attach c8ba46a34155
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8ba46a34155 /<span class="o">]</span><span class="c1"># cd bin</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8ba46a34155 bin<span class="o">]</span><span class="c1"># cd bash</span>
+</span></span><span class="line"><span class="cl">bash: cd: bash: Not a directory
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8ba46a34155 bin<span class="o">]</span><span class="c1"># cd ..</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8ba46a34155 /<span class="o">]</span><span class="c1"># ls</span>
+</span></span><span class="line"><span class="cl">bin  dev  etc  home  lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8ba46a34155 /<span class="o">]</span><span class="c1"># mkdir ceshi</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8ba46a34155 /<span class="o">]</span><span class="c1"># ls</span>
+</span></span><span class="line"><span class="cl">bin  ceshi  dev  etc  home  lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8ba46a34155 /<span class="o">]</span><span class="c1"># cd ceshi</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8ba46a34155 ceshi<span class="o">]</span><span class="c1"># ls</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8ba46a34155 ceshi<span class="o">]</span><span class="c1"># touch ceshi.java</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8ba46a34155 ceshi<span class="o">]</span><span class="c1"># ls</span>
+</span></span><span class="line"><span class="cl">ceshi.java
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8ba46a34155 ceshi<span class="o">]</span><span class="c1"># cd ..</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8ba46a34155 /<span class="o">]</span><span class="c1"># cd ..</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8ba46a34155 /<span class="o">]</span><span class="c1"># exit</span>
+</span></span><span class="line"><span class="cl"><span class="nb">exit</span>
+</span></span></code></pre></div><p>没问题</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">oot@yourtreedad:/# docker ps
+</span></span><span class="line"><span class="cl">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+</span></span><span class="line"><span class="cl">dfb328e8f37f        centos              <span class="s2">&#34;/bin/bash&#34;</span>         <span class="m">6</span> minutes ago       Up <span class="m">6</span> minutes                            docker03
+</span></span><span class="line"><span class="cl">5787d6ea92e4        centos              <span class="s2">&#34;/bin/bash&#34;</span>         <span class="m">8</span> minutes ago       Up <span class="m">7</span> minutes                            docker02
+</span></span><span class="line"><span class="cl">c8ba46a34155        centos              <span class="s2">&#34;/bin/bash&#34;</span>         <span class="m">17</span> minutes ago      Up <span class="m">41</span> seconds                           docker01
+</span></span><span class="line"><span class="cl">root@yourtreedad:/# docker attach c8ba46a34155
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8ba46a34155 /<span class="o">]</span><span class="c1"># ls</span>
+</span></span><span class="line"><span class="cl">bin  ceshi  dev  etc  home  lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8ba46a34155 /<span class="o">]</span><span class="c1"># cd ceshi</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8ba46a34155 ceshi<span class="o">]</span><span class="c1"># ls</span>
+</span></span><span class="line"><span class="cl">ceshi.java
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8ba46a34155 ceshi<span class="o">]</span><span class="c1">#</span>
+</span></span></code></pre></div><p>问题：如果docker01 删除了，那么数据还有在docker02和docker03上有吗</p>
+<p>有的，它是一种拷贝的概念 ，可能是链接吧</p>
+<p>结论：容器之间配置信息的传递，数据卷的生命周期一直持续到没有容器使用为止</p>
+<p>但是一旦你持久化到了本地，那么数据就可以持久化保存了，本地的数据是不会删除的</p>
+<p>dockerfile</p>
+<p>dockerfile核心是用来构建docker images 的文件！命令参数脚本！</p>
+<p>构建步骤：</p>
+<p>1.编写一个dockerfile文件</p>
+<p>2.docker build 构建一个镜像</p>
+<p>3.docker run 运行镜像</p>
+<p>4.docker push 发布镜像（dockerhub 、 阿里云镜像仓库）</p>
+<p>查看一下官方是怎么做的</p>
+<p>很多官方镜像都是基础包，很多功能没有，我们通常会自己搭建自己的镜像！</p>
+<p>官方既然可以制作镜像，我们也可以！</p>
+<p>dockerfile构建过程</p>
+<p>很多指令：</p>
+<p>基础知识：</p>
+<p>1.每个保留关键字（指令） 都必须是大写字母</p>
+<p>2.执行从上到下顺序执行</p>
+<p>3.#表示注释</p>
+<p>4.每个指令都会创建提交一个新的镜像层，并提交</p>
+<p>dockerfile 是面向开发的，我们以后要发布项目，做镜像，就需要编写dockerfile文件，这个文件十分简单</p>
+<p>docker 镜像 例如构建一个springboot 微服务 镜像</p>
+<p>docker镜像主键成为企业交付的标准，必须要掌握</p>
+<p>步骤：开发运维上线部署</p>
+<p>dockerfile：构建文件，这个文件定义了一切的步骤，源代码</p>
+<p>dockerimages：通过dockerfile构建生成的镜像，这就是最终发布和运行的产品</p>
+<p>dockercontainer：容器就是镜像运行起来提供服务的</p>
+<p>dockerfile的指令：</p>
+<p>以前的话我们都是使用别人的，现在我们知道了这些指令后，我们来练习自己写一个镜像！</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">FROM 基础镜像 一切从这里开始构建
+</span></span><span class="line"><span class="cl">MAINTAINER 镜像是谁写的，有你的姓名+邮箱
+</span></span><span class="line"><span class="cl">RUN docker镜像构建的时候需要运行的命令
+</span></span><span class="line"><span class="cl">ADD  步骤：tomcat镜像，这个tomcat压缩包坑定要被添加进去嘛
+</span></span><span class="line"><span class="cl">WORKDIR 镜像的工作目录 
+</span></span><span class="line"><span class="cl">VOLUME 容器卷，要挂载的目录
+</span></span><span class="line"><span class="cl">EXPOSE 指定暴露端口
+</span></span><span class="line"><span class="cl">CMD 指定这个容器启动的时候要运行的命令 只有最后一个会生效，可被替代
+</span></span><span class="line"><span class="cl">ENTRYPOINT 指定这个容器启动的时候要运行的命令，可以追加的命令
+</span></span><span class="line"><span class="cl">ONBUILD  当构建一个被继承的dockerfile时候 就会运行onbuild指令，触发指令
+</span></span><span class="line"><span class="cl">COPY 类似ADD,将我们的文件拷贝到镜像中
+</span></span><span class="line"><span class="cl">ENV	构建的时候设置环境变量
+</span></span></code></pre></div><p>实战测试！</p>
+<p>docker hub 中 99% 都是从这个基础镜像过来的 FROM scratch ， 然后配置需要的软件和配置来进行的构建</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210613202655507.png" >
+		<img src="/DockerLearning.assets/image-20210613202655507.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210613202655507">
+	</a>
+	
+	<figcaption>image-20210613202655507</figcaption>
+	
+</figure></p>
+<p>创建一个自己的centos</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210613203001901.png" >
+		<img src="/DockerLearning.assets/image-20210613203001901.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210613203001901">
+	</a>
+	
+	<figcaption>image-20210613203001901</figcaption>
+	
+</figure></p>
+<p>问题：vim clear 等命令都不支持，我们可以在此镜像的基础上在加一点完善一下</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">1.编写dockerdile的文件
+</span></span><span class="line"><span class="cl">root@yourtreedad:/# <span class="nb">cd</span> home
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home# ls
+</span></span><span class="line"><span class="cl">docker-test-volume  mysql  nginx  tomcat
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home# mkdir dockerfile
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home# ls
+</span></span><span class="line"><span class="cl">docker-test-volume  dockerfile  mysql  nginx  tomcat
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home# <span class="nb">cd</span> dockerfile
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/dockerfile# ls
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/dockerfile# vim mydockerfile
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/dockerfile# cat mydockerfile
+</span></span><span class="line"><span class="cl">FROM centos
+</span></span><span class="line"><span class="cl">MAINTAINER ljs&lt;1018814650@qq.com&gt;
+</span></span><span class="line"><span class="cl">ENV MYPATH /uer/local
+</span></span><span class="line"><span class="cl">WORKDIR <span class="nv">$MYPATH</span>
+</span></span><span class="line"><span class="cl">RUN yum -y install vim
+</span></span><span class="line"><span class="cl">RUN yum -y install clear
+</span></span><span class="line"><span class="cl">RUM yum -y install net-tools
+</span></span><span class="line"><span class="cl">EXPOSE <span class="m">80</span>
+</span></span><span class="line"><span class="cl">CMD <span class="nb">echo</span> <span class="nv">$MYPATH</span>
+</span></span><span class="line"><span class="cl">CMD <span class="nb">echo</span> <span class="s2">&#34;-----end-----&#34;</span>
+</span></span><span class="line"><span class="cl">CMD /bin/bash
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/dockerfile#
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">2.通过这个文件构建镜像
+</span></span><span class="line"><span class="cl">docker build  -f dockerfile文件路径 -t 镜像名：<span class="o">[</span>tag<span class="o">]</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/dockerfile# docker build -f mydockerfile -t mycentos:0.1 .
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Building 2.2s <span class="o">(</span>8/8<span class="o">)</span> <span class="nv">FINISHED</span>
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>internal<span class="o">]</span> load build definition from mydockerfile                                                                 0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; transferring dockerfile: 245B                                                                                   0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>internal<span class="o">]</span> load .dockerignore                                                                                      0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; transferring context: 2B                                                                                        0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>internal<span class="o">]</span> load metadata <span class="k">for</span> docker.io/library/centos:latest                                                       0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>1/4<span class="o">]</span> FROM docker.io/library/centos                                                                                0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; CACHED <span class="o">[</span>2/4<span class="o">]</span> WORKDIR /uer/local                                                                                    0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; CACHED <span class="o">[</span>3/4<span class="o">]</span> RUN yum -y install vim                                                                                0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>4/4<span class="o">]</span> RUN yum -y install net-tools                                                                                 1.8s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; exporting to image                                                                                                 0.3s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; exporting layers                                                                                                0.3s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; writing image sha256:2734e41a96b14a3e45a820363638a9f62dfd2c7d901757ea5e2a9ba25ababf50                           0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; naming to docker.io/library/mycentos:0.1	
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 3.测试
+</span></span><span class="line"><span class="cl"> root@yourtreedad:/home/dockerfile# docker run -it --name mycentosdemo mycentos:0.1
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@51e42c44c78d local<span class="o">]</span><span class="c1"># pwd</span>
+</span></span><span class="line"><span class="cl">/uer/local
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@51e42c44c78d local<span class="o">]</span><span class="c1"># ifconfig</span>
+</span></span><span class="line"><span class="cl">eth0: <span class="nv">flags</span><span class="o">=</span>4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu <span class="m">1500</span>
+</span></span><span class="line"><span class="cl">        inet 172.17.0.4  netmask 255.255.0.0  broadcast 172.17.255.255
+</span></span><span class="line"><span class="cl">        ether 02:42:ac:11:00:04  txqueuelen <span class="m">0</span>  <span class="o">(</span>Ethernet<span class="o">)</span>
+</span></span><span class="line"><span class="cl">        RX packets <span class="m">9</span>  bytes <span class="m">726</span> <span class="o">(</span>726.0 B<span class="o">)</span>
+</span></span><span class="line"><span class="cl">        RX errors <span class="m">0</span>  dropped <span class="m">0</span>  overruns <span class="m">0</span>  frame <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        TX packets <span class="m">0</span>  bytes <span class="m">0</span> <span class="o">(</span>0.0 B<span class="o">)</span>
+</span></span><span class="line"><span class="cl">        TX errors <span class="m">0</span>  dropped <span class="m">0</span> overruns <span class="m">0</span>  carrier <span class="m">0</span>  collisions <span class="m">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">lo: <span class="nv">flags</span><span class="o">=</span>73&lt;UP,LOOPBACK,RUNNING&gt;  mtu <span class="m">65536</span>
+</span></span><span class="line"><span class="cl">        inet 127.0.0.1  netmask 255.0.0.0
+</span></span><span class="line"><span class="cl">        loop  txqueuelen <span class="m">1000</span>  <span class="o">(</span>Local Loopback<span class="o">)</span>
+</span></span><span class="line"><span class="cl">        RX packets <span class="m">0</span>  bytes <span class="m">0</span> <span class="o">(</span>0.0 B<span class="o">)</span>
+</span></span><span class="line"><span class="cl">        RX errors <span class="m">0</span>  dropped <span class="m">0</span>  overruns <span class="m">0</span>  frame <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        TX packets <span class="m">0</span>  bytes <span class="m">0</span> <span class="o">(</span>0.0 B<span class="o">)</span>
+</span></span><span class="line"><span class="cl">        TX errors <span class="m">0</span>  dropped <span class="m">0</span> overruns <span class="m">0</span>  carrier <span class="m">0</span>  collisions <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        
+</span></span></code></pre></div><p>对比:之前的原生的centos，工作目录默认根目录，没有vim ifconfig 命令</p>
+<p>现在：基于原生centos，添加了这些命令</p>
+<p>我们可以列出本地镜像的变更历史</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker <span class="nb">history</span> imageId
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210613204852480.png" >
+		<img src="/DockerLearning.assets/image-20210613204852480.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210613204852480">
+	</a>
+	
+	<figcaption>image-20210613204852480</figcaption>
+	
+</figure></p>
+<p>所以我们平时拿到一个镜像，可以研究一下他是怎么做的了</p>
+<p>CMD 和 ENTRYPOINT 的区别</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">CMD  指定这个容器启动的时候需要运行的命令，只有最后一个会生效，可被替代
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">cmd的情况下 -l 替换了CMD的<span class="o">[</span><span class="s2">&#34;ls&#34;</span>,<span class="s2">&#34;-a&#34;</span><span class="o">]</span>命令，-l 不是命令所以报错
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ENTRYPOINT  指定这个容器启动的时候需要运行的命令你，可以追加命令
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210613235037903.png" >
+		<img src="/DockerLearning.assets/image-20210613235037903.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210613235037903">
+	</a>
+	
+	<figcaption>image-20210613235037903</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210613235823435.png" >
+		<img src="/DockerLearning.assets/image-20210613235823435.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210613235823435">
+	</a>
+	
+	<figcaption>image-20210613235823435</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210613235940096.png" >
+		<img src="/DockerLearning.assets/image-20210613235940096.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210613235940096">
+	</a>
+	
+	<figcaption>image-20210613235940096</figcaption>
+	
+</figure></p>
+<p>不会替换人家的命令</p>
+<p>我们的追加命令，是直接凭借在我们的ENTRYPOINT 命令的后面！</p>
+<p>dockerfile中很多命令都十分相似，我们需要了解她们的区别，我们最好的学习就是对比她们然后测试效果</p>
+<p>实战：</p>
+<p>tomcat镜像</p>
+<p>1.准备镜像文件 tomcat压缩表，jdk的压缩包！</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614104621398.png" >
+		<img src="/DockerLearning.assets/image-20210614104621398.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614104621398">
+	</a>
+	
+	<figcaption>image-20210614104621398</figcaption>
+	
+</figure></p>
+<p>2.编写dockerfile文件 ， 官方命名Dockerfile ，build会自动寻找这个文件，就不需要-f 指定了</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/home/kuangshen# cat Dockerfile
+</span></span><span class="line"><span class="cl">FROM centos
+</span></span><span class="line"><span class="cl">MAINTAINER ljs&lt;1018814650@qq.com&gt;
+</span></span><span class="line"><span class="cl">COPY readme.txt /usr/local/readme.txt
+</span></span><span class="line"><span class="cl">ADD jdk-8u291-linux-aarch64.tar.gz /usr/local/
+</span></span><span class="line"><span class="cl">ADD apache-tomcat-9.0.46.tar.gz /usr/local/
+</span></span><span class="line"><span class="cl">RUN yum -y install vim
+</span></span><span class="line"><span class="cl">ENV MYPATH /usr/local
+</span></span><span class="line"><span class="cl">WORKDIR <span class="nv">$MYPATH</span>
+</span></span><span class="line"><span class="cl">ENV JAVA_HOME /usr/local/jdk1.8.0_291
+</span></span><span class="line"><span class="cl">ENV CLASSPATH <span class="nv">$JAVA_HOME</span>/lib/dt.jar:<span class="nv">$JAVA_HOME</span>/lib/tools.jar
+</span></span><span class="line"><span class="cl">ENV CATALINA_HOME /usr/local/apache-tomcat-9.0.46
+</span></span><span class="line"><span class="cl">ENV CATALINA_BASH /usr/local/apache-tomcat-9.0.46
+</span></span><span class="line"><span class="cl">ENV PATH <span class="nv">$PATH</span>:<span class="nv">$JAVA_HOME</span>/bin:<span class="nv">$CATALINA_HOME</span>/lib:<span class="nv">$CATALINA_HOME</span>/bin
+</span></span><span class="line"><span class="cl">EXPOSE <span class="m">8080</span>
+</span></span><span class="line"><span class="cl">CMD /usr/local/apache-tomcat-9.0.46/bin/startup.sh <span class="o">&amp;&amp;</span> tail -F /usr/local/apache-tomcat-9.0.46/bin/logs/catalina.out
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/kuangshen#
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614112215796.png" >
+		<img src="/DockerLearning.assets/image-20210614112215796.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614112215796">
+	</a>
+	
+	<figcaption>image-20210614112215796</figcaption>
+	
+</figure></p>
+<p>3.构建镜像</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614110353773.png" >
+		<img src="/DockerLearning.assets/image-20210614110353773.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614110353773">
+	</a>
+	
+	<figcaption>image-20210614110353773</figcaption>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/home/kuangshen# docker build -f Dockerfile -t diytomcat .
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Building 0.1s <span class="o">(</span>11/11<span class="o">)</span> <span class="nv">FINISHED</span>
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>internal<span class="o">]</span> load build definition from Dockerfile                                                               0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; transferring dockerfile: 670B                                                                               0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>internal<span class="o">]</span> load .dockerignore                                                                                  0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; transferring context: 2B                                                                                    0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>internal<span class="o">]</span> load metadata <span class="k">for</span> docker.io/library/centos:latest                                                   0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>1/6<span class="o">]</span> FROM docker.io/library/centos                                                                            0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>internal<span class="o">]</span> load build context                                                                                  0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; transferring context: 130B                                                                                  0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; CACHED <span class="o">[</span>2/6<span class="o">]</span> COPY readme.txt /usr/local/readme.txt                                                             0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; CACHED <span class="o">[</span>3/6<span class="o">]</span> ADD jdk-8u291-linux-aarch64.tar.gz /usr/local/                                                    0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; CACHED <span class="o">[</span>4/6<span class="o">]</span> ADD apache-tomcat-9.0.46.tar.gz /usr/local/                                                       0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; CACHED <span class="o">[</span>5/6<span class="o">]</span> RUN yum -y install vim                                                                            0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; CACHED <span class="o">[</span>6/6<span class="o">]</span> WORKDIR /usr/local                                                                                0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; exporting to image                                                                                             0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; exporting layers                                                                                            0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; writing image sha256:d65fc7234bf254fb93a262a640dcfb543b6f4780fa36ef881bb9992d9705359f                       0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; naming to docker.io/library/diytomcat
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">启动容器 分配端口 使用挂载 指定镜像
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/kuangshen# docker run -d -p 9090:8080 --name kuangshendiytomcat -v /home/kuangshen/build/tomcat/test:/usr/local/apache-tomcat-9.0.46/webapps/test -v /home/kuangshen/build/tomcat/tomcatlogs:/usr/local/apache-tomcat-9.0.46/logs diytomcat:1.0
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614110934343.png" >
+		<img src="/DockerLearning.assets/image-20210614110934343.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614110934343">
+	</a>
+	
+	<figcaption>image-20210614110934343</figcaption>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/home/kuangshen# docker images
+</span></span><span class="line"><span class="cl">REPOSITORY               TAG                 IMAGE ID            CREATED             SIZE
+</span></span><span class="line"><span class="cl">diytomcat                latest              d65fc7234bf2        <span class="m">4</span> hours ago         464MB
+</span></span><span class="line"><span class="cl">mycentos                 0.1                 2734e41a96b1        <span class="m">20</span> hours ago        284MB
+</span></span><span class="line"><span class="cl">tomcatupdate             1.0                 ee149e8cdc20        <span class="m">28</span> hours ago        672MB
+</span></span><span class="line"><span class="cl">portainer/portainer-ce   latest              45be17a5903a        <span class="m">2</span> weeks ago         209MB
+</span></span><span class="line"><span class="cl">nginx                    latest              d1a364dc548d        <span class="m">2</span> weeks ago         133MB
+</span></span><span class="line"><span class="cl">tomcat                   latest              c43a65faae57        <span class="m">4</span> weeks ago         667MB
+</span></span><span class="line"><span class="cl">mysql                    latest              c0cdc95609f1        <span class="m">4</span> weeks ago         556MB
+</span></span><span class="line"><span class="cl">portainer/portainer      latest              580c0e4e98b0        <span class="m">2</span> months ago        79.1MB
+</span></span><span class="line"><span class="cl">mycentosentrypointtest   1.0                 5198b187e833        <span class="m">6</span> months ago        209MB
+</span></span><span class="line"><span class="cl">mycentostest             1.0                 be8cf7de8763        <span class="m">6</span> months ago        209MB
+</span></span><span class="line"><span class="cl">kuangshen/centos         1.0                 f75a47123694        <span class="m">6</span> months ago        209MB
+</span></span><span class="line"><span class="cl">centos                   latest              300e315adb2f        <span class="m">6</span> months ago        209MB
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/kuangshen# docker run --name diytomcat01 -d -p 9090:8080 -v /home/kuangshen/build/tomcat/test:/usr/local/apache-tomcat-9.0.46/webapps/test -v /home/kuangshen/build/tomcat/tomcatlogs:/usr/local/apache-tomcat-9.0.46/logs diytomcat
+</span></span><span class="line"><span class="cl">174cd08dab23fce852cae1ac5e721c985b377d1ff85a1e769384cb9dd369bde0
+</span></span></code></pre></div><p>进入容器查看</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/home/kuangshen/build/tomcat# docker <span class="nb">exec</span> -it c7cff52b8760  /bin/bash
+</span></span><span class="line"><span class="cl">这里的bin/bash就会自动跳转到我们设定好的usr/local目录之下
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614111326218.png" >
+		<img src="/DockerLearning.assets/image-20210614111326218.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614111326218">
+	</a>
+	
+	<figcaption>image-20210614111326218</figcaption>
+	
+</figure></p>
+<p>4.启动镜像</p>
+<p>5.访问测试</p>
+<p>6.发布项目（由于做了卷挂载，我们直接在本地编写项目就可以直接发布了！）</p>
+<p>发现项目部署成功，可以直接访问！</p>
+<p>我们以后开发的步骤：需要掌握dockerfile的编写！我们之后的一切都是使用docker镜像来发布运行！！！</p>
+<p>发布镜像</p>
+<p>dockerhub</p>
+<p>1.地址 注册自己的账号</p>
+<p>2.确定这个账号可以登陆</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614162522282.png" >
+		<img src="/DockerLearning.assets/image-20210614162522282.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614162522282">
+	</a>
+	
+	<figcaption>image-20210614162522282</figcaption>
+	
+</figure></p>
+<p>3.在服务器上提交自己的镜像</p>
+<p>在此之前需要打tag</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/# docker tag --help
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Usage:  docker tag SOURCE_IMAGE<span class="o">[</span>:TAG<span class="o">]</span> TARGET_IMAGE<span class="o">[</span>:TAG<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+</span></span><span class="line"><span class="cl">root@yourtreedad:/# docker tag tomcatupdate:1.0 yourtreedad/tomcatupdate:2.0
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614165331722.png" >
+		<img src="/DockerLearning.assets/image-20210614165331722.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614165331722">
+	</a>
+	
+	<figcaption>image-20210614165331722</figcaption>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/# docker push yourtreedad/tomcateupdatehub:1.0
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614165502602.png" >
+		<img src="/DockerLearning.assets/image-20210614165502602.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614165502602">
+	</a>
+	
+	<figcaption>image-20210614165502602</figcaption>
+	
+</figure></p>
+<p>提交的时候也是按照镜像的层级一层一层提交的</p>
+<p>可以发布到阿里云镜像服务上嘻嘻</p>
+<p>1.登陆阿里云</p>
+<p>2.找到容器镜像服务</p>
+<p>3.创建命名空间  为了隔离</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614170103181.png" >
+		<img src="/DockerLearning.assets/image-20210614170103181.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614170103181">
+	</a>
+	
+	<figcaption>image-20210614170103181</figcaption>
+	
+</figure></p>
+<p>4.创建容器镜像</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614170213918.png" >
+		<img src="/DockerLearning.assets/image-20210614170213918.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614170213918">
+	</a>
+	
+	<figcaption>image-20210614170213918</figcaption>
+	
+</figure></p>
+<p>5.浏览阿里云</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614170251978.png" >
+		<img src="/DockerLearning.assets/image-20210614170251978.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614170251978">
+	</a>
+	
+	<figcaption>image-20210614170251978</figcaption>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/# docker login --username<span class="o">=</span>把书掏出来 registry.cn-hangzhou.aliyuncs.com
+</span></span><span class="line"><span class="cl">Password:
+</span></span><span class="line"><span class="cl">Login Succeeded	
+</span></span></code></pre></div><p>登陆</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/# docker tag ee149e8cdc20 registry.cn-hangzhou.aliyuncs.com/hfutie/yourtree-test:1.0
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614171742651.png" >
+		<img src="/DockerLearning.assets/image-20210614171742651.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614171742651">
+	</a>
+	
+	<figcaption>image-20210614171742651</figcaption>
+	
+</figure></p>
+<p>上传</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/# docker push registry.cn-hangzhou.aliyuncs.com/hfutie/yourtree-test:1.0
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614171949041.png" >
+		<img src="/DockerLearning.assets/image-20210614171949041.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614171949041">
+	</a>
+	
+	<figcaption>image-20210614171949041</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614172425553.png" >
+		<img src="/DockerLearning.assets/image-20210614172425553.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614172425553">
+	</a>
+	
+	<figcaption>image-20210614172425553</figcaption>
+	
+</figure></p>
+<p>docker小结</p>
+<p>dockerfile build</p>
+<p>images tag、run/push/pull/save/load</p>
+<p>containers stop/kill/start/restart/commit</p>
+<p>dockerrepository</p>
+<p>backup.tar</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614172933295.png" >
+		<img src="/DockerLearning.assets/image-20210614172933295.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614172933295">
+	</a>
+	
+	<figcaption>image-20210614172933295</figcaption>
+	
+</figure></p>
+<p>精通的话需要学会docker网络（铺垫、容器编排、集群部署）</p>
+<p>docker网络</p>
+<p>理解docker网络 docker0</p>
+<p>清空所有环境</p>
+<p>测试</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614185814918.png" >
+		<img src="/DockerLearning.assets/image-20210614185814918.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614185814918">
+	</a>
+	
+	<figcaption>image-20210614185814918</figcaption>
+	
+</figure></p>
+<p>好多个网络，docker是如何处理容器网络访问的？</p>
+<p>ES之前的问题</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/# docker run -d -P --name tomcat01 tomcat
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">查看容器的内部网络地址 ip addr,发现容器启动的时候会得到一个eth0@if22 ip地址，docker分配的
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# docker <span class="nb">exec</span> -it tomcat01 ip addr
+</span></span><span class="line"><span class="cl">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu <span class="m">65536</span> qdisc noqueue state UNKNOWN group default qlen <span class="m">1000</span>
+</span></span><span class="line"><span class="cl">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+</span></span><span class="line"><span class="cl">    inet 127.0.0.1/8 scope host lo
+</span></span><span class="line"><span class="cl">       valid_lft forever preferred_lft forever
+</span></span><span class="line"><span class="cl">2: sit0@NONE: &lt;NOARP&gt; mtu <span class="m">1480</span> qdisc noop state DOWN group default qlen <span class="m">1000</span>
+</span></span><span class="line"><span class="cl">    link/sit 0.0.0.0 brd 0.0.0.0
+</span></span><span class="line"><span class="cl">21: eth0@if22: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class="m">1500</span> qdisc noqueue state UP group default
+</span></span><span class="line"><span class="cl">    link/ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid <span class="m">0</span>
+</span></span><span class="line"><span class="cl">    inet 172.17.0.2/16 brd 172.17.255.255 scope global eth0
+</span></span><span class="line"><span class="cl">       valid_lft forever preferred_lft forever
+</span></span><span class="line"><span class="cl">       
+</span></span><span class="line"><span class="cl">发现windows好像ping不通啊  
+</span></span><span class="line"><span class="cl">linux可以ping通 docker容器内部
+</span></span></code></pre></div><p>原理</p>
+<p>192.168.0.1路由器</p>
+<p>192.168.0.3 同一个网段是能ping通的</p>
+<p>1.我们每安装一个docker容器 ， docker就会给docker容器分配一个ip，我们只要安装了docker，就会有一个网卡docker0，（windows for docker好像咩有） ， 桥接模式，使用的技术是evth-pair技术！</p>
+<p>再次测试 ip addr之后</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614190941605.png" >
+		<img src="/DockerLearning.assets/image-20210614190941605.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614190941605">
+	</a>
+	
+	<figcaption>image-20210614190941605</figcaption>
+	
+</figure></p>
+<p>网课里说的是又多了一个，但windows中没有发现</p>
+<p>2.在启动一个容器测试</p>
+<p>网课里说的是又多了一个，但windows中没有</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614191119464.png" >
+		<img src="/DockerLearning.assets/image-20210614191119464.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614191119464">
+	</a>
+	
+	<figcaption>image-20210614191119464</figcaption>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">我们发现这个容器带来的网卡，都是一对一对的
+</span></span><span class="line"><span class="cl">veth-pair 就是一对的虚拟设备接口，她们都是成对出现的，一端连着协议，一端彼此相连
+</span></span><span class="line"><span class="cl">正因为有这个特性 我们就使用veth-pair 充当一个桥梁，连接各种虚拟网络设备的
+</span></span><span class="line"><span class="cl">OpenStac，Docker容器之间的链接，OVS的连接，都是使用 veth-pair技术
+</span></span></code></pre></div><p>3.我们来测试一下tomca01 和 tomcat02 是否可以ping通</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614194957533.png" >
+		<img src="/DockerLearning.assets/image-20210614194957533.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614194957533">
+	</a>
+	
+	<figcaption>image-20210614194957533</figcaption>
+	
+</figure></p>
+<p>在linux中，tomcat01和宿主机和tomcat02可以相互ping通</p>
+<p>在windows for docker中，tomcat01和tomcat02可以通，但是不能和宿主机ping通</p>
+<p>结论：容器和容器之间是可以互相ping通的</p>
+<p>在linux中，tomcat01和tomcat02是共用的一个路由器，即docker0</p>
+<p>所有的容器不指定网络的情况下，都是docker0路由的，docker会给我们的容器分配一个默认的可用IP</p>
+<p>0-255  A   B   C</p>
+<p>255.255.0.1/16  域</p>
+<p>00000000.00000000.00000000.00000000</p>
+<blockquote>
+<p>小结</p>
+</blockquote>
+<p>docker使用的是linux桥接，宿主机中是一个docker容器的网桥，docker0</p>
+<p>docker中的所有的网络接口都是虚拟的，虚拟的转发效率高！内网传递文件！</p>
+<p>只要容器删除了，对应的网桥就没了</p>
+<p>&ndash;link</p>
+<blockquote>
+<p>思考一个场景，我们编写了一个微服务，database url = ip：</p>
+</blockquote>
+<p>项目不重启，数据库ip换掉了，我们希望可以处理这个问题，可以通过名字来进行访问容器？</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">直接ping服务名是不行的
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# docker <span class="nb">exec</span> -it tomcat02 ping tomcat01
+</span></span><span class="line"><span class="cl">ping: tomcat01: Name or service not known
+</span></span><span class="line"><span class="cl">解决？
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">通过--link 就可以解决了网络连通
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# docker run -d --name tomcat03 --link tomcat02 tomcat
+</span></span><span class="line"><span class="cl">832afb5618b02262a5f9cbe48072941cc4784c009d0f91962b371c218afa31c0
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# docker <span class="nb">exec</span> -it tomcat02 ping tomcat03
+</span></span><span class="line"><span class="cl">ping: tomcat03: Name or service not known
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# docker <span class="nb">exec</span> -it tomcat03 ping tomcat02
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614200734188.png" >
+		<img src="/DockerLearning.assets/image-20210614200734188.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614200734188">
+	</a>
+	
+	<figcaption>image-20210614200734188</figcaption>
+	
+</figure></p>
+<p>默认网关docker0 ，就是这里的172.17.0.1</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614201015974.png" >
+		<img src="/DockerLearning.assets/image-20210614201015974.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614201015974">
+	</a>
+	
+	<figcaption>image-20210614201015974</figcaption>
+	
+</figure></p>
+<p>探究：inspect 容器id</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614201318560.png" >
+		<img src="/DockerLearning.assets/image-20210614201318560.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614201318560">
+	</a>
+	
+	<figcaption>image-20210614201318560</figcaption>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">link的本质
+</span></span><span class="line"><span class="cl">查看hosts配置，在这里原理发现
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# docker <span class="nb">exec</span> -it tomcat03 cat /etc/hosts
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614201902916.png" >
+		<img src="/DockerLearning.assets/image-20210614201902916.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614201902916">
+	</a>
+	
+	<figcaption>image-20210614201902916</figcaption>
+	
+</figure></p>
+<p>&ndash;link 就是我们在hosts配置中，增加了一个172.18.0.3 tomcat02 的映射</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614202018329.png" >
+		<img src="/DockerLearning.assets/image-20210614202018329.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614202018329">
+	</a>
+	
+	<figcaption>image-20210614202018329</figcaption>
+	
+</figure></p>
+<p>由于02没有使用&ndash;link，所以不能直接使用 服务名字来跳转</p>
+<p>实际上就是host映射</p>
+<p>我们现在使用docker已经不建议使用&ndash;link了！</p>
+<p>需要自定义网络！不适用docker0！</p>
+<p>docker0问题：他不支持容器名连接访问！</p>
+<p>自定义网络</p>
+<p>容器互联：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">查看所有的docker网络
+</span></span><span class="line"><span class="cl">docker network ls
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614202322526.png" >
+		<img src="/DockerLearning.assets/image-20210614202322526.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614202322526">
+	</a>
+	
+	<figcaption>image-20210614202322526</figcaption>
+	
+</figure></p>
+<p>网络模式</p>
+<p>bridge 网络桥接模式 搭桥：（默认，自己创建的推荐使用bridge模式）</p>
+<p>none ：不配置网络</p>
+<p>host：和宿主机共享网络</p>
+<p>container：容器内网络连通！（用得少，局限很大）</p>
+<p>测试</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">我们直接启动的命令 默认，这个我们看了就是我们的docker0
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# docker run -d -P --name tomcat01 --net bridge tomcat
+</span></span><span class="line"><span class="cl">实际上不写--net也是默认的
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">docker0 特点，默认，域名不能访问 --link 可以打通连接！
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">我们可以自定义一个网络！
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614202926510.png" >
+		<img src="/DockerLearning.assets/image-20210614202926510.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614202926510">
+	</a>
+	
+	<figcaption>image-20210614202926510</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614203159484.png" >
+		<img src="/DockerLearning.assets/image-20210614203159484.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614203159484">
+	</a>
+	
+	<figcaption>image-20210614203159484</figcaption>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">创建一个自定义网络
+</span></span><span class="line"><span class="cl">docker network create --driver bridge --subnet 192.168.0.0/16 --gateway 192.168.0.1 mynet 
+</span></span><span class="line"><span class="cl">桥接、子网、网关设置
+</span></span><span class="line"><span class="cl">我们自己的网络就创建好了！
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614203427052.png" >
+		<img src="/DockerLearning.assets/image-20210614203427052.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614203427052">
+	</a>
+	
+	<figcaption>image-20210614203427052</figcaption>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">使用自己构建的网络来创建容器，塞进去
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# docker run -d -P --name tomcat-net-01 --net mynet tomcat
+</span></span><span class="line"><span class="cl">8d24df7fb899de77db6b600aedbfacc32fdd161836dd638b56666ca2014ff5bf
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# docker run -d -P --name tomcat-net-02 --net mynet tomcat
+</span></span><span class="line"><span class="cl">eee0d29dbed8e780487fcc4bf93f1b3a9ab5ad8ffac194861a3c2ee948d8ea9e
+</span></span><span class="line"><span class="cl">查看网络情况
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# docker inspect mynet
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614203821209.png" >
+		<img src="/DockerLearning.assets/image-20210614203821209.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614203821209">
+	</a>
+	
+	<figcaption>image-20210614203821209</figcaption>
+	
+</figure></p>
+<p>看看能不能ping通</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">现在不使用 --link也可以ping名字了！
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# docker <span class="nb">exec</span> -it tomcat-net-01 ping 192.168.0.3
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# docker <span class="nb">exec</span> -it tomcat-net-01 ping tomcat-net-02
+</span></span></code></pre></div><p>我们自定义的网络docker都已经帮我们维护好了对应的关系，推荐我们平时这样使用网络！</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614204033670.png" >
+		<img src="/DockerLearning.assets/image-20210614204033670.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614204033670">
+	</a>
+	
+	<figcaption>image-20210614204033670</figcaption>
+	
+</figure></p>
+<p>好处：</p>
+<p>redis - 保证不同的集群使用不同的网络，保证集群是安全和健康的</p>
+<p>mysql</p>
+<p>网络连通</p>
+<p>没有确保两个集群网络连通的情况下 ， 两个子网是无法相连的</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614204746483.png" >
+		<img src="/DockerLearning.assets/image-20210614204746483.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614204746483">
+	</a>
+	
+	<figcaption>image-20210614204746483</figcaption>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">构建两个tomcat 但是默认是docker0网络下的
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# docker run -d -P --name tomcat01 tomcat
+</span></span><span class="line"><span class="cl">86e292de23f4c821375058608f49f6a5bbdcd0220a5c3e36999cafa86eb25f79
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# docker run -d -P --name tomcat02 tomcat
+</span></span><span class="line"><span class="cl">e45223474886d4f490ed66446c2eb1b7809b273c5b104fde27301d9746f4ebf6
+</span></span><span class="line"><span class="cl">而tomcat-net-01是在mynet下的，所以连不通
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# docker <span class="nb">exec</span> -it tomcat02 ping 192.168.0.3
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">不能让docker0和mynet连通，这样不安全，要单独让tomcat01 和mynet连通
+</span></span><span class="line"><span class="cl">如何操作
+</span></span><span class="line"><span class="cl">docker network connect
+</span></span><span class="line"><span class="cl">测试打通 tomcat01 到 mynet
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614205014081.png" >
+		<img src="/DockerLearning.assets/image-20210614205014081.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614205014081">
+	</a>
+	
+	<figcaption>image-20210614205014081</figcaption>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:~# docker network connect mynet tomcat01
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# docker network inspect mynet
+</span></span><span class="line"><span class="cl">连通之后就是将tomcat01 放置到了 mynet 网络下？
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">一个容器两个ip地址！ 阿里云服务，公网ip 和 私网ip
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614205144180.png" >
+		<img src="/DockerLearning.assets/image-20210614205144180.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614205144180">
+	</a>
+	
+	<figcaption>image-20210614205144180</figcaption>
+	
+</figure></p>
+<p>再试试</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:~# docker <span class="nb">exec</span> -it tomcat01 ping tomcat-net-01
+</span></span></code></pre></div><p>0102好像都可以打通</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210614205634156.png" >
+		<img src="/DockerLearning.assets/image-20210614205634156.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210614205634156">
+	</a>
+	
+	<figcaption>image-20210614205634156</figcaption>
+	
+</figure></p>
+<p>结论：假设要跨网络操作别人，就需要使用docker network connect 连通！</p>
+<p>实战：部署redis集群</p>
+<p>分片+高可用+负载均衡</p>
+<p>shell脚本建立！</p>
+<p>3主3从</p>
+<p>1.建立网络</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/# docker network create redisnet --subnet 172.38.0.0/16
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">root@yourtreedad:/# docker network ls
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">root@yourtreedad:/# docker network inspect redisnet
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617192710761.png" >
+		<img src="/DockerLearning.assets/image-20210617192710761.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617192710761">
+	</a>
+	
+	<figcaption>image-20210617192710761</figcaption>
+	
+</figure></p>
+<p>2.通过脚本创建六个redis配置</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/# 
+</span></span><span class="line"><span class="cl"><span class="k">for</span> port in <span class="k">$(</span>seq <span class="m">1</span> 6<span class="k">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">do</span>
+</span></span><span class="line"><span class="cl">mkdir -p /mydata/redis/node-<span class="si">${</span><span class="nv">port</span><span class="si">}</span>/conf
+</span></span><span class="line"><span class="cl">touch /mydata/redis/node-<span class="si">${</span><span class="nv">port</span><span class="si">}</span>/conf/redis.conf
+</span></span><span class="line"><span class="cl">cat <span class="s">&lt;&lt; EOF &gt;&gt;/mydata/redis/node-${port}/conf/redis.conf
+</span></span></span><span class="line"><span class="cl"><span class="s">port 6379
+</span></span></span><span class="line"><span class="cl"><span class="s">bind 0.0.0.0
+</span></span></span><span class="line"><span class="cl"><span class="s">cluster-enabled yes
+</span></span></span><span class="line"><span class="cl"><span class="s">cluster-config-file nodes.conf
+</span></span></span><span class="line"><span class="cl"><span class="s">cluster-node-timeout 5000
+</span></span></span><span class="line"><span class="cl"><span class="s">cluster-announce-ip 172.38.0.1${port}
+</span></span></span><span class="line"><span class="cl"><span class="s">cluster-announce-port 6379
+</span></span></span><span class="line"><span class="cl"><span class="s">cluster-announce-bus-port 16379
+</span></span></span><span class="line"><span class="cl"><span class="s">appendonly yes 
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617194321734.png" >
+		<img src="/DockerLearning.assets/image-20210617194321734.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617194321734">
+	</a>
+	
+	<figcaption>image-20210617194321734</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617194434797.png" >
+		<img src="/DockerLearning.assets/image-20210617194434797.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617194434797">
+	</a>
+	
+	<figcaption>image-20210617194434797</figcaption>
+	
+</figure></p>
+<p>3.拉取镜像，启动容器，分配端口，数据卷映射</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/# docker run -p 6371:6379 -p 16371:16379 --name redis-1 -v /mydata/redis/node-1/data:/data -v /mydata/redis/node-1/conf/redis.conf:/etc/redis/redis.conf -d --net redisnet --ip 172.38.0.11 redis:5.0.9-alpine3.11 redis-server /etc/redis/redis.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">docker run -p 6372:6379 -p 16372:16379 --name redis-2 -v /mydata/redis/node-2/data:/data -v /mydata/redis/node-2/conf/redis.conf:/etc/redis/redis.conf -d --net redisnet --ip 172.38.0.12 redis:5.0.9-alpine3.11 redis-server /etc/redis/redis.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">docker run -p 6373:6379 -p 16373:16379 --name redis-3 -v /mydata/redis/node-3/data:/data -v /mydata/redis/node-3/conf/redis.conf:/etc/redis/redis.conf -d --net redisnet --ip 172.38.0.13 redis:5.0.9-alpine3.11 redis-server /etc/redis/redis.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">docker run -p 6374:6379 -p 16374:16379 --name redis-4 -v /mydata/redis/node-4/data:/data -v /mydata/redis/node-4/conf/redis.conf:/etc/redis/redis.conf -d --net redisnet --ip 172.38.0.14 redis:5.0.9-alpine3.11 redis-server /etc/redis/redis.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">docker run -p 6375:6379 -p 16375:16379 --name redis-5 -v /mydata/redis/node-5/data:/data -v /mydata/redis/node-5/conf/redis.conf:/etc/redis/redis.conf -d --net redisnet --ip 172.38.0.15 redis:5.0.9-alpine3.11 redis-server /etc/redis/redis.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">docker run -p 6376:6379 -p 16376:16379 --name redis-6 -v /mydata/redis/node-6/data:/data -v /mydata/redis/node-6/conf/redis.conf:/etc/redis/redis.conf -d --net redisnet --ip 172.38.0.16 redis:5.0.9-alpine3.11 redis-server /etc/redis/redis.conf
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617200000188.png" >
+		<img src="/DockerLearning.assets/image-20210617200000188.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617200000188">
+	</a>
+	
+	<figcaption>image-20210617200000188</figcaption>
+	
+</figure></p>
+<p>进入容器内部</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/# docker <span class="nb">exec</span> -it redis-1 /bin/sh
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617200316068.png" >
+		<img src="/DockerLearning.assets/image-20210617200316068.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617200316068">
+	</a>
+	
+	<figcaption>image-20210617200316068</figcaption>
+	
+</figure></p>
+<p>建立集群 切片</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">/data <span class="c1"># redis-cli --cluster create 172.38.0.11:6379 172.38.0.12:6379 172.38.0.13:6379 172.38.0.14:6379 172.38.0.15:6379 172.38.0.16:6379 --clust</span>
+</span></span><span class="line"><span class="cl">er-replicas <span class="m">1</span>
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617200738182.png" >
+		<img src="/DockerLearning.assets/image-20210617200738182.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617200738182">
+	</a>
+	
+	<figcaption>image-20210617200738182</figcaption>
+	
+</figure></p>
+<p>查看集群信息</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">/data <span class="c1"># redis-cli -c</span>
+</span></span><span class="line"><span class="cl">127.0.0.1:6379&gt; cluster info
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">127.0.0.1:6379&gt; cluster nodes
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">127.0.0.1:6379&gt; <span class="nb">set</span> a b
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617201019736.png" >
+		<img src="/DockerLearning.assets/image-20210617201019736.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617201019736">
+	</a>
+	
+	<figcaption>image-20210617201019736</figcaption>
+	
+</figure></p>
+<p>测试，停掉一个master主机redis会不会使用备机来顶替主机</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/# docker stop redis-3
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">root@yourtreedad:/# docker <span class="nb">exec</span> -it redis-1 /bin/sh
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/data <span class="c1"># redis-cli -c</span>
+</span></span><span class="line"><span class="cl">127.0.0.1:6379&gt; cluster info
+</span></span><span class="line"><span class="cl">127.0.0.1:6379&gt; get a
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617201403193.png" >
+		<img src="/DockerLearning.assets/image-20210617201403193.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617201403193">
+	</a>
+	
+	<figcaption>image-20210617201403193</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617201528497.png" >
+		<img src="/DockerLearning.assets/image-20210617201528497.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617201528497">
+	</a>
+	
+	<figcaption>image-20210617201528497</figcaption>
+	
+</figure></p>
+<p>docker 搭建 redis集群完成！</p>
+<p>我们使用了docker之后，所有的技术都会慢慢变得简单起来</p>
+<p>springboot 微服务打包docker镜像</p>
+<p>1.架构springboot项目</p>
+<p>2.打包应用</p>
+<p>3.编写dockerfile</p>
+<p>4.构建镜像</p>
+<p>5.发布运行！</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617204707930.png" >
+		<img src="/DockerLearning.assets/image-20210617204707930.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617204707930">
+	</a>
+	
+	<figcaption>image-20210617204707930</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617204834101.png" >
+		<img src="/DockerLearning.assets/image-20210617204834101.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617204834101">
+	</a>
+	
+	<figcaption>image-20210617204834101</figcaption>
+	
+</figure></p>
+<p>cmd测试</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617204915044.png" >
+		<img src="/DockerLearning.assets/image-20210617204915044.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617204915044">
+	</a>
+	
+	<figcaption>image-20210617204915044</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617213140315.png" >
+		<img src="/DockerLearning.assets/image-20210617213140315.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617213140315">
+	</a>
+	
+	<figcaption>image-20210617213140315</figcaption>
+	
+</figure></p>
+<p>回到idea中编写dockerfile</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617224102830.png" >
+		<img src="/DockerLearning.assets/image-20210617224102830.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617224102830">
+	</a>
+	
+	<figcaption>image-20210617224102830</figcaption>
+	
+</figure></p>
+<p>弄好之后连接linux ， 吧windows上的dockerfile和jar包传到linux服务器上，需要使用filezilla软件传输</p>
+<p>linux服务器ip地址指令   ifconfig</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617213836333.png" >
+		<img src="/DockerLearning.assets/image-20210617213836333.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617213836333">
+	</a>
+	
+	<figcaption>image-20210617213836333</figcaption>
+	
+</figure></p>
+<p>切换用户</p>
+<p>把文件传到linux上</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617221920977.png" >
+		<img src="/DockerLearning.assets/image-20210617221920977.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617221920977">
+	</a>
+	
+	<figcaption>image-20210617221920977</figcaption>
+	
+</figure></p>
+<p>坑死了 ENTRYPOINT 与[]之间有个打空格</p>
+<p>通过build 构建镜像</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/home/idea# docker build -f Dockerfile -t kuangshen666 .
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617224515040.png" >
+		<img src="/DockerLearning.assets/image-20210617224515040.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617224515040">
+	</a>
+	
+	<figcaption>image-20210617224515040</figcaption>
+	
+</figure></p>
+<p>测试</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:/home/idea# docker run -d --name kuangshen-springboot-web -P kuangshen666
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/idea# curl localhost:49158/hello
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617225833450.png" >
+		<img src="/DockerLearning.assets/image-20210617225833450.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617225833450">
+	</a>
+	
+	<figcaption>image-20210617225833450</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210617230044609.png" >
+		<img src="/DockerLearning.assets/image-20210617230044609.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210617230044609">
+	</a>
+	
+	<figcaption>image-20210617230044609</figcaption>
+	
+</figure></p>
+<p>以后我们使用了Docker之后，给别人交付的就是一个镜像即可</p>
+<p>预告：如果我们有很多镜像？100个</p>
+<p>还要学</p>
+<p>Docker Compost</p>
+<p>Docker Swarm</p>
+<p>K8s</p>
+<p>CI/CD 之 Jenkins</p>
+<p>尝试基于ECS快速搭建docker环境</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210618223452399.png" >
+		<img src="/DockerLearning.assets/image-20210618223452399.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210618223452399">
+	</a>
+	
+	<figcaption>image-20210618223452399</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210618223539027.png" >
+		<img src="/DockerLearning.assets/image-20210618223539027.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210618223539027">
+	</a>
+	
+	<figcaption>image-20210618223539027</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210618223624125.png" >
+		<img src="/DockerLearning.assets/image-20210618223624125.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210618223624125">
+	</a>
+	
+	<figcaption>image-20210618223624125</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210618223650264.png" >
+		<img src="/DockerLearning.assets/image-20210618223650264.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210618223650264">
+	</a>
+	
+	<figcaption>image-20210618223650264</figcaption>
+	
+</figure></p>
+<p>ECS云服务器新手上路</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210619103343896.png" >
+		<img src="/DockerLearning.assets/image-20210619103343896.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210619103343896">
+	</a>
+	
+	<figcaption>image-20210619103343896</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210619103400085.png" >
+		<img src="/DockerLearning.assets/image-20210619103400085.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210619103400085">
+	</a>
+	
+	<figcaption>image-20210619103400085</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210619103431630.png" >
+		<img src="/DockerLearning.assets/image-20210619103431630.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210619103431630">
+	</a>
+	
+	<figcaption>image-20210619103431630</figcaption>
+	
+</figure></p>
+<p>下面尝试部署了一下继恩的vue和nginx</p>
+<p>nginx使用挂载的方式-v 来实现对容器内部nginx配置文件的替换，</p>
+<p>利用docker cp 来把dist文件拷贝进去</p>
+<p>使用-p 的方式替换端口</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@yourtreedad:~# docker pull nginx
+</span></span><span class="line"><span class="cl">Using default tag: latest
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">latest: Pulling from library/nginx
+</span></span><span class="line"><span class="cl">b4d181a07f80: Already exists
+</span></span><span class="line"><span class="cl">66b1c490df3f: Pull <span class="nb">complete</span>
+</span></span><span class="line"><span class="cl">d0f91ae9b44c: Pull <span class="nb">complete</span>
+</span></span><span class="line"><span class="cl">baf987068537: Pull <span class="nb">complete</span>
+</span></span><span class="line"><span class="cl">6bbc76cbebeb: Pull <span class="nb">complete</span>
+</span></span><span class="line"><span class="cl">32b766478bc2: Pull <span class="nb">complete</span>
+</span></span><span class="line"><span class="cl">Digest: sha256:353c20f74d9b6aee359f30e8e4f69c3d7eaea2f610681c4a95849a2fd7c497f9
+</span></span><span class="line"><span class="cl">Status: Downloaded newer image <span class="k">for</span> nginx:latest
+</span></span><span class="line"><span class="cl">docker.io/library/nginx:latest
+</span></span><span class="line"><span class="cl">root@yourtreedad:~#
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# docker images
+</span></span><span class="line"><span class="cl">REPOSITORY               TAG                 IMAGE ID            CREATED             SIZE
+</span></span><span class="line"><span class="cl">nginx                    latest              4cdc5dd7eaad        <span class="m">10</span> days ago         133MB
+</span></span><span class="line"><span class="cl">yourtreedad/blazordemo   latest              aa1397c0af05        <span class="m">2</span> weeks ago         207MB
+</span></span><span class="line"><span class="cl">mysql                    latest              5c62e459e087        <span class="m">3</span> weeks ago         556MB
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">root@yourtreedad:~# <span class="nb">cd</span> ..
+</span></span><span class="line"><span class="cl">root@yourtreedad:/# <span class="nb">pwd</span>
+</span></span><span class="line"><span class="cl">/
+</span></span><span class="line"><span class="cl">root@yourtreedad:/# <span class="nb">cd</span> home
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home# ls
+</span></span><span class="line"><span class="cl">blazortest    haierDemo  ljs      mvcwindowstest  nginx      tomcat
+</span></span><span class="line"><span class="cl">consoletest1  kuangshen  mvctest  mysql           nginxdemo  webapitest
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home# <span class="nb">cd</span> nginxdemo
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/nginxdemo# ls
+</span></span><span class="line"><span class="cl">nginx-1.14.2  nginx-1.14.2.zip
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/nginxdemo# <span class="nb">cd</span> nginx-1.14.2
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/nginxdemo/nginx-1.14.2# ls
+</span></span><span class="line"><span class="cl">conf  contrib  dist  docs  html  logs  nginx.exe  temp
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/nginxdemo/nginx-1.14.2/conf# docker run --name nginxdemo2 -p 8889:8765 -v /home/nginxdemo/nginx-1
+</span></span><span class="line"><span class="cl">.14.2/conf/myconf1.conf:/etc/nginx/nginx.conf:ro -d nginx
+</span></span><span class="line"><span class="cl">6bed1ace8c9942f62e61ea18f7f632973fa1d7536ac3a6d1ada11e3d2c093b6e
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/nginxdemo/nginx-1.14.2/conf# docker cp /home/nginxdemo/nginx-1.14.2/dist 6bed1ace8c9942f62e:/etc/nginx
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/nginxdemo/nginx-1.14.2/conf# docker <span class="nb">exec</span> -it 6bed1ace8c9942f62e61ea18f7f632973fa1d7536ac3a6d1ada11e3d2c093b6e /bin/bash
+</span></span><span class="line"><span class="cl">ls
+</span></span><span class="line"><span class="cl">ls
+</span></span><span class="line"><span class="cl">root@6bed1ace8c99:/# ls
+</span></span><span class="line"><span class="cl">bin   docker-entrypoint.d   home   media  proc  sbin  tmp
+</span></span><span class="line"><span class="cl">boot  docker-entrypoint.sh  lib    mnt    root  srv   usr
+</span></span><span class="line"><span class="cl">dev   etc                   lib64  opt    run   sys   var
+</span></span><span class="line"><span class="cl">root@6bed1ace8c99:/# <span class="nb">cd</span> /etc
+</span></span><span class="line"><span class="cl">root@6bed1ace8c99:/etc# <span class="nb">cd</span> nginx
+</span></span><span class="line"><span class="cl">root@6bed1ace8c99:/etc/nginx# ls
+</span></span><span class="line"><span class="cl">conf.d  dist  fastcgi_params  mime.types  modules  nginx.conf  scgi_params  uwsgi_params
+</span></span><span class="line"><span class="cl">root@6bed1ace8c99:/etc/nginx# cat nginx.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#user  nobody;</span>
+</span></span><span class="line"><span class="cl">c553c6ba5f13: Pushed
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#error_log  logs/error.log;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#error_log  logs/error.log  notice;</span>
+</span></span><span class="line"><span class="cl">Head https://registry-1.docker.io/v2/yourtreedad/nginxcontaindist/blobs/sha256:4d7903a7ce4bdf92461e0dd87d1fb712facb6881df3cbce68f55f4ec54791546: dial tcp: lookup registry-1.docker.io on 192.168.65.5:53: no such host
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/nginxdemo/nginx-1.14.2/conf#
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">events <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    worker_connections  1024<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">http <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    include       mime.types<span class="p">;</span>
+</span></span><span class="line"><span class="cl">    default_type  application/octet-stream<span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">#log_format  main  &#39;$remote_addr - $remote_user [$time_local] &#34;$request&#34; &#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#                  &#39;$status $body_bytes_sent &#34;$http_referer&#34; &#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#                  &#39;&#34;$http_user_agent&#34; &#34;$http_x_forwarded_for&#34;&#39;;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">#access_log  logs/access.log  main;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># server {</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#     listen 8765;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#     listen localhost;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#     location / {</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#         root dist;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#         index index.html index.htm;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#     }</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># }</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    sendfile        on<span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#tcp_nopush     on;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">#keepalive_timeout  0;</span>
+</span></span><span class="line"><span class="cl">    keepalive_timeout  65<span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">#gzip  on;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    server <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        listen       8765<span class="p">;</span>
+</span></span><span class="line"><span class="cl">        server_name  localhost<span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">#charset koi8-r;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">#access_log  logs/host.access.log  main;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        location / <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            root   dist<span class="p">;</span>
+</span></span><span class="line"><span class="cl">            index  index.html index.htm<span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">#error_page  404              /404.html;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># redirect server error pages to the static page /50x.html</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">        error_page   <span class="m">500</span> <span class="m">502</span> <span class="m">503</span> <span class="m">504</span>  /50x.html<span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">location</span> <span class="o">=</span> /50x.html <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            root   html<span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># proxy the PHP scripts to Apache listening on 127.0.0.1:80</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#location ~ \.php$ {</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#    proxy_pass   http://127.0.0.1;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#location ~ \.php$ {</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#    root           html;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#    fastcgi_pass   127.0.0.1:9000;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#    fastcgi_index  index.php;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#    include        fastcgi_params;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">67f2e8eb8c87: Pushing <span class="o">[</span>&gt;                                                  <span class="o">]</span>  77.82kB/4.758MB
+</span></span><span class="line"><span class="cl">        <span class="c1"># concurs with nginx&#39;s one</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#location ~ /\.ht {</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#    deny  all;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># another virtual host using mix of IP-, name-, and port-based configuration</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#server {</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#    listen       8000;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#    listen       somename:8080;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#    server_name  somename  alias  another.alias;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">#    location / {</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#        root   html;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#        index  index.html index.htm;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#    }</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># HTTPS server</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#server {</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#    listen       443 ssl;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#    server_name  localhost;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">#    ssl_certificate      cert.pem;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#    ssl_certificate_key  cert.key;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">#    ssl_session_cache    shared:SSL:1m;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#    ssl_session_timeout  5m;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">#    ssl_ciphers  HIGH:!aNULL:!MD5;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#    ssl_prefer_server_ciphers  on;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">#    location / {</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#        root   html;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#        index  index.html index.htm;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#    }</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">root@6bed1ace8c99:/etc/nginx# <span class="nb">exit</span>
+</span></span><span class="line"><span class="cl"><span class="nb">exit</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/nginxdemo/nginx-1.14.2/conf# docker commit -a<span class="o">=</span><span class="s2">&#34;yourtreedad&#34;</span> -m<span class="o">=</span><span class="s2">&#34;jien&#39;s ui add ljs&#39;s deploy new nginx that contains dist&#34;</span> 6bed1ace8c nginx:1.0
+</span></span><span class="line"><span class="cl">sha256:4d7903a7ce4bdf92461e0dd87d1fb712facb6881df3cbce68f55f4ec54791546
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/nginxdemo/nginx-1.14.2/conf# docker push yourtreedad/nginx:1.0
+</span></span><span class="line"><span class="cl">The push refers to repository <span class="o">[</span>docker.io/yourtreedad/nginx<span class="o">]</span>
+</span></span><span class="line"><span class="cl">An image does not exist locally with the tag: yourtreedad/nginx
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/nginxdemo/nginx-1.14.2/conf# docker tag nginx:1.0 yourtreedad/nginxcontaindist:1.0
+</span></span><span class="line"><span class="cl">root@yourtreedad:/home/nginxdemo/nginx-1.14.2/conf# docker push yourtreedad/nginxcontaindist:1.0
+</span></span><span class="line"><span class="cl">The push refers to repository <span class="o">[</span>docker.io/yourtreedad/nginxcontaindist<span class="o">]</span>
+</span></span><span class="line"><span class="cl">67f2e8eb8c87: Preparing
+</span></span><span class="line"><span class="cl">9d1af766c818: Preparing
+</span></span><span class="line"><span class="cl">d97733c0a3b6: Preparing
+</span></span><span class="line"><span class="cl">c553c6ba5f13: Preparing
+</span></span><span class="line"><span class="cl">48b4a40de359: Preparing
+</span></span><span class="line"><span class="cl">ace9ed9bcfaf: Waiting
+</span></span><span class="line"><span class="cl">764055ebc9a7: Waiting
+</span></span></code></pre></div><p>这是部署在本地 ， 现在开始演示部署到云服务器上</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210718003213326.png" >
+		<img src="/DockerLearning.assets/image-20210718003213326.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210718003213326">
+	</a>
+	
+	<figcaption>image-20210718003213326</figcaption>
+	
+</figure></p>
+<p>通过ssh把配置文件传进去</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210718003244110.png" >
+		<img src="/DockerLearning.assets/image-20210718003244110.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210718003244110">
+	</a>
+	
+	<figcaption>image-20210718003244110</figcaption>
+	
+</figure></p>
+<p>从dockerhub上拉取镜像</p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210718003546820.png" >
+		<img src="/DockerLearning.assets/image-20210718003546820.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210718003546820">
+	</a>
+	
+	<figcaption>image-20210718003546820</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/DockerLearning.assets/image-20210718003653954.png" >
+		<img src="/DockerLearning.assets/image-20210718003653954.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20210718003653954">
+	</a>
+	
+	<figcaption>image-20210718003653954</figcaption>
+	
+</figure></p>
+<p>http://47.106.218.61:8888/</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E5%AE%B9%E5%99%A8%E5%8C%96/">容器化</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+</aside>
+
+     
+     
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="jianrongma/hugoblogtalks"
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2023 think hy how to learn
+    </section>
+    
+    <section class="powerby">
+         <br />
+        
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<!doctype html>
+<html lang="en">
+<head>
+   
+</head>
+
+
+
+
+
+
+
+
+
+<body>
+</body>
+
+</html>
+
+
+    </body>
+</html>

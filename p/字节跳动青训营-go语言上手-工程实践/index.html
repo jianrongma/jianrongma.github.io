@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='并发vs并行 并发:多线程程序在一个核的cpu上运行
+并行:多线程程序在多个核的cpu上运行
+go:充分发挥多核优势 高效运行
+goroutine image-20221206101655826协程:用户态 轻量级线程 栈kb级别
+线程:内核态 线程上跑多个协程 栈mb级别
+快速打印demo
+package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sync&amp;#34; &amp;#34;time&amp;#34; ) func main() { for i := 0; i &amp;lt; 5; i&#43;&#43; { //使用闭包 防止出问题 go func(j int) { hello(j) }(i) } time.Sleep(1 * time.Second) manyGoWait() } //优雅一点 使用等待组概念 没做完就会阻塞 做完就会通过信号来解除阻塞 func manyGoWait() { var wg sync.WaitGroup wg.Add(5) for i := 0; i &amp;lt; 5; i&#43;&#43; { go func(j int) { defer wg.'><title>字节跳动青训营 Go语言上手 工程实践</title>
+
+<link rel='canonical' href='https://jianrongma.github.io/p/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/'>
+
+<link rel="stylesheet" href="/scss/style.min.css">
+<style>
+     
+    body{
+        background-repeat: repeat;
+        background-attachment: fixed;
+        background-size:cover;
+         cursor: url(https://files.cnblogs.com/files/monster-jian/cursor.ico),auto;
+    }
+     
+    #div_digg {
+      position: fixed;
+      bottom: 10px;
+      right: 15px;
+      border: 2px solid #ECD7B1;
+      padding: 10px;
+      width: 140px;
+      background-color: #fff;
+      border-radius: 5px 5px 5px 5px !important;
+      box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+    }
+    </style><script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://files.cnblogs.com/files/liyhbk/js.js" color="0,0,255" opacity="1" count="119" zindex="-2"></script>
+<script src="https://files.cnblogs.com/files/liyhbk/js.js" color="0,0,255" opacity="1" count="119" zindex="-2">
+</script>
+<script type="text/javascript" color="255,0,0" pointcolor="255,0,0" opacity="0.7" zindex="-2" count="100" src="/dist/canvas-nest.js"></script>
+<script type="text/javascript" src="/dist/canvas-nest.umd.js"></script>
+<script type="text/javascript">
+    var cn = new CanvasNest(document.getElementById('area-render'), {
+        color: '255,0,255',
+        count: 50,
+      });
+      
+      function asyncLoad() {
+        
+        var i = document.createElement("iframe");
+        i.src = "https://ghbtns.com/github-btn.html?user=hustcc&repo=canvas-nest.js&type=star&count=true";
+        i.scrolling = "no";
+        i.frameborder = "0";
+        i.border = "0";
+        i.setAttribute("frameborder", "0", 0);
+        i.width = "100px";
+        i.height = "20px";
+        document.getElementById("github-iframe").appendChild(i);
+      }
+      function loadGitHubBtn() {
+        if (window.addEventListener) {window.addEventListener("load", asyncLoad, false);}
+        else if (window.attachEvent) {window.attachEvent("onload", asyncLoad);}
+        else {window.onload = asyncLoad;}
+      }
+      loadGitHubBtn();
+</script>
+<script src="/canvas-nest.js?version=10"></script><canvas width="1536" height="454" style="display: block; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; overflow: hidden; pointer-events: none;"></canvas>
+<script src="https://files.cnblogs.com/files/monster-jian/mouse-click.js"></script>
+<script type="text/javascript">
+    
+     
+    var a_idx = 0;
+    jQuery(document).ready(function($) {
+        $("body").click(function(e) {
+            var a = new Array("❤不做咸鱼！❤","❤拒绝懒惰！❤","❤想做吃货❤","❤向大佬学习❤","❤扶我起来~❤","❤come on❤","❤一直在路上~❤","❤累了~❤","❤再趴一会❤","❤66666❤","❤高兴的飞起*****❤");
+            var $i = $("<span></span>").text(a[a_idx]);
+            a_idx = (a_idx + 1) % a.length;
+            var x = e.pageX,
+            y = e.pageY;
+            $i.css({
+                "z-index": 999999999999999999999999999999999999999999999999999999999999999999999,
+                "top": y - 20,
+                "left": x,
+                "position": "absolute",
+                "font-weight": "bold",
+                "color": "rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"
+            });
+            $("body").append($i);
+            $i.animate({
+                "top": y - 180,
+                "opacity": 0
+            },
+            1500,
+            function() {
+                $i.remove();
+            });
+        });
+    });
+    </script>
+
+    <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>  
+
+ 
+   
+      
+      
+          
+         <script>         
+            L2Dwidget.init({ "model": { jsonPath:          "https://unpkg.com/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json",  
+                  "scale": 1 }, "display": { "position": "right", "width": 66, "height": 88,        "hOffset": 0, "vOffset": -20 },
+                   "mobile": { "show": true, "scale": 0.5 },      "react": { "opacityDefault": 0.8, "opacityOnHover": 0.1 } }); 
+                    </script><meta property='og:title' content='字节跳动青训营 Go语言上手 工程实践'>
+<meta property='og:description' content='并发vs并行 并发:多线程程序在一个核的cpu上运行
+并行:多线程程序在多个核的cpu上运行
+go:充分发挥多核优势 高效运行
+goroutine image-20221206101655826协程:用户态 轻量级线程 栈kb级别
+线程:内核态 线程上跑多个协程 栈mb级别
+快速打印demo
+package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sync&amp;#34; &amp;#34;time&amp;#34; ) func main() { for i := 0; i &amp;lt; 5; i&#43;&#43; { //使用闭包 防止出问题 go func(j int) { hello(j) }(i) } time.Sleep(1 * time.Second) manyGoWait() } //优雅一点 使用等待组概念 没做完就会阻塞 做完就会通过信号来解除阻塞 func manyGoWait() { var wg sync.WaitGroup wg.Add(5) for i := 0; i &amp;lt; 5; i&#43;&#43; { go func(j int) { defer wg.'>
+<meta property='og:url' content='https://jianrongma.github.io/p/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/'>
+<meta property='og:site_name' content='think hy how to learn'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2022-12-06T10:06:21&#43;08:00'/><meta property='article:modified_time' content='2022-12-06T10:06:21&#43;08:00'/><meta property='og:image' content='https://jianrongma.github.io/img/avatar.png' />
+<meta name="twitter:site" content="@ljsljs56495989">
+    <meta name="twitter:creator" content="@ljsljs56495989"><meta name="twitter:title" content="字节跳动青训营 Go语言上手 工程实践">
+<meta name="twitter:description" content="并发vs并行 并发:多线程程序在一个核的cpu上运行
+并行:多线程程序在多个核的cpu上运行
+go:充分发挥多核优势 高效运行
+goroutine image-20221206101655826协程:用户态 轻量级线程 栈kb级别
+线程:内核态 线程上跑多个协程 栈mb级别
+快速打印demo
+package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sync&amp;#34; &amp;#34;time&amp;#34; ) func main() { for i := 0; i &amp;lt; 5; i&#43;&#43; { //使用闭包 防止出问题 go func(j int) { hello(j) }(i) } time.Sleep(1 * time.Second) manyGoWait() } //优雅一点 使用等待组概念 没做完就会阻塞 做完就会通过信号来解除阻塞 func manyGoWait() { var wg sync.WaitGroup wg.Add(5) for i := 0; i &amp;lt; 5; i&#43;&#43; { go func(j int) { defer wg."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://jianrongma.github.io/img/avatar.png' />
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <style>
+            * {
+              margin: 0;
+              padding: 0;
+            }
+            html, body {
+              height: 100%;
+              width: 100%;
+            }
+            #github-iframe {
+              position: fixed;
+              left: 32px;
+              top: 32px;
+            }
+             
+        </style>
+   
+
+
+<link rel="stylesheet" type="texts" href="https://blog-static.cnblogs.com/files/monster-jian/waifu.css"/>
+
+
+</head>
+
+
+
+
+
+
+
+<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1280473365'%3E%3C/span%3E%3Cscript src='https://s9.cnzz.com/z_stat.php%3Fid%3D1280473365%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<body size-sensor-id="1" style="position: relative;">
+    
+    <div id="area-render"></div>
+   
+
+</body>
+
+<canvas width="1777" height="841" style="position: fixed; left: 0px; top: 0px; z-index: 2147483647; pointer-events: none;"></canvas>
+
+</html>
+
+
+    </head>
+    <body class="
+    article-page 
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        on-phone--column extended
+    
+">
+    
+        <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/hanbagui_hu1992e2ef3ca17530e3489d97af7cbea6_3164_300x0_resize_box.bmp" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        <h1 class="site-name"><a href="https://jianrongma.github.io/">think hy how to learn</a></h1>
+        <h2 class="site-description">好运暴富,就在今日.</h2>
+    </header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+
+    <h2 class="article-title">
+        <a href="/p/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">字节跳动青训营 Go语言上手 工程实践</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 06, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 5 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <h4 id="并发vs并行">并发vs并行</h4>
+<p>并发:多线程程序在一个核的cpu上运行</p>
+<p>并行:多线程程序在多个核的cpu上运行</p>
+<p>go:充分发挥多核优势 高效运行</p>
+<h4 id="goroutine">goroutine</h4>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206101655826.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206101655826.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206101655826">
+	</a>
+	
+	<figcaption>image-20221206101655826</figcaption>
+	
+</figure></p>
+<p>协程:用户态 轻量级线程 栈kb级别</p>
+<p>线程:内核态 线程上跑多个协程 栈mb级别</p>
+<p>快速打印demo</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;sync&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">//使用闭包 防止出问题
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">go</span> <span class="kd">func</span><span class="p">(</span><span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nf">hello</span><span class="p">(</span><span class="nx">j</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}(</span><span class="nx">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">manyGoWait</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//优雅一点 使用等待组概念 没做完就会阻塞 做完就会通过信号来解除阻塞
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">manyGoWait</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">wg</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">WaitGroup</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">wg</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">go</span> <span class="kd">func</span><span class="p">(</span><span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">defer</span> <span class="nx">wg</span><span class="p">.</span><span class="nf">Done</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">			<span class="nf">hello</span><span class="p">(</span><span class="nx">j</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}(</span><span class="nx">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">wg</span><span class="p">.</span><span class="nf">Wait</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//快速打印 快速
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">hello</span><span class="p">(</span><span class="nx">i</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">println</span><span class="p">(</span><span class="s">&#34;hello goroutine : &#34;</span> <span class="o">+</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprint</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h4 id="cspcommunicating-sequential-processes">CSP:communicating sequential processes</h4>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206101742614.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206101742614.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206101742614">
+	</a>
+	
+	<figcaption>image-20221206101742614</figcaption>
+	
+</figure></p>
+<p>提倡通过信号而不是通过共享内存实现通信</p>
+<h4 id="channel">Channel</h4>
+<p>make(chan 元素类型, [缓冲大小])</p>
+<ul>
+<li>无缓冲通道 同步通道 make(chan int)</li>
+<li>有缓冲通道  make(chan int , 2) 生产消费模型</li>
+</ul>
+<p>for循环的for range形式可用于从通道接收值，直到它关闭为止</p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206101901733.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206101901733.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206101901733">
+	</a>
+	
+	<figcaption>image-20221206101901733</figcaption>
+	
+</figure></p>
+<p>channel demo</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">CalSquare</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">CalSquare</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">src</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">dest</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">//生产者模型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">//defer关闭生产者通道
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">defer</span> <span class="nb">close</span><span class="p">(</span><span class="nx">src</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">src</span> <span class="o">&lt;-</span> <span class="nx">i</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">//消费者模型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">//defer关闭消费者通道
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">defer</span> <span class="nb">close</span><span class="p">(</span><span class="nx">dest</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">//for range遍历生产者通道 for range可以一直遍历直到通道关闭
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">src</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">dest</span> <span class="o">&lt;-</span> <span class="nx">i</span> <span class="o">*</span> <span class="nx">i</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">//for range遍历结果通道 for range可以一直遍历直到通道关闭
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">dest</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nb">println</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h4 id="并发安全lock">并发安全lock</h4>
+<p>demo</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;sync&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">x</span>    <span class="kt">int64</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">lock</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">Add</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Add 快速添加 重点在快速 不能简单串行
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">Add</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">x</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">go</span> <span class="nf">addWithoutLock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">println</span><span class="p">(</span><span class="s">&#34;WithoutLock:&#34;</span><span class="p">,</span> <span class="nx">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">x</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">go</span> <span class="nf">addWithLock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">println</span><span class="p">(</span><span class="s">&#34;WithLock:&#34;</span><span class="p">,</span> <span class="nx">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//通过锁来保护临界区代码段 保证对资源的独占式访问
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">addWithLock</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">2000</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">lock</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">x</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">lock</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//没有加锁 高并发场景下会造成重复添加
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">addWithoutLock</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">2000</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">x</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h4 id="waitgroup">WaitGroup</h4>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206102844247.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206102844247.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206102844247">
+	</a>
+	
+	<figcaption>image-20221206102844247</figcaption>
+	
+</figure></p>
+<p>计数器</p>
+<p>开启协程+1</p>
+<p>执行结束-1</p>
+<p>主协程阻塞直到计数器为0</p>
+<h4 id="小结">小结</h4>
+<ul>
+<li>Goroutine</li>
+<li>channel</li>
+<li>sync</li>
+</ul>
+<h4 id="依赖管理">依赖管理</h4>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206103155342.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206103155342.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206103155342">
+	</a>
+	
+	<figcaption>image-20221206103155342</figcaption>
+	
+</figure></p>
+<ul>
+<li>
+<p>工程项目不可能基于标准库0-1编码搭建</p>
+</li>
+<li>
+<p>管理依赖库</p>
+</li>
+</ul>
+<h4 id="go依赖管理演进">go依赖管理演进</h4>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206103325231.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206103325231.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206103325231">
+	</a>
+	
+	<figcaption>image-20221206103325231</figcaption>
+	
+</figure></p>
+<p>GOPATH==&gt;Go Vendor==&gt;Go Module</p>
+<ul>
+<li>不同环境(项目)依赖的版本不同</li>
+<li>控制依赖库的版本</li>
+</ul>
+<h4 id="gopath">GOPATH</h4>
+<ul>
+<li>环境变量$GOPATH</li>
+</ul>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206103447833.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206103447833.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206103447833">
+	</a>
+	
+	<figcaption>image-20221206103447833</figcaption>
+	
+</figure></p>
+<ul>
+<li>
+<p>项目代码直接依赖src下的代码</p>
+</li>
+<li>
+<p>go get下载最新版本的包到src目录下</p>
+</li>
+</ul>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206103543806.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206103543806.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206103543806">
+	</a>
+	
+	<figcaption>image-20221206103543806</figcaption>
+	
+</figure></p>
+<p>场景:A和B依赖于某一package的不同版本</p>
+<p>问题:无法实现package的多版本控制</p>
+<h4 id="go-vendor">Go Vendor</h4>
+<ul>
+<li>项目目录下增加vendor文件夹 所有依赖包副本形式放在$ProjectRoot/vendor文件夹下</li>
+<li>依赖寻址方式: vendor=&gt;GOPATH</li>
+</ul>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206103716933.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206103716933.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206103716933">
+	</a>
+	
+	<figcaption>image-20221206103716933</figcaption>
+	
+</figure></p>
+<p>通过每个项目引入一份依赖的副本 解决了多个项目需要同一个package依赖的冲突问题</p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206103829986.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206103829986.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206103829986">
+	</a>
+	
+	<figcaption>image-20221206103829986</figcaption>
+	
+</figure></p>
+<p>问题:</p>
+<ul>
+<li>无法控制依赖的版本</li>
+<li>更新项目有可能出现依赖冲突 导致编译出错</li>
+</ul>
+<h4 id="go-module">Go Module</h4>
+<ul>
+<li>通过go.mod文件管理依赖包版本</li>
+<li>通过go get/go mod指令工具管理依赖包</li>
+</ul>
+<p>终极目标:定义版本规则和管理项目依赖关系</p>
+<h4 id="依赖管理三要素">依赖管理三要素</h4>
+<ol>
+<li>配置文件 描述依赖 go.mod</li>
+<li>中心仓库管理依赖库 Proxy</li>
+<li>本地工具 go get/mod</li>
+</ol>
+<h4 id="依赖配置--gomod">依赖配置- go.mod</h4>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206104345655.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206104345655.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206104345655">
+	</a>
+	
+	<figcaption>image-20221206104345655</figcaption>
+	
+</figure></p>
+<h4 id="依赖配置-version">依赖配置-version</h4>
+<ul>
+<li>语义化版本</li>
+</ul>
+<p>${MAJOR}.${MINOR}.${PATCH}</p>
+<p>MAJOR不同大版本 不同Major可以不兼容</p>
+<p>MINOR新增和功能更新 在major中需要做到兼容</p>
+<p>PATCH代码bug的修复</p>
+<p>V1.3.0</p>
+<p>V2.3.0</p>
+<ul>
+<li>基于commit伪版本</li>
+</ul>
+<p>vx.0.0-yyyymmddhhmmss-abcdefgh1234</p>
+<p>时间戳-hash码前缀校验码</p>
+<h4 id="依赖配置-indirect">依赖配置-indirect</h4>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206104745233.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206104745233.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206104745233">
+	</a>
+	
+	<figcaption>image-20221206104745233</figcaption>
+	
+</figure></p>
+<p>间接依赖就会以indirect标识出来</p>
+<h4 id="依赖配置-incompatible">依赖配置-incompatible</h4>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206104908841.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206104908841.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206104908841">
+	</a>
+	
+	<figcaption>image-20221206104908841</figcaption>
+	
+</figure></p>
+<ul>
+<li>主版本2+模块会在模块路径增加/vN后缀</li>
+<li>对于没有go.mod文件并且主版本2+的依赖 会+incompatible标识</li>
+</ul>
+<h4 id="依赖配置-依赖图">依赖配置-依赖图</h4>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206105035380.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206105035380.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206105035380">
+	</a>
+	
+	<figcaption>image-20221206105035380</figcaption>
+	
+</figure></p>
+<h4 id="依赖分发-回源">依赖分发-回源</h4>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206105101648.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206105101648.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206105101648">
+	</a>
+	
+	<figcaption>image-20221206105101648</figcaption>
+	
+</figure></p>
+<ul>
+<li>无法保证构建稳定性
+<ul>
+<li>增加/修改/删除软件版本</li>
+</ul>
+</li>
+<li>无法保证依赖可用性
+<ul>
+<li>删除软件</li>
+</ul>
+</li>
+<li>增加第三方压力
+<ul>
+<li>代码托管平台负载问题</li>
+</ul>
+</li>
+</ul>
+<h4 id="依赖分发-proxy">依赖分发-Proxy</h4>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206105225107.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206105225107.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206105225107">
+	</a>
+	
+	<figcaption>image-20221206105225107</figcaption>
+	
+</figure></p>
+<p>依赖分发-变量GOPROXY</p>
+<p>GOPROXY=&ldquo;<a class="link" href="https://proxy1.cn"  target="_blank" rel="noopener"
+    >https://proxy1.cn</a>,https://proxy2.cn,direct&rdquo;</p>
+<p>服务站点URL列表 direct表示源站 找不到依赖就回到源站搜索</p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206105429465.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206105429465.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206105429465">
+	</a>
+	
+	<figcaption>image-20221206105429465</figcaption>
+	
+</figure></p>
+<h4 id="工具-go-get">工具-go get</h4>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206105525614.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206105525614.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206105525614">
+	</a>
+	
+	<figcaption>image-20221206105525614</figcaption>
+	
+</figure></p>
+<h4 id="工具-go-mod">工具-go mod</h4>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206105540671.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206105540671.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206105540671">
+	</a>
+	
+	<figcaption>image-20221206105540671</figcaption>
+	
+</figure></p>
+<h4 id="依赖管理三要素-1">依赖管理三要素</h4>
+<ol>
+<li>配置文件 描述依赖 go.mod</li>
+<li>中心仓库管理依赖库 Proxy</li>
+<li>本地工具 go get/mod</li>
+</ol>
+<h4 id="小结-1">小结</h4>
+<ul>
+<li>GO依赖管理演进</li>
+<li>GO Module依赖管理方案</li>
+</ul>
+<h4 id="测试">测试</h4>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206112256589.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206112256589.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206112256589">
+	</a>
+	
+	<figcaption>image-20221206112256589</figcaption>
+	
+</figure></p>
+<ul>
+<li>回归测试</li>
+<li>集成测试 功能维度</li>
+<li>单元测试</li>
+</ul>
+<h4 id="单元测试">单元测试</h4>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206183157928.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206183157928.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206183157928">
+	</a>
+	
+	<figcaption>image-20221206183157928</figcaption>
+	
+</figure></p>
+<h4 id="单元测试-规则">单元测试-规则</h4>
+<ul>
+<li>所有测试文件以_test.go结尾</li>
+</ul>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206183419054.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206183419054.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206183419054">
+	</a>
+	
+	<figcaption>image-20221206183419054</figcaption>
+	
+</figure></p>
+<ul>
+<li>func TestXxx(*testing.T)</li>
+</ul>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206183426143.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206183426143.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206183426143">
+	</a>
+	
+	<figcaption>image-20221206183426143</figcaption>
+	
+</figure></p>
+<ul>
+<li>初始化逻辑放到TestMain中</li>
+</ul>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206183433038.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206183433038.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206183433038">
+	</a>
+	
+	<figcaption>image-20221206183433038</figcaption>
+	
+</figure></p>
+<h4 id="单元测试-assert">单元测试-assert</h4>
+<p>使用testify包</p>
+<p>demo</p>
+<p>main.go</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;bufio&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/bytedance/gopkg/lang/fastrand&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;math/rand&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;strings&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">HelloTom</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="s">&#34;Tom&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">JudgePassLine</span><span class="p">(</span><span class="nx">score</span> <span class="kt">int16</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">score</span> <span class="o">&gt;=</span> <span class="mi">60</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// ReadFirstLine 这里要对系统文件进行强依赖 适合使用桩代码进行替换
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">ReadFirstLine</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">open</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;E:\\project\\GOproject\\src\\log.txt&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">defer</span> <span class="nx">open</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">scanner</span> <span class="o">:=</span> <span class="nx">bufio</span><span class="p">.</span><span class="nf">NewScanner</span><span class="p">(</span><span class="nx">open</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">scanner</span><span class="p">.</span><span class="nf">Scan</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">scanner</span><span class="p">.</span><span class="nf">Text</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">ProcessFirstLine</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">line</span> <span class="o">:=</span> <span class="nf">ReadFirstLine</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">destLine</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nf">ReplaceAll</span><span class="p">(</span><span class="nx">line</span><span class="p">,</span> <span class="s">&#34;11&#34;</span><span class="p">,</span> <span class="s">&#34;00&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">destLine</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">ServerIndex</span> <span class="p">[</span><span class="mi">10</span><span class="p">]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// InitServerIndex 模拟初始化10个服务器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">InitServerIndex</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">ServerIndex</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nx">i</span> <span class="o">+</span> <span class="mi">100</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Select 模拟从初始化的服务器中随机挑选出一个服务器为前端提供服务
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">Select</span><span class="p">()</span> <span class="kt">int</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//rand是串行的
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">return</span> <span class="nx">ServerIndex</span><span class="p">[</span><span class="nx">rand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// FastSelect 模拟从初始化的服务器中随机挑选出一个服务器为前端提供服务
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">FastSelect</span><span class="p">()</span> <span class="kt">int</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//fastRand进行了优化
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">return</span> <span class="nx">ServerIndex</span><span class="p">[</span><span class="nx">fastrand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>main_test.go</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;bou.ke/monkey&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/magiconair/properties/assert&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;testing&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">TestHelloTom</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//使用简单的!=来判断
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">output</span> <span class="o">:=</span> <span class="nf">HelloTom</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">expectedoutput</span> <span class="o">:=</span> <span class="s">&#34;Tom&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">output</span> <span class="o">!=</span> <span class="nx">expectedoutput</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">t</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;Expected %s do not match actual %s&#34;</span><span class="p">,</span> <span class="nx">expectedoutput</span><span class="p">,</span> <span class="nx">output</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">TestJudgePassLineTrue</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">isPass</span> <span class="o">:=</span> <span class="nf">JudgePassLine</span><span class="p">(</span><span class="mi">70</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//使用testify包的assert来进行
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">assert</span><span class="p">.</span><span class="nf">Equal</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">isPass</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//覆盖率测试 对各个分支进行测试
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">TestJudgePassLineFalse</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">isPass</span> <span class="o">:=</span> <span class="nf">JudgePassLine</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">assert</span><span class="p">.</span><span class="nf">Equal</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">isPass</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//直接的对系统文件的强依赖 可能导致无法正常测试 需要桩代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">TestProcessFirstLine</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">firstLine</span> <span class="o">:=</span> <span class="nf">ProcessFirstLine</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">assert</span><span class="p">.</span><span class="nf">Equal</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="s">&#34;line00&#34;</span><span class="p">,</span> <span class="nx">firstLine</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//mock 对readline 进行打桩测试 不再依赖本地文件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">TestProcessFirstLineWithMock</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//patch对强依赖代码进行替换
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">monkey</span><span class="p">.</span><span class="nf">Patch</span><span class="p">(</span><span class="nx">ReadFirstLine</span><span class="p">,</span> <span class="kd">func</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="s">&#34;line110&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">})</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//defer 别忘了进行卸载
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">defer</span> <span class="nx">monkey</span><span class="p">.</span><span class="nf">Unpatch</span><span class="p">(</span><span class="nx">ReadFirstLine</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">line</span> <span class="o">:=</span> <span class="nf">ProcessFirstLine</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">assert</span><span class="p">.</span><span class="nf">Equal</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="s">&#34;line000&#34;</span><span class="p">,</span> <span class="nx">line</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//基准测试 串行
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">BenchmarkSelect</span><span class="p">(</span><span class="nx">b</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">B</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//这个是准备 不能囊括进去
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nf">InitServerIndex</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//重置 时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">b</span><span class="p">.</span><span class="nf">ResetTimer</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">b</span><span class="p">.</span><span class="nx">N</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nf">Select</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">BenchmarkSelectParallel</span><span class="p">(</span><span class="nx">b</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">B</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">InitServerIndex</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">b</span><span class="p">.</span><span class="nf">ResetTimer</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//并行测试
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">b</span><span class="p">.</span><span class="nf">RunParallel</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">pb</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">PB</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">for</span> <span class="nx">pb</span><span class="p">.</span><span class="nf">Next</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nf">Select</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">BenchmarkFastSelectParallel</span><span class="p">(</span><span class="nx">b</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">B</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">InitServerIndex</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">b</span><span class="p">.</span><span class="nf">ResetTimer</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">b</span><span class="p">.</span><span class="nf">RunParallel</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">pb</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">PB</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">for</span> <span class="nx">pb</span><span class="p">.</span><span class="nf">Next</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nf">FastSelect</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h4 id="单元测试-覆盖率">单元测试-覆盖率</h4>
+<p>代码覆盖率</p>
+<p>衡量代码是否经过足够的测试</p>
+<p>评价项目的测试水准</p>
+<p>评估项目是否达到了高水准的测试等级</p>
+<h4 id="单元测试-tips">单元测试-Tips</h4>
+<ul>
+<li>一般覆盖率:50%-60%</li>
+<li>测试分支相互独立、全面覆盖</li>
+<li>测试单元粒度足够小，函数单一职责</li>
+</ul>
+<h4 id="单元测试-依赖">单元测试-依赖</h4>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206184449319.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206184449319.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206184449319">
+	</a>
+	
+	<figcaption>image-20221206184449319</figcaption>
+	
+</figure></p>
+<p>外部依赖  =&gt;  稳定&amp;幂等</p>
+<h4 id="单元测试-文件处理">单元测试-文件处理</h4>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206184652243.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206184652243.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206184652243">
+	</a>
+	
+	<figcaption>image-20221206184652243</figcaption>
+	
+</figure></p>
+<h4 id="单元测试-mock">单元测试-Mock</h4>
+<p>打桩:用打桩函数替换原函数</p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206184816946.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206184816946.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206184816946">
+	</a>
+	
+	<figcaption>image-20221206184816946</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206185058140.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206185058140.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206185058140">
+	</a>
+	
+	<figcaption>image-20221206185058140</figcaption>
+	
+</figure></p>
+<h4 id="基准测试">基准测试</h4>
+<ul>
+<li>优化代码 需要对当前代码分析</li>
+<li>内置的测试框架提供了基准测试的能力</li>
+</ul>
+<h4 id="基准测试-运行">基准测试-运行</h4>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206185305366.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206185305366.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206185305366">
+	</a>
+	
+	<figcaption>image-20221206185305366</figcaption>
+	
+</figure></p>
+<p>小结</p>
+<ul>
+<li>单元测试</li>
+<li>Mock测试</li>
+<li>基准测试</li>
+</ul>
+<p>项目实践</p>
+<p>需求描述</p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206185602280.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206185602280.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206185602280">
+	</a>
+	
+	<figcaption>image-20221206185602280</figcaption>
+	
+</figure></p>
+<p>需求用例</p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206185640045.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206185640045.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206185640045">
+	</a>
+	
+	<figcaption>image-20221206185640045</figcaption>
+	
+</figure></p>
+<p>ER图</p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206185737269.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206185737269.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206185737269">
+	</a>
+	
+	<figcaption>image-20221206185737269</figcaption>
+	
+</figure></p>
+<p>分层结构</p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206190545181.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206190545181.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206190545181">
+	</a>
+	
+	<figcaption>image-20221206190545181</figcaption>
+	
+</figure></p>
+<ul>
+<li>数据层: 数据model 外部数据的增删改查</li>
+<li>逻辑层: 业务entity 处理核心业务逻辑输出</li>
+<li>视图层: 视图view 处理和外部的交互逻辑</li>
+</ul>
+<p>组件工具</p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206191012515.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206191012515.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206191012515">
+	</a>
+	
+	<figcaption>image-20221206191012515</figcaption>
+	
+</figure></p>
+<p>Repository</p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206191126882.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206191126882.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206191126882">
+	</a>
+	
+	<figcaption>image-20221206191126882</figcaption>
+	
+</figure></p>
+<p>Repository-index</p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206191259858.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206191259858.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206191259858">
+	</a>
+	
+	<figcaption>image-20221206191259858</figcaption>
+	
+</figure></p>
+<p>初始化话题数据索引</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">initTopicIndexMap</span><span class="p">(</span><span class="nx">filePath</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">open</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="nx">filePath</span> <span class="o">+</span> <span class="s">&#34;topic&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">scanner</span> <span class="o">:=</span> <span class="nx">bufio</span><span class="p">.</span><span class="nf">NewScanner</span><span class="p">(</span><span class="nx">open</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">topicTmpMap</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">int64</span><span class="p">]</span><span class="o">*</span><span class="nx">Topic</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   <span class="k">for</span> <span class="nx">scanner</span><span class="p">.</span><span class="nf">Scan</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">text</span> <span class="o">:=</span> <span class="nx">scanner</span><span class="p">.</span><span class="nf">Text</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">var</span> <span class="nx">topic</span> <span class="nx">Topic</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">err</span> <span class="o">:=</span> <span class="nx">json</span><span class="p">.</span><span class="nf">Unmarshal</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">text</span><span class="p">),</span> <span class="o">&amp;</span><span class="nx">topic</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">         <span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">topicTmpMap</span><span class="p">[</span><span class="nx">topic</span><span class="p">.</span><span class="nx">Id</span><span class="p">]</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">topic</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">topicIndexMap</span> <span class="p">=</span> <span class="nx">topicTmpMap</span>
+</span></span><span class="line"><span class="cl">   <span class="k">return</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>初始化post数据索引</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">initPostIndexMap</span><span class="p">(</span><span class="nx">filePath</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">open</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="nx">filePath</span> <span class="o">+</span> <span class="s">&#34;post&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">scanner</span> <span class="o">:=</span> <span class="nx">bufio</span><span class="p">.</span><span class="nf">NewScanner</span><span class="p">(</span><span class="nx">open</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">postTmpMap</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">int64</span><span class="p">][]</span><span class="o">*</span><span class="nx">Post</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   <span class="k">for</span> <span class="nx">scanner</span><span class="p">.</span><span class="nf">Scan</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">text</span> <span class="o">:=</span> <span class="nx">scanner</span><span class="p">.</span><span class="nf">Text</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">var</span> <span class="nx">post</span> <span class="nx">Post</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">err</span> <span class="o">:=</span> <span class="nx">json</span><span class="p">.</span><span class="nf">Unmarshal</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">text</span><span class="p">),</span> <span class="o">&amp;</span><span class="nx">post</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">         <span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">postTmpMap</span><span class="p">[</span><span class="nx">post</span><span class="p">.</span><span class="nx">ParentId</span><span class="p">]</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">postTmpMap</span><span class="p">[</span><span class="nx">post</span><span class="p">.</span><span class="nx">ParentId</span><span class="p">],</span> <span class="o">&amp;</span><span class="nx">post</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">postIndexMap</span> <span class="p">=</span> <span class="nx">postTmpMap</span>
+</span></span><span class="line"><span class="cl">   <span class="k">return</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Repository-查询</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Topic</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">Id</span>         <span class="kt">int64</span>  <span class="s">`json:&#34;id&#34;`</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">Title</span>      <span class="kt">string</span> <span class="s">`json:&#34;title&#34;`</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">Content</span>    <span class="kt">string</span> <span class="s">`json:&#34;content&#34;`</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">CreateTime</span> <span class="kt">int64</span>  <span class="s">`json:&#34;create_time&#34;`</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">TopicDao</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">topicDao</span>  <span class="o">*</span><span class="nx">TopicDao</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">topicOnce</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">Once</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// NewTopicDaoInstance once 单例模式
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">NewTopicDaoInstance</span><span class="p">()</span> <span class="o">*</span><span class="nx">TopicDao</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="nx">topicOnce</span><span class="p">.</span><span class="nf">Do</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">         <span class="nx">topicDao</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">TopicDao</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">})</span>
+</span></span><span class="line"><span class="cl">   <span class="k">return</span> <span class="nx">topicDao</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">TopicDao</span><span class="p">)</span> <span class="nf">QueryTopicById</span><span class="p">(</span><span class="nx">id</span> <span class="kt">int64</span><span class="p">)</span> <span class="o">*</span><span class="nx">Topic</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="k">return</span> <span class="nx">topicIndexMap</span><span class="p">[</span><span class="nx">id</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Service</p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206191714621.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206191714621.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206191714621">
+	</a>
+	
+	<figcaption>image-20221206191714621</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206191740159.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206191740159.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206191740159">
+	</a>
+	
+	<figcaption>image-20221206191740159</figcaption>
+	
+</figure></p>
+<p>准备数据</p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206192109921.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206192109921.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206192109921">
+	</a>
+	
+	<figcaption>image-20221206192109921</figcaption>
+	
+</figure></p>
+<p>Controller</p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206192238283.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206192238283.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206192238283">
+	</a>
+	
+	<figcaption>image-20221206192238283</figcaption>
+	
+</figure></p>
+<p>Router</p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206192937467.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206192937467.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206192937467">
+	</a>
+	
+	<figcaption>image-20221206192937467</figcaption>
+	
+</figure></p>
+<p>运行</p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206193047832.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206193047832.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206193047832">
+	</a>
+	
+	<figcaption>image-20221206193047832</figcaption>
+	
+</figure></p>
+<p>小结</p>
+<ul>
+<li>项目拆解</li>
+<li>代码设计</li>
+<li>测试运行</li>
+</ul>
+<p>课后实践</p>
+<p><figure 
+	>
+	<a href="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206193141620.png" >
+		<img src="/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%9D%92%E8%AE%AD%E8%90%A5-Go%E8%AF%AD%E8%A8%80%E4%B8%8A%E6%89%8B-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5.assets/image-20221206193141620.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20221206193141620">
+	</a>
+	
+	<figcaption>image-20221206193141620</figcaption>
+	
+</figure></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2023 think hy how to learn
+    </section>
+    
+    <section class="powerby">
+         <br />
+        
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<!doctype html>
+<html lang="en">
+<head>
+   
+</head>
+
+
+
+
+
+
+
+
+
+<body>
+</body>
+
+</html>
+
+
+    </body>
+</html>

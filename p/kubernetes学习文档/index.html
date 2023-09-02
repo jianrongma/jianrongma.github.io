@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Kubernetes学习文档 特性 灰度更新 不影响业务正常运转 高可用 不宕机 自动灾难恢复 一键回滚到历史版本 方便的伸缩扩展(应用伸缩,机器加减) 提供负载均衡 有一个完善的生态 不同的应用部署方案 image-20220728092456835传统部署方式: 应用直接在物理机上部署 机器资源分配不好控制 出现bug时 可能机器的大部分资源被某个应用占用 导致其他应用无法正常运行 无法做到应用隔离 虚拟机部署 在单个物理机上运行多个虚拟机 每个虚拟机都是完整独立的系统 性能损耗大 容器部署 所有容器共享主机的系统 轻量级的虚拟机 性能损耗小 资源隔离 CPU和内存可按需分配 什么时候需要Kubernetes 当应用只是跑在一台机器 直接一个docker&#43; docker-compose 就够了 方便轻松 当应用需要跑在3 4 台机器 依旧可以每台机器单独配置运行环境 &#43; 负载均衡器 当应用访问数不断增加 机器逐渐增加到上百台 上千台 每次加机器 软件更新 版本回滚 就会变得非常麻烦 这时候就需要kubernetes 轻松管理百万千万机器的集群 kubernetes 可以为你提供集中式的管理集群机器的应用 加机器 版本升级 版本回滚都是一个命令就搞定的事情 不停机的灰度更新 确保高可用 高性能 搞扩展 kubernetes集群架构 master
+主节点 控制平台 不需要很高的性能 不跑任务 通常一个就行了 也可以开多个主节点来提高集群的可用度 worker
+工作节点 可以是虚拟机或物理计算机 任务都在这里跑 机器性能都需要好点 通常有很多个 可以不断加机器扩大集群 每个工作节点由主节点管理 重要概念pod'><title>Kubernetes学习文档</title>
+
+<link rel='canonical' href='https://jianrongma.github.io/p/kubernetes%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/'>
+
+<link rel="stylesheet" href="/scss/style.min.css">
+<style>
+     
+    body{
+        background-repeat: repeat;
+        background-attachment: fixed;
+        background-size:cover;
+         cursor: url(https://files.cnblogs.com/files/monster-jian/cursor.ico),auto;
+    }
+     
+    #div_digg {
+      position: fixed;
+      bottom: 10px;
+      right: 15px;
+      border: 2px solid #ECD7B1;
+      padding: 10px;
+      width: 140px;
+      background-color: #fff;
+      border-radius: 5px 5px 5px 5px !important;
+      box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+    }
+    </style><script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://files.cnblogs.com/files/liyhbk/js.js" color="0,0,255" opacity="1" count="119" zindex="-2"></script>
+<script src="https://files.cnblogs.com/files/liyhbk/js.js" color="0,0,255" opacity="1" count="119" zindex="-2">
+</script>
+<script type="text/javascript" color="255,0,0" pointcolor="255,0,0" opacity="0.7" zindex="-2" count="100" src="/dist/canvas-nest.js"></script>
+<script type="text/javascript" src="/dist/canvas-nest.umd.js"></script>
+<script type="text/javascript">
+    var cn = new CanvasNest(document.getElementById('area-render'), {
+        color: '255,0,255',
+        count: 50,
+      });
+      
+      function asyncLoad() {
+        
+        var i = document.createElement("iframe");
+        i.src = "https://ghbtns.com/github-btn.html?user=hustcc&repo=canvas-nest.js&type=star&count=true";
+        i.scrolling = "no";
+        i.frameborder = "0";
+        i.border = "0";
+        i.setAttribute("frameborder", "0", 0);
+        i.width = "100px";
+        i.height = "20px";
+        document.getElementById("github-iframe").appendChild(i);
+      }
+      function loadGitHubBtn() {
+        if (window.addEventListener) {window.addEventListener("load", asyncLoad, false);}
+        else if (window.attachEvent) {window.attachEvent("onload", asyncLoad);}
+        else {window.onload = asyncLoad;}
+      }
+      loadGitHubBtn();
+</script>
+<script src="/canvas-nest.js?version=10"></script><canvas width="1536" height="454" style="display: block; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; overflow: hidden; pointer-events: none;"></canvas>
+<script src="https://files.cnblogs.com/files/monster-jian/mouse-click.js"></script>
+<script type="text/javascript">
+    
+     
+    var a_idx = 0;
+    jQuery(document).ready(function($) {
+        $("body").click(function(e) {
+            var a = new Array("❤不做咸鱼！❤","❤拒绝懒惰！❤","❤想做吃货❤","❤向大佬学习❤","❤扶我起来~❤","❤come on❤","❤一直在路上~❤","❤累了~❤","❤再趴一会❤","❤66666❤","❤高兴的飞起*****❤");
+            var $i = $("<span></span>").text(a[a_idx]);
+            a_idx = (a_idx + 1) % a.length;
+            var x = e.pageX,
+            y = e.pageY;
+            $i.css({
+                "z-index": 999999999999999999999999999999999999999999999999999999999999999999999,
+                "top": y - 20,
+                "left": x,
+                "position": "absolute",
+                "font-weight": "bold",
+                "color": "rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"
+            });
+            $("body").append($i);
+            $i.animate({
+                "top": y - 180,
+                "opacity": 0
+            },
+            1500,
+            function() {
+                $i.remove();
+            });
+        });
+    });
+    </script>
+
+    <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>  
+
+ 
+   
+      
+      
+          
+         <script>         
+            L2Dwidget.init({ "model": { jsonPath:          "https://unpkg.com/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json",  
+                  "scale": 1 }, "display": { "position": "right", "width": 66, "height": 88,        "hOffset": 0, "vOffset": -20 },
+                   "mobile": { "show": true, "scale": 0.5 },      "react": { "opacityDefault": 0.8, "opacityOnHover": 0.1 } }); 
+                    </script><meta property='og:title' content='Kubernetes学习文档'>
+<meta property='og:description' content='Kubernetes学习文档 特性 灰度更新 不影响业务正常运转 高可用 不宕机 自动灾难恢复 一键回滚到历史版本 方便的伸缩扩展(应用伸缩,机器加减) 提供负载均衡 有一个完善的生态 不同的应用部署方案 image-20220728092456835传统部署方式: 应用直接在物理机上部署 机器资源分配不好控制 出现bug时 可能机器的大部分资源被某个应用占用 导致其他应用无法正常运行 无法做到应用隔离 虚拟机部署 在单个物理机上运行多个虚拟机 每个虚拟机都是完整独立的系统 性能损耗大 容器部署 所有容器共享主机的系统 轻量级的虚拟机 性能损耗小 资源隔离 CPU和内存可按需分配 什么时候需要Kubernetes 当应用只是跑在一台机器 直接一个docker&#43; docker-compose 就够了 方便轻松 当应用需要跑在3 4 台机器 依旧可以每台机器单独配置运行环境 &#43; 负载均衡器 当应用访问数不断增加 机器逐渐增加到上百台 上千台 每次加机器 软件更新 版本回滚 就会变得非常麻烦 这时候就需要kubernetes 轻松管理百万千万机器的集群 kubernetes 可以为你提供集中式的管理集群机器的应用 加机器 版本升级 版本回滚都是一个命令就搞定的事情 不停机的灰度更新 确保高可用 高性能 搞扩展 kubernetes集群架构 master
+主节点 控制平台 不需要很高的性能 不跑任务 通常一个就行了 也可以开多个主节点来提高集群的可用度 worker
+工作节点 可以是虚拟机或物理计算机 任务都在这里跑 机器性能都需要好点 通常有很多个 可以不断加机器扩大集群 每个工作节点由主节点管理 重要概念pod'>
+<meta property='og:url' content='https://jianrongma.github.io/p/kubernetes%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/'>
+<meta property='og:site_name' content='think hy how to learn'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2022-07-28T09:20:43&#43;08:00'/><meta property='article:modified_time' content='2022-07-28T09:20:43&#43;08:00'/><meta property='og:image' content='https://jianrongma.github.io/img/avatar.png' />
+<meta name="twitter:site" content="@ljsljs56495989">
+    <meta name="twitter:creator" content="@ljsljs56495989"><meta name="twitter:title" content="Kubernetes学习文档">
+<meta name="twitter:description" content="Kubernetes学习文档 特性 灰度更新 不影响业务正常运转 高可用 不宕机 自动灾难恢复 一键回滚到历史版本 方便的伸缩扩展(应用伸缩,机器加减) 提供负载均衡 有一个完善的生态 不同的应用部署方案 image-20220728092456835传统部署方式: 应用直接在物理机上部署 机器资源分配不好控制 出现bug时 可能机器的大部分资源被某个应用占用 导致其他应用无法正常运行 无法做到应用隔离 虚拟机部署 在单个物理机上运行多个虚拟机 每个虚拟机都是完整独立的系统 性能损耗大 容器部署 所有容器共享主机的系统 轻量级的虚拟机 性能损耗小 资源隔离 CPU和内存可按需分配 什么时候需要Kubernetes 当应用只是跑在一台机器 直接一个docker&#43; docker-compose 就够了 方便轻松 当应用需要跑在3 4 台机器 依旧可以每台机器单独配置运行环境 &#43; 负载均衡器 当应用访问数不断增加 机器逐渐增加到上百台 上千台 每次加机器 软件更新 版本回滚 就会变得非常麻烦 这时候就需要kubernetes 轻松管理百万千万机器的集群 kubernetes 可以为你提供集中式的管理集群机器的应用 加机器 版本升级 版本回滚都是一个命令就搞定的事情 不停机的灰度更新 确保高可用 高性能 搞扩展 kubernetes集群架构 master
+主节点 控制平台 不需要很高的性能 不跑任务 通常一个就行了 也可以开多个主节点来提高集群的可用度 worker
+工作节点 可以是虚拟机或物理计算机 任务都在这里跑 机器性能都需要好点 通常有很多个 可以不断加机器扩大集群 每个工作节点由主节点管理 重要概念pod"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://jianrongma.github.io/img/avatar.png' />
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <style>
+            * {
+              margin: 0;
+              padding: 0;
+            }
+            html, body {
+              height: 100%;
+              width: 100%;
+            }
+            #github-iframe {
+              position: fixed;
+              left: 32px;
+              top: 32px;
+            }
+             
+        </style>
+   
+
+
+<link rel="stylesheet" type="texts" href="https://blog-static.cnblogs.com/files/monster-jian/waifu.css"/>
+
+
+</head>
+
+
+
+
+
+
+
+<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1280473365'%3E%3C/span%3E%3Cscript src='https://s9.cnzz.com/z_stat.php%3Fid%3D1280473365%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<body size-sensor-id="1" style="position: relative;">
+    
+    <div id="area-render"></div>
+   
+
+</body>
+
+<canvas width="1777" height="841" style="position: fixed; left: 0px; top: 0px; z-index: 2147483647; pointer-events: none;"></canvas>
+
+</html>
+
+
+    </head>
+    <body class="
+    article-page 
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        on-phone--column extended
+    
+">
+    
+        <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/hanbagui_hu1992e2ef3ca17530e3489d97af7cbea6_3164_300x0_resize_box.bmp" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        <h1 class="site-name"><a href="https://jianrongma.github.io/">think hy how to learn</a></h1>
+        <h2 class="site-description">好运暴富,就在今日.</h2>
+    </header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+
+    <h2 class="article-title">
+        <a href="/p/kubernetes%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/">Kubernetes学习文档</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jul 28, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <h4 id="kubernetes学习文档">Kubernetes学习文档</h4>
+<h5 id="特性">特性</h5>
+<ul>
+<li>灰度更新 不影响业务正常运转</li>
+<li>高可用 不宕机 自动灾难恢复</li>
+<li>一键回滚到历史版本</li>
+<li>方便的伸缩扩展(应用伸缩,机器加减)  提供负载均衡</li>
+<li>有一个完善的生态</li>
+</ul>
+<h5 id="不同的应用部署方案">不同的应用部署方案</h5>
+<p><figure 
+	>
+	<a href="/kubernetes%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3.assets/image-20220728092456835.png" >
+		<img src="/kubernetes%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3.assets/image-20220728092456835.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20220728092456835">
+	</a>
+	
+	<figcaption>image-20220728092456835</figcaption>
+	
+</figure></p>
+<ul>
+<li>传统部署方式:
+<ul>
+<li>应用直接在物理机上部署 机器资源分配不好控制 出现bug时 可能机器的大部分资源被某个应用占用 导致其他应用无法正常运行 无法做到应用隔离</li>
+</ul>
+</li>
+<li>虚拟机部署
+<ul>
+<li>在单个物理机上运行多个虚拟机 每个虚拟机都是完整独立的系统 性能损耗大</li>
+</ul>
+</li>
+<li>容器部署
+<ul>
+<li>所有容器共享主机的系统 轻量级的虚拟机 性能损耗小 资源隔离  CPU和内存可按需分配</li>
+</ul>
+</li>
+</ul>
+<h5 id="什么时候需要kubernetes">什么时候需要Kubernetes</h5>
+<ul>
+<li>当应用只是跑在一台机器 直接一个docker+ docker-compose 就够了 方便轻松</li>
+<li>当应用需要跑在3 4 台机器 依旧可以每台机器单独配置运行环境 + 负载均衡器</li>
+<li>当应用访问数不断增加 机器逐渐增加到上百台 上千台 每次加机器 软件更新 版本回滚 就会变得非常麻烦 这时候就需要kubernetes 轻松管理百万千万机器的集群</li>
+<li>kubernetes 可以为你提供集中式的管理集群机器的应用 加机器 版本升级 版本回滚都是一个命令就搞定的事情 不停机的灰度更新 确保高可用 高性能 搞扩展</li>
+</ul>
+<h5 id="kubernetes集群架构">kubernetes集群架构</h5>
+<!-- raw HTML omitted -->
+<ul>
+<li>
+<p>master</p>
+<ul>
+<li>主节点 控制平台 不需要很高的性能 不跑任务 通常一个就行了 也可以开多个主节点来提高集群的可用度</li>
+</ul>
+</li>
+<li>
+<p>worker</p>
+<ul>
+<li>工作节点 可以是虚拟机或物理计算机 任务都在这里跑 机器性能都需要好点 通常有很多个 可以不断加机器扩大集群 每个工作节点由主节点管理</li>
+</ul>
+</li>
+<li>
+<p>重要概念pod</p>
+<ul>
+<li>豆荚 k8s调度 管理的最小单位 一个pod可以包含一个或多个容器 每个pod都有自己的虚拟IP 一个工作节点可以有多个pod 主节点会考量负载自动调度pod到哪个节点运行</li>
+</ul>
+</li>
+</ul>
+<p><figure 
+	>
+	<a href="/kubernetes%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3.assets/image-20220728093657693.png" >
+		<img src="/kubernetes%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3.assets/image-20220728093657693.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20220728093657693">
+	</a>
+	
+	<figcaption>image-20220728093657693</figcaption>
+	
+</figure></p>
+<h5 id="kubernetes组件">kubernetes组件</h5>
+<ul>
+<li>kube-apiserver API服务器 公开了kubernetes API</li>
+<li>etcd 键值数据库 可以作为保存 kubernetes所有集群数据的后台数据库</li>
+<li>kube-scheduler 调度pod到哪个节点运行</li>
+<li>kube-controller 集群控制器</li>
+<li>cloud-controller 与云服务商交互</li>
+</ul>
+<p><figure 
+	>
+	<a href="/kubernetes%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3.assets/image-20220728093942078.png" >
+		<img src="/kubernetes%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3.assets/image-20220728093942078.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20220728093942078">
+	</a>
+	
+	<figcaption>image-20220728093942078</figcaption>
+	
+</figure></p>
+<p>安装kubernetes</p>
+<ul>
+<li>
+<p>minikube安装  <a class="link" href="https://minikube.sigs.k8s.io/docs/start/"  target="_blank" rel="noopener"
+    >minikube start | minikube (k8s.io)</a></p>
+<ul>
+<li>
+<p>安装</p>
+</li>
+<li>
+<p>环境变量配置</p>
+</li>
+<li>
+<p>启动集群</p>
+<ul>
+<li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">minikube start
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>查看节点</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">kubectl get node 
+</span></span></code></pre></div><p>docker run &ndash;privileged -d &ndash;name mysql84 -v /etc/mysql:/etc/mysql -v /var/lib/data/mysql:/var/lib/mysql -v /var/lib/mysql-files:/var/lib/mysql-files   -p 3310:3306 -e TZ=Asia/Shanghai -e MYSQL_ROOT_PASSWORD=123456 mysql</p>
+<p>ubuntu重装mysql
+1、删除 mysql</p>
+<p>1 sudo apt-get autoremove &ndash;purge mysql-server-5.0</p>
+<p>2 sudo apt-get remove mysql-server</p>
+<p>3 sudo apt-get autoremove mysql-server</p>
+<p>4 sudo apt-get remove mysql-common (非常重要)</p>
+<p>上面的其实有一些是多余的，建议还是按照顺序执行一遍</p>
+<p>清理残留数据</p>
+<p>dpkg -l |grep ^rc|awk &lsquo;{print $2}&rsquo; |sudo xargs dpkg -P</p>
+<p>2、安装 mysql</p>
+<p>1 sudo apt-get install mysql-server</p>
+<p>记得启动服务
+设置密码</p>
+<p><a class="link" href="https://docs.docker.com/desktop/networking/"  target="_blank" rel="noopener"
+    >https://docs.docker.com/desktop/networking/</a>
+我想从容器连接到主机上的服务
+主机有一个不断变化的 IP 地址（如果您没有网络访问权限，则没有）。我们建议您连接到 host.docker.internal解析为主机使用的内部 IP 地址的特殊 DNS 名称。这是出于开发目的，不适用于 Docker Desktop 之外的生产环境。</p>
+<p>您也可以使用gateway.docker.internal.</p>
+<p>如果您的机器上安装了 Python，请使用以下说明作为示例，从容器连接到主机上的服务：</p>
+<p>运行以下命令在端口 8000 上启动一个简单的 HTTP 服务器。</p>
+<p>python -m http.server 8000</p>
+<p>如果您已安装 Python 2.x，请运行python -m SimpleHTTPServer 8000.</p>
+<p>现在，运行一个容器，安装curl，并尝试使用以下命令连接到主机：</p>
+<p>docker run &ndash;rm -it alpine sh
+apk add curl
+curl <a class="link" href="http://host.docker.internal:8000"  target="_blank" rel="noopener"
+    >http://host.docker.internal:8000</a>
+exit</p>
+<p>minikube start &ndash;kubernetes-version=v1.23.3 &ndash;base-image=&ldquo;kicbase/stable:v0.0.32&rdquo;</p>
+<p>minikube start &ndash;kubernetes-version=v1.23.3 &ndash;registry-mirror=https://bmtb46e4.mirror.aliyuncs.com &ndash;vm-driver=docker &ndash;base-image=&ldquo;anjone/kicbase&rdquo; &ndash;image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers</p>
+<p>kubectl get node</p>
+<p>kubectl run testapp &ndash;image=ccr.ccs.tencentyun.com/hfut/e-book-gin:v1.0</p>
+<p>kubectl apply -f ./mysql.yaml</p>
+<p>kubectl get pod</p>
+<p>kubectl get deployment</p>
+<p>kubectl get pod -o wide</p>
+<p>kubectl describe pod [testapp]</p>
+<p>kubectl logs testapp &ndash;previous</p>
+<p>kubectl delete pod my-mysql-6b8cf957fc-2sl59</p>
+<p>kubectl delete deploy/my-mysql</p>
+<p>不要对etc/ssh目录盲目扩大权限
+chmod 600 /etc/ssh/*key
+使用ssh -t 查看问题
+lsof -i:22 确定是否开着</p>
+<p>1、卸载
+之前是用yum安装的，现在通过yum去卸载yum remove -y mysql
+find / -name mysql 找到残留的文件，再通过rm -rf去删除对应的文件</p>
+<p>注意将所有有关的文件全部删除，不然会有问题！</p>
+<p>2、安装
+yum update
+yum install mysql-server</p>
+<p>ps -ef | grep mysql</p>
+<p>systemctl start mysqld</p>
+<p>systemctl enable mysqld</p>
+<p>systemctl status mysqld</p>
+<p>3、修改root用户密码
+修改root用户的密码。</p>
+<p>alter user &lsquo;root&rsquo;@&rsquo;localhost&rsquo; identified by &lsquo;password&rsquo;</p>
+<p>刷新权限</p>
+<p>flush privileges</p>
+<p>灰度更新</p>
+<p>先启动 启动成功再把之前的销毁</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">伸缩副本
+</span></span><span class="line"><span class="cl">kubectl scale deployment test-k8s --replicas<span class="o">=</span><span class="m">2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">查看历史版本
+</span></span><span class="line"><span class="cl">kubectl rollout <span class="nb">history</span> deployment <span class="o">[</span>deployment<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">回到上个版本
+</span></span><span class="line"><span class="cl">kubectl rollout undo deployment <span class="o">[</span>deployment<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">回退指定版本
+</span></span><span class="line"><span class="cl">kubectl rollout undo deployment test-k8s --to-revision<span class="o">=</span><span class="m">2</span>
+</span></span><span class="line"><span class="cl">删除部署
+</span></span><span class="line"><span class="cl">kubectl delete deployment test-k8s
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">查看所有信息
+</span></span><span class="line"><span class="cl">kubectl get all
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">重新部署
+</span></span><span class="line"><span class="cl">kubectl rullout restart deployment test-k8s
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 命令修改镜像，--record 表示把这个命令记录到操作历史中</span>
+</span></span><span class="line"><span class="cl">kubectl <span class="nb">set</span> image deployment test-k8s test-k8s<span class="o">=</span>ccr.ccs.tencentyun.com/k8s-tutorial/test-k8s:v2-with-error --record
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">暂停运行 去做想做的事情 比如修改其他的pod之类的
+</span></span><span class="line"><span class="cl">kubectl rollout pause deployment my-mysql
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">恢复
+</span></span><span class="line"><span class="cl">kubectl rollout resume deployment my-mysql
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">输出到文件
+</span></span><span class="line"><span class="cl">kubectl get deployment my-mysql -o yaml &gt;&gt; toyaml.yaml
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">kubectl delete all --all
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">可以将pod指定到某个节点进行运行
+</span></span><span class="line"><span class="cl">在yaml里指定
+</span></span></code></pre></div><h5 id="工作负载分类">工作负载分类</h5>
+<ul>
+<li>deployment
+<ul>
+<li>适合无状态应用 所有POD等价 可以替代</li>
+</ul>
+</li>
+<li>statefulset
+<ul>
+<li>有状态的应用 适合数据库这种类型</li>
+</ul>
+</li>
+<li>daemonset
+<ul>
+<li>在每个节点上跑一个pod 可以用来做节点监控 节点日志收集等等</li>
+</ul>
+</li>
+<li>job &amp; cronjob
+<ul>
+<li>job用来表达一次性的任务 而cronjob会根据其时间规划反复运行</li>
+</ul>
+</li>
+</ul>
+<h5 id="现存问题">现存问题</h5>
+<ul>
+<li>每次只能访问一个pod 没有负载均衡自动转发到不同pod</li>
+<li>访问还需要端口转发</li>
+<li>pod重建之后ip变了 名字也变了</li>
+</ul>
+<h5 id="service">service</h5>
+<p>特性</p>
+<ul>
+<li>service通过label关联对应的pod</li>
+<li>service生命周期不跟pod绑定 不会因为pod重新建立而改变IP</li>
+<li>提供了负载均衡功能 自动转发流量到不同的pod</li>
+<li>可对集群外部提供访问端口</li>
+<li>集群内部可通过服务名字访问</li>
+</ul>
+<p><figure 
+	>
+	<a href="/kubernetes%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3.assets/image-20220806093538047.png" >
+		<img src="/kubernetes%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3.assets/image-20220806093538047.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20220806093538047">
+	</a>
+	
+	<figcaption>image-20220806093538047</figcaption>
+	
+</figure></p>
+<p>service.yaml</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">test-service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">test-pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c">#    默认 ClusterIP 集群内可访问 NodePort节点可访问 LoadBalancer 负载均衡模式 (需要负载均衡器才可用)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">NodePort</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w">  </span><span class="c">#本 service端口</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="m">7777</span><span class="w"> </span><span class="c">#容器端口</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">nodePort</span><span class="p">:</span><span class="w"> </span><span class="m">31000</span><span class="w"> </span><span class="c">#节点端口 范围固定 从30000-32767</span><span class="w">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl get service
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">kubectl get svc
+</span></span></code></pre></div><p>type 可以有三种</p>
+<p>loadbalancer需要云服务提供商的支持 逻辑可以安装metallb测试  会额外生成一个IP对外提供服务</p>
+<p>nodeport需要进入节点访问 所以通过docker进入minikube 访问31000才能get到</p>
+<p>clusterIP 默认的 仅在集群内可用</p>
+<p>headless  适合数据库 clusterip设置为none就变成headless 就不会分配ip 后续讲解具体用法</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2023 think hy how to learn
+    </section>
+    
+    <section class="powerby">
+         <br />
+        
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<!doctype html>
+<html lang="en">
+<head>
+   
+</head>
+
+
+
+
+
+
+
+
+
+<body>
+</body>
+
+</html>
+
+
+    </body>
+</html>
