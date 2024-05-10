@@ -396,5 +396,14 @@ image-20210928105853916image-20210928105911601接口服务嘛,最好尝试ping
 另外最好对间隔时间做到可配置</description>
     </item>
     
+    <item>
+      <title>Mjrsb</title>
+      <link>https://jianrongma.github.io/p/mjrsb/</link>
+      <pubDate>Tue, 11 May 1999 02:15:41 +0800</pubDate>
+      
+      <guid>https://jianrongma.github.io/p/mjrsb/</guid>
+      <description>hello world</description>
+    </item>
+    
   </channel>
 </rss>
