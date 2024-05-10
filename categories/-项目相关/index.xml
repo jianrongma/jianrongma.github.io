@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>-项目相关 on think hy how to learn</title>
-    <link>https://linjianshu.github.io/categories/-%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/</link>
+    <link>https://jianrongma.github.io/categories/-%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/</link>
     <description>Recent content in -项目相关 on think hy how to learn</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 01 Oct 1999 09:17:59 +0800</lastBuildDate><atom:link href="https://linjianshu.github.io/categories/-%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 01 Oct 1999 09:17:59 +0800</lastBuildDate><atom:link href="https://jianrongma.github.io/categories/-%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>windows服务开发备忘</title>
-      <link>https://linjianshu.github.io/p/windows%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%8F%91%E5%A4%87%E5%BF%98/</link>
+      <link>https://jianrongma.github.io/p/windows%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%8F%91%E5%A4%87%E5%BF%98/</link>
       <pubDate>Fri, 01 Oct 1999 09:17:59 +0800</pubDate>
       
-      <guid>https://linjianshu.github.io/p/windows%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%8F%91%E5%A4%87%E5%BF%98/</guid>
+      <guid>https://jianrongma.github.io/p/windows%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%8F%91%E5%A4%87%E5%BF%98/</guid>
       <description>windows服务开发备忘 先开个窗体来调试试试看
 再新增一个service服务进来
 修改默认服务名

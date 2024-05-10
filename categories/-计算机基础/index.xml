@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>-计算机基础 on think hy how to learn</title>
-    <link>https://linjianshu.github.io/categories/-%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/</link>
+    <link>https://jianrongma.github.io/categories/-%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/</link>
     <description>Recent content in -计算机基础 on think hy how to learn</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 01 Sep 2021 00:22:19 +0800</lastBuildDate><atom:link href="https://linjianshu.github.io/categories/-%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Sep 2021 00:22:19 +0800</lastBuildDate><atom:link href="https://jianrongma.github.io/categories/-%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>数据结构与算法学习文档</title>
-      <link>https://linjianshu.github.io/p/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
+      <link>https://jianrongma.github.io/p/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
       <pubDate>Wed, 01 Sep 2021 00:22:19 +0800</pubDate>
       
-      <guid>https://linjianshu.github.io/p/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
+      <guid>https://jianrongma.github.io/p/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
       <description>数据结构与算法 解决问题方法的效率，跟数据的组织方式有关。
 循环和递归
 解决问题方法的效率，跟空间的利用效率有关。
@@ -34,10 +34,10 @@ image-20210818165255964image-20210818165445992image-20210818165457903image-20
     
     <item>
       <title>计算机组成原理学习文档</title>
-      <link>https://linjianshu.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
+      <link>https://jianrongma.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
       <pubDate>Fri, 14 May 2021 00:26:49 +0800</pubDate>
       
-      <guid>https://linjianshu.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
+      <guid>https://jianrongma.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
       <description>计算机组成原理学习文档 CPU
 内存
 硬盘

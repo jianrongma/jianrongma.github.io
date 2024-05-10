@@ -2,361 +2,90 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on think hy how to learn</title>
-    <link>https://linjianshu.github.io/post/</link>
+    <link>https://jianrongma.github.io/post/</link>
     <description>Recent content in Posts on think hy how to learn</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 20 Aug 2022 15:20:00 +0800</lastBuildDate><atom:link href="https://linjianshu.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 25 Dec 2022 10:46:00 +0800</lastBuildDate><atom:link href="https://jianrongma.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>20220819实习进度汇报</title>
-      <link>https://linjianshu.github.io/p/20220819%E5%AE%9E%E4%B9%A0%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%8A%A5/</link>
-      <pubDate>Sat, 20 Aug 2022 15:20:00 +0800</pubDate>
+      <title>智能优化算法笔记</title>
+      <link>https://jianrongma.github.io/p/%E6%99%BA%E8%83%BD%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sun, 25 Dec 2022 10:46:00 +0800</pubDate>
       
-      <guid>https://linjianshu.github.io/p/20220819%E5%AE%9E%E4%B9%A0%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%8A%A5/</guid>
-      <description>实习进度汇报 这几天在做什么: 数据持久化 pvc pv sc 学习 secret、configmap 用法并应用； 这些事情的进度: 1.使用hugo更新实习日记至github主页 github主页 (linjianshu.github.io)
-https://github.com/linjianshu/e-book-Gin
-https://github.com/linjianshu/client-go
-2.数据持久化 使用hostpath(不推荐 但是简单) statefulset.yaml文件
-apiVersion: apps/v1 kind: StatefulSet metadata: name: my-mysql-statefulset spec: serviceName: my-mysql-service replicas: 3 selector: matchLabels: app: my-mysql template: metadata: labels: app: my-mysql spec: affinity: #节点的亲和性 好像是没有节点反亲和的 nodeAffinity: requiredDuringSchedulingIgnoredDuringExecution: nodeSelectorTerms: - matchExpressions: - key: node #要求pod不允许运行在标签node=master的节点上 operator: NotIn values: - master #pod的反亲和性 podAntiAffinity: requiredDuringSchedulingIgnoredDuringExecution: - labelSelector: matchExpressions: - key: &amp;#34;app&amp;#34; #要求pod不允许运行在已有pod标签为webapp的节点上 operator: In values: - &amp;#34;my-mysql&amp;#34; topologyKey: &amp;#34;kubernetes.</description>
-    </item>
-    
-    <item>
-      <title>20220812实习进度汇报</title>
-      <link>https://linjianshu.github.io/p/20220812%E5%AE%9E%E4%B9%A0%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%8A%A5/</link>
-      <pubDate>Fri, 12 Aug 2022 09:18:55 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/20220812%E5%AE%9E%E4%B9%A0%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%8A%A5/</guid>
-      <description>实习进度汇报 这几天在做什么: 掌握 statefulset、deployment 用法，实现2副本高可用并将两个pod调度至不同node（反亲和） client-go 实现demo（创建deployment编排之前的docker镜像并运行）； 这些事情的进度: 1.使用hugo更新实习日记至github主页 github主页 (linjianshu.github.io)
-https://github.com/linjianshu/e-book-Gin
-https://github.com/linjianshu/client-go
-2.学习statefulset和deployment 反亲和操作 反亲和 先给不同的工作节点打上了label
-kubectl label nodes minikube-m02 node=worker01
-kubectl label nodes minikube-m03 node=worker02
-kubectl label nodes minikube node=master
-apiVersion: apps/v1 kind: Deployment metadata: name: e-book-gin labels: app: e-book-gin #deployment的标签 version: v1.0.0 spec: replicas: 6 #副本数量 selector: #pod标签选择器，匹配pod标签，默认使用pods的标签 定义标签选择器,部署需要管理的pod（带有该标签的的会被管理）需在pod 模板中定义 matchLabels: app: webapp version: v1.0.0 strategy: type: RollingUpdate #将现有pod替换为新pod的部署策略 滚动更新 template: #pod的定义 metadata: labels: app: webapp #与12行对应 version: v1.</description>
-    </item>
-    
-    <item>
-      <title>20220806实习进度汇报</title>
-      <link>https://linjianshu.github.io/p/20220806%E5%AE%9E%E4%B9%A0%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%8A%A5/</link>
-      <pubDate>Sat, 06 Aug 2022 10:41:29 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/20220806%E5%AE%9E%E4%B9%A0%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%8A%A5/</guid>
-      <description>实习进度汇报 这几天在做什么: hugo 更新实习日记至github主页上 git代码管理 上传demo方便导师检查 以deployment和service方式部署应用 client-go的学习 这些事情的进度: 1.使用hugo更新实习日记至github主页 github主页 (linjianshu.github.io)
-https://github.com/linjianshu/e-book-Gin
-https://github.com/linjianshu/client-go
-3.以deployment和service方式部署应用 运行截图
-deployment.yaml文件 web应用
-apiVersion: apps/v1 kind: Deployment metadata: name: e-book-gin labels: app: e-book-gin version: v1.0.0 spec: replicas: 2 selector: matchLabels: app: e-book-gin version: v1.0.0 strategy: type: RollingUpdate template: metadata: labels: app: e-book-gin version: v1.0.0 spec: containers: - image: ccr.ccs.tencentyun.com/hfut-ie/e-book-gin:v3.0 #镜像 name: e-book-gin ports: - containerPort: 7777 name: e-book-gin service.yaml文件 apiVersion: v1 kind: Service metadata: # 服务名字 name: test-service spec: selector: # 对应pod的标签 app: e-book-gin # 默认 ClusterIP 集群内可访问 NodePort节点可访问 LoadBalancer 负载均衡模式 (需要负载均衡器才可用) type: NodePort ports: - port: 8080 #本 service端口 targetPort: 7777 #容器端口 nodePort: 31000 #节点端口 范围固定 从30000-32767 运行截图 deployment</description>
-    </item>
-    
-    <item>
-      <title>20220802实习进度汇报</title>
-      <link>https://linjianshu.github.io/p/20220802%E5%AE%9E%E4%B9%A0%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%8A%A5/</link>
-      <pubDate>Tue, 02 Aug 2022 09:16:05 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/20220802%E5%AE%9E%E4%B9%A0%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%8A%A5/</guid>
-      <description>实习进度汇报 这几天在做什么: hugo 更新实习日记至github主页上 git代码管理 上传demo方便导师检查 docker 数据卷挂载 部署有状态应用 容器通信 编译镜像推送至华为云镜像仓库 搭建minikube环境 k8s 以pod方式部署 mysql+web应用 这些事情的进度: 1.对demo编写dockerfile镜像编译 2.使用hugo更新实习日记至github主页 github主页 (linjianshu.github.io)
-https://github.com/linjianshu/e-bookNew/tree/master
-3.docker 数据卷挂载 部署有状态应用 容器通信 Dockerfile FROM golang:alpine AS builder LABEL stage=gobuilder ENV GO111MODULE=on \ CGO_ENABLE=0 \ GOOS=linux \ GOARCH=amd64 \ GOPROXY=&amp;#34;https://goproxy.cn,direct&amp;#34; ENV LANG C.UTF-8 RUN apk update --no-cache &amp;amp;&amp;amp; apk add --no-cache tzdata RUN #apt-get install -y mysql-server WORKDIR /build COPY . . EXPOSE 7777 RUN go build -ldflags=&amp;#34;-s -w&amp;#34; -o /app/main FROM alpine EXPOSE 3306 RUN apk update --no-cache &amp;amp;&amp;amp; apk add --no-cache ca-certificates COPY --from=builder /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/Asia/Shanghai ENV TZ Asia/Shanghai ENV LANG C.</description>
-    </item>
-    
-    <item>
-      <title>20220729实习进度汇报</title>
-      <link>https://linjianshu.github.io/p/20220729%E5%AE%9E%E4%B9%A0%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%8A%A5/</link>
-      <pubDate>Fri, 29 Jul 2022 14:54:20 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/20220729%E5%AE%9E%E4%B9%A0%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%8A%A5/</guid>
-      <description>实习进度汇报 这几天在做什么: hugo 更新实习日记至github主页上 git代码管理 上传demo方便导师检查 docker复习 编译镜像推送至阿里云镜像仓库 k8s学习 (之前都没有接触过 学习的进度很慢) 尝试搭建minikube环境/云服务器搭建kubernetes集群/裸机搭建 三种方式 这些事情的进度: 1.对demo编写dockerfile镜像编译 2.使用hugo更新实习日记至github主页 github主页 (linjianshu.github.io)
-https://github.com/linjianshu/e-bookNew/tree/master
-3.编译镜像推送至阿里云镜像仓库 仓库地址(私有) https://cr.console.aliyun.com/repository/cn-hangzhou/hfutie/e-book/details
-image-20220729153325022docker登录阿里云账户 pull images到Ecs docker内运行 image-20220729153819033运行截图(乱码的问题暂时还没有解决) image-202207291538567054.k8s学习 完全没有接触过 还在看学习资料ing😥
-5.尝试搭建本机wsl minikube环境/云服务器搭建kubernetes集群/裸机搭建 三种方式 还在搭建ing
-存在哪些问题: 编译镜像推送至docker hub 没推送上去 推到一半就卡住了(换成了推送至阿里云) k8s集群搭建问题(还在百度中) 打算接下来做什么: 容器技术学习 搭建k8s k8s学习 go web开发 (有时间进行修缮 功能:上传文件删除 文章审核等功能) docker利用dockerfile写数据卷挂载 把有数据库依赖的demo镜像编译 尝试缩小镜像大小 </description>
-    </item>
-    
-    <item>
-      <title>Kubernetes学习文档</title>
-      <link>https://linjianshu.github.io/p/kubernetes%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
-      <pubDate>Thu, 28 Jul 2022 09:20:43 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/kubernetes%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
-      <description>Kubernetes学习文档 特性 灰度更新 不影响业务正常运转 高可用 不宕机 自动灾难恢复 一键回滚到历史版本 方便的伸缩扩展(应用伸缩,机器加减) 提供负载均衡 有一个完善的生态 不同的应用部署方案 image-20220728092456835传统部署方式: 应用直接在物理机上部署 机器资源分配不好控制 出现bug时 可能机器的大部分资源被某个应用占用 导致其他应用无法正常运行 无法做到应用隔离 虚拟机部署 在单个物理机上运行多个虚拟机 每个虚拟机都是完整独立的系统 性能损耗大 容器部署 所有容器共享主机的系统 轻量级的虚拟机 性能损耗小 资源隔离 CPU和内存可按需分配 什么时候需要Kubernetes 当应用只是跑在一台机器 直接一个docker+ docker-compose 就够了 方便轻松 当应用需要跑在3 4 台机器 依旧可以每台机器单独配置运行环境 + 负载均衡器 当应用访问数不断增加 机器逐渐增加到上百台 上千台 每次加机器 软件更新 版本回滚 就会变得非常麻烦 这时候就需要kubernetes 轻松管理百万千万机器的集群 kubernetes 可以为你提供集中式的管理集群机器的应用 加机器 版本升级 版本回滚都是一个命令就搞定的事情 不停机的灰度更新 确保高可用 高性能 搞扩展 kubernetes集群架构 master
-主节点 控制平台 不需要很高的性能 不跑任务 通常一个就行了 也可以开多个主节点来提高集群的可用度 worker
-工作节点 可以是虚拟机或物理计算机 任务都在这里跑 机器性能都需要好点 通常有很多个 可以不断加机器扩大集群 每个工作节点由主节点管理 重要概念pod</description>
+      <guid>https://jianrongma.github.io/p/%E6%99%BA%E8%83%BD%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/</guid>
+      <description>智能优化混合算法是一种以某类优化算法为基础,融合其他智能算法或理论的混合算法,可用于求解各种工程问题最优解.
+智能算法在工程领域(如系统控制、生产调度、人工智能、模式识别等)的迅速推广和应用，作为一个重要的科学分支，智能优化算法激励人们从更广泛的生物或自然现象寻求启发，以构造新的只能算法或对算法不断地进行改进，从而更好地解决工程中存在的多数复杂问题。优势主要表现在：
+算法原理简单，易于推广和应用 良好的算法收敛性和搜索速度，优化问题较易取得满意结果 Chapter1 绪论
+智能优化算法即一种按照某规则或思想进行的搜索过程，用以得到满足用户要求的问题的解。
+遗传算法于1975年由美国密歇根大学的J.Holland教授等人受生物进化论的启发而提出[1]。遗传算法是以自然界中的生物进化过程为背景，将生物进化过程中的繁殖、选择、杂交、变异和竞争等概念引入算法中。它的基本思想来源于自然界中的生物从低级、简单，发展到高级、复杂，乃至进化成人类这样的一个漫长进化过程，并借鉴了达尔文提出的物竞天择、优胜劣汰、适者生存的自然法则。遗传算法的本质是一种对问题进行高效全局搜索的方法，它在搜索过程中有效的利用已有信息来自动获取和积累有关搜索空间的知识，并自适应地控制搜索方向使其最终走向最优解。
+遗传算法已经在数据挖掘、生产调度、图像处理以及函数优化等领域去的了令人鼓舞的成就，证明了其良好的性能。近年来，遗传算法被应用于诸如复杂的多目标规划问题、人工生命以及神经网络问题、机器学习问题、智能控制等问题中。
+自然界中的生物遗传物质的主要载体是染色体，基因是控制生物性状的遗传物质的功能单位和结构单位，是染色体的主要组成部分，即多个基因组成染色体。在染色体中，基因所占据的位置称为基因座。同一个基因座，可能有的全部基因称为等位基因。染色体的特征即生物个体的性状就是由基因和基因座决定的。与此对应染色体有两种相应的表示模式，即基因型和表现型。所谓表现形式是指生五个题外在所表现出来的性状，而基因型则是指与表现型密切相关的基因组成。同一种基因型的生物个体在不同的外在环境条件作用下可以存在不同的表现型，因此表现型是基因型与外在环境条件下相互作用的结果。染色体带有特征的实体称为个体，个体的集合就是种群。该集合内，个体数称为群体的大小。一个个体对环境的适应程度称为适应度，生物学家使用适应度这个属于来衡量某个物种将获得更多的繁殖后代的机会；而对外在生存环境适应程度较低的物种，其放置后代的机会就会相对较少，甚至逐渐走向灭绝。复制、选择、交叉和变异是自然界中的生物不断向前进化的最重要的组成部分。
+自然遗传学说与人工遗传算法中所使用的基本概念和术语之间的对应关系
+染色体 解的编码 基因 解中的每一个分量的特征 基因座 特性值 个体 解 种群 选定的一组解(解的个数为种群的规模) 适应度 适应度函数值 复制 根据适应度函数值选取的一组解的操作 选择 以一定概率从种群中选择若干个解的操作 交叉 通过交配原则产生一组新解的过程 变异 通过突变原则产生一组新解的过程 执行遗传算法时必须包含两个数据转换操作，一是表现型到基因型的转换，二是基因型到表现型的转换。前者是指把实际问题中的参数或解转换成遗传算法问题中的染色体或个体。这个过程定义为编码操作；后者是对前者的一个相反操作，即把遗传算法中的染色体或者个体转换为实际问题中的解或参数，这个过程叫做译码操作。当产生初始种群之后，就按照适者生存和优胜劣汰的原理，在每一代中根据每个个体的适应度函数值大小来挑选个体，并仿照自然遗传学说中的遗传算子来进行交叉和变异，并产生出代表新的解集的种群。以此类推逐代进化并产生出越来越优异的近似解，最后一代种群中的最优个体经过解码操作，就可以作为待解决问题的近似最优解。
+计算开始时，先将种群随机初始化，产生出一定数目的N个个体，并计算每个个体的适应度函数值，第一代初始种群就产生了。算法按照适应度值选择个体参与交叉编译运算，父代要通过基因重组（交叉）而产生子代，所有的子代按一定概率进行变异操作，然后子代的适应度值又被重新计算，从而产生新的下一代种群。如此反复，直到满足优化准则为止。
+近些年来，国内学者也发表了大量关于遗传算法的文章，如2004年，杨晓梅、曾建潮[5]为改善当时求解车间调度问题中的遗传算法的性能,提高搜索最优调度解的速度,并借鉴遗传算法的生物学基础,提出了基于多个体交叉的遗传算法。该算法在执行遗传过程中充分利用个体自身的优良性质，对不可行的调度解根据多个体修补原则进行修补改正，以此就可保证遗传后代的合法性和种群多样性，能够显著缩短最优调度解的搜索时间。在2005年，王凌、张亮[6]针对有限缓冲区的流水线调度问题,提出了一种基于多搜索模式的遗传算法,该算法使用多个交叉和变异操作来对解空间进行探索和改良,并采用面向有向图的领域结构来增强局部搜索性能。在2007年，吴尔飞、金烨等[7]针对当前研究较少的双边装配线平衡问题,研究双边装配中具有操作方位约束的任务,以及在工位上分配任务的操作顺序与平衡结果具有直接关系等特点,提出了相对应的符合该问题特性的遗传算法。该算法采用基于序列、任务机器分配方位相组合的编码方法，并改进了更加可行的交叉与变异算子，使最优解搜索过程仅在可行解的空间内进行，提高了搜索效率，节约了搜索时间。在2009年，莫巨华、黄敏、王兴伟[8]为实现系统的最优化设计，致力于研究以满足顾客满意率要求为主要约束的多目标规划，并提出了一种改进的遗传算法与过程仿真相结合的求解方法。在该求解方法中，多目标规划通过加权平均转化为单目标规划。
+遗传算法是一种模拟生物界的自然选择和自然遗传机制的随机搜索算法。在遗传算法提出之前，为解决各种优化问题，许多优化算法已经被提出，例如梯度法、单纯形法、动态规划法等。这些优化算法有各自的有点，也有各自的适用范围，同时又有各自的限制因素。遗传算法与这些传统的优化算法有很大的不同，大多数古典的优化算法是对一个单一的度量函数（评估函数）进行梯度或较高次统计，然后产生一个具有确定性的试验解序列。相反，遗传算法并不依赖于梯度信息，而是通过模拟自然界的进化过程来对最优解进行搜索，它利用某种编码技术，并作用于称为染色体的数字串上，对由这些串组成的群体的进化过程进行模拟。遗传算法通过有组织地、随机地交换信息来重新组合那些适应性较好的串，生成新的串并组成群体。
+遗传算法具有自组织性、自适应性和智能性。自然选择清楚了算法设计过程中的一个最大的障碍，即需要事先对问题的全部特点进行描述，并要说明针对问题的不同特点所应采取何种措施。遗传算法的这种自组织、自适应的特征，使它同时具有根据环境的变化而自动发现环境的特性和规律的能力，从而使遗传算法可以用来解决一些复杂的非结构化问题。 遗传算法具有并行性。遗传算法在种群中是按照并行方式进行搜索的，而不是在一个单点上进行寻优的，其并行性表现在两个方面： 遗传算法具有内在并行性，使它本身及其时候大规模并行，并适合在目前所有的并行机或分布式系统上进行并行的处理； 遗传算法具有内行并行性，由于它采用种群的方式来组织搜索，因此可以同时搜索解空间内的多个区域，并相互进行信息交流。许多传统的搜索方法都是从单点开始寻优的，因而在多峰函数优化中极容易陷入局部最优解。遗传算法是从一个种群开始进行搜索的，并且可以同时向不同的方向进行搜索，从而大大提高了遗传算法的全局搜索性能，并减少了陷入局部最优解的可能性。 遗传算法使用概率搜索技术。遗传算法在搜索过程中并不采用确定性规则，而采用概率的变迁规则来指引它的搜索方向，在优化过程中，使搜索的每一步都向最终结果靠近的机制或智能性称为搜索的探索性或启发性。传统搜索方法中从一个搜索点到另一个搜索点的转移有确定性的转移方法和转移关系，这种确定性也极有可能使搜索永远也达不到最优点，因而限制了算法的应用范围，制约了算法的应用效果。遗传算法以适应度数字作为标尺、以概率作为一种工具来指引搜索过程，虽然表面上看，遗传算法好像是一种盲目的搜索方法，但实际上它却是一种导向随机搜索方法。 遗传算法把决策变量的编码作为运算对象。 遗传算法直接把目标函数值作为搜索信息。传统的优化算法不仅需要利用目标函数值，并且还需要目标函数的导数值等其他一些辅助信息才能最终确定下一步的搜索方向和搜索范围，无需使用目标函数的导数值及其他一些辅助信息。这个特性使得遗传算法在很多目标函数无法求导或很难求导的优化问题，以及组合优化问题等应用中比较方便，因为它消除了导数求导这个障碍。另外，直接利用目标函数值或个体适应度值，也可使我们把搜索范围集中到适应度较高的那部分搜索空间中，从而大大提高了搜索的效率，节省了搜索时间。 </description>
     </item>
     
     <item>
       <title>行为认知测评技巧</title>
-      <link>https://linjianshu.github.io/p/%E8%A1%8C%E4%B8%BA%E8%AE%A4%E7%9F%A5%E6%B5%8B%E8%AF%84%E6%8A%80%E5%B7%A7/</link>
+      <link>https://jianrongma.github.io/p/%E8%A1%8C%E4%B8%BA%E8%AE%A4%E7%9F%A5%E6%B5%8B%E8%AF%84%E6%8A%80%E5%B7%A7/</link>
       <pubDate>Sat, 23 Jul 2022 11:52:38 +0800</pubDate>
       
-      <guid>https://linjianshu.github.io/p/%E8%A1%8C%E4%B8%BA%E8%AE%A4%E7%9F%A5%E6%B5%8B%E8%AF%84%E6%8A%80%E5%B7%A7/</guid>
+      <guid>https://jianrongma.github.io/p/%E8%A1%8C%E4%B8%BA%E8%AE%A4%E7%9F%A5%E6%B5%8B%E8%AF%84%E6%8A%80%E5%B7%A7/</guid>
       <description>数字规律题 标序列号 把变量和序列号放在一起比较看看 公因式法 找出最小公因式 看看有无规律 对每一位数减去第一位数 替换掉第2&amp;hellip;.位 结合上面的看看有无规律 对每一位数同时加上/乘以/除以第一位数 结合上面看看有无规律 同时除以1/2/3 加法和减法可能性稍大 能否分成奇数和偶数数组 看增幅 是否有规律 +1 +2 +4 +8 等比或者等差 前两个和/积是后一个 类斐波那契数列 前一个数是后一个数的比例关系 图形推理题 是否间隔排列或者对称排列 寻找共同特征 顺时针/逆时针 变化 白*黑=白 重合的题目 对称与不对称 轴对称与中心对称 切割三角形 相交相切 一全一半 叠加 求同存异 相对位置 内部还是外部 </description>
     </item>
     
     <item>
-      <title>20220722实习进度汇报</title>
-      <link>https://linjianshu.github.io/p/20220722%E5%AE%9E%E4%B9%A0%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%8A%A5/</link>
-      <pubDate>Fri, 22 Jul 2022 01:13:49 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/20220722%E5%AE%9E%E4%B9%A0%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%8A%A5/</guid>
-      <description>实习进度汇报 这几天在做什么: hugo 更新实习日记至github主页上 git代码管理 上传demo方便导师检查 docker学习 对demo编写dockerfile镜像编译 编译镜像推送至docker hub k8s学习 (之前都没有接触过 学习的进度很慢) 这些事情的进度: 1.对demo编写dockerfile镜像编译 2.使用hugo更新实习日记至github主页 github主页 (linjianshu.github.io)
-3.对项目代码进行简单的git版本管理 增加dockerfile
-https://github.com/linjianshu/e-bookNew/tree/master
-4.编译镜像推送至docker hub https://hub.docker.com/repositories
-5.k8s学习 完全没有接触过 还在看学习资料ing😥
-存在哪些问题: 目前是自己安排任务给自己做 是已经学过的知识 但不知道有哪些知识企业用到的偏多 希望导师给一点意见 指定一下复习的重点或者提供方向 我可以自学新知识 镜像构建之后好大 尝试过降低但是无果 image-20220722012320673docker build要好久 请问老师有缩短时间的方案吗 image-20220722012642439系统中文乱码 暂时还不知道怎么改成中文(通过dockerfile) image-20220722012530906image-20220722012552117打算接下来做什么: 容器技术学习 mysql复习 听导师的安排继续学习 搭建k8s go web开发 (有时间进行修缮 功能:上传文件删除 文章审核等功能) docker利用dockerfile写数据卷挂载 把有数据库依赖的demo镜像编译 尝试缩小镜像大小 阿里云服务器运行镜像 </description>
-    </item>
-    
-    <item>
-      <title>20220720实习工作进度汇报</title>
-      <link>https://linjianshu.github.io/p/20220720%E5%AE%9E%E4%B9%A0%E5%B7%A5%E4%BD%9C%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%8A%A5/</link>
-      <pubDate>Thu, 21 Jul 2022 01:50:14 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/20220720%E5%AE%9E%E4%B9%A0%E5%B7%A5%E4%BD%9C%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%8A%A5/</guid>
-      <description>实习进度汇报 这几天在做什么: go web开发 (使用gorm框架增加论坛模块 用户登录权限模块) hugo 更新实习日记至github主页上 git代码管理 上传demo方便导师检查 linux中mysql重装(由于之前mysql被黑了) docker学习 之前老师的代码指点 已经做了修缮 不知道可不可行 已经列在main函数的TODO中了 这些事情的进度: 1.go web开发(使用gin框架 了解常用api) 了解了gorm框架常用知识点 CRUD 高级特性还没有了解 使用gorm操纵mysql数据库 部署至阿里云 供公网访问 (http://118.178.236.128:7777/index) 目前文件删除 博客删除和审核还没做 部分存在bug image-202207210156558122.使用hugo更新实习日记至github主页 github主页 (linjianshu.github.io)
-3.对项目代码进行简单的git版本管理 https://github.com/linjianshu/e-book-Gin
-4.linux中mysql重装(由于之前mysql被黑了) 5.代码指点已做了修缮 不知道可不可行 存在哪些问题: 目前是自己安排任务给自己做 是已经学过的知识 但不知道有哪些知识企业用到的偏多 希望导师给一点意见 指定一下复习的重点或者提供方向 我可以自学新知识 部分存在bug 需要再进行完善 没有掌握web测试的技能 Db.Model(&amp;amp;Session{}).Where(&amp;ldquo;user_id = ?&amp;quot;,user.Id) 底层的sql语句会不会select * 呀? 框架会不会自动优化? 测试用的很别扭 还是得看数据库有没有数据多了或者少了 test的时候 有时候会对数据库进行新增删除和修改 是否需要掌握测试的东西 ? 比如桩代码和mono模拟测试之类的技能 ? 企业后端的岗位需要用到测试嘛? log那一块没有使用别人的库 自己写了一个是不是已经弄巧成拙了 麻烦老师指点一下 后续我改成别人的库优化一下 打算接下来做什么: 容器技术学习 mysql复习 听导师的安排继续学习 搭建k8s </description>
-    </item>
-    
-    <item>
       <title>面试薄弱复习</title>
-      <link>https://linjianshu.github.io/p/%E9%9D%A2%E8%AF%95%E8%96%84%E5%BC%B1%E5%A4%8D%E4%B9%A0/</link>
+      <link>https://jianrongma.github.io/p/%E9%9D%A2%E8%AF%95%E8%96%84%E5%BC%B1%E5%A4%8D%E4%B9%A0/</link>
       <pubDate>Mon, 18 Jul 2022 16:34:40 +0800</pubDate>
       
-      <guid>https://linjianshu.github.io/p/%E9%9D%A2%E8%AF%95%E8%96%84%E5%BC%B1%E5%A4%8D%E4%B9%A0/</guid>
+      <guid>https://jianrongma.github.io/p/%E9%9D%A2%E8%AF%95%E8%96%84%E5%BC%B1%E5%A4%8D%E4%B9%A0/</guid>
       <description> 算法
 树 平衡二叉树 镜像二叉树 最低公共祖先 前序后续便利构造二叉树 节点和等于整数的路径 两个节点的最长距离 二叉查找树 链表 奇升偶降 如何有序 数组 二维数组旋转90° 2sum问题 位运算 动态规划 背包问题 0-1 背包问题 完全 排序 复杂度 冒泡 插入 归并 快排 希尔 堆排序 基数排序 桶排序 如何求中位数 大根堆与小根堆 优先队列 单调栈 单调队列 接雨水 最大矩形 滑动窗口 二分 DFS BFS 递归 回溯 LRU 辅助栈 并查集 堆栈
 内存中的堆、栈、静态区 </description>
     </item>
     
     <item>
-      <title>实习小结20220718</title>
-      <link>https://linjianshu.github.io/p/%E5%AE%9E%E4%B9%A0%E5%B0%8F%E7%BB%9320220718/</link>
-      <pubDate>Mon, 18 Jul 2022 15:10:39 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/%E5%AE%9E%E4%B9%A0%E5%B0%8F%E7%BB%9320220718/</guid>
-      <description>实习进度汇报 这几天在做什么: go web开发 (使用gin框架重构上次的web程序) hugo 更新实习日记至github主页上 git代码管理 上传demo方便导师检查 linux更新了gosdk至1.18 这些事情的进度: 1.go web开发(使用gin框架 了解常用api) 了解了gin框架常用知识点 使用gin框架重构上次的demo 部署至阿里云 供公网访问 (http://118.178.236.128:7777/index) 目前仅完成查找和上传 删除还没做 16581121113772.使用hugo更新实习日记至github主页 github主页 (linjianshu.github.io)
-3.对项目代码进行简单的git版本管理 https://github.com/linjianshu/e-book-Gin
-4.linux更新了go-sdk至1.18 gostudy网站中下载linux-amd64压缩包=&amp;gt;ecs中解压=&amp;gt;删除原先1.13的文件夹=&amp;gt;把解压的内容丢进去=&amp;gt;更新/etc/profile=&amp;gt;刷新profile source /etc/profile=&amp;gt;验证 go version
-不知道有没有简单的做法
-1658110937384存在哪些问题: 目前是自己安排任务给自己做 是已经学过的知识 但不知道有哪些知识企业用到的偏多 希望导师给一点意见 指定一下复习的重点或者提供方向 我可以自学新知识 gin框架通常配合前端什么技术呀?还是说直接使用gotemplate嘛? 下载功能可以实现 但是看日志发现调用了三次 最后一次才完成传输 前面两次是broken pipe 请问这个是什么原因呀? 1658109545148打算接下来做什么: 容器技术学习 mysql学习 听导师的安排继续学习 使用gorm和go操纵数据库 (浏览之前项目代码尝试手动构建被黑数据库表结构 尝试使用gorm重构sql 使用gin重构http调用) </description>
-    </item>
-    
-    <item>
-      <title>实习小结20220718</title>
-      <link>https://linjianshu.github.io/p/%E5%AE%9E%E4%B9%A0%E5%B0%8F%E7%BB%9320220718/</link>
-      <pubDate>Sun, 17 Jul 2022 23:48:18 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/%E5%AE%9E%E4%B9%A0%E5%B0%8F%E7%BB%9320220718/</guid>
-      <description> 实习进度汇报 这几天在做什么: go web开发 (使用gin框架重构上次的web程序) hugo 更新实习日记至github主页上 git代码管理 上传demo方便导师检查 linux更新了gosdk至1.18 这些事情的进度: 1.go web开发(使用gin框架 了解常用api) 了解了gin框架常用知识点 使用gin框架重构上次的demo 部署至阿里云 供公网访问 (http://118.178.236.128:7777/index) 目前仅完成查找和上传 删除还没做 16581121113772.使用hugo更新实习日记至github主页 github主页 (linjianshu.github.io)
-3.对项目代码进行简单的git版本管理 https://github.com/linjianshu/e-book-Gin
-4.linux更新了go-sdk至1.18 gostudy网站中下载linux-amd64压缩包=&amp;gt;ecs中解压=&amp;gt;删除原先1.13的文件夹=&amp;gt;把解压的内容丢进去=&amp;gt;更新/etc/profile=&amp;gt;刷新profile source /etc/profile=&amp;gt;验证 go version
-不知道有没有简单的做法
-1658110937384存在哪些问题: 目前是自己安排任务给自己做 是已经学过的知识 但不知道有哪些知识企业用到的偏多 希望导师给一点意见 指定一下复习的重点或者提供方向 我可以自学新知识 gin框架通常配合前端什么技术呀?还是说直接使用gotemplate嘛? 下载功能可以实现 但是看日志发现调用了三次 最后一次才完成传输 前面两次是broken pipe 请问这个是什么原因呀? 1658109545148打算接下来做什么: 容器技术学习 mysql学习 听导师的安排继续学习 使用gorm和go操纵数据库 (浏览之前项目代码尝试手动构建被黑数据库表结构 尝试使用gorm重构sql 使用gin重构http调用) </description>
-    </item>
-    
-    <item>
-      <title>实习小结20220714</title>
-      <link>https://linjianshu.github.io/p/%E5%AE%9E%E4%B9%A0%E5%B0%8F%E7%BB%9320220714/</link>
-      <pubDate>Fri, 15 Jul 2022 15:10:39 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/%E5%AE%9E%E4%B9%A0%E5%B0%8F%E7%BB%9320220714/</guid>
-      <description>实习进度汇报 这几天在做什么: 环境搭建 restful api开发 go web开发 (原生api) hugo 更新实习日记至github主页上 git代码管理 上传demo方便导师检查 这些事情的进度: 1.环境搭建 windows端 安装了Go sdk和 GoLand IDE 配置好了环境变量 安装了docker 还未开始使用 1657867093520WSL-Linux端 ubuntu 安装了Go sdk 1657867136423阿里云ECS-Linux ubuntu 安装了Go sdk 16578672310012.restful api开发 (在3中) 3.go web开发 复习了go web知识 简单编写go 文件服务器 部署至阿里云 供公网访问 (http://118.178.236.128:9876/index) 目前仅完成查找和上传 删除还没做 16578681726014.对项目代码进行简单的git版本管理 https://github.com/linjianshu/e-bookNew
-存在哪些问题: 目前是自己安排任务给自己做 是已经学过的知识 但不知道有哪些知识企业用到的偏多 希望导师给一点意见 指定一下复习的重点或者提供方向 我可以自学新知识 GoLand进行goweb开发的时候 调试的时候打开html文件总会在src下打开 往往是page no found(因为文件在项目文件夹的根目录下而不是在src的根目录下 通常我的解决方案是1.直接go build然后打开生成的exe 但是这样做不了调试2.把项目的html拷贝到src的根目录下 这是IDE中的设置问题吗还是? vscode好像就可以直接编译运行出界面) 写的时候很潦草 导师能否给一些指导方案 或者优化方案或者编码规范 错误处理很难看 不知道应该怎么一层一层往上处理 经常性需要对err进行判断 对web应用的功能能否提一些简单的功能或者修改或者UI上的建议 我可以进一步慢慢完善 之前做的论坛web和其他的应用程序 底层依赖的云服务器mysql数据库给人黑了 导师知道怎么进行恢复嘛?</description>
-    </item>
-    
-    <item>
-      <title>GoTemplateAndBootStrap3</title>
-      <link>https://linjianshu.github.io/p/gotemplateandbootstrap3/</link>
-      <pubDate>Sun, 06 Mar 2022 23:56:51 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/gotemplateandbootstrap3/</guid>
-      <description>Go模版与BootStrap3使用 Go模版看了老容易忘记,今天正好项目上工艺部门想要安全件的解析规则清单,我想着用.net开发还不如用Go模版+Bootstrap来个最佳实践得了.结果在公司多加班了半小时 : )
-成品样图 image-20220307001641199实现了搜索功能 隔行变色 其他的表头排序还在研究中
-文件结构 image-20220307001737794image-20220307001747021简单的 一个main.go 一个html(bootstrap.html没用 作为参考) 几张图片拼凑拼凑
-实现步骤 连接数据库 oracle 构造结构体完成数据库的数据映射问题 image-20220307002353869package main import ( &amp;#34;database/sql&amp;#34; &amp;#34;fmt&amp;#34; _ &amp;#34;github.com/mattn/go-oci8&amp;#34; &amp;#34;html/template&amp;#34; &amp;#34;log&amp;#34; &amp;#34;net/http&amp;#34; &amp;#34;os&amp;#34; &amp;#34;os/exec&amp;#34; &amp;#34;path/filepath&amp;#34; &amp;#34;time&amp;#34; ) type Items struct { ROW_NUM string PART_CODE string PART_NAME string PART_MODEL_NO sql.NullString PART_PLATFORM string PART_ABB string RESERVE07 string } var DB *sql.DB func DBconnect() { var err error //go连接mysql实例 //数据库源信息 dsn := &amp;#34;隐藏&amp;#34; //连接数据库 DB, err = sql.</description>
-    </item>
-    
-    <item>
-      <title>找工作相关</title>
-      <link>https://linjianshu.github.io/p/%E6%89%BE%E5%B7%A5%E4%BD%9C%E7%9B%B8%E5%85%B3/</link>
-      <pubDate>Tue, 01 Mar 2022 10:11:37 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/%E6%89%BE%E5%B7%A5%E4%BD%9C%E7%9B%B8%E5%85%B3/</guid>
-      <description>找工作相关 github.com
-image-20220215111209406image-20220215111227477image-20220215111249762image-20220215111421252image-20220215111554764image-20220215111730527image-20220215111802867image-20220215111813725image-20220215111837478image-20220215111846849image-20220215112302045image-20220215112349551</description>
-    </item>
-    
-    <item>
       <title>leetBook_冲刺攻略</title>
-      <link>https://linjianshu.github.io/p/leetbook_%E5%86%B2%E5%88%BA%E6%94%BB%E7%95%A5/</link>
+      <link>https://jianrongma.github.io/p/leetbook_%E5%86%B2%E5%88%BA%E6%94%BB%E7%95%A5/</link>
       <pubDate>Mon, 28 Feb 2022 12:11:37 +0800</pubDate>
       
-      <guid>https://linjianshu.github.io/p/leetbook_%E5%86%B2%E5%88%BA%E6%94%BB%E7%95%A5/</guid>
+      <guid>https://jianrongma.github.io/p/leetbook_%E5%86%B2%E5%88%BA%E6%94%BB%E7%95%A5/</guid>
       <description>leetBook_冲刺攻略 image-20220227100312893根据提示的数据范围推定时间复杂度 根据时间复杂度推定算法集合 根据题目特征确定算法
 image-20220227100007364没有给出数据范围通常使用枚举 枚举通常是n~nlog(n)的时间复杂度 然后再确定算法集合
 image-20220227100056863image-20220228103152097image-20220228103157567</description>
     </item>
     
     <item>
-      <title>leetBook_数组和字符串</title>
-      <link>https://linjianshu.github.io/p/leetbook_%E6%95%B0%E7%BB%84%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
-      <pubDate>Thu, 10 Feb 2022 12:11:37 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/leetbook_%E6%95%B0%E7%BB%84%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
-      <description>leetBook_数组和字符串 理解数组的 基本概念 及其 操作方式；
-理解 二维数组 的基本概念，熟悉二维数组的使用；
-了解 字符串 的概念以及字符串所具有的不同特性；
-理解字符串匹配中的 KMP 算法；
-能够运用 双指针 解决实际问题。
-数组简介 image-20220228130907972集合列表与数组 集合:由一个或多个确定的元素构成的整体
-集合里的元素类型不一定相同,集合里的元素没有顺序
-列表:一种数据项构成的有限序列,即按照一定的线性顺序,排列而成的数据项的集合
-列表的概念是在集合的特征上形成的,他具有顺序,且长度是可变的.
-列表最常见的形式有数组和链表;栈和队列是两种特殊类型的列表
-数组:列表的实现方式之一
-如何区分列表和数组:索引
-数组中的元素在内存中是连续存储的,且每个元素占用相同大小的内存
-相反,列表中的元素在内存中可能彼此相邻,也可能不相邻.比如链表的元素在内存中则不一定是连续的
-列表是集合的一种表现形式,在集合的特征上形成的;数组是列表的一种实现方式,链表是列表的另一种实现方式.
-image-20220228131524791数组的操作 连续存储
-读取元素:按照索引访问 , o(1)
-查找元素:全数组遍历,o(n)
-插入元素:要挪位子,很麻烦.如果需要频繁地对数组元素进行插入操作，会造成时间的浪费。事实上，另一种数据结构，即链表可以有效解决这个问题。
-删除元素:删掉后,把后面的挪到前面,很麻烦.删除操作具有线性时间复杂度，即时间复杂度为 O(N)，N 为数组的长度。
-题目 寻找数组的中心索引 给你一个整数数组 nums ，请计算数组的 中心下标 。
-数组 中心下标 是数组的一个下标，其左侧所有元素相加的和等于右侧所有元素相加的和。
-如果中心下标位于数组最左端，那么左侧数之和视为 0 ，因为在下标的左侧不存在元素。这一点对于中心下标位于数组最右端同样适用。
-如果数组有多个中心下标，应该返回 最靠近左边 的那一个。如果数组不存在中心下标，返回 -1 。
-//前缀和 + 逐项遍历 func pivotIndex(nums []int) int { preSum := make([]int, len(nums)+1, len(nums)+1) preSum[0] = 0 for i := 0; i &amp;lt; len(nums); i++ { preSum[i+1] = nums[i] + preSum[i] } for i := 1; i &amp;lt; len(preSum); i++ { left := preSum[i-1] right := preSum[len(preSum)-1] - preSum[i] if left == right { return i - 1 } } return -1 } 搜索插入位置 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</description>
-    </item>
-    
-    <item>
-      <title>尚硅谷Go学习</title>
-      <link>https://linjianshu.github.io/p/%E5%B0%9A%E7%A1%85%E8%B0%B7go%E5%AD%A6%E4%B9%A0/</link>
-      <pubDate>Mon, 13 Dec 2021 09:17:59 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/%E5%B0%9A%E7%A1%85%E8%B0%B7go%E5%AD%A6%E4%B9%A0/</guid>
-      <description>尚硅谷Go学习 进制： 对于整数，有四种表示方式：
-二进制 在golang中，不能直接使用二进制来表示一个整数，她沿用了c的特点 十进制 八进制 以数字0开头 十六进制 以0x或0X开头表示 此处A-F不区分大小写 进制转换 其他进制转十进制
-十进制转其他进制
-将该数不断除以其他进制的基数，直到商为0为止，然后将每步得到的余数倒过来，就是对应的二进制。 image-20211106093415401二进制转八进制、十六进制
-转八进制 三位一组，低位开始组合，转成八进制就可以了。 转十六进制 思维一组，低位开始组合，转成十六进制就可以了。 其他进制转二进制
-八进制、十六进制 每三位、四位转成二进制即可 位运算 运算符 &amp;amp;按位与 |按位或 ^按位异或 &amp;laquo;左移 &amp;raquo;右移
-image-20211106094703255原码、反码、补码 二进制的最高位是符号位：0表示正数 1表示负数 正数的原码、反码、补码都一样 负数的反码=它的原码符号位不变，其他位取反 负数的补码=负数的反码+1 -1 原码[1000 0001] 反码[1111 1110] 补码[1111 1111] 0的反码补码都是0 在计算机运算的时候，都是以补码的方式来运算的 image-20211106100410526函数调用机制 image-20211106101741641回收栈
-image-20211106101856688说明：
-在调用一个函数时，会给该函数分配一个新的空间，编译器会通过自身的处理让这个新的空间和其他的栈的空间区分开来 在每个函数对应的栈中，数据空间是独立的，不会混淆 当一个函数调用完毕（执行完毕）后，程序会销毁这个函数对应的栈空间 func main() { n1 := 10 test(n1) fmt.Println(&amp;#34;main() &amp;#34;, n1) sum := getSum(1,2) fmt.Println(&amp;#34;main sum = &amp;#34;, sum) fmt.</description>
-    </item>
-    
-    <item>
-      <title>Go Web编程 Chapter9</title>
-      <link>https://linjianshu.github.io/p/go-web%E7%BC%96%E7%A8%8B-chapter9/</link>
-      <pubDate>Sun, 28 Nov 2021 12:11:37 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/go-web%E7%BC%96%E7%A8%8B-chapter9/</guid>
-      <description>Go web编程 Chapter_9 Go_Concurrency channel_message package main import ( &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; ) func thrower(c chan int) { for i := 0; i &amp;lt; 5; i++ { c &amp;lt;- i fmt.Println(&amp;#34;Threw &amp;gt;&amp;gt;&amp;#34;, i) } } func catcher(c chan int) { for i := 0; i &amp;lt; 5; i++ { num := &amp;lt;-c fmt.Println(&amp;#34;Caught &amp;lt;&amp;lt;&amp;#34;, num) } } func main() { c := make(chan int, 3) go thrower(c) go catcher(c) time.Sleep(100 * time.</description>
-    </item>
-    
-    <item>
-      <title>Go Web编程 Chapter7</title>
-      <link>https://linjianshu.github.io/p/go-web%E7%BC%96%E7%A8%8B-chapter7/</link>
-      <pubDate>Sat, 20 Nov 2021 12:11:37 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/go-web%E7%BC%96%E7%A8%8B-chapter7/</guid>
-      <description>Go web编程 Chapter_7 Creating_Web_Servies json_creating_encoder package main import ( &amp;#34;encoding/json&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;io&amp;#34; &amp;#34;os&amp;#34; ) type Post struct { Id int `json:&amp;#34;id&amp;#34;` Content string `json:&amp;#34;content&amp;#34;` Author Author `json:&amp;#34;author&amp;#34;` Comments []Comment `json:&amp;#34;comments&amp;#34;` } type Author struct { Id int `json:&amp;#34;id&amp;#34;` Name string `json:&amp;#34;name&amp;#34;` } type Comment struct { Id int `json:&amp;#34;id&amp;#34;` Content string `json:&amp;#34;content&amp;#34;` Author string `json:&amp;#34;author&amp;#34;` } func main() { post := Post{ Id: 1, Content: &amp;#34;Hello World!&amp;#34;, Author: Author{ Id: 2, Name: &amp;#34;Sau Sheong&amp;#34;, }, Comments: []Comment{ Comment{ Id: 1, Content: &amp;#34;Have a great day!</description>
-    </item>
-    
-    <item>
-      <title>Go Web编程 Chapter6</title>
-      <link>https://linjianshu.github.io/p/go-web%E7%BC%96%E7%A8%8B-chapter6/</link>
-      <pubDate>Fri, 12 Nov 2021 12:11:37 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/go-web%E7%BC%96%E7%A8%8B-chapter6/</guid>
-      <description>Go web编程 Chapter_6 Storing_Data csv_store package main import ( &amp;#34;encoding/csv&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;os&amp;#34; &amp;#34;strconv&amp;#34; ) type Post struct { Id int Content string Author string } func main() { // creating a CSV file csvFile, err := os.Create(&amp;#34;posts.csv&amp;#34;) if err != nil { panic(err) } defer csvFile.Close() allPosts := []Post{ Post{Id: 1, Content: &amp;#34;Hello World!&amp;#34;, Author: &amp;#34;Sau Sheong&amp;#34;}, Post{Id: 2, Content: &amp;#34;Bonjour Monde!&amp;#34;, Author: &amp;#34;Pierre&amp;#34;}, Post{Id: 3, Content: &amp;#34;Hola Mundo!&amp;#34;, Author: &amp;#34;Pedro&amp;#34;}, Post{Id: 4, Content: &amp;#34;Greetings Earthlings!</description>
-    </item>
-    
-    <item>
-      <title>Go Web编程 Chapter5</title>
-      <link>https://linjianshu.github.io/p/go-web%E7%BC%96%E7%A8%8B-chapter5/</link>
-      <pubDate>Sun, 31 Oct 2021 12:11:37 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/go-web%E7%BC%96%E7%A8%8B-chapter5/</guid>
-      <description>Go web编程 Chapter_5 Displaying_Content context_aware package main import ( &amp;#34;html/template&amp;#34; &amp;#34;net/http&amp;#34; ) func process(w http.ResponseWriter, r *http.Request) { t, _ := template.ParseFiles(&amp;#34;tmpl.html&amp;#34;) content := `I asked: &amp;lt;i&amp;gt;&amp;#34;What&amp;#39;s up?&amp;#34;&amp;lt;/i&amp;gt;` t.Execute(w, content) } func main() { server := http.Server{ Addr: &amp;#34;127.0.0.1:8080&amp;#34;, } http.HandleFunc(&amp;#34;/process&amp;#34;, process) server.ListenAndServe() } tmpl.html
-&amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta http-equiv=&amp;#34;Content-Type&amp;#34; content=&amp;#34;text/html; charset=utf-8&amp;#34;&amp;gt; &amp;lt;title&amp;gt;Go Web Programming&amp;lt;/title&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;div&amp;gt;{{ . }}&amp;lt;/div&amp;gt; &amp;lt;div&amp;gt;&amp;lt;a href=&amp;#34;/{{ . }}&amp;#34;&amp;gt;Path&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;div&amp;gt;&amp;lt;a href=&amp;#34;/?q={{ . }}&amp;#34;&amp;gt;Query&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;div&amp;gt;&amp;lt;a onclick=&amp;#34;f(&amp;#39;{{ . }}&amp;#39;)&amp;#34;&amp;gt;Onclick&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; costom_function package main import ( &amp;#34;html/template&amp;#34; &amp;#34;net/http&amp;#34; &amp;#34;time&amp;#34; ) func formatDate(t time.</description>
-    </item>
-    
-    <item>
       <title>活连上线学习文档</title>
-      <link>https://linjianshu.github.io/p/%E6%B4%BB%E8%BF%9E%E4%B8%8A%E7%BA%BF%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
+      <link>https://jianrongma.github.io/p/%E6%B4%BB%E8%BF%9E%E4%B8%8A%E7%BA%BF%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
       <pubDate>Thu, 28 Oct 2021 10:24:40 +0800</pubDate>
       
-      <guid>https://linjianshu.github.io/p/%E6%B4%BB%E8%BF%9E%E4%B8%8A%E7%BA%BF%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
+      <guid>https://jianrongma.github.io/p/%E6%B4%BB%E8%BF%9E%E4%B8%8A%E7%BA%BF%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
       <description>维保
 优化内存占用 提高sql执行效率 索引 性能分析 慢查询日志 多线程上传数据 以后要设定阀值 上传数据总量等于5w(估算)的时候,先上传,放置因为很久没上传的数据因为累积过多,导致一次性上传50w数据裂开 image-20211117085507371</description>
     </item>
     
     <item>
-      <title>Go Web编程 Chapter4</title>
-      <link>https://linjianshu.github.io/p/go-web%E7%BC%96%E7%A8%8B-chapter4/</link>
-      <pubDate>Wed, 20 Oct 2021 12:11:37 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/go-web%E7%BC%96%E7%A8%8B-chapter4/</guid>
-      <description>Go web编程 Chapter_4 Processing_Requests body package main import ( &amp;#34;fmt&amp;#34; &amp;#34;net/http&amp;#34; ) func body(w http.ResponseWriter, r *http.Request) { len := r.ContentLength body := make([]byte, len) r.Body.Read(body) fmt.Fprintln(w, string(body)) } func main() { server := http.Server{ Addr: &amp;#34;127.0.0.1:8080&amp;#34;, } http.HandleFunc(&amp;#34;/body&amp;#34;, body) server.ListenAndServe() } cookie package main import ( &amp;#34;fmt&amp;#34; &amp;#34;net/http&amp;#34; ) func setCookie(w http.ResponseWriter, r *http.Request) { c1 := http.Cookie{ Name: &amp;#34;first_cookie&amp;#34;, Value: &amp;#34;Go Web Programming&amp;#34;, HttpOnly: true, } c2 := http.</description>
-    </item>
-    
-    <item>
-      <title>Go Web编程 Chapter3</title>
-      <link>https://linjianshu.github.io/p/go-web%E7%BC%96%E7%A8%8B-chapter3/</link>
-      <pubDate>Fri, 15 Oct 2021 12:11:37 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/go-web%E7%BC%96%E7%A8%8B-chapter3/</guid>
-      <description>Go web编程 Chapter_3 Handling_Requests chain_handler package main import ( &amp;#34;fmt&amp;#34; &amp;#34;net/http&amp;#34; ) type HelloHandler struct{} func (h HelloHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) { fmt.Fprintf(w, &amp;#34;Hello!&amp;#34;) } func log(h http.Handler) http.Handler { return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { fmt.Printf(&amp;#34;Handler called - %T\n&amp;#34;, h) h.ServeHTTP(w, r) }) } func protect(h http.Handler) http.Handler { return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { // some code to make sure the user is authorized h.ServeHTTP(w, r) }) } func main() { server := http.</description>
-    </item>
-    
-    <item>
       <title>Mysql高级</title>
-      <link>https://linjianshu.github.io/p/test-chinese/</link>
+      <link>https://jianrongma.github.io/p/test-chinese/</link>
       <pubDate>Tue, 12 Oct 2021 19:35:55 +0800</pubDate>
       
-      <guid>https://linjianshu.github.io/p/test-chinese/</guid>
+      <guid>https://jianrongma.github.io/p/test-chinese/</guid>
       <description>Mysql高级学习文档 mysql的架构介绍 mysql简介 mysqllinux版安装 mysql配置文件 mysql逻辑架构介绍 mysql存储引擎 索引优化分析 性能下降sql慢是执行时间长还是等待时间长 常见通用的join查询 索引简介 性能分析 索引优化 查询截取分析 查询优化 慢查询日志 批量数据脚本 show profile 全局查询日志 mysql锁机制 锁的分类 主从复制 主从配置 mysql简介 高级mysql 完整的mysql优化
 mysql内核 sql优化攻城狮 mysql服务器的优化 各种参数常量设定 查询语句优化 主从复制 软硬件升级 容灾备份 sql编程 mysqllinux版的安装 image-20211012195826053#查看当前ubuntu版本 yourtreedad@yourtreedad:~$ lsb_release -a No LSB modules are available. Distributor ID: Ubuntu Description: Ubuntu 20.04.3 LTS Release: 20.04 Codename: focal yourtreedad@yourtreedad:~$ 准备工作
 #切换到root账户 yourtreedad@yourtreedad:~$ sudo passwd root New password: Retype new password: passwd: password updated successfully yourtreedad@yourtreedad:~$ su root Password: root@yourtreedad:/home/yourtreedad# #查看电脑里有没有mysql root@yourtreedad:/home/yourtreedad# service mysql status * MySQL is stopped.</description>
     </item>
     
     <item>
-      <title>Go趣学指南</title>
-      <link>https://linjianshu.github.io/p/go%E8%B6%A3%E5%AD%A6%E6%8C%87%E5%8D%97/</link>
-      <pubDate>Mon, 11 Oct 2021 09:17:59 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/go%E8%B6%A3%E5%AD%A6%E6%8C%87%E5%8D%97/</guid>
-      <description>Go趣学指南 备注:
-内置函数
-len() cap() append() delete() new() copy() 本书未涉及:
-iota表示声明连续的常量 移位操作符&amp;laquo; &amp;raquo; 位运算符 &amp;amp; | 关键字continue和关键字goto和标签 遮蔽变量的具体规则 复数和虚数 裸返回(bare return) 空借口 interface{} 浅尝即止 介绍了类型断言但没有介绍类型判断 双向通道 初始化操作的init特殊函数 每个内置函数没有详细介绍,例如分配内存并返回指针的new函数和复制切片的copy函数 没有说明如何将自己的包分享给别人 git版本控制 丰富的工具和库组成的生态系统 入门 并非所有编程语言都需要编译才能运行,如python ruby和其他一些流行语言就选择了在程序运行的时候,通过解释器一条接一条地转换代码中的声明,但这也意味着bug可能会隐藏在测试尚未触及的代码当中.
-解释器不仅能够让开发过程变得迅速且具有交互性,还能够让语言本身变得灵活,相反编译语言因为缓慢的编译速度常常为人诟病,但实际上并非所有的编译语言都是如此.
-go想要构造地像c++和java这类静态编译语言一样安全高效,还可以像python这类动态型解释性语言一样轻巧且充满乐趣.
-go编译器的优点 go的编译可以在极短的时间内完成,只需要一条命令,排除了可能会导致歧义的特性,为传统语言死板的数据结构提供了轻量级别的代替品.它可以在程序运行之前找出代码中一些人为失误,如拼写错误等.
-go能够利用多核机器商的每个核心获得额外的性能优势.
-包和函数 package关键字声明了代码所属的包,编写代码都会被组织称各式各样的包.go语言本身就提供了这些包,标准库.
-import关键字导入自己将要用到的包,math包提供了sin cos tan sqrt 等等函数,fmt包则提供了用于格式化输入和输出的函数.
-func关键字用于声明函数,每个函数的函数体body都要用大括号{}包围起来
-main标识符具有特殊意义,从main包的main函数开始执行,如果main不存在,将报告一个错误
-每次用到被导入包中的某个函数时,我们都需要在函数的名字前面加上包的名字以及一个点号座位前缀.
-go语言的这一特性可以让用户在阅读代码的时候立即弄清楚各个函数分别来自哪些包.
-速查 fmt包提供了格式化输入输出的功能 go程序从main包的main函数开始执行 唯一允许的大括号放置风格 go对于大括号{}的摆放位置非常挑剔.左大括号与func关键字位于同一行,而右大括号单独占一行,除此之外,其他的放置风格都是不允许的.
-不需要加封号,go编译器将自动代劳,代价是遵守大括号放置风格
-小结 每个go程序都有包中包含的函数组成 编程语言中的标点符号也是至关重要的 go关键字 package import func 命令式编程 被美化的计算器 执行计算 算术操作符 + - * / %</description>
-    </item>
-    
-    <item>
       <title>Mysql基础</title>
-      <link>https://linjianshu.github.io/p/mysql%E5%9F%BA%E7%A1%80/</link>
+      <link>https://jianrongma.github.io/p/mysql%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Sun, 10 Oct 2021 23:44:44 +0800</pubDate>
       
-      <guid>https://linjianshu.github.io/p/mysql%E5%9F%BA%E7%A1%80/</guid>
+      <guid>https://jianrongma.github.io/p/mysql%E5%9F%BA%E7%A1%80/</guid>
       <description>mysql学习文档 一 为什么要学习数据库 二 数据库的相关概念 DBMS DB SQL
 三 数据库存储数据的特点 四 初始mysql mysql产品的介绍
 mysql产品的安装
@@ -389,53 +118,11 @@ SQL 结构化查询语言 structure query language :专门用来与数据库通�
     </item>
     
     <item>
-      <title>记辛亥革命110周年大会有感</title>
-      <link>https://linjianshu.github.io/p/%E8%AE%B0%E8%BE%9B%E4%BA%A5%E9%9D%A9%E5%91%BD110%E5%91%A8%E5%B9%B4%E5%A4%A7%E4%BC%9A%E6%9C%89%E6%84%9F/</link>
-      <pubDate>Sat, 09 Oct 2021 10:57:55 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/%E8%AE%B0%E8%BE%9B%E4%BA%A5%E9%9D%A9%E5%91%BD110%E5%91%A8%E5%B9%B4%E5%A4%A7%E4%BC%9A%E6%9C%89%E6%84%9F/</guid>
-      <description>致中山樵 ​	我想告诉你
-​	任何故土的消息
-​	好也罢坏也罢
-​	我想告诉你
-​	碧云寺的彩塑依旧
-​	钟山却已初秋
-​	我想告诉你
-​	故国的消息
-​	风也好雨也好
-​	祖国已思念她的游子多时
-​	殊不知你已与这片大地相濡以沫
-​	我想告诉你
-​	才人的汹涌
-​	如山间的松涛
-​	一年胜过一年
-​	我想告诉你
-​	这盛世已定
-​	你若在
-​	太容易泪湿满襟
-​	姓名:林健树
-​	学院:机械工程学院
-​	年级:20级033班
-​	专业:工业工程与管理
-​	学生类别:全日制
-😜💖💕😋</description>
-    </item>
-    
-    <item>
-      <title>Go Web编程 Chapter1</title>
-      <link>https://linjianshu.github.io/p/go-web%E7%BC%96%E7%A8%8B-chapter1/</link>
-      <pubDate>Fri, 01 Oct 2021 12:11:37 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/go-web%E7%BC%96%E7%A8%8B-chapter1/</guid>
-      <description>Go web编程 Chapter_1 Go_And_Web_Application first_web_app package main import ( &amp;#34;fmt&amp;#34; &amp;#34;net/http&amp;#34; ) func handler(writer http.ResponseWriter, request *http.Request) { fmt.Fprintf(writer, &amp;#34;Hello World, %s!&amp;#34;, request.URL.Path[1:]) } func main() { http.HandleFunc(&amp;#34;/&amp;#34;, handler) http.ListenAndServe(&amp;#34;:8080&amp;#34;, nil) } </description>
-    </item>
-    
-    <item>
       <title>数据结构与算法学习文档</title>
-      <link>https://linjianshu.github.io/p/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
+      <link>https://jianrongma.github.io/p/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
       <pubDate>Wed, 01 Sep 2021 00:22:19 +0800</pubDate>
       
-      <guid>https://linjianshu.github.io/p/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
+      <guid>https://jianrongma.github.io/p/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
       <description>数据结构与算法 解决问题方法的效率，跟数据的组织方式有关。
 循环和递归
 解决问题方法的效率，跟空间的利用效率有关。
@@ -456,92 +143,11 @@ image-20210818165255964image-20210818165445992image-20210818165457903image-20
     </item>
     
     <item>
-      <title>Go语言学习</title>
-      <link>https://linjianshu.github.io/p/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/</link>
-      <pubDate>Tue, 24 Aug 2021 00:17:57 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/</guid>
-      <description>Go语言学习 alt+enter
-ctrl+space
-ctrl+shift+space
-ctrl+alt+L
-ctrl+alt+M重构
-F2查看错误
-alt+6查看问题
-ctrl+shift+/
-alt+F8 评估表达式
-ctrl+F8 切换断点
-环境搭建，编译之后生成可执行exe文件，就可以直接使用了
-image-20210725102106105image-20210725102139391编译
-使用 go build
-1.在项目目录下执行go build
-2.在其他路径下执行go build ，需要在后面加上项目的路径（项目路径从gopath/src后开始写起，编译之后的可执行文件就保存在当前目录下）
-3.go build -o hello.exe
-go run
-像执行脚本文件一样执行go代码
-go install
-分为两步：
-1.先编译得到一个可执行文件
-2.将可执行文件拷贝到gopath的bin目录
-交叉编译，可以跨平台跑程序
-例如在windows平台编译一个能在linux平台上执行的可执行文件
-这个似乎要在源文件位置处使用cmd命令操作,并且要用大写!!!
-E:\project\GOproject\code.oldboyedu.com\day1&amp;gt;SET CGO_ENABLE=0 E:\project\GOproject\code.oldboyedu.com\day1&amp;gt;SET GOOS=linux E:\project\GOproject\code.oldboyedu.com\day1&amp;gt;SET GOARCH=amd64 E:\project\GOproject\code.oldboyedu.com\day1&amp;gt;go build image-20210725103733683go语言的基本结构
-package main //导入的包 import &amp;#34;fmt&amp;#34; //程序的入口函数 //函数外部只能放置标识符（变量、常量、函数、类型）的声明 func main() { fmt.Println(&amp;#34;hello world&amp;#34;) } 变量和常量
-go语言中的变量必须先声明后使用
-var s1 string :声明一个保存字符串数据的变量
-var name string</description>
-    </item>
-    
-    <item>
-      <title>Docker Learning</title>
-      <link>https://linjianshu.github.io/p/docker-learning/</link>
-      <pubDate>Mon, 26 Jul 2021 00:23:34 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/docker-learning/</guid>
-      <description>docker学习 docker概述
-docker安装
-docker命令
-镜像命令 容器命令 操作命令 &amp;hellip; docker镜像
-容器数据卷
-dockerfile
-docker网络原理
-idea整合docker
-以上单机版本docker
-集群 docker compose docker swarm 简化版k8s ci/cd jenkins docker概述
-开发&amp;ndash;上线 两套环境 应用环境，应用配置
-开发人员 运维人员
-开发即运维！
-环境配置麻烦，每个机器都要部署环境（集群redis、es、hadoop&amp;hellip;）费事费力
-发布项目 jar（redis mysql jdk es） war
-jar带上环境进行发布，项目能不能带上环境安装打包
-之前在服务器配置一个应用的环境 redis mysql jdk es hadoop ，配置超麻烦，不能跨平台
-windows与linux
-传统：开发提供jar 运维部署环境
-现在：开发打包部署上线，一套流程做完
-docker给以上的问题，提出解决方案
-java&amp;mdash;apk&amp;mdash;发布（应用商店） &amp;mdash;张三使用apk &amp;mdash;安装即可用
-java&amp;mdash;jar（环境）&amp;mdash;打包项目带上环境（镜像） &amp;mdash;-docker仓库：商店 &amp;mdash;- 下载我们发布的镜像 &amp;ndash;直接运行即可
-docker思想就来自于集装箱！
-jre&amp;mdash;多个应用 （端口冲突）&amp;mdash;原来都是交叉的
-隔离：Docker核心思想，打包装箱！每个箱子都是互相隔离的！
-docker通过隔离机制，可以将服务器利用到极致
-本质：所有的技术都是因为出现了一些问题，我们需要去解决，才去学习。
-docker历史
-容器化技术命名就是docker
-刚刚诞生的时候没有引起行业注意！dotcloud，开源
-开源，docker优点
-在容器技术出来之前，我们都是使用虚拟机技术，
-虚拟机：在windows中装一个虚拟机软件vmware，通过这个软件我们可以虚拟出来一台或者多台电脑！笨重！
-虚拟机：也是属于虚拟化技术，docker容器技术，也是一种虚拟化技术</description>
-    </item>
-    
-    <item>
       <title>git学习文档</title>
-      <link>https://linjianshu.github.io/p/git%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
+      <link>https://jianrongma.github.io/p/git%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
       <pubDate>Sat, 24 Jul 2021 16:18:59 +0800</pubDate>
       
-      <guid>https://linjianshu.github.io/p/git%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
+      <guid>https://jianrongma.github.io/p/git%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
       <description>Git学习文档 学习git之前，我们需要先明白一个概念，版本控制！
 版本控制 什么是版本控制 版本迭代 版本管理器
 版本控制（revision control）是一种在开发的过程中用于管理我们对文件、目录或工程等内容的修改历史，方便查看更改历史记录，备份一遍恢复以前的版本的软件工程技术。
@@ -566,83 +172,11 @@ svn是集中式版本控制系统，版本库是集中放在中央服务器的�
     </item>
     
     <item>
-      <title>CSharpLinux环境部署学习文档</title>
-      <link>https://linjianshu.github.io/p/csharplinux%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
-      <pubDate>Wed, 16 Jun 2021 00:25:03 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/csharplinux%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
-      <description>Linux学习 如果是阿里云记得配置安全组!!!
-css js 静态文件都在wwwroot中,所以如果后台启动或者使用mvcTest.dll 的话会无法找到静态文件 因为静态文件的层级在她们上面一层 , 所以要cp一份wwwroot到存放dll那一层中 , 这样就可以看到样式了!!!
-windows倾向于GUI操作，windows下的命令到了linux下不一定能用
-windows有扩展名，linux中可以没有扩展名
-windows不区分大小写，linux区分大小写
-linux不同版本使用方法配置文件变化很大，要反复查找和调试
-linux内核和发行版
-linux内核是由linus及开源社区维护，内核包含内存管理、存储管理、进程管理、网络通讯等基础模块。很多公司、开元组织基于linux内核打包出很多发行版，不同的发行版的内核版本可能不一致，包含的软件也不一致，界面差别较大，但是命令行操作时互通的，大部分程序也是互通的。
-内核和发行版的关系就像android内核和小米手机系统、华为手机系统的关系一样。常用的发行版有redhat、centos、debian、ubuntu等等。这里我们用ubuntu，因为其内置的软件最适合程序员，其他发行版要自己装。
-linux常见命令
-windows有多根目录
-linux是单根
-常用目录
-boot 存放用于系统引导时的各种文件
-bin 存放二进制可执行文件 例如ls，cat，mkdir等等
-sbin 存放二进制可执行文件，只有root用户才能访问
-usr 用于存放系统应用程序，比较重要的目录/usr/local 本地管理员软件安装目录
-opt 额外安装的可选应用程序包所放置的位置
-dev用于存放设备文件
-etc存放系统配置文件
-home存放所有用户文件的根目录
-lib存放跟文件系统中的程序运行所需要的共享库及内核模块
-tmp 用于存放各种临时文件
-var 用于存放运行时需要改变数据的文件
-mnt 安装临时文件系统的安装点
-常见命令
-pwd 显示当前工作目录 print working directory
-ls 目录
-cd 更改目录 cd .. 返回上级目录 cd / 返回根目录 cd 文件夹 进入文件夹
-mkdir 创建目录
-rmdir 目录名 删除非空目录
-rm-r 目录名 删除目录及其下目录与文件（递归删除）</description>
-    </item>
-    
-    <item>
-      <title>微信小程序学习文档</title>
-      <link>https://linjianshu.github.io/p/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
-      <pubDate>Tue, 01 Jun 2021 00:27:43 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
-      <description>小程序组件
-view标签 类比p便签
-text标签 类比span标签
-selecttable :文档是否可选
-image-20210404164128223decode标签 :选中＆ｎｂｓｐ；/lt/gt/amp.apos/ensp/emsp这样的可以识别出来
-button标签:
-​	type: primary / default / warn
-image-20210404164342281​	form-type=&amp;ldquo;submit&amp;rdquo;/reset
-​	open-type getuserinfo/getphonenumber/contact
-image-20210404164741208checkbox image-20210404165141036开闭标签,可以在开闭标签内写上复选文字内容
-value可以填入真实的值
-checkboxgroup
-radio单选按钮
-开闭标签 , value可以填入真实的值 , 实现单选需要配合实现radiogroup
-image-20210404165511648block标签
-​	标签块 , 其本身不会被渲染到页面中 , 只有内部的标签会被渲染进html页面
-image-20210404170226484image-20210404171030254绑定事件+编写js方法
-image-20210404183815644image-20210404183822112data的数据绑定以及数据更新
-image-20210404185119026image-20210404190648374image-20210404190705626富文本识别展示
-image-20210404191510461image-20210404191516120可以携带css样式结构
-image-20210404191528289弹出窗体
-image-20210404193546211image-20210404193554023加载窗体 , 等待时间 , 图标 成功的事件
-image-20210404193628433弹出确定/取消按钮
-click事件判定</description>
-    </item>
-    
-    <item>
       <title>计算机组成原理学习文档</title>
-      <link>https://linjianshu.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
+      <link>https://jianrongma.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
       <pubDate>Fri, 14 May 2021 00:26:49 +0800</pubDate>
       
-      <guid>https://linjianshu.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
+      <guid>https://jianrongma.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
       <description>计算机组成原理学习文档 CPU
 内存
 硬盘
@@ -699,27 +233,11 @@ ENIAC手动接线来控制计算
     </item>
     
     <item>
-      <title>Blazor学习文档</title>
-      <link>https://linjianshu.github.io/p/blazor%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
-      <pubDate>Sat, 24 Apr 2021 00:27:56 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/blazor%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
-      <description>Blazor学习文档 调用webapi
-httpclient ihttpclientfactory 数据绑定
-单项绑定
-双向绑定
-&amp;lt;input @bind = &amp;#34;CurrentValue&amp;#34; /&amp;gt; &amp;lt;input @bind = &amp;#34;CurrentValue&amp;#34; @bind:event = &amp;#34;oninput&amp;#34; &amp;lt;h1&amp;gt;单向绑定&amp;lt;/h1&amp;gt; &amp;lt;div&amp;gt; &amp;lt;h2&amp;gt;@Apsdetail.ProductBornCode&amp;lt;/h2&amp;gt; &amp;lt;h2&amp;gt;@Apsdetail.ProcedureCode&amp;lt;/h2&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;div&amp;gt; &amp;lt;h3&amp;gt;@Apsdetail.ProductBornCode&amp;lt;/h3&amp;gt; &amp;lt;h3&amp;gt;@Apsdetail.ProcedureCode&amp;lt;/h3&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;hr /&amp;gt; &amp;lt;h1&amp;gt;双向绑定&amp;lt;/h1&amp;gt; &amp;lt;div&amp;gt; &amp;lt;h3&amp;gt;产品出生证&amp;lt;/h3&amp;gt; &amp;lt;input @bind=&amp;#34;@Apsdetail.ProductBornCode&amp;#34; /&amp;gt; &amp;lt;h3&amp;gt;工序编号&amp;lt;/h3&amp;gt; &amp;lt;input @bind=&amp;#34;@Apsdetail.ProcedureCode&amp;#34; /&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;h2&amp;gt;不同的触发event:&amp;lt;/h2&amp;gt; &amp;lt;div&amp;gt; &amp;lt;h3&amp;gt;产品出生证&amp;lt;/h3&amp;gt; &amp;lt;input @bind=&amp;#34;@Apsdetail.ProductBornCode&amp;#34; @bind:event=&amp;#34;oninput&amp;#34;/&amp;gt; &amp;lt;h3&amp;gt;工序编号&amp;lt;/h3&amp;gt; &amp;lt;input @bind=&amp;#34;@Apsdetail.ProcedureCode&amp;#34; @bind:event=&amp;#34;oninput&amp;#34; /&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;div&amp;gt; &amp;lt;button @onclick=&amp;#34;@button_click&amp;#34;&amp;gt;click&amp;lt;/button&amp;gt; &amp;lt;/div&amp;gt; EditForm
-input组件 inputtext inputtextarea inputnumber inputselect inputdate inputcheckbox 数据绑定 数据验证 界面携值跳转
-在webapi中
-记得指定route属性</description>
-    </item>
-    
-    <item>
       <title>ApsDotnetCoreMVC学习文档</title>
-      <link>https://linjianshu.github.io/p/apsdotnetcoremvc%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
+      <link>https://jianrongma.github.io/p/apsdotnetcoremvc%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
       <pubDate>Fri, 16 Apr 2021 00:28:25 +0800</pubDate>
       
-      <guid>https://linjianshu.github.io/p/apsdotnetcoremvc%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
+      <guid>https://jianrongma.github.io/p/apsdotnetcoremvc%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
       <description>asp .net core mvc 学习文档 控制器向界面传值 通过viewbag/viewdata 来进行弱传递
 controller中:
 image-20210421230444662index中:
@@ -736,10 +254,10 @@ Razor语法 使用@符号将c#转化为html代码提供展示 显式/隐式razor
     
     <item>
       <title>真会CSharp吗学习文档</title>
-      <link>https://linjianshu.github.io/p/%E7%9C%9F%E4%BC%9Acsharp%E5%90%97%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
+      <link>https://jianrongma.github.io/p/%E7%9C%9F%E4%BC%9Acsharp%E5%90%97%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
       <pubDate>Sat, 30 Jan 2021 00:17:57 +0800</pubDate>
       
-      <guid>https://linjianshu.github.io/p/%E7%9C%9F%E4%BC%9Acsharp%E5%90%97%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
+      <guid>https://jianrongma.github.io/p/%E7%9C%9F%E4%BC%9Acsharp%E5%90%97%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
       <description>C#5.0+学习文档 特点：
 通用性语言 类型安全 面向对象 目标：生产力
 简洁性 表达力 高性能 平台中立，与平台无关
@@ -765,297 +283,11 @@ CLR和语言无关</description>
     </item>
     
     <item>
-      <title>RabbitMQ学习文档</title>
-      <link>https://linjianshu.github.io/p/rabbitmq%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
-      <pubDate>Tue, 01 Dec 2020 00:29:59 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/rabbitmq%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
-      <description>RabbiMQ学习文档 rabbitMQ是遵循amqp协议的一个erlang实现。
-amqp协议：高级消息队列协议
-http协议：request、response
-telnet协议：经常用来查看某一台ip上的指定端口是否是ping通的【远程登陆协议】
-AMQP 0-9-1 complete Reference Guide rabbitmq 实现的amqp协议的版本号
-connection =&amp;gt;open , use , close [open-ok , close , une-ok] channel =&amp;gt;open, flow , close , [构建在connection之上，在amqp中常作为长连接] exchange =&amp;gt; queue basic =&amp;gt;发布和获取 message中的一些设置 tx =&amp;gt;事务处理 confirm =&amp;gt;发布确认机制 详细设计书一样
-image-20201026164558077image-20201026164701153延时处理，拉长时间
-以更长的时间来换取堆积的业务逻辑
-异步处理：响应很快，增加服务器承载能力
-流量削峰：
-扩展性：UI和业务的解耦，可以独立演化
-高可用：处理器发生故障以后，不会影响可用性
-缺陷：
-即时性降低，降低了用户体验&amp;mdash;无法避免；业务上来屈服；
-复杂性提高
-vhost：避免命名冲突
-exchange：
-direct headers topic fanout image-20201026211929666在windows上是一个服务
-UI工具可以查看rabbitmq的事实状况，http api的方式也可以查看
-http://127.0.0.1:15672/#/
-image-20201027095638965ui和命令行的区别：ui只是命令行的子集
-image-20201026215957380应用层序和集群的管理 application and Cluster Management</description>
-    </item>
-    
-    <item>
-      <title>微服务2020.11.17微服务划分原则</title>
-      <link>https://linjianshu.github.io/p/%E5%BE%AE%E6%9C%8D%E5%8A%A12020.11.17%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%88%92%E5%88%86%E5%8E%9F%E5%88%99/</link>
-      <pubDate>Tue, 17 Nov 2020 09:17:59 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/%E5%BE%AE%E6%9C%8D%E5%8A%A12020.11.17%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%88%92%E5%88%86%E5%8E%9F%E5%88%99/</guid>
-      <description>2020.11.17微服务划分原则 独立运行、独立部署和持续交付 应该通过功能来划分微服务：微服务应该彼此独立，如果不能交付独立的应用程序功能块，那么划分只能增加复杂性。 划分微服务的目标应该是每个微服务可以单独的运行，单独的测试，不依赖其他的微服务，以便在大型项目开发中达到持续交付的目的，否则拆分微服务就失去意义了。 例如：子若姐的设备点检模块部分的微服务，划分为点检项配置和点检计划自动制定两个微服务，两个微服务可以单独的运行，只要无参调用或者给参数调用就能跑。 每个微服务对应一个数据库（也可以没有数据库） 每个微服务有自己的数据库，并与其他微服务完全解耦。 为每个微服务分配数据库，保证该微服务对其下数据库的支配权，数据库中的表应该包括微服务用到的所有表结构和实体，并且在其他微服务出现次数尽可能少（可以出现，如此就需要用MQTT或Rabbitmq保证数据的最终一致性）。 例如：点检项配置微服务有4个表，点检计划自动指定微服务有4个表，有一个表相同，但另外的表只有对应微服务在使用，其他微服务无法干涉。 微服务划分粒度 没有标准定义，个人认为：1.可以按照数据库的独立性来划分微服务（即：被剥离出来的a数据库，理论上只有A微服务可以调用，其他微服务不行）2.可以按照实现的功能层面来划分微服务（根据简单的CRUD构成了一个复杂/简单的功能，即：点检项的配置和点检计划的制定）3.在满足以上的情况下，不建议划分过小的微服务，例如简单的C、R、U、D划分为四个，那么在微服务调用时就会因为进程间调用造成极大的通信成本，另外微服务的搭建也十分繁琐，这是不合适的） 关于DDD原则划分微服务 书中建议我们，并不是所有的微服务都需要使用DDD原则来划分和构建。**每个微服务可以基于不同设计模式具有不同内部架构。并非所有微服务都应使用先进的DDD模式来实现，因为这可能导致过度设计。对于简单的CRUD维护应用程序，设计和实现DDD模式可能没什么意义。但对于核心领域或核心业务，可能需要应用更先进的模式来应对业务规则不断变化的业务复杂性。**我们不可能用“一种架构模式来解决所有问题”。根据优先级，必须为每个微服务选择不同方法。 image-20201116221753802个人理解：我们使用的ABP四层框架实际上就是按照DDD原则进行CRUD和构建复杂功能的框架。 image-20201117160828300在拆分的过程中，我们还应该考虑，是否有一些被拆分出去的微服务，它用不上DDD，诸如简单的CRUD，以及不涉及聚合数据、提取表中特定数据的Dto构造，我们就可以使用简单的单层或其他形式来进行该微服务的构建，以达到最适合该微服务搭建的目的。 低耦合 重点是构建低耦合的微服务，如果我们发现A微服务在运行的过程中会频繁的调用B微服务，那么我们可能会考虑将A微服务和B微服务进行组合。以解耦提高内聚，降低通信成本，降低出现故障的可能。 微服务间的交互越少越好，核心规则是微服务间的交互需要异步 </description>
-    </item>
-    
-    <item>
-      <title>微服务2020.11.16</title>
-      <link>https://linjianshu.github.io/p/%E5%BE%AE%E6%9C%8D%E5%8A%A12020.11.16/</link>
-      <pubDate>Mon, 16 Nov 2020 09:17:59 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/%E5%BE%AE%E6%9C%8D%E5%8A%A12020.11.16/</guid>
-      <description>2020.11.16微服务继续学习 Docker数据卷技术 数据卷是指从主机操作系统映射到容器的目录。当容器中的代码访问这些目录时，实际上是在访问主机操作系统中的文件夹。这些目录并没有绑定到容器本身的生命周期中，它们能被直接运行在主机操作系统中的代码访问，或被其他同样映射了该目录的容器访问。因此，数据卷按照设计可独立于容器生命周期来实现数据的持久存储。如果从docker主机删除容器或镜像，数据卷中的数据并不会被删除，其中的数据依然能从主机操作系统访问。
-微服务架构 每个微服务负责实现一个特定的端到端领域，或有着确定边界的业务逻辑，并且每个微服务必须能独立开发和部署。每个微服务应该拥有自己特定的领域数据模型和领域逻辑（自治和去中心化的数据管理），它们是基于不同数据存储技术（SQL、NoSQL）和不同编程语言实现的。
-重点是要创建低耦合的服务，只要它们之间没有太多直接依赖，就应该使它们尽可能地小。
-微服务架构提供了长期的敏捷性，微服务可以基于多个独立部署的服务来创建应用。
-微服务另一个优势在于能够独立地进行横向扩展。而不是一起将本不需要扩展的其他功能区域也进行扩展。难点：如何在多个层级设计并实现安全性：认证、授权、密文密码管理和安全通信等。
-微服务的数据自治 A与B子系统都会调用C实体的属性和数据，而它们是隶属于不同上下文边界的。这样的原则在DDD里也是类似的，每个限界上下文、自治的子系统或服务必须拥有自己的领域模型（数据+逻辑+行为）。
-中心化数据库：同一张地图满足徒步旅行、长途汽车旅行和学习地理知识的需求；都支持ACID原则和SQL语言。
-当业务流程跨越多个微服务时，最终一致性是唯一的办法，这比写一个简单的SQl连接要复杂的多，同理，很多其他关系型数据库功能也不支持跨微服务使用。
-基于微服务的应用通常会混合使用SQL和NoSQL数据库，这种做法有时会被称为混合数据持久化。
-微服务和限界上下文模式的关系 每个BC必须有自己的模型和数据库。
-逻辑架构和物理架构 确定了业务微服务或限界上下文，但不意味这最佳实现方式就是为每个业务微服务创建单独的服务（例如作为一个ASP.NET Web API）或单独的Docker容器。
-业务微服务或限界上下文必须自主地进行代码和状态的独立版本控制、部署和扩展。
-分布式数据管理的挑战和解决方案 定义微服务边界： 关注应用的逻辑领域模型和相关数据
-创建从多个微服务获取数据的查询： 需要一种方式来聚合信息；
-API网关、CQRS查询/读取表：此时复杂的查询将变成巨大的挑战，为此可以使用CQRS方案：在不同数据库中创建一个只用作查询的非规范表，这种方式不仅解决了最初的问题（如何跨微服务查询和联接），与复杂的SQL联接语句相比还能进一步提升性能，因为应用所需的数据已经在查询表里了；
-中心数据库的“冷数据”：将“热数据”导出为“冷数据”储存到报表专用的大型数据库中。为了同步数据，可以采用事件驱动通信，如果使用事件驱动通信的方式，整合流程将与上文提到的使用CQRS查询表获取数据的方式相似。
-然而，在设计上需要不断从多个微服务里进行聚合数据并进行复杂查询，那么通常在遇到此类问题后，我们也许会考虑合并微服务。
-在多个微服务之间实现一致性 使用基于异步通信，如集成事件（消息和基于事件的通信）的最终一致性。根据CAP理论，我们需要在可用性和强ACID一致性之间做出选。大多数微服务场景要求高可用性和高扩展性，而非强一致性。开发人员可以使用弱一致性或最终一致性的技术来做到强一致性。这也是大多数基于微服务的架构所采取的方法。
-此外，ACID风格或两步式提交事务违背了微服务原则，跨服务和数据库维护数据的一致性非常重要。需要在微服务之间使用事件驱动通信和发布订阅系统来实现最终一致性。
-在多个微服务之间通信 在多个微服务间创建了长串的同步HTTP调用，应用最终将会碰到问题：阻塞和性能低下。
-因为这可能会产生一种争议：这实际上是一种单体式应用，它的进程间是基于HTTP的，而没有使用进程内通信机制。
-为了促进微服务的自治并获得更高的弹性，应该减少使用跨服务的链式请求/响应通信。建议微服务间的通信只使用异步交互，例如使用基于消息或时间的异步通信。
-识别微服务的领域模型边界 虽然微服务应该尽可能地趋向于小型化，但识别每个微服务的模型边界不是为了尽可能拆成细粒度，而是根据领域知识来进行最有意义的划分。重点不在于大小，而在于业务需要。另外，如果因为存在庞大复杂的依赖关系而要求应用的某个领域有清晰的一致性的需求，这也就表明该领域应该是一个独立的微服务。
-因此，BC会帮助澄清哪里需要特定的领域术语，以及哪里需要把系统拆分成额外的不同领域BC。
-然而也有些具有不同形态但却共用相同标识的实体，它们存在于多个微服务所包含的多个领域模型中。例如会议管理微服务中有一个用户实体，该实体所对应的同一个用户，在订单微服务里被称为买家，在支付微服务里名为付款方，而在客户服务微服务里称作客户。这是因为基于每个领域专家使用的通用语言，会对同一个用户有不同视角，甚至包含不同属性。会议管理微服务里的用户实体应该包含最多的个人数据属性，但是同一个用户在支付微服务里的买家标识和客户服务里的客户标识就不需要那么多属性了。
-每个领域模型里的用户实体可能有不同的补充细节。因此需要某种方式把一个领域的用户实体映射到另一个领域中。
-客户端微服务直连和API网关模式 直连有弊端：如何处理跨界限问题，例如授权、数据传输和动态请求派发：为每个微服务实现安全和界限问题，例如安全性和授权机制，一种可能的方法是把这些服务放进Docker主机或内部集群中，再通过一个中间位置，例如API网关来解决跨界限问题。
-有时要从响应中去掉移动端不需要的数据，还要压缩数据，所以这样的场景下，在移动端和微服务之间使用外观模式或API就变得很方便了。
-使用API网关：
-我们可以使用单一的自定义API网关服务来面对多个不同客户端应用，但这会造成巨大的风险，因为API网关服务会随着客户端应用需求的变化而增长并演化，最终它会因为需求的变化而变得臃肿，在效果上将会等同于单体应用或服务。因此我们极力推荐将API网关拆分成多个服务或者小型的API网关，每个API网关都有自己的形式。
-我们应该创建多个API网关，以便为每种客户端需求实现不同外观，略有差异的API，甚至可能基于客户端展现形式或设备来实现特定的适配代码，这些代码在底层调用多个内部的微服务。
-通常来说，使用一个API网关将应用中所有内部微服务聚合在一起，这种做法并不明智。因此，API网关应该基于业务边界来拆分，而不是作为整个应用的一个聚合器。
-在这单独的一层中，我们也可以过滤内部微服务的API，或者在已发布的API上添加授权。
-网关模式的不足之处：如果API网关包含自定义逻辑和数据集成，就会要求额外的开发成本和未来的维护成本。如果API网关只使用了安全性、日志管理和版本管理功能，这些额外的开发工作便不会发生。
-微服务之间的通信 通信类型 客户端代码或消息发送者通常不需要等待响应，只要把消息发送给RabbitMQ队列或其他消息代理即可。
-例如事件驱动架构里的发布/订阅机制。
-异步整合方式增强微服务自治 微服务间的交互越少越好，核心规则是微服务间的交互需要异步，微服务间通过异步传输来通信，但不要依赖于其他内部微服务作为自己HTTP请求/响应的一部分。
-每个微服务应以自治以及对客户端可用为目标，即使作为端到端应用一部分的其他服务发生故障或不稳定也应如此。如果需要从一个微服务调用其他微服务（如发起HTTP请求来查询数据）为客户端应用提供响应结果，那么这样的架构在其它微服务发生故障时就变得不稳定。
-如果最初的微服务需要原本在别的微服务里拥有的数据，不要依靠同步请求来获取数据。而是通过最终一致性（通常通过集成事件）方式来复制或传输这些数据到最初的微服务的数据库中。
-为了获得最终一致性，可以使用任何协议在微服务之间异步地通信来获取数据。重点在于：不要在微服务间创建同步依赖。
-异步消息通信 跨越多个微服务以及相关领域模型传送变化时，使用异步消息和事件驱动的通信至关重要。一种解决方案是基于异步消息传递和事件驱动的最终一致性。
-尽可能遵循另一个规则：只在内部服务间使用异步消息传递，只在从客户端应用到前端服务（API网关
-加上第一级微服务）间使用同步通信。
-多接受者消息通信
-使用发布/订阅机制；异步事件驱动通信；
-创建、改进和控制微服务API的版本和契约 即便初始版本的契约已经考虑的很周全了，随着时间发展，服务的API也可能需要改变。如果发生了变化，尤其是被多个客户端应用调用的公共API，通常无法强制所有客户端升级到新的API契约。通常这需要增量部署服务的新版本，同时也要让老版本和新版本服务契约同时运行。因此，服务的版本策略很重要。
-有时我们需要对服务API进行不兼容的大版本更新。因为不能强制客户端应用或服务立刻升级到新版，服务端必须支持老版本继续运行一段时间。如果使用基于HTTP的机制，一种方式是把API的版本号嵌入URL或HTTP头部。然后可以决定是在一个服务里同时实现两个版本的API，或是部署不同的服务来各自处理一个版本的API。此时一种较好的方法是采用中介者模式如MediaR库将不同版本的实现用不同的处理器来处理。Hypermedia是用来进行服务版本化和改进的最佳选择。
-微服务的可发现性和服务注册 使用Marathon和Kubernetes和DC/Os处理服务实例的注册和撤销。另一个例子是Service Fabric，它也提供了开箱机用的命名服务来实现服务注册。</description>
-    </item>
-    
-    <item>
-      <title>微服务2020.11.13</title>
-      <link>https://linjianshu.github.io/p/%E5%BE%AE%E6%9C%8D%E5%8A%A12020.11.13/</link>
-      <pubDate>Fri, 13 Nov 2020 09:17:59 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/%E5%BE%AE%E6%9C%8D%E5%8A%A12020.11.13/</guid>
-      <description>本周工作情况： 1.Dapper学习及使用（完成） 2.MQTT学习及使用（完成） 3.Dapper&amp;amp;MQTT保证数据一致性Demo（批量增、删、改）（完成） 4.跨服务事务一致性学习（saga)（未完成） 计划下阶段任务： 1.了解oes各个模块业务逻辑，上层：王锐师兄，下层：丽俊师兄，App：子若姐，重点了解流程，不慌搭建微服务 2.继续学习微服务划分原则和示例，根据领域驱动设计（DDD）及师兄师姐的理解划分各模块构建微服务蓝图 3.了解数据池化技术，斟酌数据库选用 Dapper入门及使用 ORM（对象关系映射）轻量级框架：数据库持久化技术，池化技术 EF框架加载树： image-20201113095855356Dapper加载树： image-20201113092949378MQTT学习及使用 image-20201113094906752MQTT&amp;amp;Dapper保证跨数据库的数据一致性 image-20201113091711501使用EMQ可视化界面作为代理来管理mqTT的客户端及主题、订阅、发布 image-20201113090134383批量增加 image-20201113090214669image-20201113090255394批量修改 image-20201113090947812image-20201113090956564image-20201113091105493批量删除 image-20201113091511010image-20201113091524415image-20201113091600481</description>
-    </item>
-    
-    <item>
-      <title>微服务架构学习文档</title>
-      <link>https://linjianshu.github.io/p/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
-      <pubDate>Fri, 23 Oct 2020 09:17:59 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
-      <description>微服务架构学习文档 Netflix流媒体播放平台微服务架构：
-imgoes目前设想：
-image-20201013172440573image-20201012210849046微服务架构特性： 单一职责 轻量级通信（通过http、rpc协议下的xml、json格式，无关语言、平台） 独立开发、测试、部署（并行工程） preview分布式&amp;ndash;集群&amp;ndash;微服务 分布式：不同服务器部署不同业务（应用）
-集群：不同服务器部署同一套业务（应用）
-微服务：同一台服务器可能部署多个微应用
-preview问题： 单体应用 优点：便于开发、测试、部署
-缺点：维护成本高、交付周期长、扩展性差
-作业平台、移动端、系统平台有功能相同或者重复的代码，相同业务逻辑的代码，修改维护很不方便 数据有时候通过数据库共享，有时候通过接口调用传输。接口调用关系杂乱。 单个应用为了给其他应用提供接口，渐渐地越改越大，包含了很多本来就不属于它的逻辑。应用边界模糊，功能归属混乱。 加入数据分析、深度学习等相关功能后出现性能瓶颈，影响了其他应用。 数据库表结构被多个应用依赖，无法重构和优化。 所有应用都在一个数据库上操作，数据库出现性能瓶颈。 开发、测试、部署、维护愈发困难。即使只改动一个小功能，也需要整个应用一起发布。有时候发布会不小心带上了一些未经测试的代码，或者修改了一个功能后，另一个意想不到的地方出错了。 团队出现推诿扯皮现象。关于一些公用的功能应该建设在哪个应用上的问题常常要争论很久，最后要么干脆各做各的，或者随便放个地方但是都不维护。 紧迫且繁重的任务容易使人陷入局部、短浅的思维方式，从而做出妥协式的决策。在这种架构中，每个人都只关注在自己的一亩三分地，缺乏全局的、长远的设计。长此以往，系统建设将会越来越困难，甚至陷入不断推翻、重建的循环。
-要做改造，首先你需要有足够的精力和资源。如果你的需求方（业务人员、项目经理、上司等）很强势地一心追求需求进度，以致于你无法挪出额外的精力和资源的话，那么你可能无法做任何事……
-整理了业务逻辑，抽象出公用的业务能力，做成几个公共服务
-各个应用后台只需从这些服务获取所需的数据，从而删去了大量冗余的代码，就剩个轻薄的控制层和前端。这一阶段的架构如下：
-img数据库依然是共用的，所以一些烟囱式系统的缺点仍然存在：
-数据库逐渐成为了性能瓶颈
-可能会有一个服务从数据库中读取另一个服务的现象发生
-数据库表结构可能被多个服务依赖，导致很难调整
-持久化层相互隔离，由各个服务自己负责。另外，为了提高系统的实时性，加入了消息队列机制。架构如下：
-img数据分析和深度学习可以做数据库持久化层，一些常用的访问可以做memcache缓存机制，大文件非结构化文本可以采用nosql非关系型数据库，例如mongodb、redis
-还有一种抽象出公共逻辑的方法是把这些公共逻辑做成公共的框架库。这种方法可以减少服务调用的性能损耗。但是这种方法的管理成本非常高昂，很难保证所有应用版本的一致性。 数据库拆分也有一些问题和挑战：比如说跨库级联的需求，通过服务查询数据颗粒度的粗细问题等。但是这些问题可以通过合理的设计来解决。总体来说，数据库拆分是一个利大于弊的。
-微服务架构的优点还在于其使得整个系统的分工更为明确，责任更加清晰；单体应用公共部分可能大家都实现了一遍，公共的业务功能没有明确的归属 微服务架构的缺点：容易产生雪崩效应，即一个服务挂了，另一个服务直接或者间接地调用该服务，导致这个服务也跟着宕机了；此外，整个应用被拆分为了多个服务，定位故障点也十分困难 问题是解决了，但谁也无法保证不会再发生类似的其他问题。微服务架构虽然逻辑设计上看是完美的，但就像积木搭建的华丽宫殿一样，经不起风吹草动。微服务架构虽然解决了旧问题，也引入了新的问题：
-微服务架构整个应用分散成多个服务，定位故障点非常困难。
-稳定性下降。服务数量变多导致其中一个服务出现故障的概率增大，并且一个服务故障可能导致整个系统挂掉。事实上，在大访问量的生产场景下，故障总是会出现的。
-服务数量非常多，部署、管理的工作量很大。
-开发方面：如何保证各个服务在持续开发的情况下仍然保持协同合作。
-测试方面：服务拆分后，几乎所有功能都会涉及多个服务。原本单个程序的测试变为服务间调用的测试。测试变得更加复杂。
-如何解决：
-引入监控（微服务监控系统）：使用开源组件获取各接口查看各状态，利用指标采集器来做监控界面和告警处理
-redis要监控占用内存值，网络流量；
-数据库要监控磁盘空间、数据库连接数
-业务服务要监控错误率，并发数，响应延迟imgimg定位故障
-Dapper
-服务容错
-熔断处理：服务异常或者大量延时就主动熔断，直接返回；不继续调用服务防止雪崩效应导致服务器宕机，隔离一段时间后，允许放行少量请求进入半熔断状态，如果仍然调用失败或超时异常，继续熔断，否则关闭熔断模式 线程隔离（一种隔离模式）不同服务使用不同线程池，即时服务出现故障耗尽线程池资源也不会让其他服务受到影响 回退操作 限流处理：对并发量访问量进行控制，超出部分拒绝请求 动态配置
-动态修改配置参数，解决方案之一是存放在git私有仓库里，通过docker从git服务器中动态读取，本地仓库发生代码变化时，通过push操作推送到git仓库，git服务器通过消息队列通知配置中心刷新对应的配置文件
-dubbo（阿里）
-分布式服务框架，基于java RPC协议，核心组件：有RPC（远程过程调用）、负载均衡、服务发现与注册、容错、服务监控，由于集成了众多功能组件，显得框架较重，但经历了阿里电商的考验，是一个值得研究和使用的框架。Netty（基础通信组件）Zookeeper（服务注册与发现）dubbo-monitor（服务监控中心）
-角色定义：consumer/provider/registry/monitor/container</description>
-    </item>
-    
-    <item>
-      <title>微服务架构设计模式学习文档</title>
-      <link>https://linjianshu.github.io/p/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
-      <pubDate>Tue, 13 Oct 2020 09:17:59 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
-      <description>微服务架构设计模式学习文档 微服务不在于“微”，而在于单一职责。
-——引自《微服务架构与实践》王磊 特点： 单一职责 轻量通信（无关平台语言、通过轻量级通信机制互联） image-20201019111933340采用xml或json格式达到通用，可以基于http协议或rpc协议达到服务间的轻量级通信
-业务独立（开发、测试、部署） image-20201019112313900进程隔离 image-20201019162622677持续交付 技术的可扩展性（接口不依赖于特定语言和平台） 劣势： 网络通信：进程内调用比进程间调用用时短，分布式调用严重依赖网络可靠性与稳定性。 自动化测试条件严苛（测试难度大） image-20201019161945662分区数据库架构（需要使用基于最终一致性的方法） 跨越多服务变更（服务之间可能有依赖关系） 难点： 性能（跨进程、跨网络、跨数据库）：考虑通信成本、网络延迟、带宽、多服务交互的响应时间 可靠性：服务数量节点增多可能带来潜在故障点，防止单点故障 异步：同步通信造成阻塞，异步通信缺增加功能实现的复杂度，出现故障时的链路追踪、定位、调试有难度。 image-20201019164512498数据一致性：保持数据一致性需要使用saga或者什么cqrs视图查询什么的 联表查询： 尝试使用微服务架构改造遗留系统： 改造策略/原则：
-最小修改（停止挖掘） image-20201019165725693功能剥离 image-20201019165818362数据解耦 image-20201019171523179数据同步 image-20201019171657915——引自《微服务:从设计到部署》Oposguy翻译与排版 image-20201019174033415image-20201019174056966image-20201019191811111每个微服务拥有自己的数据库，这将导致部分数据冗余，但这样可以实现松耦合。
-image-20201019174508586image-20201019175638779进程间通信：
-image-20201019192425195服务中使用了通知、请求/响应和发布/订阅组合。
-必须要加入熔断处理机制（或者设置超时、限制未完成的请求数量或提供回滚操作），否则将会造成线程堵塞无法响应。
-image-20201019192657830使用异步基于消息的通信，例如使用rabbitmq、amqp等等
-image-20201019193109130如何维护多个服务之间的业务事务一致性，传统的两阶段提交2pc已经不能使用
-image-20201019195112681如何从多个服务中检索数据（利用事件驱动架构作为解决方案，首先发布一个事件，让与其相关的数据库所属的微服务订阅该事件，这样就导致：某个微服务内的事件被触发时，订阅该事件的微服务模块进一步触发，导致更多的事件被发布）
-中间层次是消息代理
-事件驱动的架构能够跨越多服务并提供最终一致性事务，另外就是能够生成和维护物化视图。
-image-20201019195846736image-20201019200203845image-20201019200214661image-20201019201228525微服务重构策略：
-停止挖掘 image-20201019202506214以上需要两个组件，第一个为api网关，提供负载均衡、请求分发、路由控制；第二个是粘合代码，用于与单体集成，毕竟一个服务很少孤立存在，通常需要访问单体的数据库。这就需要粘合代码来负责数据集成。
-提取服务 image-20201019205850332image-20201019210059948——引自《.NET微服务与容器化.NET应用架构指南》Cesar de la Torre,Bill Wagner,Mike Rousos 创建微服务的重点是要创建低耦合的微服务，只要他们之间没有太多的直接依赖，就应该尽可能小，重要的还是要有内部一致性和对其他服务的依赖。</description>
-    </item>
-    
-    <item>
-      <title>Redis学习文档</title>
-      <link>https://linjianshu.github.io/p/redis%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
-      <pubDate>Sat, 19 Sep 2020 00:33:33 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/redis%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
-      <description>Redis学习文档 nosql讲解
-阿里巴巴架构演进
-nosql数据模型
-nosql四大分类
-cap
-base
-redis入门
-redis安装
-五大基本数据类型
-string
-list
-set
-hash
-zset
-三种特殊数据类型
-geo
-hyperloglog
-bitmap
-Redis配置详解
-redis持久化
-rdb
-aof
-redis事务操作
-redis实现订阅发布
-redis主从复制
-redis哨兵模式
-缓存穿透及解决方案
-缓存击穿及解决方案
-缓存雪崩及解决方案
-基础api之jedis详解
-springboot继承redis操作
-redis的实践分析
-nosql概述
-大数据时代，一般的数据库无法进行分析处理了！
-springboot+springcloud
-1.单机mysql年代
-app=&amp;gt;dal=&amp;gt;mysql
-90年代静态网页html 服务器没有太大的压力
-1.数据量如果太大，一台机器放不下了
-2.数据的索引 300万条就一定要建立索引，那么一个机器的内存放不下
-3.访问量，读写混合，一个服务器受不了
-2.Memcached（缓存）mysql+垂直拆分（读写分离）
-网站80%都在读，如果每次去查询数据库的话就十分的麻烦！所以说我们希望减轻数据的压力，我们可以使用缓存来保证效率
-image-20200923185840123发展过程：优化数据结构和索引===&amp;gt;文件缓存（IO）===&amp;gt;memchched(当时最热门的技术)===&amp;gt;
-3.分库分表+水平拆分+mysql集群
-image-20200923190414174本质：数据库（读写）
-早些年mysiam：表锁（影响效率），高并发下出现严重的锁问题
-早些年innodb：行锁，慢慢的就开始使用分库分表来解决写的压力！mysql在那个年代推出了表分区，这个并没有多少公司使用！
-mysql的集群，很好的满足了那个年代的所有需求！
-4.如今最近的年代
-技术爆炸：
-2000-2010：十年间，变化太快了（热榜、音乐）
-mysql等关系型数据库就不够用了！数据量很多，变化很快！
-mysql有的使用它来存储一些比较大的文件、播客、图片！数据库表很大，效率就很低了
-如果有一种数据库来专门处理这种数据，mysql的压力就会变得十分小，（研究如何处理这些问题）大数据的io压力下，表几乎没法更改，
-目前一个基本互联网项目！
-image-20200923191743309为什么要用nosql
-用户的个人信息，社交温昂罗，地理位置，用户自己产生的数据，用户日志等等爆发式增长！
-这时候我们就需要使用nosql数据库的，nosql可以很好的处理以上情况
-什么是nosql
-nosql = not only sql(不仅仅是sql)</description>
-    </item>
-    
-    <item>
-      <title>从零搭建微服务框架嗷</title>
-      <link>https://linjianshu.github.io/p/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%97%B7/</link>
-      <pubDate>Sun, 10 Oct 1999 23:44:44 +0800</pubDate>
-      
-      <guid>https://linjianshu.github.io/p/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%97%B7/</guid>
-      <description>从零搭建微服务框架嗷 新建webapi项目
-image-20201026181939602新建student控制器，测试运行
-image-20201026182245668image-20201026182254921添加新项目控制台应用程序，加入model类
-image-20201026182407678image-20201026182436593image-20201026182536295删除program.cs文件，右键属性，修改输出类型为“类库”
-image-20201026182552213继续新建项目，interface，作为服务的接口
-image-20201026183008099删除program.cs文件，继续修改属性为类库
-定义完了接口，接下来应该定义实现接口的具体服务了，新建控制台应用程序
-编写DBhelper类，原生连接数据库
-添加StudentService实现类，继承IStudentService，实现它未实现的方法
-image-20201026183509062image-20201026183523894依然重复上述步骤，右键属性，修改输出类型为类库
-测试，以上依然是个单体结构，只不过分层了，现在我们搭了基层结构如图：
-image-20201026183657453分别为，webapi，接口，模型层，接口实现类
-接下来修改webapi内student控制层里的方法，尝试调用通过接口调用服务，进而获取数据库中的数据
-修改前：
-image-20201026183803906修改后：
-先在startup.cs中进行服务类的依赖注入
-image-20201026184259317在这里，我们对controller进行重新构造：
-定义一个私有只读IStudentService接口 ；
-在构造函数里为它赋值
-在GetAllStu方法里进行调用
-image-20201026184627518启动试试，输入url
-image-20201026184827682不错不错
-接下来我们要添加服务实例，将原来的单体应用程序，模拟拆分成分布式应用程序
-新建项目，新建webapi
-image-20201026185004596新建新的控制器，为了和上面的student控制器区分，且，我们要知道，最后上面将作为客户端，调用我们现在正在搭建的服务实例，这个项目，所以真正会和接口、服务、数据库打交道的应该在我们现在搭建的这个控制器里面，在这里我取名为StuImplController控制器。
-image-20201026185242569在这里面，复制之前的studentcontroller里的内容，作为真正调用的源头
-image-20201026185405390同时，别忘记了，要正常使用，记得在该项目内startup.cs中增加依赖注入image-20201026185548164修改启动项目为该服务实例，我们先试试看能不能跑
-image-20201026190458520nice
-接下来我们做分布式应用程序：我们希望LjsMicroServiceReviewDemo通过ServiceInstance去调用，这样子，前者就可以作为客户端，后者就可以作为服务端，因为是进程间通信，虽然在一台电脑上跑，但是可以理解为是利用网络架起的桥梁，进行分布式应用的部署和调用。
-这时候记录一下网址
-http://localhost:42464/api/StuImpl/GetAllStu
-image-20201026190938569在客户端，写一个调用方法，调用刚刚的网址嘿嘿
-同时启动两个项目，让他搞去吧
-image-20201026191036770image-20201026191232782爽爆了！
-但是还不够，我们知道，一般情况下，服务器里怎么可能只有一个服务实例在跑呢，那双十一不是炸裂，所以这时候会有很多实例在跑才对，例如两个、三个相同的实例一起运行，同时对外提供服务才对。
-我们要使用命令行运行服务实例，并且赋予相应的端口号
-image-20201026193900248image-20201026194428606image-20201026194845947在地址栏敲cmd
-image-20201026194856720image-20201026194903514image-20201026194909623开启三个服务实例，端口为5726、5727、5728</description>
-    </item>
-    
-    <item>
       <title>windows服务开发备忘</title>
-      <link>https://linjianshu.github.io/p/windows%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%8F%91%E5%A4%87%E5%BF%98/</link>
+      <link>https://jianrongma.github.io/p/windows%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%8F%91%E5%A4%87%E5%BF%98/</link>
       <pubDate>Fri, 01 Oct 1999 09:17:59 +0800</pubDate>
       
-      <guid>https://linjianshu.github.io/p/windows%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%8F%91%E5%A4%87%E5%BF%98/</guid>
+      <guid>https://jianrongma.github.io/p/windows%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%8F%91%E5%A4%87%E5%BF%98/</guid>
       <description>windows服务开发备忘 先开个窗体来调试试试看
 再新增一个service服务进来
 修改默认服务名
