@@ -120,8 +120,8 @@ Andon的报表可以用产线编号查BBdbR_PlineBase把Enabled=1产线名称查
 <meta property='og:url' content='https://jianrongma.github.io/p/%E6%B1%9F%E6%B7%AE%E8%94%9A%E6%9D%A5%E6%B6%82%E8%A3%85fas%E6%8A%A5%E8%A1%A8%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/'>
 <meta property='og:site_name' content='think hy how to learn'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2022-04-10T10:31:06&#43;08:00'/><meta property='article:modified_time' content='2022-04-10T10:31:06&#43;08:00'/><meta property='og:image' content='https://jianrongma.github.io/img/avatar.png' />
-<meta name="twitter:site" content="@ljsljs56495989">
-    <meta name="twitter:creator" content="@ljsljs56495989"><meta name="twitter:title" content="江淮蔚来涂装FAS报表过程记录">
+<meta name="twitter:site" content="@mjrmjr56495989">
+    <meta name="twitter:creator" content="@mjrmjr56495989"><meta name="twitter:title" content="江淮蔚来涂装FAS报表过程记录">
 <meta name="twitter:description" content="修改需求： 设备报警TOP 第二列加上DvcCd,搜索条件去掉故障说明，表格上方加入柱状图（按DvcCd分组计算）
 车身工艺参数 采集名称做下拉框
 ANDON 1.Andon拉绳时长top10 --参考安驰报表-当天ANDON停线时长TOP10 select distinct PlineNm--”产线名称“ , sum(cast(SUBSTRING(SLContTm,1,2) as int) )*60&#43;sum( cast(SUBSTRING(SLContTm,4,2) as int))&#43;sum(cast(SUBSTRING(SLContTm,7,2) as int))/60as分--将停线持续时间转换为以“分“为单位 from BPIE_SLDoc --停线日志表 where sLContTm is not null --”持续时间“非空and Enabled=1 and datediff(day,sLStrtTm, &amp;#39;$igetdate} &amp;#39;)=o --将”停线开始时间“转换为参数面板中的查询时间的格式并与之对应group by PlineNm --以”产线名称“分组 order by分DESC --以处避”持续时间“为”分进行排序 查A_AndonManagement_Pro a LEFT JOIN A_AndonInfo_Record b ON a.AndonId =b.AndonId ，按照输入的时间范围以PlinCd分组查询，以累加的时长[AndonDurationTime]排序
@@ -228,7 +228,7 @@ Andon的报表可以用产线编号查BBdbR_PlineBase把Enabled=1产线名称查
                     
                     
                         
-                        <img src="/img/hanbagui_hu1992e2ef3ca17530e3489d97af7cbea6_3164_300x0_resize_box.bmp" width="300"
+                        <img src="/img/hanbagui_hu9366f14c9c1dcd6a2821ae10556abcae_3145866_300x0_resize_box.bmp" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -240,7 +240,7 @@ Andon的报表可以用产线编号查BBdbR_PlineBase把Enabled=1产线名称查
             
         
         <h1 class="site-name"><a href="https://jianrongma.github.io/">think hy how to learn</a></h1>
-        <h2 class="site-description">好运暴富,就在今日.</h2>
+        <h2 class="site-description">那就祝我们拥有数不尽的鲜花和浪漫.</h2>
     </header>
 
     <ol class="menu" id="main-menu">
