@@ -6,7 +6,125 @@
         <description>Recent content on think hy how to learn</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Sun, 25 Dec 2022 10:46:00 +0800</lastBuildDate><atom:link href="https://jianrongma.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 10 Apr 2024 23:47:37 +0800</lastBuildDate><atom:link href="https://jianrongma.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>PythonLearning</title>
+        <link>https://jianrongma.github.io/p/pythonlearning/</link>
+        <pubDate>Wed, 10 Apr 2024 23:47:37 +0800</pubDate>
+        
+        <guid>https://jianrongma.github.io/p/pythonlearning/</guid>
+        <description>Python学习 第一章 一个基本的原理：计算机只认识二进制，即：0和1 img什么是编程语言 用于人类和计算机进行交流的一种专有领域语言，通过编写编程语言的代码，去指挥计算机工作。但它无法直接和计算机沟通，需要翻译工具（解释器****或编译器）将代码翻译成二进制，提交计算机执行，从而实现和计算机的顺畅沟通。
+img注 IDE 集成开发环境，是用于提供程序开发环境的应用程序，一般包括代码编辑器、编译器、调试器和图形用户界面等工具。集成了代码编写功能、分析功能、编译功能、调试功能等一体化的开发软件服务套。所有具备这一特性的软件或者软件套（组）都可以叫集成开发环境。如Visual Studio&amp;hellip;&amp;hellip;
+Python解释器 一个基本的原理是：计算机只认识二进制，即0和1 其实，计算机是不会认识Python代码的，但是Python有解释器程序，如下图
+img安装Python环境，本质上，就是在电脑中安装：Python解释器程序
+代码随时写，但是能不能运行，就要看电脑里有没有解释器程序了
+Python解释器，是一个计算机程序，用来翻译Python代码，并提交给计算机执行
+功能： 翻译代码为计算机认识的二进制（0和1）的形式并提交给计算机执行； 在解释器环境内可以一行行的执行我们输入的代码； 也可以使用解释器程序，去执行代码文件 解释器存放位置 &amp;lt;Python安装目录&amp;gt;/python.exe
+img我们在CMD（命令提示符）程序内，执行的python，就是上图的python.exe程序
+img不使用解释器，计算机就不认识Python代码
+img使用Python解释器程序，就能执行Python代码了
+img思考 在python解释器程序内，写完一行代码并回车后，会直接运行他
+如何一次性运行好多行代码？ 可以将代码，写入一个以”.py”结尾的文件中，使用python命令去运行它
+如，在Windows系统的某盘，新建一个名为：test.py 的文件，通过记事本程序打开，输入如下内容：
+img在“命令提示符”程序内，使用python命令，运行，如图：
+img第一个Python程序 print(&amp;ldquo;Hello World!!!&amp;rdquo;)
+含义：向屏幕上输出(显示)，Hello World!!!
+注 括号和引号都是英文状态下输入
+打开CMD（命令提示符）程序，输入Python并回车 然后，在里面输入代码回车即可立即执行
+img练习 请在“命令提示符”（CMD）程序内，通过Python，向屏幕上输出：零基础，学Python，月薪过万，就来黑马程序员
+img常见问题 找不到“命令提示符”程序在哪里 使用快捷键：win + r 打开运行框，输入cmd后回车即可打开命令提示符程序
+命令提示符内，输入python出现：&amp;lsquo;python&amp;rsquo; 不是内部或外部命令，也不是可运行的程序或批处理文件 img是因为在安装python的时候，没有勾选 add python 3.10 to PATH的选项
+img卸载Python，重新安装python，勾选这个选项。 然后重新打开命令提示符程序，即可</description>
+        </item>
+        <item>
+        <title>Order_Priority</title>
+        <link>https://jianrongma.github.io/p/order_priority/</link>
+        <pubDate>Thu, 10 Aug 2023 23:57:10 +0800</pubDate>
+        
+        <guid>https://jianrongma.github.io/p/order_priority/</guid>
+        <description>资源约束/生产能力不确定+订单优先级相关文献
+基于优先级的柔性车间调度算法 Research on Priority-based Flexible Job Shop Scheduling Algorithm
+研究对象 航空发动机制造过程中的柔性作业车间调度问题
+柔性作业车间调度问题（FJSP）定义 在一个加工过程中，工件的集合W（W1,W2,W3,&amp;hellip;&amp;hellip;.)在一组机器M（M1,M2,M3,&amp;hellip;..）上加工，每道工序可由一台或多台机床加工，且满足以下约束条件：(1)机床一次只能加工一个工件。(2)工件一次只能用一台机器加工。(3)工件必须按照工艺规定的顺序加工。(4)不得中断进程。(5)不同工件、不同工艺之间不相互干扰。(6)优先考虑具有强制交付节点的工件。当工件在交付期之前完成时，会产生存储和维护费用，当工件在交付期之后完成，则无法按期交付，建立了评价函数如下：
+imge 是逾期工件的评估权重，a 是提前交付工件的评估权重，l 为工件完成时间，d 为工件交付时间。调度目标是获得评价函数的最小值。
+解决了什么问题 当前车间作业调度过程中存在订单强制节点（一些重要的订单必须在某个时间点准时交付，这往往会影响车间调度结果的质量）、设备选择等真实需求。
+研究现状 现有的分支定界法[9]、整数规划法[10]、遗传算法[11]、禁止搜索[12]等算法在设备选型过程中没有考虑到加工工艺是否存在强制交货时间，也没有根据设备负荷对加工工艺进行进一步优化。
+研究方法 根据工件的优先级和加工过程中设备的负荷，分两个阶段解决柔性车间作业调度问题。第一阶段：确定当前要加工的工件，第二阶段：确定用于加工该工件的设备。
+设计了一种人工干预的订单优先级计算方法：引入强制交货节点提出优先级计算函数 准确衡量订单溢出的风险，其中计算出的订单优先级越大，该订单溢出的风险越大。同时，决策者能够提前为强制节点订单设置优先级，从而确保强制节点订单在优先级的基础上得到处理
+img改进了应用于机加工过程的层次分析方法 设计了一种基于层次分析法的设备选型方法。该方法可以对每台机器进行综合评价，从而选择最合适的机器，达到提高调度效率的目的；
+基于矩阵构造方法[13]、作业调度和设备负荷满足一致性检验的信息，改进了层次分析法。改进的层次分析法可以自动构造满足一致性检验的比较矩阵。
+设备最早可以开始加工的点 C1，越早，工件逾期的概率越低，优先选择C1小的设备； 设备上的总负荷 C2，越大，工件等待的概率越大，超限的概率也越大，优先选择C2小的设备； 设备上所有工件可以加工的总时长 C3，越大，该设备的资源竞争概率越大(两个工件在同一时间段内需要同一台机器加工)，工件超限的概率越大，优先选择较C3小的设备。 贡献 实验表明，所提出的车间作业调度算法有效地提高了车间作业调度结果的质量
+与现有算法相比，本文提出的求解算法是有效的，保证了强制节点工件在评价值最小化的情况下按时交付，既保证了工件完成率，又显著降低了库存，提高了企业的生产率和资金流动性。
+客户订单优先级的决策框架建议：一家结构钢公司的案例研究 A decision framework proposal for customer order prioritization: A case study for a structural steel company
+当目前被授予的项目开始覆盖公司的大部分设计和制造能力时，公司面临着选择下一个客户订单来合理分配剩余稀缺能力的决策问题。
+由于钢结构行业的性质，绝大多数的工作，近90%，是在设计和制造阶段完成的;剩下的10%是用非常少的工艺完成的安装
+表 1 评估标准
+标准 解释 单位时间的潜在利润率 考虑一定时期内利润的潜在利润率 潜在订单与可用容量的兼容性 潜在订单在公司有限产能方面的适用性水平 利润更高的潜在未来订单水平 接受比考虑中的需求更有利可图的未来需求的可能性水平 未来商机的客户信用 成为制造公司忠实客户的水平 订单生产计划的可协商性级别 项目在项目进度方面的灵活性水平 利润最大化是企业营利性的强制性目标。与利润率较低但运营时间较短的订单相比，利润率较高但运营时间较长的订单可能无利可图。因此，可以定义&amp;quot;单位时间****潜在利润率&amp;ldquo;代替总利润作为订单优先级决策的评价标准。</description>
+        </item>
+        <item>
+        <title>行为认知测评技巧</title>
+        <link>https://jianrongma.github.io/p/%E8%A1%8C%E4%B8%BA%E8%AE%A4%E7%9F%A5%E6%B5%8B%E8%AF%84%E6%8A%80%E5%B7%A7/</link>
+        <pubDate>Sun, 23 Jul 2023 11:52:38 +0800</pubDate>
+        
+        <guid>https://jianrongma.github.io/p/%E8%A1%8C%E4%B8%BA%E8%AE%A4%E7%9F%A5%E6%B5%8B%E8%AF%84%E6%8A%80%E5%B7%A7/</guid>
+        <description>数字规律题 标序列号 把变量和序列号放在一起比较看看 公因式法 找出最小公因式 看看有无规律 对每一位数减去第一位数 替换掉第2&amp;hellip;.位 结合上面的看看有无规律 对每一位数同时加上/乘以/除以第一位数 结合上面看看有无规律 同时除以1/2/3 加法和减法可能性稍大 能否分成奇数和偶数数组 看增幅 是否有规律 +1 +2 +4 +8 等比或者等差 前两个和/积是后一个 类斐波那契数列 前一个数是后一个数的比例关系 图形推理题 是否间隔排列或者对称排列 寻找共同特征 顺时针/逆时针 变化 白*黑=白 重合的题目 对称与不对称 轴对称与中心对称 切割三角形 相交相切 一全一半 叠加 求同存异 相对位置 内部还是外部 </description>
+        </item>
+        <item>
+        <title>面试薄弱复习</title>
+        <link>https://jianrongma.github.io/p/%E9%9D%A2%E8%AF%95%E8%96%84%E5%BC%B1%E5%A4%8D%E4%B9%A0/</link>
+        <pubDate>Tue, 18 Jul 2023 16:34:40 +0800</pubDate>
+        
+        <guid>https://jianrongma.github.io/p/%E9%9D%A2%E8%AF%95%E8%96%84%E5%BC%B1%E5%A4%8D%E4%B9%A0/</guid>
+        <description> 算法
+树 平衡二叉树 镜像二叉树 最低公共祖先 前序后续便利构造二叉树 节点和等于整数的路径 两个节点的最长距离 二叉查找树 链表 奇升偶降 如何有序 数组 二维数组旋转90° 2sum问题 位运算 动态规划 背包问题 0-1 背包问题 完全 排序 复杂度 冒泡 插入 归并 快排 希尔 堆排序 基数排序 桶排序 如何求中位数 大根堆与小根堆 优先队列 单调栈 单调队列 接雨水 最大矩形 滑动窗口 二分 DFS BFS 递归 回溯 LRU 辅助栈 并查集 堆栈
+内存中的堆、栈、静态区 </description>
+        </item>
+        <item>
+        <title>论文阅读</title>
+        <link>https://jianrongma.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
+        <pubDate>Sun, 07 May 2023 23:34:19 +0800</pubDate>
+        
+        <guid>https://jianrongma.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
+        <description>1.供应链环境下基于Kriging模型的订单优先级评估 2021SCIQ2 IEEE Access Order Priority Evaluation Based on Kriging Model Under Supply Chain Environment
+关键词 order production priority;supply chain;make-to-order;Kriging model
+摘要 供应链环境下，传统的方法具有局限性； &amp;mdash;- 有哪些局限性？
+建立了供应链环境下订单生产优先级的评价指标体系；
+提出了基于Kriging模型的订单生产优先级评价模型来确定订单生产优先级。
+结果表明，该模型适用于小样本问题，**（什么是小样本问题？）**是一个可行、有效的订单优先级评估模型；
+与其他模型相比**（与其他哪些模型相比？），该模型提高了订单优先级的评估精度**。同时，该模型具有较高的可靠性和稳定性，扩充了订单生产优先级的计算方法。
+I.引言 第一段 对于按订单生产的企业来说，如何处理订单是生产调度中的一个关键问题。良好的订单处理速度和准确性不仅可以为客户提供更好的服务，还可以节省流动资金，降低成本。
+[1-3]
+探讨了按订单制造企业的订单接受和调度问题
+对核心供应商的订单进行选择和维护
+[4-6]
+对供应链环境下的订单处理进行了大量的研究工作
+[7]
+因此，需要确定接受哪些订单，按照什么顺序进行处理，而如何确定订单生产优先级是订单处理的关键步骤
+另一方面，次序优先问题是一个复杂而关键的过程，是多种标准可能相互冲突的结果。因此，不同的研究采用了理论、实践和建模等多种方法和技术来解决顺序优先级的确定问题。
+第二段 研究序求值问题的方法有很多。
+首先，提出一些传统方法 [8]
+使用混合整数线性规划(MILP)和包括遗传算法在内的各种启发式方法来解决订单接受问题
+[9]
+提出了一个混合整数规划公式，并使用数值分析来研究同时定价、订单接受、调度和提前期决策
+[10]
+利用层次分析法(AHP)的多属性专家支持系统对买方订单进行评估
+[11]
+将Dempster-Shafer理论与信念熵相结合，提出了一种新的证据模糊多准则决策方法(EFMCDM)来确定最优方案
+[12]
+提出了Atanassov型直觉模糊集来确定供给选择和排序
+[13]
+提出了一种基于模糊数的层次分析法
+[14]
+综合考虑了生产策略、约束理论和线性规划，提出了生产策略和生产调度相结合的综合方法
+总结传统方法的不足 这些方法从不同的角度讨论了订单优先级（跟订单优先级的关联在？），可以有效地**帮助制造商解决供应商排序中的多标准决策问题。**线性规划假设顺序优先级与其影响因素之间存在线性关系。实际上，订单优先级评价模型受多种因素影响，不能进行非线性推广。AHP的优点是为决策问题提供了一个结构化但相对简单的解决方案，但它严重依赖于人类对知识和经验的判断[15]。
+近年来，神经网络模型和支持向量机(SVM)等机器学习[16]-[18]因其相对于传统方法能够处理复杂性和不确定性而得到了广泛的应用 在介绍每种算法的同时就指出了其缺点，不适合于处理订单优先级问题 [19-21]
+采用支持向量机处理质量监控、质量评估。但是，Oh也指出，传统的SVM没有考虑到明确的缺陷类型和保修费用。此外，SVM的泛化能力很大程度上取决于参数的选择，选择参数[21]需要大量的计算。
+泛化能力：指的是机器学习算法对新鲜样本的适应能力 [22-24]
+提出了基于径向基函数(RBF)神经网络的非线性订单优先级评价模型
+总结其优缺点：
+优点：
+提高了评价精度； 不需要复杂的工艺决策，只依赖历史数据。 缺点：</description>
+        </item>
+        <item>
         <title>智能优化算法笔记</title>
         <link>https://jianrongma.github.io/p/%E6%99%BA%E8%83%BD%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/</link>
         <pubDate>Sun, 25 Dec 2022 10:46:00 +0800</pubDate>
@@ -27,144 +145,45 @@
 遗传算法具有自组织性、自适应性和智能性。自然选择清楚了算法设计过程中的一个最大的障碍，即需要事先对问题的全部特点进行描述，并要说明针对问题的不同特点所应采取何种措施。遗传算法的这种自组织、自适应的特征，使它同时具有根据环境的变化而自动发现环境的特性和规律的能力，从而使遗传算法可以用来解决一些复杂的非结构化问题。 遗传算法具有并行性。遗传算法在种群中是按照并行方式进行搜索的，而不是在一个单点上进行寻优的，其并行性表现在两个方面： 遗传算法具有内在并行性，使它本身及其时候大规模并行，并适合在目前所有的并行机或分布式系统上进行并行的处理； 遗传算法具有内行并行性，由于它采用种群的方式来组织搜索，因此可以同时搜索解空间内的多个区域，并相互进行信息交流。许多传统的搜索方法都是从单点开始寻优的，因而在多峰函数优化中极容易陷入局部最优解。遗传算法是从一个种群开始进行搜索的，并且可以同时向不同的方向进行搜索，从而大大提高了遗传算法的全局搜索性能，并减少了陷入局部最优解的可能性。 遗传算法使用概率搜索技术。遗传算法在搜索过程中并不采用确定性规则，而采用概率的变迁规则来指引它的搜索方向，在优化过程中，使搜索的每一步都向最终结果靠近的机制或智能性称为搜索的探索性或启发性。传统搜索方法中从一个搜索点到另一个搜索点的转移有确定性的转移方法和转移关系，这种确定性也极有可能使搜索永远也达不到最优点，因而限制了算法的应用范围，制约了算法的应用效果。遗传算法以适应度数字作为标尺、以概率作为一种工具来指引搜索过程，虽然表面上看，遗传算法好像是一种盲目的搜索方法，但实际上它却是一种导向随机搜索方法。 遗传算法把决策变量的编码作为运算对象。 遗传算法直接把目标函数值作为搜索信息。传统的优化算法不仅需要利用目标函数值，并且还需要目标函数的导数值等其他一些辅助信息才能最终确定下一步的搜索方向和搜索范围，无需使用目标函数的导数值及其他一些辅助信息。这个特性使得遗传算法在很多目标函数无法求导或很难求导的优化问题，以及组合优化问题等应用中比较方便，因为它消除了导数求导这个障碍。另外，直接利用目标函数值或个体适应度值，也可使我们把搜索范围集中到适应度较高的那部分搜索空间中，从而大大提高了搜索的效率，节省了搜索时间。 </description>
         </item>
         <item>
-        <title>行为认知测评技巧</title>
-        <link>https://jianrongma.github.io/p/%E8%A1%8C%E4%B8%BA%E8%AE%A4%E7%9F%A5%E6%B5%8B%E8%AF%84%E6%8A%80%E5%B7%A7/</link>
-        <pubDate>Sat, 23 Jul 2022 11:52:38 +0800</pubDate>
+        <title>FineBInote</title>
+        <link>https://jianrongma.github.io/p/finebinote/</link>
+        <pubDate>Sat, 10 Dec 2022 23:27:40 +0800</pubDate>
         
-        <guid>https://jianrongma.github.io/p/%E8%A1%8C%E4%B8%BA%E8%AE%A4%E7%9F%A5%E6%B5%8B%E8%AF%84%E6%8A%80%E5%B7%A7/</guid>
-        <description>数字规律题 标序列号 把变量和序列号放在一起比较看看 公因式法 找出最小公因式 看看有无规律 对每一位数减去第一位数 替换掉第2&amp;hellip;.位 结合上面的看看有无规律 对每一位数同时加上/乘以/除以第一位数 结合上面看看有无规律 同时除以1/2/3 加法和减法可能性稍大 能否分成奇数和偶数数组 看增幅 是否有规律 +1 +2 +4 +8 等比或者等差 前两个和/积是后一个 类斐波那契数列 前一个数是后一个数的比例关系 图形推理题 是否间隔排列或者对称排列 寻找共同特征 顺时针/逆时针 变化 白*黑=白 重合的题目 对称与不对称 轴对称与中心对称 切割三角形 相交相切 一全一半 叠加 求同存异 相对位置 内部还是外部 </description>
-        </item>
-        <item>
-        <title>面试薄弱复习</title>
-        <link>https://jianrongma.github.io/p/%E9%9D%A2%E8%AF%95%E8%96%84%E5%BC%B1%E5%A4%8D%E4%B9%A0/</link>
-        <pubDate>Mon, 18 Jul 2022 16:34:40 +0800</pubDate>
-        
-        <guid>https://jianrongma.github.io/p/%E9%9D%A2%E8%AF%95%E8%96%84%E5%BC%B1%E5%A4%8D%E4%B9%A0/</guid>
-        <description> 算法
-树 平衡二叉树 镜像二叉树 最低公共祖先 前序后续便利构造二叉树 节点和等于整数的路径 两个节点的最长距离 二叉查找树 链表 奇升偶降 如何有序 数组 二维数组旋转90° 2sum问题 位运算 动态规划 背包问题 0-1 背包问题 完全 排序 复杂度 冒泡 插入 归并 快排 希尔 堆排序 基数排序 桶排序 如何求中位数 大根堆与小根堆 优先队列 单调栈 单调队列 接雨水 最大矩形 滑动窗口 二分 DFS BFS 递归 回溯 LRU 辅助栈 并查集 堆栈
-内存中的堆、栈、静态区 </description>
-        </item>
-        <item>
-        <title>leetBook_冲刺攻略</title>
-        <link>https://jianrongma.github.io/p/leetbook_%E5%86%B2%E5%88%BA%E6%94%BB%E7%95%A5/</link>
-        <pubDate>Mon, 28 Feb 2022 12:11:37 +0800</pubDate>
-        
-        <guid>https://jianrongma.github.io/p/leetbook_%E5%86%B2%E5%88%BA%E6%94%BB%E7%95%A5/</guid>
-        <description>leetBook_冲刺攻略 image-20220227100312893根据提示的数据范围推定时间复杂度 根据时间复杂度推定算法集合 根据题目特征确定算法
-image-20220227100007364没有给出数据范围通常使用枚举 枚举通常是n~nlog(n)的时间复杂度 然后再确定算法集合
-image-20220227100056863image-20220228103152097image-20220228103157567</description>
-        </item>
-        <item>
-        <title>活连上线学习文档</title>
-        <link>https://jianrongma.github.io/p/%E6%B4%BB%E8%BF%9E%E4%B8%8A%E7%BA%BF%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
-        <pubDate>Thu, 28 Oct 2021 10:24:40 +0800</pubDate>
-        
-        <guid>https://jianrongma.github.io/p/%E6%B4%BB%E8%BF%9E%E4%B8%8A%E7%BA%BF%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
-        <description>维保
-优化内存占用 提高sql执行效率 索引 性能分析 慢查询日志 多线程上传数据 以后要设定阀值 上传数据总量等于5w(估算)的时候,先上传,放置因为很久没上传的数据因为累积过多,导致一次性上传50w数据裂开 image-20211117085507371</description>
-        </item>
-        <item>
-        <title>Mysql高级</title>
-        <link>https://jianrongma.github.io/p/test-chinese/</link>
-        <pubDate>Tue, 12 Oct 2021 19:35:55 +0800</pubDate>
-        
-        <guid>https://jianrongma.github.io/p/test-chinese/</guid>
-        <description>&lt;img src="https://jianrongma.github.io/hutomo-abrianto-l2jk-uxb1BY-unsplash.jpg" alt="Featured image of post Mysql高级" /&gt;Mysql高级学习文档 mysql的架构介绍 mysql简介 mysqllinux版安装 mysql配置文件 mysql逻辑架构介绍 mysql存储引擎 索引优化分析 性能下降sql慢是执行时间长还是等待时间长 常见通用的join查询 索引简介 性能分析 索引优化 查询截取分析 查询优化 慢查询日志 批量数据脚本 show profile 全局查询日志 mysql锁机制 锁的分类 主从复制 主从配置 mysql简介 高级mysql 完整的mysql优化
-mysql内核 sql优化攻城狮 mysql服务器的优化 各种参数常量设定 查询语句优化 主从复制 软硬件升级 容灾备份 sql编程 mysqllinux版的安装 image-20211012195826053#查看当前ubuntu版本 yourtreedad@yourtreedad:~$ lsb_release -a No LSB modules are available. Distributor ID: Ubuntu Description: Ubuntu 20.04.3 LTS Release: 20.04 Codename: focal yourtreedad@yourtreedad:~$ 准备工作
-#切换到root账户 yourtreedad@yourtreedad:~$ sudo passwd root New password: Retype new password: passwd: password updated successfully yourtreedad@yourtreedad:~$ su root Password: root@yourtreedad:/home/yourtreedad# #查看电脑里有没有mysql root@yourtreedad:/home/yourtreedad# service mysql status * MySQL is stopped.</description>
-        </item>
-        <item>
-        <title>Mysql基础</title>
-        <link>https://jianrongma.github.io/p/mysql%E5%9F%BA%E7%A1%80/</link>
-        <pubDate>Sun, 10 Oct 2021 23:44:44 +0800</pubDate>
-        
-        <guid>https://jianrongma.github.io/p/mysql%E5%9F%BA%E7%A1%80/</guid>
-        <description>mysql学习文档 一 为什么要学习数据库 二 数据库的相关概念 DBMS DB SQL
-三 数据库存储数据的特点 四 初始mysql mysql产品的介绍
-mysql产品的安装
-mysql服务的启动和停止
-mysql服务的登陆和退出
-mysql的常见命令和语法规范
-五DQL语言的学习 基础查询
-条件查询
-排序查询
-常见函数
-分组查询
-连接查询
-子查询
-分页查询
-union联合查询
-六 DML语言的学习 插入语句
-修改语句
-删除语句
-七 DDL语言的学习 库和表的管理
-常见数据类型介绍
-常见约束
-保存数据的容器:
-数组 集合 内存数据 断电就没了
-文件 但是文件不好查找
-因此把文件做成方便增删改查的软件 对文件进行操作 这样的软件就叫做数据库
-数据库的好处 实现数据持久化 使用完整的管理系统统一管理,易于查询 数据库的概念 DB 数据库 database:存储数据的仓库,保存了一系列有组织的数据.
-DBMS 数据库管理系统 database management system 数据库是通过dbms创建和操作的容器
-常见的数据库管理系统 mysql oracle db2 sqlserver
-SQL 结构化查询语言 structure query language :专门用来与数据库通信的语言</description>
-        </item>
-        <item>
-        <title>数据结构与算法学习文档</title>
-        <link>https://jianrongma.github.io/p/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
-        <pubDate>Wed, 01 Sep 2021 00:22:19 +0800</pubDate>
-        
-        <guid>https://jianrongma.github.io/p/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
-        <description>数据结构与算法 解决问题方法的效率，跟数据的组织方式有关。
-循环和递归
-解决问题方法的效率，跟空间的利用效率有关。
-image-20210818161452286image-20210818162018882解决问题方法的效率，跟算法的巧妙程度有关
-数据结构 数据对象在计算机中的组织方式
-逻辑结构：线性结构和树结构、图结构 物理存储结构：数组、链表 数据对象必定与一系列加在其上的操作相关联
-完成这些操作所用的方法就是算法
-抽象数据类型(Abstract Data Type) 数据类型 数据对象集 数据集合相关联的操作集 抽象：描述数据类型的方法不依赖于具体实现 与存放数据的机器无关 与数据存储的物理结构无关 与实现操作的算法和编程语言均无关 只描述数据对象集和相关操作集是什么，并不涉及如何做到的问题
-抽象 image-20210818163548512算法 一个有限指令集 接收一些输入（有些情况下不需要输入） 产生输出 一定在有限步骤之后终止 每一条指令必须 有充分明确的目标，不可以有歧义 计算机能处理的范围之内 描述应不依赖与任何一种计算机语言以及具体的实现手段 image-20210818164049310什么是好算法 空间复杂度sn 根据算法写成的程序在执行时占用存储单元的长度。这个长度往往与输入数据的规模有关。空间复杂度过高的算法可能导致使用的内存超限，造成程序非正常中断。
-时间复杂度Tn 根据算法写成的程序在执行时耗费时间的长度。这个长度往往也与输入数据的规模有关。时间复杂度过高的低效算法可能导致我们在有生之年都等不到运行结果。
-递归的时候会占用内存，因为递归下一层的时候要暂存上一层的结果
-Sn = C*N
-image-20210818164648695加减比乘除算的快
-image-20210818164842726在分析一般算法的效率时，我们经常关注下面两种复杂度
-最坏情况复杂度T worst(n) 平均复杂度T avg(n) 基本上就是第一种：最坏情况复杂度
-image-20210818165255964image-20210818165445992image-20210818165457903image-20210818165643710image-20210818165759487image-20210818191956566image-20210818193405280image-20210818193945679image-20210818194726647什么是线性表 多项式表示问题的启示 同一个问题可以有不同的表示（存储）方法 有一类共性问题：有序线性序列的组织和管理 线性表 由同类型数据元素构成有序序列的线性结构
-表中元素个数成为线性表的长度 线性表没有元素时，称为空表 表起始位置称表头，表结束位置称表尾 image-20210818195144256链式存储实现</description>
-        </item>
-        <item>
-        <title>git学习文档</title>
-        <link>https://jianrongma.github.io/p/git%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
-        <pubDate>Sat, 24 Jul 2021 16:18:59 +0800</pubDate>
-        
-        <guid>https://jianrongma.github.io/p/git%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
-        <description>Git学习文档 学习git之前，我们需要先明白一个概念，版本控制！
-版本控制 什么是版本控制 版本迭代 版本管理器
-版本控制（revision control）是一种在开发的过程中用于管理我们对文件、目录或工程等内容的修改历史，方便查看更改历史记录，备份一遍恢复以前的版本的软件工程技术。
-实现跨区域多人协同开发 追踪和记载一个或者多个文件的历史记录 组织和保护你的源代码和文档 统计工作量 并行开发、提高开发效率 跟踪记录整个软件的开发过程 减轻开发人员的负担，节省时间，同时降低人为错误 简单说就是用于管理多人协同开发项目的技术。
-没有进行版本控制或者版本控制本身缺乏正确的流程管理，在软件开发过程中将引入很多问题，如关键代码的冗余，软件过程的事物性，软件开发过程中的并发性、软件源代码的安全性，以及软件的整合等问题。
-多人开发就必须要使用版本控制，否则代价比较大
-常见的版本控制工具
-主流的版本控制器有如下这些：
-Git SVN(subversion) CVS(concurrent versions system) VSS(Microsoft Visual SourceSafe) TFS(team Foundation Server) Visual Studio Online 版本控制产品非常的多（preforce 、 rational clearcase 、 rcs 、serena dimention 、 svk 、bitkeeper、 monotone 、 bazaar 、 mercurial 、 sourcegear vault），现在影响力最大且使用最广泛的是git和svn
-版本控制分类
-本地版本控制
-记录文件每次的更新，可以对每个版本做一个快照，或者记录补丁文件，适合个人用，如RCS
-image-20210722211743148集中版本控制
-所有的版本数据都保存在服务器上，协同开发者从服务器上同步更新或上传自己的修改
-image-20210722211927845所有的版本数据都存在服务器上，用户的本地只有自己以前所同步的版本，如果不连网的话，用户就看不到历史版本，也无法切换版本验证问题，或在不同分支工作。而且，所有数据都保存在单一的服务器上，有很大风险这个服务器会损坏，这样就会丢失所有的数据，当然可以定期备份。代表产品有：SVN、CVS、VSS
-分布版本控制 “GIT”
-每个人都拥有全部的代码 安全隐患
-所有版本信息仓库全部同步到本地的每个用户，这样就可以在本地查看所有版本历史，可以离线在本地提交，只需在连网时push到相应的服务器或其他用户那里。由于每个用户那里保存的都是所有的版本数据，只要有一个用户的设备没有问题，就可以恢复所有的数据，但这增加了本地存储空间的占用
-不会因为服务器损坏或者网络问题，造成不能工作的情况！
-image-20210722212449100git和svn最主要区别
-svn是集中式版本控制系统，版本库是集中放在中央服务器的，而工作的时候，用的都是自己的电脑，所有首先要从中央服务器得到最新的版本，然后工作，完成工作后，需要吧自己做完的推送到中央服务器。集中式版本控制是必须连网才能工作，对网络带宽要求较高。</description>
+        <guid>https://jianrongma.github.io/p/finebinote/</guid>
+        <description>帆软FineReport笔记 帆软官网： [FineReport报表 - 专业的企业级Web报表工具](
+学习计划表：https://bbs.fanruan.com/thread-77147-1-1.html
+数据决策系统 (finereport.com)
+FineReport V10.0新手入门 - 视频课 - 帆软学院 (fanruan.com)
+28课时，3h49分；
+FineReport帮助文档 - 全面的报表使用教程和学习资料 (fanruan.com)
+视频课 - 帆软学院 (fanruan.com)
+新手入门视频：层次坐标-10‘40，动态格间运算
+超级链接；
+决策报表入门示例；快速搭建大屏
+Tomcat部署包的下载
+各种例子；
+问题1：！！！SQL Server数据库连接常见错误（帆软文档）—https://help.fanruan.com/finereport/doc-view-306.html
+问题所在：让sqlserver支持以ip作为服务器名称，然后用sa用户名和密码登录服务器——https://blog.csdn.net/qq_42636010/article/details/89344993
+sqlserver身份验证登录如何设置：https://jingyan.baidu.com/article/0a52e3f4e0d6a6bf62ed7232.html
+SQL数据库、帆软自带的数据库属于模板数据集还是服务器数据集
+报表：普通报表；填报报表；决策报表
+一般 X 轴表示分类，系列表示图例，Y 轴表示分类下系列的值。
+当查询结果为空值/NULL时，如何在报表中显示为0？
+数据形态&amp;mdash;公式形态&amp;ndash;if($$$=null,0,$$$)
+超级链接&amp;ndash;当前报表决策 report0 &amp;mdash;&amp;ndash; &amp;gt; report1 超级链接-当前决策报表对象
+添加参数p 值的公式为$$$ 用户点击 report0 中的哪个订单ID 就将该ID作为参数传递给 report1
+report1 在接收到 report0 的参数后 希望只对该参数对应的订单展示相关信息 设置对应的过滤条件
+随着标题联动
+塑胶部-生产线-三十天的产能
+逻辑：
+产能统计获取事业部与生产线参数
+产能趋势分析图标题接收参数
+趋势图折现趋势根据对应标题展示对应信息</description>
         </item>
         <item>
         <title>计算机组成原理学习文档</title>
         <link>https://jianrongma.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
-        <pubDate>Fri, 14 May 2021 00:26:49 +0800</pubDate>
+        <pubDate>Thu, 14 Apr 2022 00:26:49 +0800</pubDate>
         
         <guid>https://jianrongma.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
         <description>计算机组成原理学习文档 CPU
@@ -222,28 +241,57 @@ ENIAC手动接线来控制计算
 计算机由5大部件组成：输入设备、输出设备、存储器、运算器、控制器 指令和数据以同等地位存储于存储器，可按地址寻访 指令和数据用二进制表示 指令由操作码和地址码组成 存储程序 以运算器为中心 输入/输出设备与存储器之间的数据传送通过运算器完成</description>
         </item>
         <item>
-        <title>ApsDotnetCoreMVC学习文档</title>
-        <link>https://jianrongma.github.io/p/apsdotnetcoremvc%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
-        <pubDate>Fri, 16 Apr 2021 00:28:25 +0800</pubDate>
+        <title>江淮蔚来涂装FAS报表过程记录</title>
+        <link>https://jianrongma.github.io/p/%E6%B1%9F%E6%B7%AE%E8%94%9A%E6%9D%A5%E6%B6%82%E8%A3%85fas%E6%8A%A5%E8%A1%A8%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/</link>
+        <pubDate>Sun, 10 Apr 2022 10:31:06 +0800</pubDate>
         
-        <guid>https://jianrongma.github.io/p/apsdotnetcoremvc%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
-        <description>asp .net core mvc 学习文档 控制器向界面传值 通过viewbag/viewdata 来进行弱传递
-controller中:
-image-20210421230444662index中:
-image-20210421230455113通过model进行强类型传递
-controller中:
-image-20210421230520009index中:
-@model IEnumerable&amp;lt;webmvcdemo.Models.Movie&amp;gt; &amp;lt;form asp-controller=&amp;#34;Movies&amp;#34; asp-action=&amp;#34;Index&amp;#34; &amp;gt; &amp;lt;p&amp;gt; &amp;lt;select name=&amp;#34;prop&amp;#34; required=&amp;#34;&amp;#34;&amp;gt; @foreach (var item in typeof(Movie).GetProperties()) { &amp;lt;option value=@item.Name&amp;gt;@item.Name&amp;lt;/option&amp;gt; } &amp;lt;/select&amp;gt; &amp;lt;input type=&amp;#34;text&amp;#34; name=&amp;#34;SerachString&amp;#34;/&amp;gt; &amp;lt;input type=&amp;#34;submit&amp;#34;&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;/form&amp;gt; 界面向控制器传参 通过name来准确传递
-index:
-&amp;lt;select name=&amp;#34;prop&amp;#34; required=&amp;#34;&amp;#34;&amp;gt; &amp;lt;input type=&amp;#34;text&amp;#34; name=&amp;#34;SerachString&amp;#34;/&amp;gt; 控制器中:
-image-20210421230911623通过定位点标记帮助程序
-https://docs.microsoft.com/zh-cn/aspnet/core/mvc/views/tag-helpers/built-in/anchor-tag-helper?view=aspnetcore-5.0#asp-route-value
-Razor语法 使用@符号将c#转化为html代码提供展示 显式/隐式razor表达式 razor代码块 ​	Razor 代码块以开头 @ ，并由括起来 {} 。 代码块内的 C# 代码不会呈现，这点与表达式不同。 一个视图中的代码块和表达式共享相同的作用域并按顺序进行定义</description>
+        <guid>https://jianrongma.github.io/p/%E6%B1%9F%E6%B7%AE%E8%94%9A%E6%9D%A5%E6%B6%82%E8%A3%85fas%E6%8A%A5%E8%A1%A8%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/</guid>
+        <description>修改需求： 设备报警TOP 第二列加上DvcCd,搜索条件去掉故障说明，表格上方加入柱状图（按DvcCd分组计算）
+车身工艺参数 采集名称做下拉框
+ANDON 1.Andon拉绳时长top10 --参考安驰报表-当天ANDON停线时长TOP10 select distinct PlineNm--”产线名称“ , sum(cast(SUBSTRING(SLContTm,1,2) as int) )*60+sum( cast(SUBSTRING(SLContTm,4,2) as int))+sum(cast(SUBSTRING(SLContTm,7,2) as int))/60as分--将停线持续时间转换为以“分“为单位 from BPIE_SLDoc --停线日志表 where sLContTm is not null --”持续时间“非空and Enabled=1 and datediff(day,sLStrtTm, &amp;#39;$igetdate} &amp;#39;)=o --将”停线开始时间“转换为参数面板中的查询时间的格式并与之对应group by PlineNm --以”产线名称“分组 order by分DESC --以处避”持续时间“为”分进行排序 查A_AndonManagement_Pro a LEFT JOIN A_AndonInfo_Record b ON a.AndonId =b.AndonId ，按照输入的时间范围以PlinCd分组查询，以累加的时长[AndonDurationTime]排序
+Andon的报表可以用产线编号查BBdbR_PlineBase把Enabled=1产线名称查出来作为横坐标
+数据结构分析
+在停线信息管理过程表中，“持续时间”&amp;ndash;AndonDurationTime 的单位为秒 在查询结果的处理中需要处理为分钟
+--SQL语句 无TOP 10 查询版本 --产线名称为横坐标 SELECT DISTINCT PlineNm,SUM(AndonDurationTime)/60 AS 分 FROM A_AndonManagement_Pro a LEFT JOIN BBdbR_PlineBase b ON a.</description>
+        </item>
+        <item>
+        <title>leetBook_冲刺攻略</title>
+        <link>https://jianrongma.github.io/p/leetbook_%E5%86%B2%E5%88%BA%E6%94%BB%E7%95%A5/</link>
+        <pubDate>Mon, 28 Feb 2022 12:11:37 +0800</pubDate>
+        
+        <guid>https://jianrongma.github.io/p/leetbook_%E5%86%B2%E5%88%BA%E6%94%BB%E7%95%A5/</guid>
+        <description>leetBook_冲刺攻略 image-20220227100312893根据提示的数据范围推定时间复杂度 根据时间复杂度推定算法集合 根据题目特征确定算法
+image-20220227100007364没有给出数据范围通常使用枚举 枚举通常是n~nlog(n)的时间复杂度 然后再确定算法集合
+image-20220227100056863image-20220228103152097image-20220228103157567</description>
+        </item>
+        <item>
+        <title>数据结构与算法学习文档</title>
+        <link>https://jianrongma.github.io/p/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
+        <pubDate>Sun, 30 Jan 2022 00:22:19 +0800</pubDate>
+        
+        <guid>https://jianrongma.github.io/p/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
+        <description>数据结构与算法 解决问题方法的效率，跟数据的组织方式有关。
+循环和递归
+解决问题方法的效率，跟空间的利用效率有关。
+image-20210818161452286image-20210818162018882解决问题方法的效率，跟算法的巧妙程度有关
+数据结构 数据对象在计算机中的组织方式
+逻辑结构：线性结构和树结构、图结构 物理存储结构：数组、链表 数据对象必定与一系列加在其上的操作相关联
+完成这些操作所用的方法就是算法
+抽象数据类型(Abstract Data Type) 数据类型 数据对象集 数据集合相关联的操作集 抽象：描述数据类型的方法不依赖于具体实现 与存放数据的机器无关 与数据存储的物理结构无关 与实现操作的算法和编程语言均无关 只描述数据对象集和相关操作集是什么，并不涉及如何做到的问题
+抽象 image-20210818163548512算法 一个有限指令集 接收一些输入（有些情况下不需要输入） 产生输出 一定在有限步骤之后终止 每一条指令必须 有充分明确的目标，不可以有歧义 计算机能处理的范围之内 描述应不依赖与任何一种计算机语言以及具体的实现手段 image-20210818164049310什么是好算法 空间复杂度sn 根据算法写成的程序在执行时占用存储单元的长度。这个长度往往与输入数据的规模有关。空间复杂度过高的算法可能导致使用的内存超限，造成程序非正常中断。
+时间复杂度Tn 根据算法写成的程序在执行时耗费时间的长度。这个长度往往也与输入数据的规模有关。时间复杂度过高的低效算法可能导致我们在有生之年都等不到运行结果。
+递归的时候会占用内存，因为递归下一层的时候要暂存上一层的结果
+Sn = C*N
+image-20210818164648695加减比乘除算的快
+image-20210818164842726在分析一般算法的效率时，我们经常关注下面两种复杂度
+最坏情况复杂度T worst(n) 平均复杂度T avg(n) 基本上就是第一种：最坏情况复杂度
+image-20210818165255964image-20210818165445992image-20210818165457903image-20210818165643710image-20210818165759487image-20210818191956566image-20210818193405280image-20210818193945679image-20210818194726647什么是线性表 多项式表示问题的启示 同一个问题可以有不同的表示（存储）方法 有一类共性问题：有序线性序列的组织和管理 线性表 由同类型数据元素构成有序序列的线性结构
+表中元素个数成为线性表的长度 线性表没有元素时，称为空表 表起始位置称表头，表结束位置称表尾 image-20210818195144256链式存储实现</description>
         </item>
         <item>
         <title>真会CSharp吗学习文档</title>
         <link>https://jianrongma.github.io/p/%E7%9C%9F%E4%BC%9Acsharp%E5%90%97%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
-        <pubDate>Sat, 30 Jan 2021 00:17:57 +0800</pubDate>
+        <pubDate>Sat, 30 Oct 2021 00:17:57 +0800</pubDate>
         
         <guid>https://jianrongma.github.io/p/%E7%9C%9F%E4%BC%9Acsharp%E5%90%97%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
         <description>C#5.0+学习文档 特点：
@@ -268,6 +316,52 @@ c#主要来说是类型安全的 静态类型 static typing 动态类型 dynamic
 windows macs linux ios android &amp;hellip; .Net Core
 .Net/.Net Core 的核心就是CLR: Comman Language Runtime
 CLR和语言无关</description>
+        </item>
+        <item>
+        <title>Mysql高级</title>
+        <link>https://jianrongma.github.io/p/test-chinese/</link>
+        <pubDate>Tue, 12 Oct 2021 19:35:55 +0800</pubDate>
+        
+        <guid>https://jianrongma.github.io/p/test-chinese/</guid>
+        <description>&lt;img src="https://jianrongma.github.io/hutomo-abrianto-l2jk-uxb1BY-unsplash.jpg" alt="Featured image of post Mysql高级" /&gt;Mysql高级学习文档 mysql的架构介绍 mysql简介 mysqllinux版安装 mysql配置文件 mysql逻辑架构介绍 mysql存储引擎 索引优化分析 性能下降sql慢是执行时间长还是等待时间长 常见通用的join查询 索引简介 性能分析 索引优化 查询截取分析 查询优化 慢查询日志 批量数据脚本 show profile 全局查询日志 mysql锁机制 锁的分类 主从复制 主从配置 mysql简介 高级mysql 完整的mysql优化
+mysql内核 sql优化攻城狮 mysql服务器的优化 各种参数常量设定 查询语句优化 主从复制 软硬件升级 容灾备份 sql编程 mysqllinux版的安装 image-20211012195826053#查看当前ubuntu版本 yourtreedad@yourtreedad:~$ lsb_release -a No LSB modules are available. Distributor ID: Ubuntu Description: Ubuntu 20.04.3 LTS Release: 20.04 Codename: focal yourtreedad@yourtreedad:~$ 准备工作
+#切换到root账户 yourtreedad@yourtreedad:~$ sudo passwd root New password: Retype new password: passwd: password updated successfully yourtreedad@yourtreedad:~$ su root Password: root@yourtreedad:/home/yourtreedad# #查看电脑里有没有mysql root@yourtreedad:/home/yourtreedad# service mysql status * MySQL is stopped.</description>
+        </item>
+        <item>
+        <title>Mysql基础</title>
+        <link>https://jianrongma.github.io/p/mysql%E5%9F%BA%E7%A1%80/</link>
+        <pubDate>Sun, 10 Oct 2021 23:44:44 +0800</pubDate>
+        
+        <guid>https://jianrongma.github.io/p/mysql%E5%9F%BA%E7%A1%80/</guid>
+        <description>mysql学习文档 一 为什么要学习数据库 二 数据库的相关概念 DBMS DB SQL
+三 数据库存储数据的特点 四 初始mysql mysql产品的介绍
+mysql产品的安装
+mysql服务的启动和停止
+mysql服务的登陆和退出
+mysql的常见命令和语法规范
+五DQL语言的学习 基础查询
+条件查询
+排序查询
+常见函数
+分组查询
+连接查询
+子查询
+分页查询
+union联合查询
+六 DML语言的学习 插入语句
+修改语句
+删除语句
+七 DDL语言的学习 库和表的管理
+常见数据类型介绍
+常见约束
+保存数据的容器:
+数组 集合 内存数据 断电就没了
+文件 但是文件不好查找
+因此把文件做成方便增删改查的软件 对文件进行操作 这样的软件就叫做数据库
+数据库的好处 实现数据持久化 使用完整的管理系统统一管理,易于查询 数据库的概念 DB 数据库 database:存储数据的仓库,保存了一系列有组织的数据.
+DBMS 数据库管理系统 database management system 数据库是通过dbms创建和操作的容器
+常见的数据库管理系统 mysql oracle db2 sqlserver
+SQL 结构化查询语言 structure query language :专门用来与数据库通信的语言</description>
         </item>
         <item>
         <title>windows服务开发备忘</title>

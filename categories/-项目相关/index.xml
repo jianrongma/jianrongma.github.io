@@ -6,7 +6,59 @@
     <description>Recent content in -项目相关 on think hy how to learn</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 01 Oct 1999 09:17:59 +0800</lastBuildDate><atom:link href="https://jianrongma.github.io/categories/-%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 10 Dec 2022 23:27:40 +0800</lastBuildDate><atom:link href="https://jianrongma.github.io/categories/-%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FineBInote</title>
+      <link>https://jianrongma.github.io/p/finebinote/</link>
+      <pubDate>Sat, 10 Dec 2022 23:27:40 +0800</pubDate>
+      
+      <guid>https://jianrongma.github.io/p/finebinote/</guid>
+      <description>帆软FineReport笔记 帆软官网： [FineReport报表 - 专业的企业级Web报表工具](
+学习计划表：https://bbs.fanruan.com/thread-77147-1-1.html
+数据决策系统 (finereport.com)
+FineReport V10.0新手入门 - 视频课 - 帆软学院 (fanruan.com)
+28课时，3h49分；
+FineReport帮助文档 - 全面的报表使用教程和学习资料 (fanruan.com)
+视频课 - 帆软学院 (fanruan.com)
+新手入门视频：层次坐标-10‘40，动态格间运算
+超级链接；
+决策报表入门示例；快速搭建大屏
+Tomcat部署包的下载
+各种例子；
+问题1：！！！SQL Server数据库连接常见错误（帆软文档）—https://help.fanruan.com/finereport/doc-view-306.html
+问题所在：让sqlserver支持以ip作为服务器名称，然后用sa用户名和密码登录服务器——https://blog.csdn.net/qq_42636010/article/details/89344993
+sqlserver身份验证登录如何设置：https://jingyan.baidu.com/article/0a52e3f4e0d6a6bf62ed7232.html
+SQL数据库、帆软自带的数据库属于模板数据集还是服务器数据集
+报表：普通报表；填报报表；决策报表
+一般 X 轴表示分类，系列表示图例，Y 轴表示分类下系列的值。
+当查询结果为空值/NULL时，如何在报表中显示为0？
+数据形态&amp;mdash;公式形态&amp;ndash;if($$$=null,0,$$$)
+超级链接&amp;ndash;当前报表决策 report0 &amp;mdash;&amp;ndash; &amp;gt; report1 超级链接-当前决策报表对象
+添加参数p 值的公式为$$$ 用户点击 report0 中的哪个订单ID 就将该ID作为参数传递给 report1
+report1 在接收到 report0 的参数后 希望只对该参数对应的订单展示相关信息 设置对应的过滤条件
+随着标题联动
+塑胶部-生产线-三十天的产能
+逻辑：
+产能统计获取事业部与生产线参数
+产能趋势分析图标题接收参数
+趋势图折现趋势根据对应标题展示对应信息</description>
+    </item>
+    
+    <item>
+      <title>江淮蔚来涂装FAS报表过程记录</title>
+      <link>https://jianrongma.github.io/p/%E6%B1%9F%E6%B7%AE%E8%94%9A%E6%9D%A5%E6%B6%82%E8%A3%85fas%E6%8A%A5%E8%A1%A8%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Sun, 10 Apr 2022 10:31:06 +0800</pubDate>
+      
+      <guid>https://jianrongma.github.io/p/%E6%B1%9F%E6%B7%AE%E8%94%9A%E6%9D%A5%E6%B6%82%E8%A3%85fas%E6%8A%A5%E8%A1%A8%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/</guid>
+      <description>修改需求： 设备报警TOP 第二列加上DvcCd,搜索条件去掉故障说明，表格上方加入柱状图（按DvcCd分组计算）
+车身工艺参数 采集名称做下拉框
+ANDON 1.Andon拉绳时长top10 --参考安驰报表-当天ANDON停线时长TOP10 select distinct PlineNm--”产线名称“ , sum(cast(SUBSTRING(SLContTm,1,2) as int) )*60+sum( cast(SUBSTRING(SLContTm,4,2) as int))+sum(cast(SUBSTRING(SLContTm,7,2) as int))/60as分--将停线持续时间转换为以“分“为单位 from BPIE_SLDoc --停线日志表 where sLContTm is not null --”持续时间“非空and Enabled=1 and datediff(day,sLStrtTm, &amp;#39;$igetdate} &amp;#39;)=o --将”停线开始时间“转换为参数面板中的查询时间的格式并与之对应group by PlineNm --以”产线名称“分组 order by分DESC --以处避”持续时间“为”分进行排序 查A_AndonManagement_Pro a LEFT JOIN A_AndonInfo_Record b ON a.AndonId =b.AndonId ，按照输入的时间范围以PlinCd分组查询，以累加的时长[AndonDurationTime]排序
+Andon的报表可以用产线编号查BBdbR_PlineBase把Enabled=1产线名称查出来作为横坐标
+数据结构分析
+在停线信息管理过程表中，“持续时间”&amp;ndash;AndonDurationTime 的单位为秒 在查询结果的处理中需要处理为分钟
+--SQL语句 无TOP 10 查询版本 --产线名称为横坐标 SELECT DISTINCT PlineNm,SUM(AndonDurationTime)/60 AS 分 FROM A_AndonManagement_Pro a LEFT JOIN BBdbR_PlineBase b ON a.</description>
+    </item>
+    
     <item>
       <title>windows服务开发备忘</title>
       <link>https://jianrongma.github.io/p/windows%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%8F%91%E5%A4%87%E5%BF%98/</link>

@@ -1,0 +1,5186 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Python学习 第一章 一个基本的原理：计算机只认识二进制，即：0和1 img什么是编程语言 用于人类和计算机进行交流的一种专有领域语言，通过编写编程语言的代码，去指挥计算机工作。但它无法直接和计算机沟通，需要翻译工具（解释器****或编译器）将代码翻译成二进制，提交计算机执行，从而实现和计算机的顺畅沟通。
+img注 IDE 集成开发环境，是用于提供程序开发环境的应用程序，一般包括代码编辑器、编译器、调试器和图形用户界面等工具。集成了代码编写功能、分析功能、编译功能、调试功能等一体化的开发软件服务套。所有具备这一特性的软件或者软件套（组）都可以叫集成开发环境。如Visual Studio&amp;hellip;&amp;hellip;
+Python解释器 一个基本的原理是：计算机只认识二进制，即0和1 其实，计算机是不会认识Python代码的，但是Python有解释器程序，如下图
+img安装Python环境，本质上，就是在电脑中安装：Python解释器程序
+代码随时写，但是能不能运行，就要看电脑里有没有解释器程序了
+Python解释器，是一个计算机程序，用来翻译Python代码，并提交给计算机执行
+功能： 翻译代码为计算机认识的二进制（0和1）的形式并提交给计算机执行； 在解释器环境内可以一行行的执行我们输入的代码； 也可以使用解释器程序，去执行代码文件 解释器存放位置 &amp;lt;Python安装目录&amp;gt;/python.exe
+img我们在CMD（命令提示符）程序内，执行的python，就是上图的python.exe程序
+img不使用解释器，计算机就不认识Python代码
+img使用Python解释器程序，就能执行Python代码了
+img思考 在python解释器程序内，写完一行代码并回车后，会直接运行他
+如何一次性运行好多行代码？ 可以将代码，写入一个以”.py”结尾的文件中，使用python命令去运行它
+如，在Windows系统的某盘，新建一个名为：test.py 的文件，通过记事本程序打开，输入如下内容：
+img在“命令提示符”程序内，使用python命令，运行，如图：
+img第一个Python程序 print(&amp;ldquo;Hello World!!!&amp;rdquo;)
+含义：向屏幕上输出(显示)，Hello World!!!
+注 括号和引号都是英文状态下输入
+打开CMD（命令提示符）程序，输入Python并回车 然后，在里面输入代码回车即可立即执行
+img练习 请在“命令提示符”（CMD）程序内，通过Python，向屏幕上输出：零基础，学Python，月薪过万，就来黑马程序员
+img常见问题 找不到“命令提示符”程序在哪里 使用快捷键：win &#43; r 打开运行框，输入cmd后回车即可打开命令提示符程序
+命令提示符内，输入python出现：&amp;lsquo;python&amp;rsquo; 不是内部或外部命令，也不是可运行的程序或批处理文件 img是因为在安装python的时候，没有勾选 add python 3.10 to PATH的选项
+img卸载Python，重新安装python，勾选这个选项。 然后重新打开命令提示符程序，即可'><title>PythonLearning</title>
+
+<link rel='canonical' href='https://jianrongma.github.io/p/pythonlearning/'>
+
+<link rel="stylesheet" href="/scss/style.min.css">
+<style>
+     
+    body{
+        background-repeat: repeat;
+        background-attachment: fixed;
+        background-size:cover;
+         cursor: url(https://files.cnblogs.com/files/monster-jian/cursor.ico),auto;
+    }
+     
+    #div_digg {
+      position: fixed;
+      bottom: 10px;
+      right: 15px;
+      border: 2px solid #ECD7B1;
+      padding: 10px;
+      width: 140px;
+      background-color: #fff;
+      border-radius: 5px 5px 5px 5px !important;
+      box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+    }
+    </style><script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://files.cnblogs.com/files/liyhbk/js.js" color="0,0,255" opacity="1" count="119" zindex="-2"></script>
+<script src="https://files.cnblogs.com/files/liyhbk/js.js" color="0,0,255" opacity="1" count="119" zindex="-2">
+</script>
+<script type="text/javascript" color="255,0,0" pointcolor="255,0,0" opacity="0.7" zindex="-2" count="100" src="/dist/canvas-nest.js"></script>
+<script type="text/javascript" src="/dist/canvas-nest.umd.js"></script>
+<script type="text/javascript">
+    var cn = new CanvasNest(document.getElementById('area-render'), {
+        color: '255,0,255',
+        count: 50,
+      });
+      
+      function asyncLoad() {
+        
+        var i = document.createElement("iframe");
+        i.src = "https://ghbtns.com/github-btn.html?user=hustcc&repo=canvas-nest.js&type=star&count=true";
+        i.scrolling = "no";
+        i.frameborder = "0";
+        i.border = "0";
+        i.setAttribute("frameborder", "0", 0);
+        i.width = "100px";
+        i.height = "20px";
+        document.getElementById("github-iframe").appendChild(i);
+      }
+      function loadGitHubBtn() {
+        if (window.addEventListener) {window.addEventListener("load", asyncLoad, false);}
+        else if (window.attachEvent) {window.attachEvent("onload", asyncLoad);}
+        else {window.onload = asyncLoad;}
+      }
+      loadGitHubBtn();
+</script>
+<script src="/canvas-nest.js?version=10"></script><canvas width="1536" height="454" style="display: block; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; overflow: hidden; pointer-events: none;"></canvas>
+<script src="https://files.cnblogs.com/files/monster-jian/mouse-click.js"></script>
+<script type="text/javascript">
+    
+     
+    var a_idx = 0;
+    jQuery(document).ready(function($) {
+        $("body").click(function(e) {
+            var a = new Array("❤不做咸鱼！❤","❤拒绝懒惰！❤","❤想做吃货❤","❤向大佬学习❤","❤扶我起来~❤","❤come on❤","❤一直在路上~❤","❤累了~❤","❤再趴一会❤","❤66666❤","❤高兴的飞起*****❤");
+            var $i = $("<span></span>").text(a[a_idx]);
+            a_idx = (a_idx + 1) % a.length;
+            var x = e.pageX,
+            y = e.pageY;
+            $i.css({
+                "z-index": 999999999999999999999999999999999999999999999999999999999999999999999,
+                "top": y - 20,
+                "left": x,
+                "position": "absolute",
+                "font-weight": "bold",
+                "color": "rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"
+            });
+            $("body").append($i);
+            $i.animate({
+                "top": y - 180,
+                "opacity": 0
+            },
+            1500,
+            function() {
+                $i.remove();
+            });
+        });
+    });
+    </script>
+
+    <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>  
+
+ 
+   
+      
+      
+          
+         <script>         
+            L2Dwidget.init({ "model": { jsonPath:          "https://unpkg.com/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json",  
+                  "scale": 1 }, "display": { "position": "right", "width": 66, "height": 88,        "hOffset": 0, "vOffset": -20 },
+                   "mobile": { "show": true, "scale": 0.5 },      "react": { "opacityDefault": 0.8, "opacityOnHover": 0.1 } }); 
+                    </script><meta property='og:title' content='PythonLearning'>
+<meta property='og:description' content='Python学习 第一章 一个基本的原理：计算机只认识二进制，即：0和1 img什么是编程语言 用于人类和计算机进行交流的一种专有领域语言，通过编写编程语言的代码，去指挥计算机工作。但它无法直接和计算机沟通，需要翻译工具（解释器****或编译器）将代码翻译成二进制，提交计算机执行，从而实现和计算机的顺畅沟通。
+img注 IDE 集成开发环境，是用于提供程序开发环境的应用程序，一般包括代码编辑器、编译器、调试器和图形用户界面等工具。集成了代码编写功能、分析功能、编译功能、调试功能等一体化的开发软件服务套。所有具备这一特性的软件或者软件套（组）都可以叫集成开发环境。如Visual Studio&amp;hellip;&amp;hellip;
+Python解释器 一个基本的原理是：计算机只认识二进制，即0和1 其实，计算机是不会认识Python代码的，但是Python有解释器程序，如下图
+img安装Python环境，本质上，就是在电脑中安装：Python解释器程序
+代码随时写，但是能不能运行，就要看电脑里有没有解释器程序了
+Python解释器，是一个计算机程序，用来翻译Python代码，并提交给计算机执行
+功能： 翻译代码为计算机认识的二进制（0和1）的形式并提交给计算机执行； 在解释器环境内可以一行行的执行我们输入的代码； 也可以使用解释器程序，去执行代码文件 解释器存放位置 &amp;lt;Python安装目录&amp;gt;/python.exe
+img我们在CMD（命令提示符）程序内，执行的python，就是上图的python.exe程序
+img不使用解释器，计算机就不认识Python代码
+img使用Python解释器程序，就能执行Python代码了
+img思考 在python解释器程序内，写完一行代码并回车后，会直接运行他
+如何一次性运行好多行代码？ 可以将代码，写入一个以”.py”结尾的文件中，使用python命令去运行它
+如，在Windows系统的某盘，新建一个名为：test.py 的文件，通过记事本程序打开，输入如下内容：
+img在“命令提示符”程序内，使用python命令，运行，如图：
+img第一个Python程序 print(&amp;ldquo;Hello World!!!&amp;rdquo;)
+含义：向屏幕上输出(显示)，Hello World!!!
+注 括号和引号都是英文状态下输入
+打开CMD（命令提示符）程序，输入Python并回车 然后，在里面输入代码回车即可立即执行
+img练习 请在“命令提示符”（CMD）程序内，通过Python，向屏幕上输出：零基础，学Python，月薪过万，就来黑马程序员
+img常见问题 找不到“命令提示符”程序在哪里 使用快捷键：win &#43; r 打开运行框，输入cmd后回车即可打开命令提示符程序
+命令提示符内，输入python出现：&amp;lsquo;python&amp;rsquo; 不是内部或外部命令，也不是可运行的程序或批处理文件 img是因为在安装python的时候，没有勾选 add python 3.10 to PATH的选项
+img卸载Python，重新安装python，勾选这个选项。 然后重新打开命令提示符程序，即可'>
+<meta property='og:url' content='https://jianrongma.github.io/p/pythonlearning/'>
+<meta property='og:site_name' content='think hy how to learn'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2024-04-10T23:47:37&#43;08:00'/><meta property='article:modified_time' content='2024-04-10T23:47:37&#43;08:00'/><meta property='og:image' content='https://jianrongma.github.io/img/avatar.png' />
+<meta name="twitter:site" content="@ljsljs56495989">
+    <meta name="twitter:creator" content="@ljsljs56495989"><meta name="twitter:title" content="PythonLearning">
+<meta name="twitter:description" content="Python学习 第一章 一个基本的原理：计算机只认识二进制，即：0和1 img什么是编程语言 用于人类和计算机进行交流的一种专有领域语言，通过编写编程语言的代码，去指挥计算机工作。但它无法直接和计算机沟通，需要翻译工具（解释器****或编译器）将代码翻译成二进制，提交计算机执行，从而实现和计算机的顺畅沟通。
+img注 IDE 集成开发环境，是用于提供程序开发环境的应用程序，一般包括代码编辑器、编译器、调试器和图形用户界面等工具。集成了代码编写功能、分析功能、编译功能、调试功能等一体化的开发软件服务套。所有具备这一特性的软件或者软件套（组）都可以叫集成开发环境。如Visual Studio&amp;hellip;&amp;hellip;
+Python解释器 一个基本的原理是：计算机只认识二进制，即0和1 其实，计算机是不会认识Python代码的，但是Python有解释器程序，如下图
+img安装Python环境，本质上，就是在电脑中安装：Python解释器程序
+代码随时写，但是能不能运行，就要看电脑里有没有解释器程序了
+Python解释器，是一个计算机程序，用来翻译Python代码，并提交给计算机执行
+功能： 翻译代码为计算机认识的二进制（0和1）的形式并提交给计算机执行； 在解释器环境内可以一行行的执行我们输入的代码； 也可以使用解释器程序，去执行代码文件 解释器存放位置 &amp;lt;Python安装目录&amp;gt;/python.exe
+img我们在CMD（命令提示符）程序内，执行的python，就是上图的python.exe程序
+img不使用解释器，计算机就不认识Python代码
+img使用Python解释器程序，就能执行Python代码了
+img思考 在python解释器程序内，写完一行代码并回车后，会直接运行他
+如何一次性运行好多行代码？ 可以将代码，写入一个以”.py”结尾的文件中，使用python命令去运行它
+如，在Windows系统的某盘，新建一个名为：test.py 的文件，通过记事本程序打开，输入如下内容：
+img在“命令提示符”程序内，使用python命令，运行，如图：
+img第一个Python程序 print(&amp;ldquo;Hello World!!!&amp;rdquo;)
+含义：向屏幕上输出(显示)，Hello World!!!
+注 括号和引号都是英文状态下输入
+打开CMD（命令提示符）程序，输入Python并回车 然后，在里面输入代码回车即可立即执行
+img练习 请在“命令提示符”（CMD）程序内，通过Python，向屏幕上输出：零基础，学Python，月薪过万，就来黑马程序员
+img常见问题 找不到“命令提示符”程序在哪里 使用快捷键：win &#43; r 打开运行框，输入cmd后回车即可打开命令提示符程序
+命令提示符内，输入python出现：&amp;lsquo;python&amp;rsquo; 不是内部或外部命令，也不是可运行的程序或批处理文件 img是因为在安装python的时候，没有勾选 add python 3.10 to PATH的选项
+img卸载Python，重新安装python，勾选这个选项。 然后重新打开命令提示符程序，即可"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://jianrongma.github.io/img/avatar.png' />
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <style>
+            * {
+              margin: 0;
+              padding: 0;
+            }
+            html, body {
+              height: 100%;
+              width: 100%;
+            }
+            #github-iframe {
+              position: fixed;
+              left: 32px;
+              top: 32px;
+            }
+             
+        </style>
+   
+
+
+<link rel="stylesheet" type="texts" href="https://blog-static.cnblogs.com/files/monster-jian/waifu.css"/>
+
+
+</head>
+
+
+
+
+
+
+
+<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1280473365'%3E%3C/span%3E%3Cscript src='https://s9.cnzz.com/z_stat.php%3Fid%3D1280473365%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<body size-sensor-id="1" style="position: relative;">
+    
+    <div id="area-render"></div>
+   
+
+</body>
+
+<canvas width="1777" height="841" style="position: fixed; left: 0px; top: 0px; z-index: 2147483647; pointer-events: none;"></canvas>
+
+</html>
+
+
+    </head>
+    <body class="
+    article-page 
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        on-phone--column extended
+    
+">
+    
+        <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/hanbagui_hu1992e2ef3ca17530e3489d97af7cbea6_3164_300x0_resize_box.bmp" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        <h1 class="site-name"><a href="https://jianrongma.github.io/">think hy how to learn</a></h1>
+        <h2 class="site-description">好运暴富,就在今日.</h2>
+    </header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/-%E5%90%8E%E7%AB%AF%E8%AF%AD%E8%A8%80/" >
+                -后端语言
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/pythonlearning/">PythonLearning</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 10, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 8 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <h1 id="python学习">Python学习</h1>
+<h1 id="第一章">第一章</h1>
+<h2 id="一个基本的原理计算机只认识二进制即0和1">一个基本的原理：计算机只认识二进制，即：0和1</h2>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OWE4ZGE2OGRkNTRlNmQxYWM2ZmMzNDkxMDUxZTI3YWFfcFZ6NE9aSUZzQ0l1ZVRCWWVnYXRKOXJnbTZ6QkMydWRfVG9rZW46U0VBd2J1bzQ3b2p0TGZ4b0VFbmNsbUI2bnFlXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OWE4ZGE2OGRkNTRlNmQxYWM2ZmMzNDkxMDUxZTI3YWFfcFZ6NE9aSUZzQ0l1ZVRCWWVnYXRKOXJnbTZ6QkMydWRfVG9rZW46U0VBd2J1bzQ3b2p0TGZ4b0VFbmNsbUI2bnFlXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="什么是编程语言">什么是编程语言</h2>
+<p>用于人类和计算机进行交流的一种专有领域语言，通过编写编程语言的代码，去指挥计算机工作。但它无法直接和计算机沟通，需要翻译工具（<strong>解释器****或编译器</strong>）将代码翻译成二进制，提交计算机执行，从而实现和计算机的顺畅沟通。</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDgyZjg2ODVkMDQwZjdjYmM4MzAzNjUyZDNlNDY1MjZfSWlxcFhZbEhqQkdNcHd6QnZpVWhxTDI0NTRlTjh4NjNfVG9rZW46UHJSemJwRXN3b0FoS1p4SXVBQWM2WUJTblNnXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDgyZjg2ODVkMDQwZjdjYmM4MzAzNjUyZDNlNDY1MjZfSWlxcFhZbEhqQkdNcHd6QnZpVWhxTDI0NTRlTjh4NjNfVG9rZW46UHJSemJwRXN3b0FoS1p4SXVBQWM2WUJTblNnXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h3 id="注">注</h3>
+<h4 id="ide">IDE</h4>
+<p>集成开发环境，是用于提供程序开发环境的应用程序，一般包括代码编辑器、编译器、调试器和图形用户界面等工具。集成了代码编写功能、分析功能、编译功能、调试功能等一体化的开发软件服务套。所有具备这一特性的软件或者软件套（组）都可以叫集成开发环境。如Visual Studio&hellip;&hellip;</p>
+<h2 id="python解释器">Python解释器</h2>
+<h3 id="一个基本的原理是计算机只认识二进制即0和1"><strong>一个基本的原理是：计算机只认识二进制，即0和1</strong></h3>
+<p>其实，计算机是不会认识Python代码的，但是Python有解释器程序，如下图</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YjM0N2IzOWEyZmVjY2FjOTg1OTBmYjg2NWZhYTdjMzBfNTE2bXBSeDZxRzJaVEs1Z1h6M3V3bFFPdzh4NWR0UFNfVG9rZW46VVRERWJnbERvb0VDYnR4OWI1b2M5dFV1bjhnXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YjM0N2IzOWEyZmVjY2FjOTg1OTBmYjg2NWZhYTdjMzBfNTE2bXBSeDZxRzJaVEs1Z1h6M3V3bFFPdzh4NWR0UFNfVG9rZW46VVRERWJnbERvb0VDYnR4OWI1b2M5dFV1bjhnXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>安装Python环境，本质上，就是在电脑中安装：<strong>Python<strong><strong>解释器</strong></strong>程序</strong></p>
+<p>代码随时写，但是能不能运行，就要看电脑里有没有解释器程序了</p>
+<p><strong>Python<strong><strong>解释器</strong></strong>，是一个计算机程序，用来翻译Python代码，并提交给计算机执行</strong></p>
+<h3 id="功能">功能：</h3>
+<ul>
+<li>翻译代码为计算机认识的二进制（0和1）的形式并提交给计算机执行；</li>
+<li>在解释器环境内可以一行行的执行我们输入的代码；</li>
+<li>也可以使用解释器程序，去执行代码文件</li>
+</ul>
+<h3 id="解释器存放位置">解释器存放位置</h3>
+<p>&lt;Python安装目录&gt;/python.exe</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ODdjZTYyMzM4ZmM0ZWIxNWU5YjIwMzgzZGNkMGEyZDBfdzFIT2x2cVNPck9JenRDRVdsaHpKamNHYmVWREljUWdfVG9rZW46UTI1SmI1UDF6b0dqd1d4cFkxSWNuaGxqbmVmXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ODdjZTYyMzM4ZmM0ZWIxNWU5YjIwMzgzZGNkMGEyZDBfdzFIT2x2cVNPck9JenRDRVdsaHpKamNHYmVWREljUWdfVG9rZW46UTI1SmI1UDF6b0dqd1d4cFkxSWNuaGxqbmVmXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>我们在CMD（命令提示符）程序内，执行的python，就是上图的python.exe程序</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDMyMGViYjMyZTQyODhkZmExNzc2YjgxNjM3ODBlYWNfWjJjbHMzNG44bWJRZ0FzZ1BsZHdPd3BQVW9JR0FNdUZfVG9rZW46WlI5bWJOS09Fb2VtMkt4VkVFcWN3UVFXblJmXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDMyMGViYjMyZTQyODhkZmExNzc2YjgxNjM3ODBlYWNfWjJjbHMzNG44bWJRZ0FzZ1BsZHdPd3BQVW9JR0FNdUZfVG9rZW46WlI5bWJOS09Fb2VtMkt4VkVFcWN3UVFXblJmXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>不使用解释器，计算机就不认识Python代码</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NzAyNDg2MWI0MDFiNmI3YTJjZTU0NWFjMmEwM2Q1NWNfMHhpOVVraFowdXpHVlQ3R0l3NTQ0QTRGclR3TnZuMWZfVG9rZW46Q2FUQmJPTkpqb255MGV4UUs3YWNVODRPbk5kXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NzAyNDg2MWI0MDFiNmI3YTJjZTU0NWFjMmEwM2Q1NWNfMHhpOVVraFowdXpHVlQ3R0l3NTQ0QTRGclR3TnZuMWZfVG9rZW46Q2FUQmJPTkpqb255MGV4UUs3YWNVODRPbk5kXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>使用Python解释器程序，就能执行Python代码了</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=Y2VjNWVmMmYzNzAyZTJiMThmNGIxODU1NTRlNjRkM2FfTVk4dENvM3VHY2treGs1UDF3REpwN0I2T1pnenA1b25fVG9rZW46RHRtZGI2aVlBb1Y0Nmh4RERpbGNBVVZvbjBlXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=Y2VjNWVmMmYzNzAyZTJiMThmNGIxODU1NTRlNjRkM2FfTVk4dENvM3VHY2treGs1UDF3REpwN0I2T1pnenA1b25fVG9rZW46RHRtZGI2aVlBb1Y0Nmh4RERpbGNBVVZvbjBlXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h3 id="思考">思考</h3>
+<p>在python解释器程序内，写完一行代码并回车后，会直接运行他</p>
+<ul>
+<li>如何一次性运行好多行代码？</li>
+</ul>
+<p>可以将代码，写入一个以”.py”结尾的文件中，使用python命令去运行它</p>
+<p>如，在Windows系统的某盘，新建一个名为：<strong>test.py</strong> 的文件，通过记事本程序打开，输入如下内容：</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjA1MDc2ZjY4MDAwZThiNjhlYzM1N2RmYTY1MzhiMzJfQzd0RUdUTW1oRTQyV0FVUDJ0OWRvU1ZqYjZtV3U2bERfVG9rZW46RDRlR2JqRElSb3pKQ3F4UWhoQWMwZGZBbjdmXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjA1MDc2ZjY4MDAwZThiNjhlYzM1N2RmYTY1MzhiMzJfQzd0RUdUTW1oRTQyV0FVUDJ0OWRvU1ZqYjZtV3U2bERfVG9rZW46RDRlR2JqRElSb3pKQ3F4UWhoQWMwZGZBbjdmXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>在“命令提示符”程序内，使用python命令，运行，如图：</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ODMzNTg1NDcwNDFhNjQwZDhiOWNiZGEwMWI3Yzg2MWVfWWZIcFJIU1VPdEVhWHRua3VWbHhKalBEUGh4NkpZM1pfVG9rZW46SENnU2JDck9Kb1FtWHh4M2tJbWNUZmVEbnhlXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ODMzNTg1NDcwNDFhNjQwZDhiOWNiZGEwMWI3Yzg2MWVfWWZIcFJIU1VPdEVhWHRua3VWbHhKalBEUGh4NkpZM1pfVG9rZW46SENnU2JDck9Kb1FtWHh4M2tJbWNUZmVEbnhlXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="第一个python程序">第一个Python程序</h2>
+<p>print(&ldquo;Hello World!!!&rdquo;)</p>
+<p>含义：向屏幕上输出(显示)，Hello World!!!</p>
+<h3 id="注-1">注</h3>
+<p>括号和引号都是英文状态下输入</p>
+<p>打开CMD（命令提示符）程序，输入Python并回车 然后，在里面输入代码回车即可立即执行</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YWJiZGRjMmU0NDE5NjMyMjg0NmIxNTIzNDMyMzNhZTdfbTVDR21lS0txcTF1Mm5icVFCNXJYUGZqZDJZN1NjazVfVG9rZW46WEJMc2JpTFR2b1VITzF4OWV5SWM4UFNubkFmXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YWJiZGRjMmU0NDE5NjMyMjg0NmIxNTIzNDMyMzNhZTdfbTVDR21lS0txcTF1Mm5icVFCNXJYUGZqZDJZN1NjazVfVG9rZW46WEJMc2JpTFR2b1VITzF4OWV5SWM4UFNubkFmXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h3 id="练习">练习</h3>
+<p>请在“命令提示符”（CMD）程序内，通过Python，向屏幕上输出：零基础，学Python，月薪过万，就来黑马程序员</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OWYyNjEzNmM1YjlkOWNjMjUxYmE4OWM3ODU4OTIzOTJfdllCVGp0enl2VVc0aG1wWUZqUUR6OWtFYkxpVVZPaU5fVG9rZW46UzE5T2JCZFZlb29hd214U1VKVmN6aWx1bjNnXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OWYyNjEzNmM1YjlkOWNjMjUxYmE4OWM3ODU4OTIzOTJfdllCVGp0enl2VVc0aG1wWUZqUUR6OWtFYkxpVVZPaU5fVG9rZW46UzE5T2JCZFZlb29hd214U1VKVmN6aWx1bjNnXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h3 id="常见问题">常见问题</h3>
+<ul>
+<li>找不到“命令提示符”程序在哪里</li>
+</ul>
+<p>使用快捷键：win + r 打开运行框，输入cmd后回车即可打开命令提示符程序</p>
+<ul>
+<li>命令提示符内，输入python出现：&lsquo;python&rsquo; 不是内部或外部命令，也不是可运行的程序或批处理文件</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NTY0ZWZjNTg2YWE3MWY4ZTM0Mzk0MGI3YjMxMWU3ZWVfMTBSNGFjRTZtUGp1MURhUVdmUk51bVNSeWxZSDE2aUlfVG9rZW46SjNLTGJRQ2h4b2I1bUN4WVdpVGNvdFM1bmtjXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NTY0ZWZjNTg2YWE3MWY4ZTM0Mzk0MGI3YjMxMWU3ZWVfMTBSNGFjRTZtUGp1MURhUVdmUk51bVNSeWxZSDE2aUlfVG9rZW46SjNLTGJRQ2h4b2I1bUN4WVdpVGNvdFM1bmtjXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>是因为在安装python的时候，没有勾选 add python 3.10 to PATH的选项</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NTAyMTU3OWEzZGM3YjZiZGM2NTRkMTc2ZDAyMjg1MDlfS3k0azhSRVlJck4zbUJqUWlvYVh2NjNjbGxZOWVsSG5fVG9rZW46VFFRbWJVREgzb0k5WmZ4VTRvZWNjRGNTblJmXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NTAyMTU3OWEzZGM3YjZiZGM2NTRkMTc2ZDAyMjg1MDlfS3k0azhSRVlJck4zbUJqUWlvYVh2NjNjbGxZOWVsSG5fVG9rZW46VFFRbWJVREgzb0k5WmZ4VTRvZWNjRGNTblJmXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>卸载Python，重新安装python，勾选这个选项。 然后重新打开命令提示符程序，即可</p>
+<ul>
+<li>如果命令提示符内，出现 无法初始化设备 PRN</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTVlNWQxYWIzYmVmNTc5MGYwZmQ1NTE4YTYxZTg3MzJfbnR5Y1didnBhd3FHNUZIOFJIb3pmc0lZZGV3RWl1RzdfVG9rZW46SFd6RWIwbjI3b3ZYMGt4Q2lNSWNBQ1hYbnZjXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTVlNWQxYWIzYmVmNTc5MGYwZmQ1NTE4YTYxZTg3MzJfbnR5Y1didnBhd3FHNUZIOFJIb3pmc0lZZGV3RWl1RzdfVG9rZW46SFd6RWIwbjI3b3ZYMGt4Q2lNSWNBQ1hYbnZjXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>这是因为没有进入到python解释器环境内执行代码</p>
+<p>应该在命令提示符内</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OGQxZjhjYTRlZTdjZTc0ZTEwZGZiYzIyYmI5OTE5MGFfVGlEUlhYbGhqSjN0cTBqTmdyOXlPUGNXOTJ1aU5lS01fVG9rZW46RHlrUGJHallmb3lZYnp4b3p1cmNnQ2lLbmNkXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OGQxZjhjYTRlZTdjZTc0ZTEwZGZiYzIyYmI5OTE5MGFfVGlEUlhYbGhqSjN0cTBqTmdyOXlPUGNXOTJ1aU5lS01fVG9rZW46RHlrUGJHallmb3lZYnp4b3p1cmNnQ2lLbmNkXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ul>
+<li>执行出现：SyntaxError: invalid character &lsquo;“&rsquo; (U+201C)</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MmQ2YzMxNzJlNDdmYWRjNWUwMzNmOTljZTkwMzdjODBfR0prdTZHOTFpcFBSdGd5Z1dOZE1iWktpR2ZXNXFOUTZfVG9rZW46Rko1cmJwRVVwb256ZzF4emJ0dGN5Um53blZiXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MmQ2YzMxNzJlNDdmYWRjNWUwMzNmOTljZTkwMzdjODBfR0prdTZHOTFpcFBSdGd5Z1dOZE1iWktpR2ZXNXFOUTZfVG9rZW46Rko1cmJwRVVwb256ZzF4emJ0dGN5Um53blZiXzE3MTUzNTYwMTM6MTcxNTM1OTYxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>这是因为，代码中的符号是中文符号。 请检查代码中的： - 双引号 - 小括号 这两个符号，应该是英文符号</p>
+<h2 id="python开发环境">Python开发环境</h2>
+<p>Python程序的开发有许多种方式，一般我们常见的有：</p>
+<ul>
+<li>Python解释器环境内，执行单行代码；</li>
+<li>使用Python解释器程序，执行Python代码文件；</li>
+<li>使用第三方IDE（集成开发工具），如PyCharm软件开发Python程序   &mdash; <strong>最常用</strong></li>
+</ul>
+<p>PyCharm需要以“工程”为单元，供我们使用。想要写代码需要先创建一个工程</p>
+<h3 id="常用快捷键">常用快捷键</h3>
+<p>打开软件设置：ctrl + alt + s</p>
+<p>复制当前代码：ctrl + d</p>
+<p>将当前行代码上移或下移：shift+ alt + 上\下</p>
+<p>重命名文件：ctrl + f6</p>
+<p>运行当前代码：ctrl + shift + f10</p>
+<p>第二章-Python入门语法</p>
+<h2 id="一-字面量">一. 字面量</h2>
+<ol>
+<li>
+<h3 id="字面量的含义">字面量的含义</h3>
+</li>
+</ol>
+<p>在代码中，被写下来的<strong>固定的值</strong>，称之为字面量</p>
+<ol>
+<li>
+<h3 id="常见的字面量类型有">常见的字面量类型有</h3>
+</li>
+</ol>
+<p>python中常用的有<strong>6</strong>种值（数据）的类型</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>描述</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数字（Number）</td>
+<td>整数(int)浮点数(float)复数(complex)布尔(bool)</td>
+<td>整数（int），如：10、-10浮点数（float），如：13.14、-13.14复数(complex)，如：4+3j，以j结尾表示复数布尔（bool）表达现实生活中的逻辑，即真和假，True表示真，False表示假。 True本质上是一个数字记作1，False记作0</td>
+</tr>
+<tr>
+<td>字符串（String）</td>
+<td>描述文本的一种数据类型</td>
+<td>字符串（String）由任意数量的字符组成</td>
+</tr>
+<tr>
+<td>列表（List）</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>元组（Tuple）</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>集合（Set）</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>字典（Dictionary）</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="字符串">字符串</h4>
+<p>字符串（String），又称文本，是由任意的中文、英文、各类符号、数字等组成的。</p>
+<p><strong>在Python中，字符串需要用双引号（&quot;&quot;）包围起来，被双引号包围起来的，都是字符串</strong></p>
+<h3 id="基于print语句完成各类字面量的输出">基于print语句完成各类字面量的输出</h3>
+<p>print(字面量)，如：</p>
+<ul>
+<li>print(10)，输出整数10</li>
+<li>print(14.32)，输出浮点数14.32</li>
+<li>print(&ldquo;黑马程序员&rdquo;)，输出字符串：黑马程序员</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MmFkYWY3ZDczN2JjMTIyZTMzNzEwNmQ1NzNiZWQyYzhfbXZMNkxnMm5SVGNwbEt0ZDhickxsQnhoYlUyRkhZZ3NfVG9rZW46Q0hPSmJ3U0dRbzB5akF4UFBNa2NRR09PblhnXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MmFkYWY3ZDczN2JjMTIyZTMzNzEwNmQ1NzNiZWQyYzhfbXZMNkxnMm5SVGNwbEt0ZDhickxsQnhoYlUyRkhZZ3NfVG9rZW46Q0hPSmJ3U0dRbzB5akF4UFBNa2NRR09PblhnXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZGRkZTQ3OWZmYzFiOTc4NTFmNTJkNzlmODNkMGViZGJfdUJPd3BGMTZnODhPdFA0cFk5VVcxWUJaUnEybTlsYlNfVG9rZW46U1E2SWJqbnFBbzVXNXd4RTJuU2NoalJvbkFkXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZGRkZTQ3OWZmYzFiOTc4NTFmNTJkNzlmODNkMGViZGJfdUJPd3BGMTZnODhPdFA0cFk5VVcxWUJaUnEybTlsYlNfVG9rZW46U1E2SWJqbnFBbzVXNXd4RTJuU2NoalJvbkFkXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="二-注释">二. 注释</h2>
+<ol>
+<li>
+<h3 id="注释的作用">注释的作用</h3>
+</li>
+</ol>
+<p>注释：在程序代码中，对程序代码进行解释说明的文字</p>
+<p>作用：注释不是程序，不会被执行。只是对程序代码进行解释说明，让别人可以看懂程序代码的作用，能够 大大增强程序的可读性。</p>
+<ol>
+<li>
+<h3 id="单行注释和多行注释">单行注释和多行注释</h3>
+</li>
+<li>
+<h4 id="单行注释">单行注释</h4>
+</li>
+</ol>
+<p>以 #开头，#右边 的所有文字当作说明，而不是真正要执行的程序，起辅助说明作用</p>
+<p><strong>注意，#号和注释内容一般建议以一个空格隔开</strong></p>
+<p>单行注释一般用于对一行或一小部分代码进行解释</p>
+<ol>
+<li>
+<h4 id="多行注释">多行注释</h4>
+</li>
+</ol>
+<p>以 一对三个双引号 引起来（&ldquo;&ldquo;&ldquo;注释内容&rdquo;&quot;&quot;）来解释说明一段代码的作用使用方法 多行注释一般对：Python文件、类或者方法进行解释</p>
+<ol>
+<li>
+<h4 id="拓展-关于注释的面试题-注释能否互相嵌套">拓展-关于注释的面试题-注释能否互相嵌套？</h4>
+</li>
+<li>
+<p>单行注释中能否使用多行注释？</p>
+</li>
+</ol>
+<p>可以</p>
+<ol>
+<li>多行注释中能否使用单行注释？</li>
+</ol>
+<p>可以</p>
+<ol>
+<li>多行注释中能否使用多行注释？</li>
+</ol>
+<p>不能！</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OTYyZTg3MDg2OWYwMDFjYTYzY2Y3NjE1NDYyM2IxNmNfWGM0R29ISW9QSnhtT1ZpaEZxdkNqc2FoVkNNOHlUTE9fVG9rZW46TG1IM2JQRFM1b2lpbTN4UDQxd2N6QnRrblFlXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OTYyZTg3MDg2OWYwMDFjYTYzY2Y3NjE1NDYyM2IxNmNfWGM0R29ISW9QSnhtT1ZpaEZxdkNqc2FoVkNNOHlUTE9fVG9rZW46TG1IM2JQRFM1b2lpbTN4UDQxd2N6QnRrblFlXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NmYzNDM1NjJhNDRhN2M2ZGU1Y2YxZjRlMzJjMGJmMThfS1NDMHFFMjVUY25XdGNhVXVUTDhFWHpTRHNXRlJ1eVpfVG9rZW46REpzOWJqd2ZHb0E5dVZ4SkkwV2NXTzhVbm9iXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NmYzNDM1NjJhNDRhN2M2ZGU1Y2YxZjRlMzJjMGJmMThfS1NDMHFFMjVUY25XdGNhVXVUTDhFWHpTRHNXRlJ1eVpfVG9rZW46REpzOWJqd2ZHb0E5dVZ4SkkwV2NXTzhVbm9iXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="三-变量">三. 变量</h2>
+<ol>
+<li>
+<h3 id="变量的作用与特征">变量的作用与特征</h3>
+</li>
+<li>
+<h4 id="作用">作用</h4>
+</li>
+</ol>
+<p>变量：就是程序在运行的时候，<strong>记录数据</strong>用的</p>
+<p>变量就像盒子 可以存放内容</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YzkwMWQ1NTM4MjJlNmIyOWYwNjQ0ZmQ4MWRlY2M0ODlfeVdYOTlDaEE4VE8yQ08wUXhnNW5yUUdCVzJ5dVc1WXBfVG9rZW46SjAzeGJjU0JWb0JQZEF4MmMzOGM2cXJlbnVmXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YzkwMWQ1NTM4MjJlNmIyOWYwNjQ0ZmQ4MWRlY2M0ODlfeVdYOTlDaEE4VE8yQ08wUXhnNW5yUUdCVzJ5dVc1WXBfVG9rZW46SjAzeGJjU0JWb0JQZEF4MmMzOGM2cXJlbnVmXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ol>
+<li>
+<h4 id="特征">特征</h4>
+</li>
+</ol>
+<p><strong>变量存储的数据，是可以发生改变的</strong></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OTVhMzJkZTA5YTNjNzY5MzcyM2RhZWU0OWVkNDcxZjZfbHpaWHpvb01OdDhoaXc2N1NYS3lFY0RZaVEyd001T21fVG9rZW46T2hzcGJvTVJpb0RhMHJ4MnhBNWMwOWgxbjlmXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OTVhMzJkZTA5YTNjNzY5MzcyM2RhZWU0OWVkNDcxZjZfbHpaWHpvb01OdDhoaXc2N1NYS3lFY0RZaVEyd001T21fVG9rZW46T2hzcGJvTVJpb0RhMHJ4MnhBNWMwOWgxbjlmXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ol>
+<li>
+<h3 id="变量的定义方式">变量的定义方式</h3>
+</li>
+</ol>
+<p><strong>变量名称 = 变量值</strong></p>
+<p>变量名称：每一个变量都有自己的名称，称之为：变量名，也就是变量本身</p>
+<p>=：<strong>赋值</strong>，<strong>表示将右边的值，赋给左边的变量</strong></p>
+<p>变量值：每一个变量都有自己存储的值（内容），称之为：变量值</p>
+<h4 id="思考-1">思考</h4>
+<p>为什么要使用变量？都是输出内容，直接输出不行吗？</p>
+<p><strong>变量的目的是存储运行的过程的数据</strong></p>
+<p><strong>存储的目的是为了：重复使用</strong></p>
+<h3 id="print语句如何输出多份内容">print语句如何输出多份内容？</h3>
+<p>print(内容1，内容2，&hellip;，内容N)</p>
+<h2 id="四-数据类型及其转换">四. 数据类型及其转换</h2>
+<ol>
+<li>
+<h3 id="数据类型">数据类型</h3>
+</li>
+<li>
+<h4 id="使用什么语句可以查看数据的类型">使用什么语句可以查看数据的类型？</h4>
+</li>
+</ol>
+<p>**type()**<strong>语句</strong></p>
+<ol>
+<li>
+<h5 id="语法">语法：</h5>
+</li>
+</ol>
+<p>type(被查看类型的数据)</p>
+<ol>
+<li>
+<h5 id="type语句的使用方式">type()语句的使用方式</h5>
+</li>
+<li>
+<p>在print语句中，直接输出类型信息</p>
+</li>
+</ol>
+<p>print(type(被查看类型的数据))</p>
+<ol>
+<li>用变量存储type()的结果（返回值）</li>
+</ol>
+<p>变量名 = type(被查看类型的数据)</p>
+<p>print(变量名)</p>
+<ol>
+<li>
+<p>type()语句也能查看变量中存储的数据的类型</p>
+</li>
+<li>
+<h4 id="变量有类型嘛">变量有类型嘛</h4>
+</li>
+</ol>
+<p><strong>变量无类型，但是它存储的数据有类型</strong></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MDZjNjdlNDYyMjc3NmQ3MmM1ZWUxOTM4M2IzZmVmYWVfVm95SU96bFRDREJmMllYQXFWVGFTZFJMZ2d3NkZvd2ZfVG9rZW46RHhPbmJCbWNobzcwbE14NVhIc2NQUzR3blJkXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MDZjNjdlNDYyMjc3NmQ3MmM1ZWUxOTM4M2IzZmVmYWVfVm95SU96bFRDREJmMllYQXFWVGFTZFJMZ2d3NkZvd2ZfVG9rZW46RHhPbmJCbWNobzcwbE14NVhIc2NQUzR3blJkXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><strong>字符串变量：并不是变量是字符串，而是存储了字符串类型的数据</strong></p>
+<ol>
+<li>
+<h3 id="数据类型转换">数据类型转换</h3>
+</li>
+<li>
+<h4 id="常见的转换语句">常见的转换语句</h4>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>语句（函数）</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int(x)</td>
+<td>将x转换为一个整数</td>
+</tr>
+<tr>
+<td>float(x)</td>
+<td>将x转换为一个浮点数</td>
+</tr>
+<tr>
+<td>str(x)</td>
+<td>将x转换为字符串</td>
+</tr>
+</tbody>
+</table>
+<p>**这三个语句，同****type()**<strong>语句一样，都是有结果的（返回值），我们可以用print直接输出，或用变量存储结果值</strong></p>
+<ol>
+<li>
+<h4 id="类型转换注意事项">类型转换注意事项</h4>
+</li>
+<li>
+<h5 id="任何类型都可以通过str转换成字符串类型"><strong>任何类型，都可以通过<strong><strong>str</strong></strong>()转换成字符串类型</strong></h5>
+</li>
+</ol>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZGZkYjI3ODNlYmM2Y2I4MDI0ZGU4MjFjNmQyOWQ4ZDFfbzk5N0Y5bndzd1FaOFl5cjZxZUQ3RFRndlpaVVVSZDdfVG9rZW46TzlJOWJmU2pMb1Nwb2V4ODdsbWNyUXdCblNoXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZGZkYjI3ODNlYmM2Y2I4MDI0ZGU4MjFjNmQyOWQ4ZDFfbzk5N0Y5bndzd1FaOFl5cjZxZUQ3RFRndlpaVVVSZDdfVG9rZW46TzlJOWJmU2pMb1Nwb2V4ODdsbWNyUXdCblNoXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ol>
+<li>
+<h5 id="字符串内必须真的是数字才可以将字符串转换为数字"><strong>字符串内必须真的是数字，才可以将字符串转换为数字</strong></h5>
+</li>
+<li>
+<h5 id="浮点数转换为整数会丢失精度也就是小数部分">浮点数转换为整数会丢失精度，也就是小数部分</h5>
+</li>
+</ol>
+<h2 id="五-标识符">五. 标识符</h2>
+<ol>
+<li>
+<h3 id="什么是标识符">什么是标识符</h3>
+</li>
+</ol>
+<p>是用户在编程的时候所使用的一系列名字，用于给变量、类、方法等命名</p>
+<ol>
+<li>
+<h3 id="标识符命名规则">标识符命名规则</h3>
+</li>
+</ol>
+<ul>
+<li><strong>内容限定</strong>
+<ul>
+<li><strong>标识符命名中，只允许出现：</strong></li>
+<li><strong>英文</strong></li>
+<li><strong>中文</strong></li>
+<li><strong>数字</strong></li>
+<li><strong>下划线（_）</strong></li>
+<li>这四类元素，其余的任何内容都不被允许</li>
+<li>注意：</li>
+<li><strong>不推荐使用中文</strong></li>
+<li><strong>数字不可以开头</strong></li>
+</ul>
+</li>
+<li><strong>大小写敏感</strong></li>
+<li><strong>不可使用关键字</strong></li>
+</ul>
+<p>Python中有一系列单词，称之为关键字。关键字在Python中都有特定用途，我们不可以使用它们作为标识符</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=Yzc2NzdhMzEyZWEzY2YwMjAwNzM1Yzk4MWNjZTcyZmFfUTdWZ3BwY2VaVFBna3d4Vll3cTJsTGlxNDMxVm1Fc2ZfVG9rZW46SVZadGJTWGJ3bzkxQkt4MW9BNWNCQWczbnZkXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=Yzc2NzdhMzEyZWEzY2YwMjAwNzM1Yzk4MWNjZTcyZmFfUTdWZ3BwY2VaVFBna3d4Vll3cTJsTGlxNDMxVm1Fc2ZfVG9rZW46SVZadGJTWGJ3bzkxQkt4MW9BNWNCQWczbnZkXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ol>
+<li>
+<h3 id="标识符命名规范-变量的命名规范">标识符命名规范-变量的命名规范</h3>
+</li>
+</ol>
+<ul>
+<li><strong>见名知意</strong>
+<ul>
+<li>
+<p>明了：尽量做到，看到名字，就知道是什么意思</p>
+</li>
+<li>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YjkzMWFlYWU0MjZmODc5YmQ2NzljMjVkNzZmNWEwY2JfNzhXR2lHeTF1VnJSNUZBN0FWUko0amdzalJjTk9qOGlfVG9rZW46R2tpOGJJazFab04wbWt4RG5SSWNoMmtmbnBjXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YjkzMWFlYWU0MjZmODc5YmQ2NzljMjVkNzZmNWEwY2JfNzhXR2lHeTF1VnJSNUZBN0FWUko0amdzalJjTk9qOGlfVG9rZW46R2tpOGJJazFab04wbWt4RG5SSWNoMmtmbnBjXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+</li>
+<li>
+<p>简洁：尽量在确保“明了”的前提下，减少名字的长度</p>
+</li>
+<li>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OWNhY2U4MzA3MDkxMDAwMzZjYzVjMjRkOWY5MzFlOWZfa3lkb0tXcm5UYU8wZmlKRFA5cDdJRVV4dVltTTh3aUVfVG9rZW46UzJPWWJpRE04b3hPbXZ4Z0RldWNOdHdKbm1jXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OWNhY2U4MzA3MDkxMDAwMzZjYzVjMjRkOWY5MzFlOWZfa3lkb0tXcm5UYU8wZmlKRFA5cDdJRVV4dVltTTh3aUVfVG9rZW46UzJPWWJpRE04b3hPbXZ4Z0RldWNOdHdKbm1jXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+</li>
+</ul>
+</li>
+<li><strong>下划线命名法</strong>
+<ul>
+<li>
+<p>多个单词组合变量名，要使用下划线做分隔</p>
+</li>
+<li>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjhkYWFiY2U0MjQ0OTg1NTM1ZDAzODY2MGIzZDE0ODdfQmp3ZE5DeFZVN2lOZldadjgyd2xpWFBTZWlya0lPMFBfVG9rZW46TUFrZGI4TnVJb1V4c3R4SmpNRGM4YUVTbnJkXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjhkYWFiY2U0MjQ0OTg1NTM1ZDAzODY2MGIzZDE0ODdfQmp3ZE5DeFZVN2lOZldadjgyd2xpWFBTZWlya0lPMFBfVG9rZW46TUFrZGI4TnVJb1V4c3R4SmpNRGM4YUVTbnJkXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+</li>
+</ul>
+</li>
+<li><strong>英文字母全小写</strong></li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YjlhZjA0Mzc0ZDMwNDVhZmM0M2FmM2YyMWU0NGM1MjFfbG1rYTZzbTZSN3luZ2M0SWMyYXhYVFBWaTRmZHRTNHNfVG9rZW46VDVpUGJMUHlZb25aYzl4eUdxd2M1M09jbkNkXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YjlhZjA0Mzc0ZDMwNDVhZmM0M2FmM2YyMWU0NGM1MjFfbG1rYTZzbTZSN3luZ2M0SWMyYXhYVFBWaTRmZHRTNHNfVG9rZW46VDVpUGJMUHlZb25aYzl4eUdxd2M1M09jbkNkXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="六-运算符">六. 运算符</h2>
+<ol>
+<li>
+<h3 id="算术数学运算符">算术（数学）运算符</h3>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>描述</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+</td>
+<td>加</td>
+<td></td>
+</tr>
+<tr>
+<td>-</td>
+<td>减</td>
+<td></td>
+</tr>
+<tr>
+<td>*</td>
+<td>乘</td>
+<td></td>
+</tr>
+<tr>
+<td>/</td>
+<td>除</td>
+<td></td>
+</tr>
+<tr>
+<td>//</td>
+<td>取整除</td>
+<td>返回商的整数部分 9//2 输出结果是4，9.0//2.0 输出结果4.0</td>
+</tr>
+<tr>
+<td>%</td>
+<td>取余</td>
+<td>9 % 2 = 1</td>
+</tr>
+<tr>
+<td>**</td>
+<td>指数</td>
+<td>2 ** 6，输出结果 2的六次方</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>
+<h3 id="赋值运算符">赋值运算符</h3>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>描述</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>=</td>
+<td>把 = 右边的结果 赋给 左边的变量</td>
+<td>num = 1 + 2 * 3，结果num的值为7</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>
+<h3 id="复合赋值运算符">复合赋值运算符</h3>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>描述</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+=</td>
+<td>加法赋值运算符</td>
+<td>c += a 等效于 c = c + a</td>
+</tr>
+<tr>
+<td>-=</td>
+<td>减法赋值运算符</td>
+<td>c -= a 等效于 c = c - a</td>
+</tr>
+<tr>
+<td>*=</td>
+<td>乘法赋值运算符</td>
+<td>c *= a 等效于 c = c * a</td>
+</tr>
+<tr>
+<td>/=</td>
+<td>除法赋值运算符</td>
+<td>c /= a 等效于 c = c / a</td>
+</tr>
+<tr>
+<td>//=</td>
+<td>取整除赋值运算符</td>
+<td>c //= a 等效于 c = c // a</td>
+</tr>
+<tr>
+<td>%=</td>
+<td>取余赋值运算符</td>
+<td>c %= a 等效于 c = c % a</td>
+</tr>
+<tr>
+<td>**=</td>
+<td>幂赋值运算符</td>
+<td>c **= a 等效于 c = c ** a</td>
+</tr>
+</tbody>
+</table>
+<h2 id="七-字符串扩展">七. 字符串扩展</h2>
+<ol>
+<li>
+<h3 id="字符串类型的不同定义方式">字符串类型的不同定义方式</h3>
+</li>
+</ol>
+<p>字符串在Python中有3种不同的定义方式：</p>
+<ol>
+<li>双引号定义</li>
+</ol>
+<p>&ldquo;字符串&rdquo;</p>
+<ol>
+<li>单引号定义</li>
+</ol>
+<p>&lsquo;字符串&rsquo;</p>
+<ol>
+<li>三引号定义</li>
+</ol>
+<p>&ldquo;&ldquo;&ldquo;字符串&rdquo;&rdquo;&rdquo;</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjE1YWEzMzA4ODVlNjkyM2JkM2E3MmRkOTdhNjg4MzVfdk5xSm5od2xoR0pUcnBaZW9CZU5FNUVnZDlQWjU5azBfVG9rZW46RTQyUmJQVWdsb1BmUGN4MkNJNWM0YVFEbm5oXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjE1YWEzMzA4ODVlNjkyM2JkM2E3MmRkOTdhNjg4MzVfdk5xSm5od2xoR0pUcnBaZW9CZU5FNUVnZDlQWjU5azBfVG9rZW46RTQyUmJQVWdsb1BmUGN4MkNJNWM0YVFEbm5oXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><strong>注意</strong></p>
+<ul>
+<li>包含的范围是：从三个引号开始，到下一个三个引号结束
+<ul>
+<li>
+<p>&ldquo;&ldquo;&ldquo;字符串&rdquo;&rdquo;&rdquo; 字符串&rdquo;&rdquo;&quot;</p>
+</li>
+<li>
+<p>这部分是字符串</p>
+</li>
+</ul>
+</li>
+<li>三引号定义法，跟多行注释的写法一样，同样支持换行操作
+<ul>
+<li>使用变量接收它，它就是字符串 不使用变量接收它，就可以作为多行注释使用</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>
+<h4 id="字符串的引号嵌套">字符串的引号嵌套</h4>
+</li>
+</ol>
+<p>如果想要定义字符串本身，是包含：单引号、双引号自身呢？如何写？</p>
+<ul>
+<li>单引号定义法，可以内含双引号</li>
+<li>双引号定义法，可以内含单引号</li>
+<li>可以使用转义字符（\）来将引号解除效用，变成普通字符串</li>
+</ul>
+<ol>
+<li>
+<h3 id="字符串拼接">字符串拼接</h3>
+</li>
+</ol>
+<p>通过“+”连接字符串变量或者字符串字面量</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTI3NWVjOTU5OTBmN2RmZTE0NDc3MjgzZjY4ODMzZjBfcEFmc2hWaWJZMXkyemtHWG9TTHBCZEZEUFpYT09hOWlfVG9rZW46VFgzMGJETzFWb1hmQU14TjFldWM1eHFxbnBoXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTI3NWVjOTU5OTBmN2RmZTE0NDc3MjgzZjY4ODMzZjBfcEFmc2hWaWJZMXkyemtHWG9TTHBCZEZEUFpYT09hOWlfVG9rZW46VFgzMGJETzFWb1hmQU14TjFldWM1eHFxbnBoXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NDQ1YWJhZmQ1NDRhZDcyYTVkYzc2NjNjZDg0M2E0OTRfWXBid21vYUJQSndXaGlxUDRKanpBRG44SHc1bU5tZVNfVG9rZW46QXF6cGJ1cmt3b2U5RHJ4SUZ6RGNwbzlEblNoXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NDQ1YWJhZmQ1NDRhZDcyYTVkYzc2NjNjZDg0M2E0OTRfWXBid21vYUJQSndXaGlxUDRKanpBRG44SHc1bU5tZVNfVG9rZW46QXF6cGJ1cmt3b2U5RHJ4SUZ6RGNwbzlEblNoXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>注意</p>
+<p><strong>无法和非字符串类型进行拼接</strong></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmM3YWRmMjJmNGE4ODhhNzc4NzNmM2NhNzc3Nzc2ZDNfSDZ6WHBKYjFKOUM4MU5jV3g0SGhidEYzS2dtbDl2NTZfVG9rZW46Q2ttbmIxOFlCb202QnZ4Qkw3eWNmaTV1bm9nXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmM3YWRmMjJmNGE4ODhhNzc4NzNmM2NhNzc3Nzc2ZDNfSDZ6WHBKYjFKOUM4MU5jV3g0SGhidEYzS2dtbDl2NTZfVG9rZW46Q2ttbmIxOFlCb202QnZ4Qkw3eWNmaTV1bm9nXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NGZlM2Y0NjgyYzU0YTQ2NmM4ODUwZDY0ZjRmODI3ODFfR1VZT0tBellpMTh0Rjc1aGxFbzNrZ3lsUE1qN3ZIWVVfVG9rZW46SjhxYWI3NFBzb0tyYWN4TzdXc2N5REQ0bnh1XzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NGZlM2Y0NjgyYzU0YTQ2NmM4ODUwZDY0ZjRmODI3ODFfR1VZT0tBellpMTh0Rjc1aGxFbzNrZ3lsUE1qN3ZIWVVfVG9rZW46SjhxYWI3NFBzb0tyYWN4TzdXc2N5REQ0bnh1XzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><strong>但是，用逗号 “，”  输出多项内容是可以的</strong></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NjZkOTc0NmRkNzg4Y2FlM2JhNGUxNWY3Mzk3MDVhNjRfWkV1UjFZTndnSWxoeDloVHczVkhkMUZObzVwWmxscE1fVG9rZW46SEdJY2JwalMyb0tNRlR4TkNLRmN2bXpTbkViXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NjZkOTc0NmRkNzg4Y2FlM2JhNGUxNWY3Mzk3MDVhNjRfWkV1UjFZTndnSWxoeDloVHczVkhkMUZObzVwWmxscE1fVG9rZW46SEdJY2JwalMyb0tNRlR4TkNLRmN2bXpTbkViXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MGI2ODNiNzQ1N2FhN2IwM2ZkYmM1MTc1ZGMwOWRhOWFfWHIzaXh6NnIxYXp5OEw0R2ZzRjhXbElqMUp3dEs3UXdfVG9rZW46UU01aGJWalBHb1U5MXh4T0JPYWNmSnMwbmdnXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MGI2ODNiNzQ1N2FhN2IwM2ZkYmM1MTc1ZGMwOWRhOWFfWHIzaXh6NnIxYXp5OEw0R2ZzRjhXbElqMUp3dEs3UXdfVG9rZW46UU01aGJWalBHb1U5MXh4T0JPYWNmSnMwbmdnXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ol>
+<li>
+<h3 id="字符串格式化">字符串格式化</h3>
+</li>
+<li>
+<h4 id="格式化方式1">格式化方式1</h4>
+</li>
+</ol>
+<p>通过占位的形式拼接字符串（字符串格式化）</p>
+<p>%s：</p>
+<ul>
+<li>% 表示：我要占位</li>
+<li>s 表示：将变量变成字符串放入占位的地方</li>
+</ul>
+<p>所以，综合起来的意思是：我先占个位置，待会有个变量过来，我把它变成字符串放在占位的位置</p>
+<p><strong>注意：多个变量占位，变量要用括号括起来，并按照占位的顺序填入</strong></p>
+<p>在Python中，支持非常多类型的数据类型占位，最常用的三类有：</p>
+<table>
+<thead>
+<tr>
+<th>格式符号</th>
+<th>转化</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%s</td>
+<td>将内容转换为字符串，放入占位位置</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>将内容转换为整数，放入占位位置</td>
+</tr>
+<tr>
+<td>%f</td>
+<td>将内容转换为浮点数，放入占位位置</td>
+</tr>
+</tbody>
+</table>
+<h5 id="在字符串格式化的过程中要做数字的精度控制">在字符串格式化的过程中要做数字的精度控制</h5>
+<h6 id="精度控制的语法">精度控制的语法</h6>
+<p>m.n的形式控制，如%5.3d、%6d、%.3f</p>
+<ul>
+<li>%5d：表示将整数的宽度控制在5位，如数字11，被设置为5d，就会变成：[空格][空格][空格]11，用三个空格补足宽度。</li>
+<li>%5.2f：表示将宽度控制为5，将小数点精度设置为2</li>
+<li>小数点和小数部分也算入宽度计算。如，对11.345设置了%7.2f 后，结果是：[空格][空格]11.35。2个空格补足宽度，小数部分限制2位精度后，四舍五入为 .35</li>
+<li>%.2f：表示不限制宽度，只设置小数点精度为2，如11.345设置%.2f后，结果是11.35</li>
+</ul>
+<p>m和.n均可省略</p>
+<h6 id="如果-m-比数字本身宽度还小则-m-无效">如果 m 比数字本身宽度还小，则 m 无效</h6>
+<h6 id="n-在对小数部分做精度限制的同时还做四舍五入">.n 在对小数部分做精度限制的同时还做四舍五入</h6>
+<ol>
+<li>
+<h4 id="格式化方式2">格式化方式2</h4>
+</li>
+</ol>
+<p>**f&quot;内容{变量}&quot;**的方式进行快速格式化</p>
+<h6 id="这种方式不理会数据类型不用做精度控制">这种方式不理会数据类型，不用做精度控制</h6>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YWVkNzlkNDU2NGU1Y2ViN2E4OTZhOWU5YTQ4ZWRkZmJfVnVmMVBQM1VwR3VBcU44QVoxdm45RDFlTmswMThQRElfVG9rZW46Q2ZleWJZT21nb05ZS2p4cHBYR2NpN0N2bjlnXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YWVkNzlkNDU2NGU1Y2ViN2E4OTZhOWU5YTQ4ZWRkZmJfVnVmMVBQM1VwR3VBcU44QVoxdm45RDFlTmswMThQRElfVG9rZW46Q2ZleWJZT21nb05ZS2p4cHBYR2NpN0N2bjlnXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YjE2YTg3ZGQ5NTYzYzFkNDg2ZWRhMGFlZTlhN2EzN2JfUDNNRVA5Z2syYWcwRWFsNU1HWTVmOW43Z0tCTGV5N0hfVG9rZW46UUc3U2JSbG9vb0ZLYWZ4c1ZBWWNUYmh0bmhoXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YjE2YTg3ZGQ5NTYzYzFkNDg2ZWRhMGFlZTlhN2EzN2JfUDNNRVA5Z2syYWcwRWFsNU1HWTVmOW43Z0tCTGV5N0hfVG9rZW46UUc3U2JSbG9vb0ZLYWZ4c1ZBWWNUYmh0bmhoXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ol>
+<li>
+<h3 id="对表达式进行格式化">对表达式进行格式化</h3>
+</li>
+<li>
+<h4 id="什么是表达式">什么是表达式</h4>
+</li>
+</ol>
+<p><strong>一条具有<strong><strong>明确执行结果</strong></strong>的****代码语句</strong></p>
+<p>如： 1 + 1、5 * 2，就是表达式，因为有具体的结果，结果是一个数字 又或者，常见的变量定义： name = “张三”     age = 11 + 11 等号右侧的都是表达式呢，因为它们有具体的结果，结果赋值给了等号左侧的变量。</p>
+<ol>
+<li>
+<h4 id="对表达式进行字符串格式化">对表达式进行字符串格式化</h4>
+</li>
+</ol>
+<p>对于字符串可以格式化，也可以对表达式进行格式化</p>
+<p>语法：</p>
+<ul>
+<li>f&quot;{表达式}&quot;</li>
+<li>&ldquo;%s%d%f&rdquo; % (表达式，表达式，表达式)</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YmJhYjJkMTU2ZmRmMGRmYWM4MDM5OWE0MzcxMjM1NWRfazJqUVNHWHVQWmVacTlORXhZbmVXOHNPN2pzT0E4Z2ZfVG9rZW46VjdhWGI0TGdUb1o3UWd4ZXVQQmN2bmNPblppXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YmJhYjJkMTU2ZmRmMGRmYWM4MDM5OWE0MzcxMjM1NWRfazJqUVNHWHVQWmVacTlORXhZbmVXOHNPN2pzT0E4Z2ZfVG9rZW46VjdhWGI0TGdUb1o3UWd4ZXVQQmN2bmNPblppXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NjgxZTYwM2RhZjBhYzBjNGJlMzQ2MWI0NDBjYTZlZTBfVDJjRURpQjdGdFZyQlVXeTBpdFNOQklteVVWMFJrOUFfVG9rZW46Vms1bWJ1c3dMbzJQRmV4eDRjeWM0blBWbndlXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NjgxZTYwM2RhZjBhYzBjNGJlMzQ2MWI0NDBjYTZlZTBfVDJjRURpQjdGdFZyQlVXeTBpdFNOQklteVVWMFJrOUFfVG9rZW46Vms1bWJ1c3dMbzJQRmV4eDRjeWM0blBWbndlXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="八-数据输入">八. 数据输入</h2>
+<p><strong>input()</strong></p>
+<p>功能：<strong>获取键盘的输入</strong></p>
+<p>原理：</p>
+<p>使用input()语句接收使用键盘输入的内容；</p>
+<p>命名一个变量存储input语句获取的键盘输入数据</p>
+<p>数据输出：print()</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MTQ3NTY5YjAxNTEwOTRiYzAwODllYWJmYjJlMjA1NzlfOW1HOFhNVHJiOVRWTzZWd3EybE9oWXNtRnExTmJqQUhfVG9rZW46TUIzMWJvTWNEb3FiWE14amdnYWNvNVNnbjhqXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MTQ3NTY5YjAxNTEwOTRiYzAwODllYWJmYjJlMjA1NzlfOW1HOFhNVHJiOVRWTzZWd3EybE9oWXNtRnExTmJqQUhfVG9rZW46TUIzMWJvTWNEb3FiWE14amdnYWNvNVNnbjhqXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OGFiYzNmMmY2MzVmMjQwZTZjNmVjMGI3NjkxNWY0NWVfaXNRNHVsNlgxYlJQRW1GcE53U2wxNUgwOEtrY0x6WVJfVG9rZW46QTZOUmJka2FYbzdkdnl4WWpSZWNkZ3Nlbk5nXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OGFiYzNmMmY2MzVmMjQwZTZjNmVjMGI3NjkxNWY0NWVfaXNRNHVsNlgxYlJQRW1GcE53U2wxNUgwOEtrY0x6WVJfVG9rZW46QTZOUmJka2FYbzdkdnl4WWpSZWNkZ3Nlbk5nXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>可以使用：input(提示信息)，用以在使用者输入内容之前显示提示信息</p>
+<p>注意：</p>
+<p>无论键盘输入什么类型的数据，获取到的数据<strong>永远都是字符串类型</strong></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjcwMzI2NDc5NzM5YTc2MGU5YWQ2N2VhYjAwM2M5MGJfMkVZYktscWdJYlVVVEJCYlZsNHpxMTJNSzdUMk5pVXNfVG9rZW46RWxkZGJJUkVab0Jyc0t4ODJ6emNrV0I1blBlXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjcwMzI2NDc5NzM5YTc2MGU5YWQ2N2VhYjAwM2M5MGJfMkVZYktscWdJYlVVVEJCYlZsNHpxMTJNSzdUMk5pVXNfVG9rZW46RWxkZGJJUkVab0Jyc0t4ODJ6emNrV0I1blBlXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MDQ1NmI1ODViMTg4NDFlMzA4YTEwZDczMDJjYjQwYjZfMXBXSTJkVmRheG1ZajE3N0xPUklsaUxCU0xvNFM0Q0tfVG9rZW46R0o3N2I1N095bzI3U214TXA2NGNyWjB6bmlnXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MDQ1NmI1ODViMTg4NDFlMzA4YTEwZDczMDJjYjQwYjZfMXBXSTJkVmRheG1ZajE3N0xPUklsaUxCU0xvNFM0Q0tfVG9rZW46R0o3N2I1N095bzI3U214TXA2NGNyWjB6bmlnXzE3MTUzNTYzMDI6MTcxNTM1OTkwMl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>第三章-Python判断语句</p>
+<h1 id="01_布尔类型和比较运算符">01_布尔类型和比较运算符</h1>
+<h2 id="布尔类型">布尔类型</h2>
+<p>进行判断，只有两个结果：</p>
+<ul>
+<li>是</li>
+<li>否</li>
+</ul>
+<h3 id="程序中使用布尔类型描述是或否">程序中，使用布尔类型描述：是或否</h3>
+<h3 id="python中常用的-6-种数字类型">Python中常用的 <strong>6</strong> 种数字类型：</h3>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MGU4YzhkMDc2MzljM2MzNDYyMjI3NjUxMDRjZTk3ODZfalJsODZNNlgzVDc5WW1KUmVmYTg4NWk0S3RMRmNRSXlfVG9rZW46RjdSZGJPTnNjb0NMaTJ4RVRzV2NUWk9BblRkXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MGU4YzhkMDc2MzljM2MzNDYyMjI3NjUxMDRjZTk3ODZfalJsODZNNlgzVDc5WW1KUmVmYTg4NWk0S3RMRmNRSXlfVG9rZW46RjdSZGJPTnNjb0NMaTJ4RVRzV2NUWk9BblRkXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h3 id="布尔类型的定义">布尔类型的定义</h3>
+<h4 id="布尔类型的字面量">布尔类型的字面量：</h4>
+<ul>
+<li>True 表示真（是、肯定）</li>
+<li>False 表示假（否、否定）</li>
+</ul>
+<h4 id="定义变量存储布尔类型的数据">定义变量存储布尔类型的数据</h4>
+<p>变量名称 = 布尔类型字面量</p>
+<h4 id="注-2">注：</h4>
+<p><strong>布尔类型****不仅可以自行定义，同时也可以通过计算的来。</strong></p>
+<p><strong>也就是使用比较运算符进行比较运算得到<strong><strong>布尔类型</strong></strong>的结果</strong></p>
+<h2 id="比较运算符">比较运算符</h2>
+<p>布尔类型的数据，不仅可以通过定义得到，也可以通过比较运算符得到</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=Y2JiMGUzN2ZmZGNmYzRkNDkyMWE1ZGM2Mzc2ZWEzNzFfMlFoYXZyY29UaWVBd1QzUjRBMEtNbkdqY2RyVFNMNkpfVG9rZW46VHI0aWIzV3Rhb1pBTTJ4cFc5SWNFUzFIblVoXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=Y2JiMGUzN2ZmZGNmYzRkNDkyMWE1ZGM2Mzc2ZWEzNzFfMlFoYXZyY29UaWVBd1QzUjRBMEtNbkdqY2RyVFNMNkpfVG9rZW46VHI0aWIzV3Rhb1pBTTJ4cFc5SWNFUzFIblVoXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="02_if语句的基本格式">02_if语句的基本格式</h1>
+<h2 id="if语句的基本格式">if语句的基本格式</h2>
+<p>if 要判断的条件:</p>
+<p>​    条件成立时，要做的事情</p>
+<p>if语句的注意事项</p>
+<ul>
+<li>判断条件的结果一定是布尔类型</li>
+<li>不要忘记判断条件后的 : 引号</li>
+<li>归属于if语句的代码块，需在前方填充 4 个空格缩进</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NDM0MWEzN2YwYTNjMTJhNzE5ODRjYjA3NmE4OTRhZmRfTENDSldhWGFtUk9WQ0Rmd2xvRHpXWlN3RXVnYmxtWDVfVG9rZW46Tkt4c2JudDhtb2o4R2J4emlTcGNpSGJYbkVjXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NDM0MWEzN2YwYTNjMTJhNzE5ODRjYjA3NmE4OTRhZmRfTENDSldhWGFtUk9WQ0Rmd2xvRHpXWlN3RXVnYmxtWDVfVG9rZW46Tkt4c2JudDhtb2o4R2J4emlTcGNpSGJYbkVjXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OGY4YWU3ZGE4Mjg4NjFmNTZiMDFhZjcxYjE1ODBlNGJfcW1PVWwwNHhXenJ1c1hIZXRzOGNpM29VUGkzUW9HdHJfVG9rZW46S0lTa2JLa284b3J5NXd4eWpNNmNYWnJlbndlXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OGY4YWU3ZGE4Mjg4NjFmNTZiMDFhZjcxYjE1ODBlNGJfcW1PVWwwNHhXenJ1c1hIZXRzOGNpM29VUGkzUW9HdHJfVG9rZW46S0lTa2JLa284b3J5NXd4eWpNNmNYWnJlbndlXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDE5MGMyODFiMzllMjQ5NzkwYzIwYTdmYjUyZWU3MGVfRnFySDBpd3I5R2VHYTI3RldqeWpSY3djRkdhRUtyM2NfVG9rZW46UE1OVGJTSzBYb0p5TTZ4WjU3ZWMybnhSbnhnXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDE5MGMyODFiMzllMjQ5NzkwYzIwYTdmYjUyZWU3MGVfRnFySDBpd3I5R2VHYTI3RldqeWpSY3djRkdhRUtyM2NfVG9rZW46UE1OVGJTSzBYb0p5TTZ4WjU3ZWMybnhSbnhnXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NTVlMThhN2RmZmMxNWY3N2FjNzRmYjMyOTk1OWJhZDhfOWsxaXR3MlYyWXBHQWZoUTFEbTFnTmxHVHRCaWxOaWZfVG9rZW46V2g2WmJvakNqb3hKSzN4aFZSZWNjbWVMbmFlXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NTVlMThhN2RmZmMxNWY3N2FjNzRmYjMyOTk1OWJhZDhfOWsxaXR3MlYyWXBHQWZoUTFEbTFnTmxHVHRCaWxOaWZfVG9rZW46V2g2WmJvakNqb3hKSzN4aFZSZWNjbWVMbmFlXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="04_if-else组合判断">04_if else组合判断</h1>
+<h2 id="在-if-else-语句中">在 if else 语句中：</h2>
+<ul>
+<li>if和其代码块，在条件满足时执行</li>
+<li>else搭配if的判断条件，当条件不满足时执行</li>
+</ul>
+<h2 id="if-else-注意事项">if else 注意事项：</h2>
+<ul>
+<li>else 不需要判断语句，当if条件不满足时，else执行</li>
+<li>else的代码块，同样要4个空格缩进</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NTk4YjZmMzY3YWM3NDNjOTFiYTZjMzQxMmQ5OGQ0MGRfam03QXk1dFM3VUlSVVlDNUw3OFR0WVRqbU5XS213UE1fVG9rZW46SXFVTGJyZHRsbzNpNVR4ekU5dWNwUXRQbmZjXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NTk4YjZmMzY3YWM3NDNjOTFiYTZjMzQxMmQ5OGQ0MGRfam03QXk1dFM3VUlSVVlDNUw3OFR0WVRqbU5XS213UE1fVG9rZW46SXFVTGJyZHRsbzNpNVR4ekU5dWNwUXRQbmZjXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YjIwZTNkYWJlNzJkYjIwZjFkZGYzZDI5YTcyNDkxZWZfV2xIc0JOOWZjNFVrMGt5Q21lRVZ5RDVVRGhXVXhsaHJfVG9rZW46WnpZSmJEM3Mxb0xZSnZ4ZW9OMGNoT1dPbm5lXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YjIwZTNkYWJlNzJkYjIwZjFkZGYzZDI5YTcyNDkxZWZfV2xIc0JOOWZjNFVrMGt5Q21lRVZ5RDVVRGhXVXhsaHJfVG9rZW46WnpZSmJEM3Mxb0xZSnZ4ZW9OMGNoT1dPbm5lXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="06_if_elif_else组合使用">06_if_elif_else组合使用</h1>
+<h2 id="if-elif-else-语句的作用是">if elif else 语句的作用是</h2>
+<p>可以完成多个条件的判断</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjQ1MDY4NWJlMDBkY2MyOTE5NmM2NmIxODJmMTUwM2RfSmJ0SG15cmhpekdsUktOUFZvQmFWU2V6TnZHNktnc01fVG9rZW46TTdrdWJ2T1VubzllbHp4aHVHY2NieFZGbmllXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjQ1MDY4NWJlMDBkY2MyOTE5NmM2NmIxODJmMTUwM2RfSmJ0SG15cmhpekdsUktOUFZvQmFWU2V6TnZHNktnc01fVG9rZW46TTdrdWJ2T1VubzllbHp4aHVHY2NieFZGbmllXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NzJlNzBhNjE5YWExOTUyYzU3NmEwMDUxMTFjODZkNjRfUUJsSjcycDlscUVyNG9hWHJMWlhGOVRpcW1MMXFFaDlfVG9rZW46R0tKOGJNNzJZb0RvNG14MEp5NGNhWEk5blQyXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NzJlNzBhNjE5YWExOTUyYzU3NmEwMDUxMTFjODZkNjRfUUJsSjcycDlscUVyNG9hWHJMWlhGOVRpcW1MMXFFaDlfVG9rZW46R0tKOGJNNzJZb0RvNG14MEp5NGNhWEk5blQyXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="使用-if-elif-else-的注意点有">使用 if elif else 的注意点有：</h2>
+<ul>
+<li>elif 可以写多个</li>
+<li>空格缩进同样不可省略</li>
+<li><strong>判断是<strong><strong>互斥</strong></strong>且有序的，上一个满足后面的就不会判断了</strong></li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NmU2MmQzYWNlYjExNWMwOGYzOTk5NGI3ZWMxNWYzYjJfSUFIVEFGbkMwUTlwbndnZkFPWU5LR3pTNnN3SzM4VlhfVG9rZW46TjhYQWJMUUVpb005bzd4Nms1dWN6M0h3bkdlXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NmU2MmQzYWNlYjExNWMwOGYzOTk5NGI3ZWMxNWYzYjJfSUFIVEFGbkMwUTlwbndnZkFPWU5LR3pTNnN3SzM4VlhfVG9rZW46TjhYQWJMUUVpb005bzd4Nms1dWN6M0h3bkdlXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ul>
+<li>可以在条件判断中，直接写input语句，节省代码量，使代码看起来更简洁</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=M2JhZWFiMDgyZmZjMTk1ZjcyNmUxZDk2M2E1ZWE0NmNfb1pCcjFiWFBIamtCVFFOTlJ6aTZFQnF2Zmc5ZlRGWHpfVG9rZW46WmhmQ2JSRjlEb2psWUp4VldDQ2MydXd6blRlXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=M2JhZWFiMDgyZmZjMTk1ZjcyNmUxZDk2M2E1ZWE0NmNfb1pCcjFiWFBIamtCVFFOTlJ6aTZFQnF2Zmc5ZlRGWHpfVG9rZW46WmhmQ2JSRjlEb2psWUp4VldDQ2MydXd6blRlXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MWU3NDJhNTFjMjkwMjg2YjlkMDUxZjIxZTQ1MWUzMzRfa2dvYXNqVHZUWmdRZEFNN1FXeFc5NXVzbTRPM3FHYk5fVG9rZW46V0J5Y2JMejQ0b1BYNkh4cXVaWmN5N0ZMblFnXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MWU3NDJhNTFjMjkwMjg2YjlkMDUxZjIxZTQ1MWUzMzRfa2dvYXNqVHZUWmdRZEFNN1FXeFc5NXVzbTRPM3FHYk5fVG9rZW46V0J5Y2JMejQ0b1BYNkh4cXVaWmN5N0ZMblFnXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="07_案例猜猜心里数字">07_案例—猜猜心里数字</h1>
+<h2 id="题目">题目</h2>
+<p><em>1. 定义一个变量，数字类型，内容随意。</em> <em>2. 基于input语句输入猜想的数字，通过if和多次elif的组合，判断猜想数字是否和心里数字一致。</em> <em>输出如下：</em> <em>&quot;</em> <em>请输入第一次猜想的数字:1</em> <em>不对，再猜一次:2</em> <em>不对，再猜最后一次:3</em> <em>Sorry，全部猜错啦，我想的是:10</em> <em>&quot;</em></p>
+<h2 id="误解">误解：</h2>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OWExZmQ0NTZhZDVjMjI5OTQyNDA4ZGE5NDIwM2ViYzdfTmJ3UmQ4c2x4a0FqYmRYWkxQYWxCV1hFSzZ0ZEtXRFBfVG9rZW46QUQwRmJMeVRtb0s1aTR4U0pTTWNSVWpJbjllXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OWExZmQ0NTZhZDVjMjI5OTQyNDA4ZGE5NDIwM2ViYzdfTmJ3UmQ4c2x4a0FqYmRYWkxQYWxCV1hFSzZ0ZEtXRFBfVG9rZW46QUQwRmJMeVRtb0s1aTR4U0pTTWNSVWpJbjllXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MmZmMzVhMDQ3M2E1NDU4YjM0ZGE5ZDBhNGYyZWUyNmNfR2hPOUNpRzV6Y1BmZkV6ejNxbm9ET0R6N0FKeUJNSGRfVG9rZW46Q1QyQ2JiSDh4b09OZ1h4NlZrZmNnb2ZTblVmXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MmZmMzVhMDQ3M2E1NDU4YjM0ZGE5ZDBhNGYyZWUyNmNfR2hPOUNpRzV6Y1BmZkV6ejNxbm9ET0R6N0FKeUJNSGRfVG9rZW46Q1QyQ2JiSDh4b09OZ1h4NlZrZmNnb2ZTblVmXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="正解">正解：</h2>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzJiYmQwZTY1NjNiODU3YTUzZWEzOGZmY2NjNzUyMDNfS2RZeEFTbmVNRnAxZUFvVXVRTTVQMkNoRHpHNG53VlJfVG9rZW46RnVKZWJlOEFnb3RoNTN4dGl3TmNDR1hLbkZlXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzJiYmQwZTY1NjNiODU3YTUzZWEzOGZmY2NjNzUyMDNfS2RZeEFTbmVNRnAxZUFvVXVRTTVQMkNoRHpHNG53VlJfVG9rZW46RnVKZWJlOEFnb3RoNTN4dGl3TmNDR1hLbkZlXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=M2EyNjI4OTcxYzM2NjJmNGY5MWRjYjkzNjRhMjQ3YzFfVWp6WUYzNDdON2loSXd5WDlXUEtXU296WVJVa0I4c25fVG9rZW46TnR3bmJyaTB0b080V3B4NGhjQ2NoVWVZbldnXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=M2EyNjI4OTcxYzM2NjJmNGY5MWRjYjkzNjRhMjQ3YzFfVWp6WUYzNDdON2loSXd5WDlXUEtXU296WVJVa0I4c25fVG9rZW46TnR3bmJyaTB0b080V3B4NGhjQ2NoVWVZbldnXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="08_判断语句的嵌套">08_判断语句的嵌套</h1>
+<h2 id="基础语法格式">基础语法格式</h2>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzQ4ZmIxMzI0YjhjM2M5ZDMyZjdmNjc2ZTQ5ZjczZTBfM3dSd3lDa05vRG12bTBlU0ZIdDZVbHI3Sk45YUR2OXlfVG9rZW46RkNKV2J3UVlTb2QyNkZ4ZXBrNmNnRDF0blliXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzQ4ZmIxMzI0YjhjM2M5ZDMyZjdmNjc2ZTQ5ZjczZTBfM3dSd3lDa05vRG12bTBlU0ZIdDZVbHI3Sk45YUR2OXlfVG9rZW46RkNKV2J3UVlTb2QyNkZ4ZXBrNmNnRDF0blliXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ul>
+<li>嵌套判断语句可以用于多条件、多层次的逻辑判断</li>
+<li>嵌套判断语句可以根据需求，自由组合if elif else 来构建多层次判断</li>
+<li>嵌套判断语句，<strong>一定要注意空格缩进</strong>，Python通过空格缩进来决定层次关系</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MDE3NTY5Y2MxOGU4ZGM2ZTM2YTdkNzEzZGU3NzhiNjVfRjN2UnhaSXJNaHA2YmEyNjV5cVFrZk5zSnBzQXh6NGlfVG9rZW46VGJYaGJmR2lab0tVcTV4TWxZVmNvaUpEbkdiXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MDE3NTY5Y2MxOGU4ZGM2ZTM2YTdkNzEzZGU3NzhiNjVfRjN2UnhaSXJNaHA2YmEyNjV5cVFrZk5zSnBzQXh6NGlfVG9rZW46VGJYaGJmR2lab0tVcTV4TWxZVmNvaUpEbkdiXzE3MTUzNTYzMTg6MTcxNTM1OTkxOF9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>嵌套有两层</p>
+<ul>
+<li>当外层if满足条件时，才会执行内层if判断</li>
+<li>当外层if不满足时，直接执行外层else</li>
+</ul>
+<p>第四章-Python循环语句</p>
+<h1 id="01_while循环的基础应用">01_while循环的基础应用</h1>
+<h2 id="1while循环的语法格式">1.while循环的语法格式</h2>
+<p>while 条件：</p>
+<p>​     条件满足时，做的事情1</p>
+<p>​     条件满足时，做的事情2</p>
+<p>​     &hellip;&hellip;.</p>
+<p>只要条件满足会无限循环</p>
+<h2 id="2while循环的注意事项">2.while循环的注意事项</h2>
+<ul>
+<li>While 循环的条件需得到布尔类型，True 表示继续循环；False 表示循环结束</li>
+<li>需要设置循环终止的条件，<em>如i += 1配合 i &lt; 100，就能确保100次后停止，否则将无限循环</em></li>
+<li>空格缩进和if判断一样，都需要设置</li>
+</ul>
+<h1 id="03_while循环猜数字案例">03_while循环猜数字案例</h1>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MWFmMmE1YzczYWE1NTRmYjczYWYwMzZjYzg3YTVhZTJfZUpXVmN0dVZ4Rk5jSWlpQk5RMEJHZGFzb1pXTjFnVDZfVG9rZW46Szl6a2JucFdDb1pZRHV4VGRRbGM0U3hMbm1lXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MWFmMmE1YzczYWE1NTRmYjczYWYwMzZjYzg3YTVhZTJfZUpXVmN0dVZ4Rk5jSWlpQk5RMEJHZGFzb1pXTjFnVDZfVG9rZW46Szl6a2JucFdDb1pZRHV4VGRRbGM0U3hMbm1lXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTZiMTQ5MDNjZTQ5ZTA1ZDdhZDQyM2RmODY0MGE2MGZfUjZGRzdkNFJFQ3d0ak5McnVaQWF5c21NdEpXQWRldVFfVG9rZW46SU9QR2JGSWd3b05GckR4eDRCT2NZTGZpbkhiXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTZiMTQ5MDNjZTQ5ZTA1ZDdhZDQyM2RmODY0MGE2MGZfUjZGRzdkNFJFQ3d0ak5McnVaQWF5c21NdEpXQWRldVFfVG9rZW46SU9QR2JGSWd3b05GckR4eDRCT2NZTGZpbkhiXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="04_while循环的嵌套应用">04_while循环的嵌套应用</h1>
+<h2 id="嵌套循环的语法格式">嵌套循环的语法格式</h2>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=Mzc1YjA1OTZkODQyMWMyNzZkMGQ4YTQ0MjVlODQ1Y2NfOTU5RkFPRUFnU092amJiMVJUM1FkTUFvdHBlbWdSVXhfVG9rZW46R0JQa2JVelROb1F6V3B4WDhic2NpbDl0bjNmXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=Mzc1YjA1OTZkODQyMWMyNzZkMGQ4YTQ0MjVlODQ1Y2NfOTU5RkFPRUFnU092amJiMVJUM1FkTUFvdHBlbWdSVXhfVG9rZW46R0JQa2JVelROb1F6V3B4WDhic2NpbDl0bjNmXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="嵌套循环要注意的地方">嵌套循环要注意的地方</h2>
+<ul>
+<li>注意条件的控制，避免出现无限循环（除非真的需要无限循环）</li>
+<li>多层嵌套，主要空格缩进来确定层次关系</li>
+</ul>
+<h2 id="嵌套循环的使用难点">嵌套循环的使用难点</h2>
+<p>循环条件的控制，层次越多越复杂，需要细心+耐心</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NzkyZWU5YTYxZmIxNTM1NzdkN2VjYmRlNzdjYWIzMWZfVEpTTXBQaFlKMzBxSlZ1c1FTWkRqa1ZYa1VRUUFNVmJfVG9rZW46UEY4c2IwSEQxb3hFemp4NlU5WmM5NE13bllmXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NzkyZWU5YTYxZmIxNTM1NzdkN2VjYmRlNzdjYWIzMWZfVEpTTXBQaFlKMzBxSlZ1c1FTWkRqa1ZYa1VRUUFNVmJfVG9rZW46UEY4c2IwSEQxb3hFemp4NlU5WmM5NE13bllmXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="05_while循环案例九九乘法表">05_while循环案例—九九乘法表</h1>
+<h2 id="补充知识">补充知识</h2>
+<ol>
+<li>
+<h3 id="print-输出不换行">print 输出不换行</h3>
+</li>
+</ol>
+<p>在print语句中加上 end=&rsquo;&rsquo; 即可输出不换行</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjdlYWI5MWFlYzllNDc2MmRmZGZkZjQ3YzRiMTk5YzRfOXVMTmlHNVJhUkl6TENoUDVySlFMZXlJVzhaalhjRm5fVG9rZW46V1ZIOWI5ZjNrb01CaVh4Z3dIa2NVMFZvbjhVXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjdlYWI5MWFlYzllNDc2MmRmZGZkZjQ3YzRiMTk5YzRfOXVMTmlHNVJhUkl6TENoUDVySlFMZXlJVzhaalhjRm5fVG9rZW46V1ZIOWI5ZjNrb01CaVh4Z3dIa2NVMFZvbjhVXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=M2ZiNTJlMGE5NzJhMDI2ZWU3NzJmY2NkMGJlZDRhMGJfSWdUYWUyeXp3WUxxZGRqaXhYUnFOWkNpOVMxOUlxbnFfVG9rZW46UmhFMmJiRFFPb1BKMEl4OEMzQ2M3dWxsbldnXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=M2ZiNTJlMGE5NzJhMDI2ZWU3NzJmY2NkMGJlZDRhMGJfSWdUYWUyeXp3WUxxZGRqaXhYUnFOWkNpOVMxOUlxbnFfVG9rZW46UmhFMmJiRFFPb1BKMEl4OEMzQ2M3dWxsbldnXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ol>
+<li>
+<h3 id="制表符t">制表符\t</h3>
+</li>
+</ol>
+<p>字符串中，特殊符号：\t，效果相当于在键盘上按下：Tab键</p>
+<p>可以让我们的多行字符串进行对齐</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MTA4YmY2NDk2ODk4YjFhN2MzMzNjM2UyMTFmNDg3NDZfVjBJTTYxb1hUdjRuV3ZCdVZEYlVCeFBmaEFtd1dua0tfVG9rZW46R293amI0eDBHb29kMjF4R3Z0cmNEdzZ0bkxnXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MTA4YmY2NDk2ODk4YjFhN2MzMzNjM2UyMTFmNDg3NDZfVjBJTTYxb1hUdjRuV3ZCdVZEYlVCeFBmaEFtd1dua0tfVG9rZW46R293amI0eDBHb29kMjF4R3Z0cmNEdzZ0bkxnXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YzliNGM2M2ZhZDJiMTVlN2QxNjA1MGFhMzUwZDY4ZjlfU0JKQm9ZT1RJdnU4MjBqQW5JWmxyMmlXdk1BajBqZ3pfVG9rZW46U1hYQ2JIMmRUb2VjVGt4RmdzemNKUWh1bkZmXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YzliNGM2M2ZhZDJiMTVlN2QxNjA1MGFhMzUwZDY4ZjlfU0JKQm9ZT1RJdnU4MjBqQW5JWmxyMmlXdk1BajBqZ3pfVG9rZW46U1hYQ2JIMmRUb2VjVGt4RmdzemNKUWh1bkZmXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="案例---使用while循环打印九九乘法表">案例 - 使用while循环打印九九乘法表</h2>
+<h3 id="解析">解析</h3>
+<ol>
+<li>
+<h4 id="两层循环">两层循环</h4>
+</li>
+</ol>
+<ul>
+<li>外层循环 - 控制行；循环条件为：i &lt;= 9</li>
+<li>内层循环 - 控制每行输出的内容；九九乘法表每行的个数与行数对应；循环条件为： j &lt;= i</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MGI3NjI4N2YxZTdmZTFhMjcyZTM1ZTIwNzc1MWI3OWFfMWZiYThESHBpN0h3Zm5nVE5hMkdRZjgwa0JiWjNjV25fVG9rZW46SFFCemJYd20yb2hLNTB4SVgwbGN1UXUybmRiXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MGI3NjI4N2YxZTdmZTFhMjcyZTM1ZTIwNzc1MWI3OWFfMWZiYThESHBpN0h3Zm5nVE5hMkdRZjgwa0JiWjNjV25fVG9rZW46SFFCemJYd20yb2hLNTB4SVgwbGN1UXUybmRiXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NWEyMTU3NjY1Y2ZkMGQ3N2EwYzQ1MDg3ZDE0YmIwYWRfNW1HMWRlc3BoblBIeUdIVFlYbHZJVmdJbEYyVTlKTk1fVG9rZW46VFJaaWJncHF0b0F4bEt4SFpUWWN1SHQ5bmVkXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NWEyMTU3NjY1Y2ZkMGQ3N2EwYzQ1MDg3ZDE0YmIwYWRfNW1HMWRlc3BoblBIeUdIVFlYbHZJVmdJbEYyVTlKTk1fVG9rZW46VFJaaWJncHF0b0F4bEt4SFpUWWN1SHQ5bmVkXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="06_for循环的基础语法">06_for循环的基础语法</h1>
+<h2 id="for循环与while循环的区别">for循环与while循环的区别</h2>
+<ul>
+<li>while循环的循环条件是自定义的，<strong>自行控制循环条件</strong></li>
+<li>for循环是一种**“<strong><strong>轮询</strong></strong>”<strong>机制，是对一批内容进行</strong>“逐个处理”；就是将“待办事项”逐个完成的循环机制**</li>
+</ul>
+<h2 id="语法格式">语法格式</h2>
+<p><strong>for</strong> <strong>临时变量</strong> <strong>in</strong> <strong>待处理数据集</strong>：</p>
+<p>​     循环满足条件时执行的代码</p>
+<ul>
+<li>在for循环语法中待处理的数据集，严格来说，称之为：<strong>可迭代类型</strong>
+<ul>
+<li>
+<p>可迭代类型指的是：<strong>其内容可以一个个依次取出的一种类型</strong>，包括：</p>
+</li>
+<li>
+<p>字符串</p>
+</li>
+<li>
+<p>列表</p>
+</li>
+<li>
+<p>元组</p>
+</li>
+<li>
+<p>等</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjUyYjY4NDU5N2M3NzRiNzhjZWE1OWVjYTk2NTg2YzBfVWhuaHB4dTllM0VWeVZjTTkwcEM5THlXY2pNN0wxakdfVG9rZW46V1c0ZGJHeUNRb2gxdk94ZWhoUmNZWk14bjJkXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjUyYjY4NDU5N2M3NzRiNzhjZWE1OWVjYTk2NTg2YzBfVWhuaHB4dTllM0VWeVZjTTkwcEM5THlXY2pNN0wxakdfVG9rZW46V1c0ZGJHeUNRb2gxdk94ZWhoUmNZWk14bjJkXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NjMwYTYyNmM3M2JlNmQyZDk2ZWNmOTIwNjJhMjA3YjNfQWM3TzU5dXprSXRzcDhMSEdRTHIybmZkZ0EwdVRYUTBfVG9rZW46SHZwaWJCYUJXb3hlMEN4ZEpYUmNuMG1obm9kXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NjMwYTYyNmM3M2JlNmQyZDk2ZWNmOTIwNjJhMjA3YjNfQWM3TzU5dXprSXRzcDhMSEdRTHIybmZkZ0EwdVRYUTBfVG9rZW46SHZwaWJCYUJXb3hlMEN4ZEpYUmNuMG1obm9kXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><strong>从待处理数据集中：逐个取出数据，赋值给临时变量</strong></p>
+<h2 id="for循环注意的点">for循环注意的点</h2>
+<ul>
+<li>同while循环不同，for循环是无法定义循环条件的，只能从被处理的数据集中，依次取出内容进行处理</li>
+<li>循环内的语句，要有空格缩进</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NDhiYTA2MjdjZDY5YjVmYTlmODk3NGRiZTA3MTBiOTFfU0JMYkpLVnVyNW9TNVFCNXRNbHJ3OXVqWmRsZ01rU3FfVG9rZW46UVRtTWI4a0dUb3BQYWF4clZUaWNEUjRqbnBnXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NDhiYTA2MjdjZDY5YjVmYTlmODk3NGRiZTA3MTBiOTFfU0JMYkpLVnVyNW9TNVFCNXRNbHJ3OXVqWmRsZ01rU3FfVG9rZW46UVRtTWI4a0dUb3BQYWF4clZUaWNEUjRqbnBnXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="08_range语句">08_range语句</h1>
+<h2 id="语法1">语法1</h2>
+<p>range(num)</p>
+<p>获取一个从0开始，到num结束的数字序列（不含num本身）</p>
+<h2 id="语法2">语法2</h2>
+<p>range(num1，num2)</p>
+<p>获取一个从num1开始，到num2结束的数字序列（不含num2本身）</p>
+<h2 id="语法3">语法3</h2>
+<p>range(num1,num2,step)</p>
+<p>获取一个从num1开始，到num2结束的数字序列（不含num2本身），数字之间的步长，以step为准，（step默认为1）</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MWU3OWRjODk3M2FjYmQ0MzZmZGFlNDNiZmJlNDQ0YzRfTWtLNFJWdm5EV1QzaVRqeFlRUWhlYVh0YUJUZW9DVTdfVG9rZW46RGM3U2JyUjk1b1psdFp4NzBZc2NndDdabmJnXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MWU3OWRjODk3M2FjYmQ0MzZmZGFlNDNiZmJlNDQ0YzRfTWtLNFJWdm5EV1QzaVRqeFlRUWhlYVh0YUJUZW9DVTdfVG9rZW46RGM3U2JyUjk1b1psdFp4NzBZc2NndDdabmJnXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzBlMDMyMzI2MmQ1NjJiNDYyOTNlZDM1ZWE5MTI3YjBfSWNTMUVKTFNUQ0dGYnVJWUlGeGRVY0llU2VWVTFiR1hfVG9rZW46QkZ4UGJWdVZ5b3NRN1Z4RTN3eWNxbGVUbnVjXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzBlMDMyMzI2MmQ1NjJiNDYyOTNlZDM1ZWE5MTI3YjBfSWNTMUVKTFNUQ0dGYnVJWUlGeGRVY0llU2VWVTFiR1hfVG9rZW46QkZ4UGJWdVZ5b3NRN1Z4RTN3eWNxbGVUbnVjXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="09_for循环临时变量作用域">09_for循环临时变量作用域</h1>
+<p>在for循环中的临时变量，其作用域限定为：</p>
+<p>循环内</p>
+<p>这种限定</p>
+<ul>
+<li>是编程规范的限定，而非强制限定</li>
+<li>不遵守也能正常运行，但是不建议这样做</li>
+<li>如需访问临时变量，可以预先在循环外定义它</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NDA2MzczZjg1MWM3YjM3NDU1YmMwMTgwZjQ0ZTlmNjBfdkRCQ1QweHRXWE9uelN5Y3Nna1hoYzZPRFdWQXNkQmtfVG9rZW46QU41OWJWNGpwb0VaS0x4NkRiUGNmOWZFbkpiXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NDA2MzczZjg1MWM3YjM3NDU1YmMwMTgwZjQ0ZTlmNjBfdkRCQ1QweHRXWE9uelN5Y3Nna1hoYzZPRFdWQXNkQmtfVG9rZW46QU41OWJWNGpwb0VaS0x4NkRiUGNmOWZFbkpiXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>在每次循环的时候，都会将取出的值赋值给i变量：</p>
+<ul>
+<li>由于i变量是在循环外定义的，所以在循环外访问i变量是合理的、允许的</li>
+</ul>
+<h1 id="10_for循环的嵌套应用">10_for循环的嵌套应用</h1>
+<h2 id="for循环的嵌套语法">for循环的嵌套语法</h2>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzQzZmZhZTQyNWU2ODA4MThiNDY1ZWE4MGY0MzY2YTdfUTF1dHBobWtLZXVGd0tyMDAwNzFmREtqbkx5N0RLVzFfVG9rZW46Uno1OWJFZTJabzlJYVR4VWhVZGNYQ2Q2bldoXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzQzZmZhZTQyNWU2ODA4MThiNDY1ZWE4MGY0MzY2YTdfUTF1dHBobWtLZXVGd0tyMDAwNzFmREtqbkx5N0RLVzFfVG9rZW46Uno1OWJFZTJabzlJYVR4VWhVZGNYQ2Q2bldoXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="注意事项">注意事项</h2>
+<ul>
+<li>注意缩进，嵌套for循环同样通过缩进确定层次关系</li>
+<li>for循环和while循环可以相互嵌套使用</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzJhZDZhZWZiMGQ3Y2RjOGMxMzZhYjNjNDM5NjBhY2RfNnRrbGhKS0tidTFOUWk4OU8wdkRlczh1UU5NazRqaFpfVG9rZW46SDFHQ2J1N2Nob3hVblJ4NVNkNGNpSUdzblZmXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzJhZDZhZWZiMGQ3Y2RjOGMxMzZhYjNjNDM5NjBhY2RfNnRrbGhKS0tidTFOUWk4OU8wdkRlczh1UU5NazRqaFpfVG9rZW46SDFHQ2J1N2Nob3hVblJ4NVNkNGNpSUdzblZmXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="11_for循环打印九九乘法表">11_for循环打印九九乘法表</h1>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ODIzM2E3ZmU5NDM0NzVlYzk1YjZiOTEzMmI5YjRiZDlfd0FYRGl6bHkydEdQUnlXb0Y4cjhneHBSbnhidjBDQzBfVG9rZW46U1EwVWJGUUhPb0JFTVN4TEVtWmNmS2hybkRoXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ODIzM2E3ZmU5NDM0NzVlYzk1YjZiOTEzMmI5YjRiZDlfd0FYRGl6bHkydEdQUnlXb0Y4cjhneHBSbnhidjBDQzBfVG9rZW46U1EwVWJGUUhPb0JFTVN4TEVtWmNmS2hybkRoXzE3MTUzNTYzMzY6MTcxNTM1OTkzNl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="12_continue和break">12_continue和break</h1>
+<p>循环都是重复性的执行特定操作，可以使用continue和break关键字对循环进行临时跳过和直接结束</p>
+<h2 id="continue关键字">continue关键字</h2>
+<p>中断本次循环，直接进入下一次循环</p>
+<p>可以用于for和while循环，效果一致</p>
+<h2 id="break关键字">break关键字</h2>
+<p>直接结束所在循环</p>
+<p>可以用于for和while循环，效果一致</p>
+<h2 id="在嵌套循环中的使用">在嵌套循环中的使用</h2>
+<p>continue和break都只可以控制：它所在的循环，无法对上层循环起到作用</p>
+<p>第五章-Python函数</p>
+<h1 id="01_函数的初体验">01_函数的初体验</h1>
+<h2 id="函数是组织好的可以重复使用的用来实现特定功能的代码段">函数：是组织好的，可以重复使用的，用来实现特定功能的代码段</h2>
+<p>我们使用过的input()、print()、str()、int()等都是Python的内置函数</p>
+<h2 id="使用函数的好处">使用函数的好处</h2>
+<ul>
+<li>将功能封装在函数内，可供随时随地的重复利用</li>
+<li>提高代码的复用性，减少重复代码，提高开发效率</li>
+</ul>
+<h1 id="02_函数的基础定义语法">02_函数的基础定义语法</h1>
+<h2 id="函数的定义">函数的定义</h2>
+<p>Def 函数名(传入的参数):</p>
+<p>​     函数体</p>
+<p>​     return 返回值</p>
+<h2 id="函数的调用">函数的调用</h2>
+<p>函数名(参数)</p>
+<h2 id="函数的使用步骤">函数的使用步骤</h2>
+<ol>
+<li>
+<h3 id="先定义函数">先定义函数</h3>
+</li>
+<li>
+<h3 id="再调用函数">再调用函数</h3>
+</li>
+</ol>
+<h2 id="注意事项-1">注意事项</h2>
+<ul>
+<li>参数不需要，可以省略</li>
+<li>返回值不需要，可以省略</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmU4ZjY5YjNhNDU1ODRhMjk1N2ViZDAzYjczMjgwM2NfSjB3TUprTlpTc3ZVbVhVTVZYM3VxQmxiVmE5SlBiOTFfVG9rZW46Qk5vR2J3NW1hb29NYXl4S1N2Y2NlbHpNbnBmXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmU4ZjY5YjNhNDU1ODRhMjk1N2ViZDAzYjczMjgwM2NfSjB3TUprTlpTc3ZVbVhVTVZYM3VxQmxiVmE5SlBiOTFfVG9rZW46Qk5vR2J3NW1hb29NYXl4S1N2Y2NlbHpNbnBmXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjdlOTZjZThlYmVkYWIzM2RlNjRhMWNiODZkMmU3ZDlfRzV4bUFyWVN2MHFaMzIzVkRiaUViMGh2V0RCOHIwOFJfVG9rZW46SHBBNGJiRDZGbzlPTUV4UE50NmN4N0tSbmljXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjdlOTZjZThlYmVkYWIzM2RlNjRhMWNiODZkMmU3ZDlfRzV4bUFyWVN2MHFaMzIzVkRiaUViMGh2V0RCOHIwOFJfVG9rZW46SHBBNGJiRDZGbzlPTUV4UE50NmN4N0tSbmljXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="04_函数的传入参数">04_函数的传入参数</h1>
+<h2 id="函数的传入参数的功能">函数的传入参数的功能</h2>
+<p>在函数进行计算的时候，接受外部（调用时）提供的数据</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YzI5M2UyYmUzM2NlOGI4MTI1MDA0YzIwOGNhYzk2ZDlfWmNlUnZucTZmajYzNnZTdGlkR1BXWGFFdTg0ZGplaUZfVG9rZW46WFM3cGJVRTVjb3B6WDF4bFJYQWNPeGdYbkhlXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YzI5M2UyYmUzM2NlOGI4MTI1MDA0YzIwOGNhYzk2ZDlfWmNlUnZucTZmajYzNnZTdGlkR1BXWGFFdTg0ZGplaUZfVG9rZW46WFM3cGJVRTVjb3B6WDF4bFJYQWNPeGdYbkhlXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NmE2ZGEwMmQ2ODVjZDUzYjAwMjFkMDYyMmI3YzY5ZjBfZVp1SGtjWjlJN0tUQWVPcHBMNlV2RkpMZlhISENZeTVfVG9rZW46TkhQOWJKTDBib0ZGdlZ4UW1zeGM4QkxkbnFiXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NmE2ZGEwMmQ2ODVjZDUzYjAwMjFkMDYyMmI3YzY5ZjBfZVp1SGtjWjlJN0tUQWVPcHBMNlV2RkpMZlhISENZeTVfVG9rZW46TkhQOWJKTDBib0ZGdlZ4UW1zeGM4QkxkbnFiXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>函数的功能非常局限，只能计算1 + 2。</p>
+<h2 id="函数的传入参数---语法解析">函数的传入参数 - 语法解析</h2>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NjA5ZmI5MmMyY2EwODQ5NjE1OGQ1OTIzMDBjMzA5MzlfTlNrM3BsWTZkMHc3ME1iN042b0pYdlBGc1hWTkNaSENfVG9rZW46VVJja2JoR3lNb3phQlh4ZDRuUmN4cFc0bkNoXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NjA5ZmI5MmMyY2EwODQ5NjE1OGQ1OTIzMDBjMzA5MzlfTlNrM3BsWTZkMHc3ME1iN042b0pYdlBGc1hWTkNaSENfVG9rZW46VVJja2JoR3lNb3phQlh4ZDRuUmN4cFc0bkNoXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ul>
+<li>函数中，提供的a和b，称之为：形式参数（形参），表示函数声明将要使用的两个2个参数</li>
+<li>参数之间用逗号进行分隔</li>
+<li>函数调用中，提供的5和6，称之为：实际参数（实参），表示函数执行时真正使用的参数值</li>
+<li>传入的时候按照顺序进行传入，使用逗号分隔</li>
+</ul>
+<h2 id="注意事项-2">注意事项</h2>
+<ol>
+<li>
+<h3 id="函数定义中的参数称之为形式参数形参">函数定义中的参数，称之为形式参数（形参）</h3>
+</li>
+<li>
+<h3 id="函数调用中的参数称之为实际参数实参">函数调用中的参数，称之为实际参数（实参）</h3>
+</li>
+<li>
+<h3 id="函数的参数数量不限使用逗号分开">函数的参数数量不限，使用逗号分开</h3>
+</li>
+<li>
+<h3 id="传入参数的时候要和形参一一对应逗号隔开">传入参数的时候，要和形参一一对应，逗号隔开</h3>
+</li>
+<li>
+<h3 id="传入的参数是不受限制的">传入的参数是不受限制的：</h3>
+</li>
+</ol>
+<ul>
+<li>可以不使用参数</li>
+<li>也可以使用任意N个参数</li>
+</ul>
+<h1 id="06_函数的返回值定义语法">06_函数的返回值定义语法</h1>
+<h2 id="什么是函数的返回值">什么是函数的返回值</h2>
+<p>函数在执行完成后，返回给调用者的结果</p>
+<h2 id="返回值的应用语法">返回值的应用语法</h2>
+<p>使用关键字：return 来返回结果</p>
+<p>def 函数名(传入参数):</p>
+<p>​      函数体</p>
+<p>​      return 返回值</p>
+<p>变量 = 函数(参数)</p>
+<ul>
+<li>变量就能接收函数的返回值</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTNhMDg0OGMxZDg2NjNmYzQ0MzliZGUzYTc0YTdiMWRfd3NtaWYzdGpRN3ZEaUhmeFhSQlViandkUjlkdWNsSENfVG9rZW46RHRoZmJSTlc0b0VlNEZ4Tm5jbWNYaTJJbjNlXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTNhMDg0OGMxZDg2NjNmYzQ0MzliZGUzYTc0YTdiMWRfd3NtaWYzdGpRN3ZEaUhmeFhSQlViandkUjlkdWNsSENfVG9rZW46RHRoZmJSTlc0b0VlNEZ4Tm5jbWNYaTJJbjNlXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NzNiYmQ0MDI1YTU0YzgzNGQ0NTlhNDA2ZjI1YTk0MWZfMHNibzNEVEZpUjE0WjVjVFB4OWJ3bllsU2VmMmpWcHdfVG9rZW46T2JsWGJRMUZJb2FTTTd4M1R0b2NHcmFZbkZiXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NzNiYmQ0MDI1YTU0YzgzNGQ0NTlhNDA2ZjI1YTk0MWZfMHNibzNEVEZpUjE0WjVjVFB4OWJ3bllsU2VmMmpWcHdfVG9rZW46T2JsWGJRMUZJb2FTTTd4M1R0b2NHcmFZbkZiXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="注意">注意</h2>
+<p>函数体在遇到return后结束了，所以写在return之后的代码不会被执行</p>
+<h1 id="07_函数返回值之none类型">07_函数返回值之None类型</h1>
+<h2 id="思考-2">思考</h2>
+<p>如果函数没有使用return语句返回数据，那么函数有返回值吗？</p>
+<p>实际上是：有的</p>
+<p>Python中有一个特殊的<strong>字面量****：None，其类型是：&lt;class&rsquo;NoneType&rsquo;&gt;</strong></p>
+<p>无返回值的函数，实际上是返回了：None这个字面量</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjBlMjVjYTYwYWJlNGQwOWUyMGE0YjY1NWQyMTY5MWFfTUZYc0RuUDZNMVJLaEhGVmJUMFlqOGhzZnFJZERONW5fVG9rZW46QkpvdWJacHRvb3cwcHZ4SjQyZWNPV1lrbnFlXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjBlMjVjYTYwYWJlNGQwOWUyMGE0YjY1NWQyMTY5MWFfTUZYc0RuUDZNMVJLaEhGVmJUMFlqOGhzZnFJZERONW5fVG9rZW46QkpvdWJacHRvb3cwcHZ4SjQyZWNPV1lrbnFlXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ODc5OGY3YmRhZjY1MzBkODYyOGNlOGIxMzE3OGU2NjVfNHc0NWNzMEQ0cjRudVJvaTQydmNQSjhxeko3akt0eWtfVG9rZW46Q1RoR2I1aUNib2RkVnB4REpGNmNGbXZjbmJmXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ODc5OGY3YmRhZjY1MzBkODYyOGNlOGIxMzE3OGU2NjVfNHc0NWNzMEQ0cjRudVJvaTQydmNQSjhxeko3akt0eWtfVG9rZW46Q1RoR2I1aUNib2RkVnB4REpGNmNGbXZjbmJmXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="none的含义">None的含义</h2>
+<p>None表示：空的，无实际意义的意思</p>
+<p>函数返回的None，就表示，这个函数没有返回什么有意义的内容。 也就是返回了空的意思。</p>
+<h2 id="none类型的应用场景">None类型的应用场景</h2>
+<p>None作为一个特殊的字面量，用于表示None：空、无意义，其有非常多的应用场景。</p>
+<ol>
+<li>
+<h3 id="用在函数无返回值上">用在函数无返回值上</h3>
+</li>
+</ol>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NDc3YmUwZjMzYjE3NTMzNmZkMjhjYzAzOThhNjNiY2RfazFJRGdXR0hCUXZKZ0FOZlRIMVk0NUZFb3NvdmdrQ1hfVG9rZW46UEZ5NmI4ZzBpb0ZyZHV4Vjk3MmNZbjdsbktoXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NDc3YmUwZjMzYjE3NTMzNmZkMjhjYzAzOThhNjNiY2RfazFJRGdXR0hCUXZKZ0FOZlRIMVk0NUZFb3NvdmdrQ1hfVG9rZW46UEZ5NmI4ZzBpb0ZyZHV4Vjk3MmNZbjdsbktoXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmMxNjg1YmZlNWI2NmIxY2FkMDE2N2QyMDQ1NzNmOWJfTUhaSVZvbjFtbjNZR1kzMFNTbTNMSG5mY2VHTDRnQjlfVG9rZW46SloxZGIxRzBob2tqTFR4UUdpb2N6cmdObnh4XzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmMxNjg1YmZlNWI2NmIxY2FkMDE2N2QyMDQ1NzNmOWJfTUhaSVZvbjFtbjNZR1kzMFNTbTNMSG5mY2VHTDRnQjlfVG9rZW46SloxZGIxRzBob2tqTFR4UUdpb2N6cmdObnh4XzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ol>
+<li>
+<h3 id="用在if判断上">用在if判断上</h3>
+</li>
+</ol>
+<ul>
+<li>在if判断中，None等同于False</li>
+<li>一般用于在函数中主动返回None，配合if判断做相关处理</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZWQwMWM5NmEyOTZlMjBkMjJiOTRmY2VmMGUyNWVlMmNfeHhXWDN5eWVOVnEzNkVCZUFZVXZSZE1UNVRBZmJKSHVfVG9rZW46RFZocGJBYm1lb2I0enh4ZWsyZGNPT1FlblpiXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZWQwMWM5NmEyOTZlMjBkMjJiOTRmY2VmMGUyNWVlMmNfeHhXWDN5eWVOVnEzNkVCZUFZVXZSZE1UNVRBZmJKSHVfVG9rZW46RFZocGJBYm1lb2I0enh4ZWsyZGNPT1FlblpiXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NWU2MjRlMGFiMGQ5ZTcyYWU0Yzk5ZTNhNTc0OWMyYjdfWG91clBGYjR0bndCVWYxZ2lOd2VoZXNSVEFkeWJ5R3pfVG9rZW46TnhrMmIzNmZxbzBuQUZ4M1hMMmNyMkVUbnRjXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NWU2MjRlMGFiMGQ5ZTcyYWU0Yzk5ZTNhNTc0OWMyYjdfWG91clBGYjR0bndCVWYxZ2lOd2VoZXNSVEFkeWJ5R3pfVG9rZW46TnhrMmIzNmZxbzBuQUZ4M1hMMmNyMkVUbnRjXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ol>
+<li>
+<h3 id="用在声明无内容的变量上">用在声明无内容的变量上</h3>
+</li>
+</ol>
+<h3 id="定义变量但是暂时不需要变量有具体值可以用none来代替">定义变量，但是暂时不需要变量有具体值，可以用None来代替</h3>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTVkZjFkMzRjYWZkNTRmN2U5MzUxMWZjNDFhMTNlMGRfQ2p3ZHRiMFM1bU11OExQT2JPSjYycnpYNmNST2pEd3NfVG9rZW46TXBpWWJqeWNGb3FZOUh4REdlbWNSRmFtbmdjXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTVkZjFkMzRjYWZkNTRmN2U5MzUxMWZjNDFhMTNlMGRfQ2p3ZHRiMFM1bU11OExQT2JPSjYycnpYNmNST2pEd3NfVG9rZW46TXBpWWJqeWNGb3FZOUh4REdlbWNSRmFtbmdjXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="08_函数的说明文档">08_函数的说明文档</h1>
+<h2 id="函数的说明文档的作用是">函数的说明文档的作用是</h2>
+<p>函数是纯代码语言，通过函数的说明文档对函数进行说明解释，帮助更好的理解函数功能</p>
+<h2 id="语法-1">语法</h2>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=N2Q2OTVjZDA2ZmZhYjUwMzZiMzBiOGYzZmI5NDg0YWFfQ1p0SkxOM2hidjNwaURTdWJXdm5QU1d6dlk5c1dYZUZfVG9rZW46TjZubWI0cEJJbzJjWUR4VGpKc2NGQWtBbnJjXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=N2Q2OTVjZDA2ZmZhYjUwMzZiMzBiOGYzZmI5NDg0YWFfQ1p0SkxOM2hidjNwaURTdWJXdm5QU1d6dlk5c1dYZUZfVG9rZW46TjZubWI0cEJJbzJjWUR4VGpKc2NGQWtBbnJjXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>param：用于解释参数</p>
+<p>return：用于解释返回值</p>
+<h2 id="在pycharm中查看函数说明文档">在PyCharm中查看函数说明文档</h2>
+<p>在PyCharm编写代码时，可以通过鼠标悬停，查看调用函数的说明文档</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MTFjYzcxOTc1Zjc2NDdmOGQ5OWM4NGMwNjEyMDUxYTJfZ1NZOElDcUd4WHlDeGdTeEpDWERuekVQY0dZb2gwclFfVG9rZW46WDdESWJ2Q3hWbzJQNGp4ejVtUmN5TEVrblpDXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MTFjYzcxOTc1Zjc2NDdmOGQ5OWM4NGMwNjEyMDUxYTJfZ1NZOElDcUd4WHlDeGdTeEpDWERuekVQY0dZb2gwclFfVG9rZW46WDdESWJ2Q3hWbzJQNGp4ejVtUmN5TEVrblpDXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="09_函数的嵌套调用">09_函数的嵌套调用</h1>
+<h2 id="定义">定义</h2>
+<p>指的是一个函数里面又调用了另外一个函数</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OWI5OTk5ZTI2NDdhOTY5NThhNzQyZWE1ZDg4YzRkZDJfNjFyckQ2OERKNGQ0WjBESnA4allQMm9IdjR6c2ZhVGFfVG9rZW46Q3ZHQ2JjVWpib1JtSnR4RktDdGNNQm5mbkhCXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OWI5OTk5ZTI2NDdhOTY5NThhNzQyZWE1ZDg4YzRkZDJfNjFyckQ2OERKNGQ0WjBESnA4allQMm9IdjR6c2ZhVGFfVG9rZW46Q3ZHQ2JjVWpib1JtSnR4RktDdGNNQm5mbkhCXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MGM3YzE4NGY0YzFiYTMzMjM4NjRlOTdlZTVkNGM1ZTFfQ3A3OEdrZVJQZUxxWlR0dHRYaXpiNWh5MEdyamFGS0ZfVG9rZW46UmZuNGJJTVNSb3VvUVB4VjdOSGNXTEM1blJHXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MGM3YzE4NGY0YzFiYTMzMjM4NjRlOTdlZTVkNGM1ZTFfQ3A3OEdrZVJQZUxxWlR0dHRYaXpiNWh5MEdyamFGS0ZfVG9rZW46UmZuNGJJTVNSb3VvUVB4VjdOSGNXTEM1blJHXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="执行过程">执行过程</h2>
+<p>如果函数A中，调用了另外一个函数B，那么先把函数B中的任务都执行完毕后，继续执行 函数A的剩余内容</p>
+<h1 id="10_变量在函数中的作用域">10_变量在函数中的作用域</h1>
+<h2 id="变量作用域指的是变量的作用范围变量在哪里可以用在哪里不可用">变量作用域指的是变量的作用范围（变量在哪里可以用，在哪里不可用）</h2>
+<p>主要分为：</p>
+<ul>
+<li>局部变量</li>
+<li>全局变量</li>
+</ul>
+<h2 id="局部变量">局部变量</h2>
+<h3 id="定义-1">定义</h3>
+<p>定义在函数体内部的变量，即只在函数体内部生效</p>
+<h3 id="作用-1">作用</h3>
+<p>在函数体内部，临时保存数据，即当函数调用完成后，则销毁局部变量</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=M2FmNWFlYTk4NGM0MzQ0MzUxN2JmYzIzN2FkZGM3NGFfM3l4dm14Zm5HRHZtTGEzblNyWlgwN0FjNkZOUFlNT1VfVG9rZW46UEQ4dGJkcVphb21wQmV4SkJCUWNlS1R5bmUwXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=M2FmNWFlYTk4NGM0MzQ0MzUxN2JmYzIzN2FkZGM3NGFfM3l4dm14Zm5HRHZtTGEzblNyWlgwN0FjNkZOUFlNT1VfVG9rZW46UEQ4dGJkcVphb21wQmV4SkJCUWNlS1R5bmUwXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YmU5NjUyZWY2MWQ5MWJiOGQ5ZmM0NDMzNjVkZTQ5Njlfb1dYQ0psazUxSWNXWkhNZEFvNkV0T0ZYSkU5ZXY3dEZfVG9rZW46SlN2OWJIODVHb1JNYVV4RmtpY2N3S3JhbndlXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YmU5NjUyZWY2MWQ5MWJiOGQ5ZmM0NDMzNjVkZTQ5Njlfb1dYQ0psazUxSWNXWkhNZEFvNkV0T0ZYSkU5ZXY3dEZfVG9rZW46SlN2OWJIODVHb1JNYVV4RmtpY2N3S3JhbndlXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=Mjk2N2Y2MzQ4ODE4ZTI1NjY2Y2VmYjEzOGU3ODQ1NzBfYXdNZ0ZodjRzdGVUYkNvUG9zSEUxbHpuM01sM2x1cGFfVG9rZW46TTVtR2JRQjEwb2U5aHZ4OE52dWNOUlB1blhjXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=Mjk2N2Y2MzQ4ODE4ZTI1NjY2Y2VmYjEzOGU3ODQ1NzBfYXdNZ0ZodjRzdGVUYkNvUG9zSEUxbHpuM01sM2x1cGFfVG9rZW46TTVtR2JRQjEwb2U5aHZ4OE52dWNOUlB1blhjXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="全局变量">全局变量</h2>
+<h3 id="定义-2">定义</h3>
+<p>指的是，在函数体内、外都能生效的变量</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjBiOGU0YjZmYTQyZGEwMzA2NjZiMWMzZjUyYzIwMWVfQ3hIRUVtalAxdWRmMmFuNjZuNzlXa2d6bUw0d0kzSVNfVG9rZW46VDc4QmJoRWdHbzM5c3V4YlF0b2NxanRBbjdkXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjBiOGU0YjZmYTQyZGEwMzA2NjZiMWMzZjUyYzIwMWVfQ3hIRUVtalAxdWRmMmFuNjZuNzlXa2d6bUw0d0kzSVNfVG9rZW46VDc4QmJoRWdHbzM5c3V4YlF0b2NxanRBbjdkXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NThjOWY1ZjYyZjAzM2E1M2IxMTI4MzU1YmE4MTc3ZjJfY2dQZ2JvNGx1TlpOOUZseGxmcm50RGo1MEhpN0IzOWFfVG9rZW46UXVna2JDNjRtb0Z2cjZ4QjRYZGNoN25KbnZmXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NThjOWY1ZjYyZjAzM2E1M2IxMTI4MzU1YmE4MTc3ZjJfY2dQZ2JvNGx1TlpOOUZseGxmcm50RGo1MEhpN0IzOWFfVG9rZW46UXVna2JDNjRtb0Z2cjZ4QjRYZGNoN25KbnZmXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="global关键字">global关键字</h2>
+<h3 id="在函数内修改全局变量">在函数内修改全局变量</h3>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OTQxNGNjZmMwNGQzODk5ZWM4NTAxNjM0ZTk3NTQyMGFfTjdxdnc0eFRDSTNYZlU4d2xqVjBWRUlNMGk1cmcyeFhfVG9rZW46VzVoZmJmeWFDb1FOMml4TGM1Q2NGajFibjFnXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OTQxNGNjZmMwNGQzODk5ZWM4NTAxNjM0ZTk3NTQyMGFfTjdxdnc0eFRDSTNYZlU4d2xqVjBWRUlNMGk1cmcyeFhfVG9rZW46VzVoZmJmeWFDb1FOMml4TGM1Q2NGajFibjFnXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OTg3NGU4MGZjYTY0NzRiMzg2M2YyMzk3NjRhNTk3N2RfZ3hkZklvN3hsN0xlSGZ3VFRUdVF6RlBvOVVpeXZtNVlfVG9rZW46TWdqZ2J4QnN6b1N6ZkR4UXN4VmNCOVZ4bjhHXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OTg3NGU4MGZjYTY0NzRiMzg2M2YyMzk3NjRhNTk3N2RfZ3hkZklvN3hsN0xlSGZ3VFRUdVF6RlBvOVVpeXZtNVlfVG9rZW46TWdqZ2J4QnN6b1N6ZkR4UXN4VmNCOVZ4bjhHXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>函数test_b的num跟外部定义的num并不是同一个num， 函数test_b的num是函数test_b定义的一个局部变量</p>
+<h3 id="使用global关键字可以在函数内部声明变量为全局变量">使用global关键字，可以在函数内部声明变量为全局变量</h3>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NTFlOGQwZDE1MmNiMTdlYzQ0MzI1YTU0YTRjODE2MjRfVElTbFlMRHV6bnVKUmlQSGw2MHhzMUZRcTF0ZTkzbFJfVG9rZW46T2Z3ZWIzMTFzb0lDQzZ4UWNEZWNSSnpXbnhjXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NTFlOGQwZDE1MmNiMTdlYzQ0MzI1YTU0YTRjODE2MjRfVElTbFlMRHV6bnVKUmlQSGw2MHhzMUZRcTF0ZTkzbFJfVG9rZW46T2Z3ZWIzMTFzb0lDQzZ4UWNEZWNSSnpXbnhjXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjU1YmI3OTc1NTBkOWJhOWYzYjkzNzBjZDBlM2JmOWFfN3E0cjJESURMRlQ5d204ZHVRQTNxNnhUVzg4dEM1RjhfVG9rZW46VnREeWJCOGlyb2k4TkV4Q0RhWmNSa2Z6bjhiXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjU1YmI3OTc1NTBkOWJhOWYzYjkzNzBjZDBlM2JmOWFfN3E0cjJESURMRlQ5d204ZHVRQTNxNnhUVzg4dEM1RjhfVG9rZW46VnREeWJCOGlyb2k4TkV4Q0RhWmNSa2Z6bjhiXzE3MTUzNTYzOTI6MTcxNTM1OTk5Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="11_函数综合案例">11_函数综合案例</h1>
+<p>第六章-Python数据容器</p>
+<h1 id="01_数据容器入门">01_数据容器入门</h1>
+<h2 id="定义-3">定义</h2>
+<p>一种可以容纳多份数据的数据类型，容纳的每一份数据称之为1个元素，每一个元素，可以是任意类型的数据，如：字符串、整数、布尔类型等</p>
+<h2 id="分类">分类</h2>
+<ol>
+<li>
+<h3 id="列表list">列表（list）</h3>
+</li>
+<li>
+<h3 id="元组tuple">元组（tuple）</h3>
+</li>
+<li>
+<h3 id="字符串str">字符串（str）</h3>
+</li>
+<li>
+<h3 id="集合set">集合（set）</h3>
+</li>
+<li>
+<h3 id="字典dict">字典（dict）</h3>
+</li>
+</ol>
+<h1 id="列表">列表</h1>
+<h2 id="02_列表的定义语法">02_列表的定义语法</h2>
+<h3 id="字面量">字面量</h3>
+<p>[元素1，元素2，元素3，元素4，&hellip;&hellip;&hellip;]</p>
+<h3 id="变量">变量</h3>
+<p>变量名称 = [元素1，元素2，元素3，元素4，&hellip;&hellip;&hellip;.]</p>
+<p>定义空列表</p>
+<p>变量名称 = []</p>
+<p>变量名称 = list()</p>
+<h3 id="说明">说明</h3>
+<p>列表内的每一个数据称之为，元素</p>
+<p>以 [] 作为标识</p>
+<p>列表内的每一个元素之间用 ， 逗号隔开</p>
+<h3 id="注意-1">注意</h3>
+<p><strong>列表可以一次存储多个数据，且可以为不同的<strong><strong>数据类型</strong></strong>，支持嵌套</strong></p>
+<h2 id="03_列表的下标索引">03_列表的下标索引</h2>
+<h3 id="定义-4">定义</h3>
+<p>列表的每一个元素，都有编号称之为下标索引</p>
+<p>从左往右（从前往后）的方向，编号从0开始递增</p>
+<p>从右往左（从后往前）的方向，编号从-1开始递减</p>
+<h3 id="如何通过下标索引取出对应位置的元素">如何通过下标索引取出对应位置的元素</h3>
+<h4 id="列表下标即可取出">列表[下标]，即可取出</h4>
+<h3 id="注意事项-3">注意事项</h3>
+<p>要注意下标索引的取值范围，超出范围无法取出元素，并且会报错</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZGU5ZjM3Njk0MDYyZTA3ZGQ4MTY1NTRhMzliMTc3MDFfUG1vTHI0VjlLTllYVW5CVkEycFZnZVFsQzhnMmJvbnBfVG9rZW46V3R3SWI5M2N3b3VxSlB4NERJNWNyME9mbkxnXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZGU5ZjM3Njk0MDYyZTA3ZGQ4MTY1NTRhMzliMTc3MDFfUG1vTHI0VjlLTllYVW5CVkEycFZnZVFsQzhnMmJvbnBfVG9rZW46V3R3SWI5M2N3b3VxSlB4NERJNWNyME9mbkxnXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MWU4NDMxMmY5Yzg5N2VhMTcwMjkxYTYzMTdhMTczZDJfZVg0a0U5VXNKMnRhQ1BNd3M1N01PdWIzRkdVNHlhWlZfVG9rZW46UmtpSWJIQTdLb1o5bkp4NWtUM2MyckZIbkxlXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MWU4NDMxMmY5Yzg5N2VhMTcwMjkxYTYzMTdhMTczZDJfZVg0a0U5VXNKMnRhQ1BNd3M1N01PdWIzRkdVNHlhWlZfVG9rZW46UmtpSWJIQTdLb1o5bkp4NWtUM2MyckZIbkxlXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="04_列表的常用操作方法">04_列表的常用操作（方法）</h2>
+<h3 id="函数和方法">函数和方法</h3>
+<p>列表的查询功能（方法）</p>
+<p>函数：是一个封装的代码单元，可以提供特定的功能</p>
+<p>在Python中，如果将函数定义为class（类）的成员，那么函数会称之为：方法</p>
+<p>方法和函数功能一样， 有传入参数，有返回值，只是方法的使用格式不同：</p>
+<ul>
+<li>函数的使用：
+<ul>
+<li>num = add(1,2)</li>
+</ul>
+</li>
+<li>方法的使用：
+<ul>
+<li>
+<p>Student = Student()</p>
+</li>
+<li>
+<p>num = student.add(1,2)</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="总览">总览</h3>
+<h2 id="列表的特点">列表的特点</h2>
+<ul>
+<li>可以容纳多个元素（上限为2**63-1、9223372036854775807个）</li>
+<li>可以容纳不同类型的元素（混装）</li>
+<li><strong>数据是有序存储的（有下标符号）</strong></li>
+<li>允许重复数据存在</li>
+<li>可以修改列表中的元素（增删改查）</li>
+</ul>
+<h2 id="06_列表的循环遍历">06_列表的循环遍历</h2>
+<h3 id="什么是遍历">什么是遍历</h3>
+<p>将数据容器内的元素依次取出，并处理，称之为遍历操作</p>
+<h3 id="如何遍历列表的元素">如何遍历列表的元素</h3>
+<h3 id="可以使用while循环或for循环">可以使用while循环或for循环</h3>
+<h4 id="while循环">while循环</h4>
+<p>使用列表[下标]的方式取出数据容器中的元素 循环条件如何控制？ 定义一个变量表示下标，从0开始 循环条件为 下标值 &lt; 列表的元素数量</p>
+<h4 id="for循环">for循环</h4>
+<p>for 临时变量 in 数据容器：</p>
+<p>对临时变量进行处理</p>
+<h3 id="for循环和while循环的对比">for循环和while循环的对比</h3>
+<ol>
+<li>
+<h4 id="在循环控制上">在循环控制上</h4>
+</li>
+</ol>
+<ul>
+<li>while循环可以自定循环条件，并自行控制</li>
+<li>for循环不可以自定循环条件，只可以一个个从容器内取出数据</li>
+</ul>
+<ol>
+<li>
+<h4 id="在无限循环上">在无限循环上</h4>
+</li>
+</ol>
+<ul>
+<li>while循环可以通过条件控制做到无限循环</li>
+<li>for循环理论上不可以，因为被遍历的容器容量不是无限的</li>
+</ul>
+<ol>
+<li>
+<h4 id="在使用场景上">在使用场景上</h4>
+</li>
+</ol>
+<ul>
+<li>while循环适用于任何想要循环的场景</li>
+<li>for循环适用于，遍历数据容器的场景或简单的固定次数循环场景</li>
+</ul>
+<h1 id="07_元组的定义和操作">07_元组的定义和操作</h1>
+<p>元组同列表一样，都是可以封装多个、不同类型的元素在内。</p>
+<h2 id="定义语法">定义语法</h2>
+<p>定义元组使用小括号，且用逗号隔开各个数据，数据可以是不同的数据类型</p>
+<p>(元素，元素，元素&hellip;..)</p>
+<p>变量名称 = (元素，元素，元素&hellip;..)</p>
+<h3 id="注意事项1">注意事项1</h3>
+<ol>
+<li>
+<h4 id="元组只有一个数据这个数据后面就要添加逗号">元组只有一个数据，这个数据后面就要添加逗号</h4>
+</li>
+</ol>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzA5MTc4MjU1ZjI2OTQwY2JiNzBhZGYzNWJlY2Y4MGRfNkY4RGdPSTVpUkM4bk5tSVVUY1JranNGMGd2ejQxejZfVG9rZW46WXYwT2J4RWxyb1VMN3V4UDdzSmNJamhRbjFkXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzA5MTc4MjU1ZjI2OTQwY2JiNzBhZGYzNWJlY2Y4MGRfNkY4RGdPSTVpUkM4bk5tSVVUY1JranNGMGd2ejQxejZfVG9rZW46WXYwT2J4RWxyb1VMN3V4UDdzSmNJamhRbjFkXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MTViZTk1ODNmZDY1YmI4ZWMxNTNmNTdlNzdjMjQ5OTVfZUdJUUQ2MXcyb2kwam4wRWpqclhPVFhrZ2RTbUhMQUNfVG9rZW46R0ZZWmJKT2Zyb2VlQ2F4a0dmNmNCcEF3bjRiXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MTViZTk1ODNmZDY1YmI4ZWMxNTNmNTdlNzdjMjQ5OTVfZUdJUUQ2MXcyb2kwam4wRWpqclhPVFhrZ2RTbUhMQUNfVG9rZW46R0ZZWmJKT2Zyb2VlQ2F4a0dmNmNCcEF3bjRiXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTY4YmJmZDk5ZDgwZjAxYjJmODE3Y2I2OGU5OWYwZjJfcnp2N0hCakt5NWRpNlFXczF3MmVIOHdKS01IZVVEbmZfVG9rZW46UnlvTGJPcWNXb0M3YjV4Vk00SWNGUWhnbllpXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTY4YmJmZDk5ZDgwZjAxYjJmODE3Y2I2OGU5OWYwZjJfcnp2N0hCakt5NWRpNlFXczF3MmVIOHdKS01IZVVEbmZfVG9rZW46UnlvTGJPcWNXb0M3YjV4Vk00SWNGUWhnbllpXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTI5YTk4YTI5N2I3NGRlNWJlZTkwNDYzM2QwY2ZmODdfampKOExDT1pRRG1zR2owSDNPUXhqU2o3d2d0UDJOUHFfVG9rZW46T1hlc2JjUG1xb0VabkV4NjRrOGM0VDhlbmdkXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTI5YTk4YTI5N2I3NGRlNWJlZTkwNDYzM2QwY2ZmODdfampKOExDT1pRRG1zR2owSDNPUXhqU2o3d2d0UDJOUHFfVG9rZW46T1hlc2JjUG1xb0VabkV4NjRrOGM0VDhlbmdkXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ol>
+<li>
+<h4 id="元组也支持嵌套">元组也支持嵌套</h4>
+</li>
+</ol>
+<h2 id="元组的相关操作">元组的相关操作</h2>
+<h3 id="由于元组不可修改的特性所以操作方法很少">由于元组不可修改的特性，所以操作方法很少</h3>
+<ol>
+<li>
+<h4 id="查找某个元素如果元素存在返回对应的下标否则报错">查找某个元素，如果元素存在返回对应的下标，否则报错</h4>
+</li>
+</ol>
+<p><strong>元组</strong>**.index（元素）**</p>
+<ol>
+<li>
+<h4 id="统计某数据在当前元组出现的次数">统计某数据在当前元组出现的次数</h4>
+</li>
+</ol>
+<p><strong>元组</strong>**.count(元素)**</p>
+<ol>
+<li>
+<h4 id="统计元组内的元素个数">统计元组内的元素个数</h4>
+</li>
+</ol>
+<p><strong>len(<strong><strong>元组</strong></strong>)</strong></p>
+<h3 id="注意事项2">注意事项2</h3>
+<ol>
+<li>
+<h4 id="不可以修改元组中的内容否则就会报错">不可以修改元组中的内容，否则就会报错</h4>
+</li>
+<li>
+<h4 id="可以修改元组内的-list-的内容列表的增删改查">可以修改元组内的 list 的内容（列表的增删改查）</h4>
+</li>
+<li>
+<h4 id="不可以替换-list-为其他-list-或者其他类型">不可以替换 list 为其他 list 或者其他类型</h4>
+</li>
+</ol>
+<h2 id="元组的遍历">元组的遍历</h2>
+<p>使用for循环或者while循环</p>
+<h2 id="元组的特点">元组的特点</h2>
+<ol>
+<li>
+<h3 id="可以容纳多个数据">可以容纳多个数据</h3>
+</li>
+<li>
+<h3 id="可以容纳不同类型的数据混装">可以容纳不同类型的数据（混装）</h3>
+</li>
+<li>
+<h3 id="数据是有序存储的下标索引">数据是有序存储的（下标索引）</h3>
+</li>
+<li>
+<h3 id="允许重复数据的出现">允许重复数据的出现</h3>
+</li>
+<li>
+<h3 id="不可以修改增删改">不可以修改（增删改）</h3>
+</li>
+<li>
+<h3 id="支持for循环和while循环">支持for循环和while循环</h3>
+</li>
+</ol>
+<h1 id="08_字符串的定义和操作">08_字符串的定义和操作</h1>
+<h2 id="定义-5">定义</h2>
+<p>字符串是字符的容器，一个字符串可以存储任意数量的字符</p>
+<h2 id="字符串的下标索引">字符串的下标索引</h2>
+<p>和其他容器一样：列表、元组，字符串也可以通过下标索引进行访问</p>
+<ul>
+<li>从前向后，下标从0开始递增</li>
+<li>从后向前，下标从-1开始递减</li>
+</ul>
+<p>字符串同元组一样，<strong>是一个不可修改的数据容器</strong></p>
+<h2 id="字符串的常用操作">字符串的常用操作</h2>
+<ol>
+<li>
+<h3 id="查找特定字符的下标索引值">查找特定字符的下标索引值</h3>
+</li>
+</ol>
+<p><strong>字符串.index（字符）</strong></p>
+<ol>
+<li>
+<h3 id="字符串的替换">字符串的替换</h3>
+</li>
+</ol>
+<p><strong>字符串.replace（字符串1，字符串2）</strong></p>
+<p>将字符串内的全部内容：字符串1，替换为字符串2</p>
+<p>注意:<strong>不是修改字符串，而是得到了一个新的字符串</strong></p>
+<ol>
+<li>
+<h3 id="字符串的分割">字符串的分割</h3>
+</li>
+</ol>
+<p><strong>字符串.split（分隔符字符串）</strong></p>
+<p>按照指定的分隔符字符串，将字符串划分为多个字符串，并存入列表对象中</p>
+<p>注意：<strong>字符串本身不变，而是得到了一个列表对象</strong></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YjhmODJmODVhMGE4ZDRhNzUyYWEwNTdmYjdmZWMzYzNfcnRVUUhSeTB3b3RKWUtxY1VjQ0xRR3E4eHl2QTVhSFNfVG9rZW46TVNtc2JMSkJrb0g1ZUR4RUdPM2NZdXpjbmRlXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YjhmODJmODVhMGE4ZDRhNzUyYWEwNTdmYjdmZWMzYzNfcnRVUUhSeTB3b3RKWUtxY1VjQ0xRR3E4eHl2QTVhSFNfVG9rZW46TVNtc2JMSkJrb0g1ZUR4RUdPM2NZdXpjbmRlXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmY1MGRjZWJhMjdhYjY3ZjAzNmE4NDE3N2NmNDhhOGNfTE9Ta0EzcEVBdERjSGVOT0Vxcmp4UURaTXFYRlVqQzVfVG9rZW46Qml5S2JnSVBDb0JHekd4SG1aVmNCVUdObm5kXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmY1MGRjZWJhMjdhYjY3ZjAzNmE4NDE3N2NmNDhhOGNfTE9Ta0EzcEVBdERjSGVOT0Vxcmp4UURaTXFYRlVqQzVfVG9rZW46Qml5S2JnSVBDb0JHekd4SG1aVmNCVUdObm5kXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h3 id="拓展">拓展</h3>
+<h4 id="字符串的切片">字符串的切片</h4>
+<p>从字符串中提取一部分的操作</p>
+<p>使用索引来指定开始和结束的位置</p>
+<h4 id="语法-2">语法：</h4>
+<p><strong>[start:end:step]</strong></p>
+<ul>
+<li>start：开始位置的索引（包含）</li>
+<li>end：结束位置的索引（不包含）</li>
+<li>step：步长，每次移动的索引数</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjQzYzY1YjY0YjM5NDJkMmZiMDQ1MDhmMjRiMjZkMjVfeDJGZHp2Nm1FWkJYTTNUdE5nd2EzRGY3M3h3UzF3UW1fVG9rZW46UzIwUWJFbU5Lb1B2TG14aGJ2S2NGT0lMbnJkXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjQzYzY1YjY0YjM5NDJkMmZiMDQ1MDhmMjRiMjZkMjVfeDJGZHp2Nm1FWkJYTTNUdE5nd2EzRGY3M3h3UzF3UW1fVG9rZW46UzIwUWJFbU5Lb1B2TG14aGJ2S2NGT0lMbnJkXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ol>
+<li>
+<h3 id="字符串的规整操作">字符串的规整操作</h3>
+</li>
+</ol>
+<p><strong>字符串.strip（）</strong></p>
+<p>去前后指定字符串</p>
+<p><strong>字符串.strip（字符串）</strong></p>
+<ol>
+<li>统计字符串中某字符串的出现次数</li>
+</ol>
+<p><strong>字符串.count（字符串）</strong></p>
+<ol>
+<li>统计字符串的长度</li>
+</ol>
+<p><strong>len（字符串）</strong></p>
+<h2 id="字符串的遍历">字符串的遍历</h2>
+<p>同样支持for循环和while循环</p>
+<h2 id="字符串的特点">字符串的特点</h2>
+<ol>
+<li>
+<h3 id="只可以存储字符串">只可以存储字符串</h3>
+</li>
+<li>
+<h3 id="长度任意取决于内存大小">长度任意（取决于内存大小）</h3>
+</li>
+<li>
+<h3 id="支持下标索引">支持下标索引</h3>
+</li>
+<li>
+<h3 id="允许重复字符串存在">允许重复字符串存在</h3>
+</li>
+<li>
+<h3 id="不可以修改增加或删除元素等">不可以修改（增加或删除元素等）</h3>
+</li>
+<li>
+<h3 id="支持for循环">支持for循环</h3>
+</li>
+</ol>
+<h1 id="10_数据容器序列的切片">10_数据容器（序列)的切片</h1>
+<h2 id="序列">序列</h2>
+<p>序列是指：<strong>内容连续、有序，可以使用下标索引的</strong>一类数据容器</p>
+<h2 id="那些数据类型可以视作序列">那些数据类型可以视作序列</h2>
+<h3 id="列表元组字符串">列表、元组、字符串</h3>
+<h2 id="序列的常用操作切片">序列的常用操作：切片</h2>
+<p>序列支持切片，即：列表、元组、字符串，均支持进行切片操作</p>
+<p>切片：从一个序列中，取出一个子序列</p>
+<h3 id="语法-3">语法</h3>
+<p>序列[起始下标:结束下标:步长]</p>
+<h3 id="说明-1">说明：</h3>
+<p><strong>表示从序列中，从指定位置开始，依次取出元素，到指定位置结束，得到一个新序列</strong></p>
+<ul>
+<li>起始下标表示从何处开始，可以留空，留空视作从头开始；</li>
+<li>结束下标（不含）表示从何处结束，可以留空，留空视作截取到结尾</li>
+<li>步长表示：依次取出元素的间隔是多少，默认为1
+<ul>
+<li>步长1，表示一个个取出元</li>
+<li>步长2，表示每次跳过1个元素取</li>
+<li>步长N，表示每次跳过N-1个元素取</li>
+<li>步长为负数，表示反向取（注意，起始下标和结束下标也要反向标记）</li>
+</ul>
+</li>
+<li>此操作不会影响序列本身，<strong>而是得到一个新的序列</strong>（列表、元组、字符串）</li>
+</ul>
+<h1 id="12_集合的定义和操作">12_集合的定义和操作</h1>
+<h2 id="集合的定义">集合的定义</h2>
+<h3 id="基本语法">基本语法</h3>
+<h4 id="集合字面量">集合字面量</h4>
+<p>{元素，元素，元素&hellip;..}</p>
+<h4 id="集合变量">集合变量</h4>
+<p>变量名称 = {元素，元素，元素}</p>
+<h4 id="空集合">空集合</h4>
+<p>集合名称 = set()</p>
+<h2 id="集合的特点">集合的特点</h2>
+<ol>
+<li>
+<h3 id="可以容纳多个数据-1">可以容纳多个数据</h3>
+</li>
+<li>
+<h3 id="可以容纳不同类型的数据混装-1">可以容纳不同类型的数据（混装）</h3>
+</li>
+<li>
+<h3 id="数据是无序存储的不支持下标索引">数据是无序存储的（不支持下标索引）</h3>
+</li>
+<li>
+<h3 id="不允许重复数据的存在">不允许重复数据的存在</h3>
+</li>
+<li>
+<h3 id="可以修改增删改查">可以修改（增删改查）</h3>
+</li>
+<li>
+<h3 id="只支持for循环">只支持for循环</h3>
+</li>
+</ol>
+<h2 id="集合的操作">集合的操作</h2>
+<h1 id="14_字典的定义">14_字典的定义</h1>
+<h2 id="定义-6">定义</h2>
+<p>同样使用 {}，不过存储的元素是一个个的：键值对</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MDNlOWRlNTQzNjdkMzY4M2ZmODI3ODNhNzVlYjk0NDlfa1ZRNWhKY1ZaR08yMDJNREZHMzlnV1pZNlpRSzFPakFfVG9rZW46UjBBaWJvakRRb2htMUN4SlNnbGNNR0pjbkRjXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MDNlOWRlNTQzNjdkMzY4M2ZmODI3ODNhNzVlYjk0NDlfa1ZRNWhKY1ZaR08yMDJNREZHMzlnV1pZNlpRSzFPakFfVG9rZW46UjBBaWJvakRRb2htMUN4SlNnbGNNR0pjbkRjXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NzRiY2UwYTBkYTI2MzViNjViOTYxYThlYjY5N2VkODlfSGhya3VoVjFzMVliMlZVdlJVbkdaTWU1cFd2R0dHNklfVG9rZW46QU9MVmJiendVb3dNQzV4Y2EzZmNCZ2hsbnFoXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NzRiY2UwYTBkYTI2MzViNjViOTYxYThlYjY5N2VkODlfSGhya3VoVjFzMVliMlZVdlJVbkdaTWU1cFd2R0dHNklfVG9rZW46QU9MVmJiendVb3dNQzV4Y2EzZmNCZ2hsbnFoXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="语法-4">语法</h2>
+<p>my_dict = {Key: value,key: value,&hellip;.,key: value}</p>
+<ul>
+<li>使用{}存储元素，每一个元素是一个键值对</li>
+<li>每一个键值对包含key和value（用冒号分隔）</li>
+<li>键值对之间用逗号分隔</li>
+<li>key和value可以是任意类型的数据(key不可为字典)</li>
+<li>key不可重复，重复会覆盖原有数据</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NTRlOGFiM2JmMjVlZjU3YjZmNjI3M2Q4ZWJjMzQ0ZjNfdDVmTlVmN25rdG90cE1QelJGVmJhZDcxNUIxZ1B3SWhfVG9rZW46RkhmOWJTTzN1b1ptWGh4NDJYVGNLZDk0bmJnXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NTRlOGFiM2JmMjVlZjU3YjZmNjI3M2Q4ZWJjMzQ0ZjNfdDVmTlVmN25rdG90cE1QelJGVmJhZDcxNUIxZ1B3SWhfVG9rZW46RkhmOWJTTzN1b1ptWGh4NDJYVGNLZDk0bmJnXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ul>
+<li>字典不可用下标索引，而是通过key检索value</li>
+</ul>
+<h2 id="字典的嵌套">字典的嵌套</h2>
+<p>字典的Key和Value可以是任意数据类型（Key不可为字典）。表明，字典是支持嵌套的</p>
+<p>嵌套字典的内容获取</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MTc5MjM5ZjgzN2JhZTFlZTdhMTJhMDc3Nzg2ZTM0Y2JfMnVKNFRKVWM4R3NsZXRNZjM5QlVKNHFBSUZmYzRlVlFfVG9rZW46VHRVQ2IzcVBMb1FLbVN4dm1KQWNYTTg1bm1kXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MTc5MjM5ZjgzN2JhZTFlZTdhMTJhMDc3Nzg2ZTM0Y2JfMnVKNFRKVWM4R3NsZXRNZjM5QlVKNHFBSUZmYzRlVlFfVG9rZW46VHRVQ2IzcVBMb1FLbVN4dm1KQWNYTTg1bm1kXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="15_字典的常用操作">15_字典的常用操作</h1>
+<h2 id="增删改查">增删改查</h2>
+<ol>
+<li>
+<h3 id="新增">新增</h3>
+</li>
+</ol>
+<p>语法：字典[key] = value</p>
+<p>结果：字典被修改，新增了元素</p>
+<p><strong>注意：字典key不可以重复，所以对已存的key执行上述操作，就是更新value值</strong></p>
+<ol>
+<li>
+<h3 id="删">删</h3>
+<ol>
+<li>删除</li>
+</ol>
+</li>
+</ol>
+<p>语法：字典.pop(key)</p>
+<p>结果：获得指定key的value值，同时字典被修改，指定key的数据被删除</p>
+<ol>
+<li>清空字典</li>
+</ol>
+<p>语法：字典.clear()</p>
+<p>结果：字典被修改，元素被清空</p>
+<ol>
+<li>
+<h3 id="修改---更新">修改 - 更新</h3>
+</li>
+</ol>
+<p>语法：字典[key] = value</p>
+<p>结果：字典被修改，元素被更新</p>
+<ol>
+<li>
+<h3 id="查">查</h3>
+<ol>
+<li>语法：字典[key] 可以获取到对应的value</li>
+<li>获取全部的key</li>
+</ol>
+</li>
+</ol>
+<p>语法：字典.keys()</p>
+<p>结果：得到字典中的全部key</p>
+<ol>
+<li>遍历字典</li>
+</ol>
+<p>语法：for key in 字典.keys():</p>
+<p>注意：字典不支持下标索引，所以不可以使用while循环遍历</p>
+<ol>
+<li>计算字典内的全部元素（键值对）的数量</li>
+</ol>
+<p>语法：len(字典)</p>
+<p>结果：得到一个整数，表示字典内元素（键值对）的数量</p>
+<h2 id="字典的特点">字典的特点</h2>
+<ol>
+<li>
+<h4 id="可以容纳多个数据-2">可以容纳多个数据</h4>
+</li>
+<li>
+<h4 id="可以容纳不同类型的数据">可以容纳不同类型的数据</h4>
+</li>
+<li>
+<h4 id="每一份数据是keyvalue键值对">每一份数据是keyvalue键值对</h4>
+</li>
+<li>
+<h4 id="可以通过key获取到valuekey不可以重复重复会覆盖">可以通过key获取到value，key不可以重复（重复会覆盖）</h4>
+</li>
+<li>
+<h4 id="不支持下标索引">不支持下标索引</h4>
+</li>
+<li>
+<h4 id="可以修改增删改查-1">可以修改（增删改查）</h4>
+</li>
+<li>
+<h4 id="支持for循环遍历不支持while循环遍历">支持for循环遍历，不支持while循环遍历</h4>
+</li>
+</ol>
+<h1 id="17_5类数据容器的总结">17_5类数据容器的总结</h1>
+<h2 id="数据容器特点对比">数据容器特点对比</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>列表</th>
+<th>元组</th>
+<th>字符串</th>
+<th>集合</th>
+<th>字典</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>元素数量</td>
+<td>支持多个</td>
+<td>支持多个</td>
+<td>支持多个</td>
+<td>支持多个</td>
+<td>支持多个</td>
+</tr>
+<tr>
+<td>元素类型</td>
+<td>任意</td>
+<td>任意</td>
+<td>字符</td>
+<td>任意</td>
+<td>Key: valuekey：除字典外的任意类型value：任意类型</td>
+</tr>
+<tr>
+<td>下标索引</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>重复元素</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>可修改性</td>
+<td>支持</td>
+<td>不支持</td>
+<td>不支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>数据有序</td>
+<td>是</td>
+<td>是</td>
+<td>是</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td>使用场景</td>
+<td>可修改、可重复的一批数据</td>
+<td>不可修改、可重复的一批数据</td>
+<td>一串字符的记录场景</td>
+<td>不可重复的数据记录场景</td>
+<td>以key检索的value的数据记录场景</td>
+</tr>
+</tbody>
+</table>
+<h1 id="18_数据容器的通用操作">18_数据容器的通用操作</h1>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>通用for循环遍历</td>
+<td>遍历容器（字典是遍历key）</td>
+</tr>
+<tr>
+<td>len()</td>
+<td>统计容器中的元素个数</td>
+</tr>
+<tr>
+<td>max()</td>
+<td>容器中最大元素</td>
+</tr>
+<tr>
+<td>min()</td>
+<td>容器中最小元素</td>
+</tr>
+<tr>
+<td>list()</td>
+<td>转换为列表</td>
+</tr>
+<tr>
+<td>tuple()</td>
+<td>转换为元组</td>
+</tr>
+<tr>
+<td>str()</td>
+<td>转换为字符串</td>
+</tr>
+<tr>
+<td>set()</td>
+<td>转换为集合</td>
+</tr>
+<tr>
+<td>sorted(序列，[reverse=True])</td>
+<td>排序，reverse=True表示降序得到一个<strong>排好序的列表</strong></td>
+</tr>
+</tbody>
+</table>
+<h1 id="19_拓展-字符串大小比较的方式">19_拓展-字符串大小比较的方式</h1>
+<h2 id="ascii码表">ASCII码表</h2>
+<p>在程序中，字符串所用的字符，如：</p>
+<ul>
+<li>大小写英文单词</li>
+<li>数字</li>
+<li>特殊符号</li>
+</ul>
+<p>都有其对应的 ASCII表</p>
+<p>每一个字符都能对应上一个：数字的码值 字符串进行比较就是基于数字的码值大小进行比较的。</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NWJiYjFmY2ZiYzM5OGM0NzFlOWU3M2Y5YzZkZTVjNmJfcUhrZkxFckNkT0ZFcURmMld6enVDcnN1Y0VoY1NBQmNfVG9rZW46QlpYZmJkanJVb2RrZHV4YVVTZ2NMekpKbjdlXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NWJiYjFmY2ZiYzM5OGM0NzFlOWU3M2Y5YzZkZTVjNmJfcUhrZkxFckNkT0ZFcURmMld6enVDcnN1Y0VoY1NBQmNfVG9rZW46QlpYZmJkanJVb2RrZHV4YVVTZ2NMekpKbjdlXzE3MTUzNTY0MTM6MTcxNTM2MDAxM19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><strong>字符串是按位比较，也就是一位位进行对比，只要有一位大，那么整体就大。</strong></p>
+<p>第七章-Python函数进阶</p>
+<h1 id="01_函数的多返回值">01_函数的多返回值</h1>
+<p>多个返回值书写代码：</p>
+<p>def 函数名(形式参数):</p>
+<p>​     函数体</p>
+<p>​     return 返回值1,返回值2</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OGZjYTUxN2E5NTBhNjk3YzM4ZDAyNWVhZDIyMmNmZGNfcjd0NmZYQjhnQUdzNXRvVVd3NGFsckRtNFdMTFN3ajNfVG9rZW46RloxbmJSNGpJb0piOHJ4dTNiWWNSd05Mbk92XzE3MTUzNTY0Mjc6MTcxNTM2MDAyN19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OGZjYTUxN2E5NTBhNjk3YzM4ZDAyNWVhZDIyMmNmZGNfcjd0NmZYQjhnQUdzNXRvVVd3NGFsckRtNFdMTFN3ajNfVG9rZW46RloxbmJSNGpJb0piOHJ4dTNiWWNSd05Mbk92XzE3MTUzNTY0Mjc6MTcxNTM2MDAyN19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=Mjk4ZDIyZjRlN2QwOTI2ODIwZDMzYTRhNWQ3M2Y0NGVfYlFuME1WQWVjU3NmVWN4MWFvanVyYlJmem9sU0RHbUxfVG9rZW46SHdBSWJVTGxGb2d1V3V4aGlMUmNQbGRWblFlXzE3MTUzNTY0Mjc6MTcxNTM2MDAyN19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=Mjk4ZDIyZjRlN2QwOTI2ODIwZDMzYTRhNWQ3M2Y0NGVfYlFuME1WQWVjU3NmVWN4MWFvanVyYlJmem9sU0RHbUxfVG9rZW46SHdBSWJVTGxGb2d1V3V4aGlMUmNQbGRWblFlXzE3MTUzNTY0Mjc6MTcxNTM2MDAyN19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>在调用该函数的时候，按照返回值的顺序，写对应顺序的多个变量接收即可</p>
+<p>变量之间用逗号隔开</p>
+<p>支持不同类型的数据 return</p>
+<h1 id="02_函数的多种参数使用形式">02_函数的多种参数使用形式</h1>
+<p>根据<strong>使用方式</strong>上的不同，函数有4种常见参数的使用方式：</p>
+<ol>
+<li>
+<h3 id="位置参数">位置参数</h3>
+</li>
+</ol>
+<p>调用函数时根据函数定义的参数位置来传递参数</p>
+<p>注意：<strong>传递的参数和定义的参数的顺序及个数必须一致</strong></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjBiMjM4YTkyOTAwYzBmYzViMWU3ZDNhOGQ1MWYzMDFfM1BLQUhaRGE4dG4zcXgxaHBxazZZTVJLc2hmT0tBRHdfVG9rZW46TFlMWGJ5WWp4b3JFZmR4MkZ4eGNDM2ZzbkZuXzE3MTUzNTY0Mjc6MTcxNTM2MDAyN19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjBiMjM4YTkyOTAwYzBmYzViMWU3ZDNhOGQ1MWYzMDFfM1BLQUhaRGE4dG4zcXgxaHBxazZZTVJLc2hmT0tBRHdfVG9rZW46TFlMWGJ5WWp4b3JFZmR4MkZ4eGNDM2ZzbkZuXzE3MTUzNTY0Mjc6MTcxNTM2MDAyN19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ol>
+<li>
+<h3 id="关键字参数">关键字参数</h3>
+</li>
+</ol>
+<p>函数调用的时候通过“键=值”形式传递参数</p>
+<p>作用：可以让函数更加清晰、容易使用，同时也清除了参数的顺序需求</p>
+<p>注意：<strong>函数调用时，如果有位置参数时，位置参数必须在关键字参数的前面，但关键字参数之间不存在先后顺序</strong></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzA4OWNiOWM1NmQ3MjJhODRlMjk2MWI5NzgyMmNiYWZfYURiUEFETU5UYTMxSE9GZktyOHBtdUtWbHFaQWoyTERfVG9rZW46Vm1PbGJIT1lObzRvUWR4d2MwSmNnMldzbnhmXzE3MTUzNTY0Mjc6MTcxNTM2MDAyN19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzA4OWNiOWM1NmQ3MjJhODRlMjk2MWI5NzgyMmNiYWZfYURiUEFETU5UYTMxSE9GZktyOHBtdUtWbHFaQWoyTERfVG9rZW46Vm1PbGJIT1lObzRvUWR4d2MwSmNnMldzbnhmXzE3MTUzNTY0Mjc6MTcxNTM2MDAyN19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ol>
+<li>
+<h3 id="缺省参数">缺省参数</h3>
+</li>
+</ol>
+<p>也叫默认参数，用于<strong>定义函数，为参数提供默认值</strong>，调用函数时可不传该默认参数的值‘</p>
+<p>注意：当调用函数时没有传递参数，就会使用默认是用缺省参数对应的值</p>
+<p><strong>函数调用时，如果为缺省参数传值则修改默认参数值，否则使用这个默认值</strong></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTdkMmM0ZTk1ZTFhMTU1NjMwYzY0N2IyOTJhYmY4NjFfblBZTEY1SXlXZ3Z6M2h3V2ZoYzMyV0NSN1A0Q3ZrTUNfVG9rZW46V3pnbGJyd3Vqb0JWOXV4RkJNQ2NZVjRRbjJnXzE3MTUzNTY0Mjc6MTcxNTM2MDAyN19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTdkMmM0ZTk1ZTFhMTU1NjMwYzY0N2IyOTJhYmY4NjFfblBZTEY1SXlXZ3Z6M2h3V2ZoYzMyV0NSN1A0Q3ZrTUNfVG9rZW46V3pnbGJyd3Vqb0JWOXV4RkJNQ2NZVjRRbjJnXzE3MTUzNTY0Mjc6MTcxNTM2MDAyN19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ol>
+<li>
+<h3 id="不定长参数">不定长参数</h3>
+</li>
+</ol>
+<p>也叫可变参数，用于不确定调用的时候会传递多少个参数（<strong>不传参也可以</strong>）的场景</p>
+<p>作用：当调用函数时不确定参数个数时，可以使用不定长参数</p>
+<p>类型：</p>
+<ol>
+<li>
+<h5 id="位置传递">位置传递</h5>
+</li>
+</ol>
+<p><strong>以*号标记一个<strong><strong>形式参数</strong></strong>，以<strong><strong>元组</strong></strong>的形式接受参数，形式参数一般命名为****args</strong></p>
+<ol>
+<li>
+<h5 id="关键字传递">关键字传递</h5>
+</li>
+</ol>
+<p><em><em>以*<em>号标记一个</em><em><strong>形式参数</strong></em></em>，以字典的形式接受参数，形式参数一般命名为kwargs</em>*</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmY5ZTcxOWFkNzc0ZTUxYjc4YmQ5ZmU4ZTYwZGJmMzFfbWxZZDBZWXBrYVFGOGRNcmJwVWJ2UzlxVnk3aFlqcUFfVG9rZW46VUJxQmJTS0Vab1B2Tlp4a2FuSWNQNlpmblNkXzE3MTUzNTY0Mjc6MTcxNTM2MDAyN19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmY5ZTcxOWFkNzc0ZTUxYjc4YmQ5ZmU4ZTYwZGJmMzFfbWxZZDBZWXBrYVFGOGRNcmJwVWJ2UzlxVnk3aFlqcUFfVG9rZW46VUJxQmJTS0Vab1B2Tlp4a2FuSWNQNlpmblNkXzE3MTUzNTY0Mjc6MTcxNTM2MDAyN19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="03_函数作为参数传递">03_函数作为参数传递</h1>
+<p>函数本身是可以作为参数，传入另一个函数中进行使用的</p>
+<p>其作用在于：传入计算逻辑，而非传入数据</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NDdjYjcxMWE5NDYxMjllOTQxOGVjYmM1MjRkYzY1YjRfS0tpMG9LQjJISzl2NXlHY29xT2xvQkY2MkpuTEdGQ0JfVG9rZW46T3FTTWJCNFVHb052RnJ4eDYzamNsRUlsbnFjXzE3MTUzNTY0Mjc6MTcxNTM2MDAyN19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NDdjYjcxMWE5NDYxMjllOTQxOGVjYmM1MjRkYzY1YjRfS0tpMG9LQjJISzl2NXlHY29xT2xvQkY2MkpuTEdGQ0JfVG9rZW46T3FTTWJCNFVHb052RnJ4eDYzamNsRUlsbnFjXzE3MTUzNTY0Mjc6MTcxNTM2MDAyN19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjE3NjRlZTgyZTFmNDllNTFkNmU0MzIzNWNjMGY2NjZfeVFFRkh3NGMzSlhqSTUwdWpqQU12RWZVYURoTjRaazVfVG9rZW46RDIxZWJTd3FZb2lLWnd4QTdLc2N2eThRbmdlXzE3MTUzNTY0Mjc6MTcxNTM2MDAyN19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjE3NjRlZTgyZTFmNDllNTFkNmU0MzIzNWNjMGY2NjZfeVFFRkh3NGMzSlhqSTUwdWpqQU12RWZVYURoTjRaazVfVG9rZW46RDIxZWJTd3FZb2lLWnd4QTdLc2N2eThRbmdlXzE3MTUzNTY0Mjc6MTcxNTM2MDAyN19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="04_lambda匿名函数">04_lambda匿名函数</h1>
+<p>函数定义中，</p>
+<ul>
+<li>def关键字，可以定义带有名称的函数，可以基于名称，重复使用</li>
+<li>lambda关键字，可以定义匿名函数（无名称），只可临时使用一次</li>
+</ul>
+<h3 id="匿名函数的定义方法">匿名函数的定义方法</h3>
+<p><strong>lambda 传入参数：函数体（一行代码）</strong></p>
+<ul>
+<li>lambda是关键字，表示定义匿名函数</li>
+<li>传入参数表示匿名函数的形式参数，如：x，y表示接收2个形式参数</li>
+<li>函数体，函数的执行逻辑</li>
+</ul>
+<p>注意：</p>
+<p><strong>只能写一行函数体，无法写多行代码</strong></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NjA3ZTViNjFmYjU1NDkyNDM2ZWZjODViYjcxNjUwZmNfYWM4Wkw2blZIcFBKWXNjR3lkZEw3aDZjMDBtZlBlN3lfVG9rZW46Q3ZucGI1R21sb0pRMGJ4bUtsWmNJR2dSbmRnXzE3MTUzNTY0Mjc6MTcxNTM2MDAyN19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NjA3ZTViNjFmYjU1NDkyNDM2ZWZjODViYjcxNjUwZmNfYWM4Wkw2blZIcFBKWXNjR3lkZEw3aDZjMDBtZlBlN3lfVG9rZW46Q3ZucGI1R21sb0pRMGJ4bUtsWmNJR2dSbmRnXzE3MTUzNTY0Mjc6MTcxNTM2MDAyN19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>第九章-Python异常、模块与包</p>
+<h1 id="01_了解异常">01_了解异常</h1>
+<h3 id="什么是异常">什么是异常</h3>
+<p>当检测到一个错误的时候，Python解释器就无法继续执行了，反而出现一些错误的提示，这就是所谓的“异常”，也就是我们常说的BUG</p>
+<h3 id="bug是什么意思">bug是什么意思</h3>
+<p>bug就是指异常，历史上因为一个小虫子导致计算机失灵的案例，所以延续至今，bug就代表软件出现错误</p>
+<h3 id="异常的演示">异常的演示</h3>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTgyZjdkNzQ3MTY0NjFiYmU0MmI3MTY2MDI2NjM2YjlfVEhURjVsYU04WkVUclYzT0lnY3FsdmxWZGhYdEpSUlVfVG9rZW46SWYwWWJoemt4b3ZpSFl4clJBb2NFZGg1bkRsXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTgyZjdkNzQ3MTY0NjFiYmU0MmI3MTY2MDI2NjM2YjlfVEhURjVsYU04WkVUclYzT0lnY3FsdmxWZGhYdEpSUlVfVG9rZW46SWYwWWJoemt4b3ZpSFl4clJBb2NFZGg1bkRsXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="02_异常的捕获">02_异常的捕获</h1>
+<h3 id="为什么要捕获异常">为什么要捕获异常</h3>
+<p>在可能发生异常的地方，进行捕获，当异常出现的时候，提供解决方案，而不是任由其导致程序无法运行</p>
+<h3 id="捕获异常的语法">捕获异常的语法</h3>
+<h4 id="基本语法-1">基本语法</h4>
+<p>try：</p>
+<p>可能发生错误的代码</p>
+<p>except：</p>
+<p>如果出现异常执行的代码</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=M2FkNTJjMzhlY2Q5YTczNTZmN2Y0ODNiMjQyZmQ1NDdfdHJGVkw0R2h5dno3RVhXcmFHRzBnRHBSOWU0c0p4TXlfVG9rZW46STdGQWJTOXY2b2Rpamd4bXdKSmNJT3h6bmhkXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=M2FkNTJjMzhlY2Q5YTczNTZmN2Y0ODNiMjQyZmQ1NDdfdHJGVkw0R2h5dno3RVhXcmFHRzBnRHBSOWU0c0p4TXlfVG9rZW46STdGQWJTOXY2b2Rpamd4bXdKSmNJT3h6bmhkXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h4 id="捕获指定异常">捕获指定异常</h4>
+<p>try：</p>
+<p>可能发生错误的代码</p>
+<p>Except 指定异常名称 as 别名：</p>
+<p>如果出现异常执行的代码</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OTJmNDgzODZkODE5ZWFkNDZiOGE5MzJkMWQ5ZTc2MGZfN3NvUm9wOTlnZXk4WTlId3RsVkRtdGE4VWZxa2p3QzZfVG9rZW46Q0ZkaWJwV1pnb0I1M054UDlTeWN6QndobnViXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OTJmNDgzODZkODE5ZWFkNDZiOGE5MzJkMWQ5ZTc2MGZfN3NvUm9wOTlnZXk4WTlId3RsVkRtdGE4VWZxa2p3QzZfVG9rZW46Q0ZkaWJwV1pnb0I1M054UDlTeWN6QndobnViXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>注意：</p>
+<ul>
+<li>如果尝试执行的代码的异常类型和要捕获的异常类型不一致，则无法捕获异常</li>
+<li><strong>一般try下方只放一行尝试执行的代码</strong></li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjY5YWExNWNmM2M3MTYyYWQ4NTU1OWVmYzI2YmE1YjZfRTRlMVRUd0xycnlXRlhCMTJxbGlZWGVzT0hyVmFXNVlfVG9rZW46SlNvc2IwR2pyb0VtMVd4TjZ3cGNPRFRLbkJoXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjY5YWExNWNmM2M3MTYyYWQ4NTU1OWVmYzI2YmE1YjZfRTRlMVRUd0xycnlXRlhCMTJxbGlZWGVzT0hyVmFXNVlfVG9rZW46SlNvc2IwR2pyb0VtMVd4TjZ3cGNPRFRLbkJoXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h4 id="捕获多个异常">捕获多个异常</h4>
+<p>当捕获多个异常的时候，可以把要捕获的异常类型的名字，放到except之后，并使用元组的方式进行书写</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDk4YjFjNjYwMzg5YTg5ZjE5OTMyOWFkZmI5MTkyOGJfaFFlZjk4a3lJS2MwYndHbDZYVHNNZTBtUHl2NVYzZmVfVG9rZW46RHN6VmJNYUczb1M5ODF4TDVUZ2N2TFdMbnhkXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDk4YjFjNjYwMzg5YTg5ZjE5OTMyOWFkZmI5MTkyOGJfaFFlZjk4a3lJS2MwYndHbDZYVHNNZTBtUHl2NVYzZmVfVG9rZW46RHN6VmJNYUczb1M5ODF4TDVUZ2N2TFdMbnhkXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h4 id="捕获异常并输出描述信息">捕获异常并输出描述信息</h4>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=M2U2MDVkZTk5Nzg4NzM2YTJkMWEzNDIyODMzODhmMjFfcEJwV0h3Z2pUdHR6ek5Id3pSWTNhbkJXclBmcmh0S1dfVG9rZW46UHJ3N2J4WDdOb3BjNFd4S0p3Q2NidmNVbkFoXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=M2U2MDVkZTk5Nzg4NzM2YTJkMWEzNDIyODMzODhmMjFfcEJwV0h3Z2pUdHR6ek5Id3pSWTNhbkJXclBmcmh0S1dfVG9rZW46UHJ3N2J4WDdOb3BjNFd4S0p3Q2NidmNVbkFoXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h4 id="捕获所有异常">捕获所有异常</h4>
+<p>try：</p>
+<p>可能发生错误的代码</p>
+<p>Excep Exception as 别名：</p>
+<p>如果出现异常执行的代码</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjQ5NDM3OWEyNTZhMzBmOTcxNjM4MzA3NTAzMDUyNDRfSWZSYXZVN2J6Y3B2c2FxcndMYVlvbVRzemNmM0x4TXZfVG9rZW46WFBqV2JIQVVkb01XNXp4OG8yUmNoQ1Z0blFoXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjQ5NDM3OWEyNTZhMzBmOTcxNjM4MzA3NTAzMDUyNDRfSWZSYXZVN2J6Y3B2c2FxcndMYVlvbVRzemNmM0x4TXZfVG9rZW46WFBqV2JIQVVkb01XNXp4OG8yUmNoQ1Z0blFoXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h4 id="异常else">异常else</h4>
+<p>else表示的是如果没有异常要执行的代码</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NzI2ZWIxOWY1MDZjYjUwNzJjOTM2NmNjOTQzNzllMWVfa0lySllZUG5aUnBxOUZ4djY3c2JQV3hvSmFXbk85SDBfVG9rZW46WVpKT2JmaVhobzJFcTl4cUY2ZWM4T3lhblFlXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NzI2ZWIxOWY1MDZjYjUwNzJjOTM2NmNjOTQzNzllMWVfa0lySllZUG5aUnBxOUZ4djY3c2JQV3hvSmFXbk85SDBfVG9rZW46WVpKT2JmaVhobzJFcTl4cUY2ZWM4T3lhblFlXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h4 id="异常的finally">异常的finally</h4>
+<p>finally表示的是无论是否一场都要执行的代码，例如关闭文件</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NjliMWE5NmRhYzU3NWMxNWNlOGQwMTEwNTdlZjZkNmNfRnE3OG5nYmdwRDlmWlhMRExaS0pqNFNBNkVVenZnTWNfVG9rZW46UDRHc2I1WEhPb0Jsam54aWVibGNuV2oxbnliXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NjliMWE5NmRhYzU3NWMxNWNlOGQwMTEwNTdlZjZkNmNfRnE3OG5nYmdwRDlmWlhMRExaS0pqNFNBNkVVenZnTWNfVG9rZW46UDRHc2I1WEhPb0Jsam54aWVibGNuV2oxbnliXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="03_异常的传递性">03_异常的传递性</h1>
+<p>异常是具有传递性的</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YmFiYjQ3YTE3MzBkZWMyMDg0ODU0Zjk5OWU0MTU4ZGNfMWR5d3NqUmdyOW9CcEcxSFpRaGVZOTlaTzNhTmFhanpfVG9rZW46Um40b2I4U1dVb2pEcHN4UExEd2NQSzdjbjVNXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YmFiYjQ3YTE3MzBkZWMyMDg0ODU0Zjk5OWU0MTU4ZGNfMWR5d3NqUmdyOW9CcEcxSFpRaGVZOTlaTzNhTmFhanpfVG9rZW46Um40b2I4U1dVb2pEcHN4UExEd2NQSzdjbjVNXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YzIzZmVjMTVjZDRhODc5OTk3OTU1OTkzYzY4YzE4ZjhfNVQwbGlENGlOTU53MXVHZzA2cnFCRlhxZVFZTzFaY1NfVG9rZW46RlpueWJ5bmh6bzRxa2h4OHVhdGNpQnAybnZiXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YzIzZmVjMTVjZDRhODc5OTk3OTU1OTkzYzY4YzE4ZjhfNVQwbGlENGlOTU53MXVHZzA2cnFCRlhxZVFZTzFaY1NfVG9rZW46RlpueWJ5bmh6bzRxa2h4OHVhdGNpQnAybnZiXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ODllZWM5ZWQxMmQxMTY1MDkwYTA1ZDc3YWE5ZmZlNjdfYTlXblpFa3gzcElwbkVMQUd4b2hrQzA2WXJLTm90RXFfVG9rZW46SEw3emJkaDEwbzQ2WXV4TnhCZWNKNWlibjNjXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ODllZWM5ZWQxMmQxMTY1MDkwYTA1ZDc3YWE5ZmZlNjdfYTlXblpFa3gzcElwbkVMQUd4b2hrQzA2WXJLTm90RXFfVG9rZW46SEw3emJkaDEwbzQ2WXV4TnhCZWNKNWlibjNjXzE3MTUzNTY0NDY6MTcxNTM2MDA0Nl9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>第一章-Python面向对象</p>
+<h1 id="01_初识对象">01_初识对象</h1>
+<h2 id="使用对象完成数据组织的思路">使用对象完成数据组织的思路</h2>
+<p>生活中的数据组织</p>
+<p>学校开学，要求学生填写自己的基础信息，一人发一张白纸，让学生自己填，最后的结果是内容混乱</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YmY3YjZlMjljZmQ4MGM0NDc0ZGQ3MjFkOGU3NjkyNzJfZk9qT0ZwWUJjMVJ5VVhwdXl0OGJuV3FrMURjYWIxaU5fVG9rZW46S0s5RmJzekJnb3Bwbjl4ck55dGNxbXU3bmdnXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YmY3YjZlMjljZmQ4MGM0NDc0ZGQ3MjFkOGU3NjkyNzJfZk9qT0ZwWUJjMVJ5VVhwdXl0OGJuV3FrMURjYWIxaU5fVG9rZW46S0s5RmJzekJnb3Bwbjl4ck55dGNxbXU3bmdnXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YjY0Y2U1NGNmN2E5OTcyN2Y3OTg2YmUwY2YyNzdkYzNfSnNjdnFCRnlLM0hna1luSnpDYmE2ZmlEMmdGNkhuVlBfVG9rZW46TzlCeGJuZ3NPb3dVRWV4T1JKMmN4RUNNbnZiXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YjY0Y2U1NGNmN2E5OTcyN2Y3OTg2YmUwY2YyNzdkYzNfSnNjdnFCRnlLM0hna1luSnpDYmE2ZmlEMmdGNkhuVlBfVG9rZW46TzlCeGJuZ3NPb3dVRWV4T1JKMmN4RUNNbnZiXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>改为登记表，打印出来让学生自行填写：整洁明了</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MDU5MDAxMTM1NGQwZGViZWEyNWY1ZGQ3ZWE2N2VjZjZfYkgwYWZmY3l1M05vRkJQZ0pObmoxQkJ6QnNMSFVaNUhfVG9rZW46SmgwR2JjZUhrb0ZpRTN4WjU4c2NqY3hDbmZiXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MDU5MDAxMTM1NGQwZGViZWEyNWY1ZGQ3ZWE2N2VjZjZfYkgwYWZmY3l1M05vRkJQZ0pObmoxQkJ6QnNMSFVaNUhfVG9rZW46SmgwR2JjZUhrb0ZpRTN4WjU4c2NqY3hDbmZiXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="程序中使用对象组织数据">程序中使用对象组织数据</h2>
+<p>在程序中是可以做到像生活中那样，设计表格、打印表格、填写表格的组织形式的</p>
+<ul>
+<li>设计表格，称之为：设计类 class</li>
+<li>打印表格，称之为：创建对象</li>
+<li>填写表格，称之为：对象属性赋值</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NjAyM2JkMWRiNWUxNWZiMmNkM2IyZDg0Mjk4YTQ0YWJfTEp4UlJPZ0k3THdYcXljVmFUQ3RLdkJmalpocllFRzRfVG9rZW46S3VOemJ3VUxHb0hCbXJ4blB1aGNiRkxPbmxnXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NjAyM2JkMWRiNWUxNWZiMmNkM2IyZDg0Mjk4YTQ0YWJfTEp4UlJPZ0k3THdYcXljVmFUQ3RLdkJmalpocllFRzRfVG9rZW46S3VOemJ3VUxHb0hCbXJ4blB1aGNiRkxPbmxnXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YmRkMmYwMDlkYTRiMjBmZDM5MzVjM2NjN2QwZjZkYjVfWXBlOXI4bHJ2VDlYeHh3NXgzV3lsNU0yVkhxRTJqcDFfVG9rZW46RWpidGJFT2FBb1h1ODR4OTVYWWNWbmNIbmtkXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YmRkMmYwMDlkYTRiMjBmZDM5MzVjM2NjN2QwZjZkYjVfWXBlOXI4bHJ2VDlYeHh3NXgzV3lsNU0yVkhxRTJqcDFfVG9rZW46RWpidGJFT2FBb1h1ODR4OTVYWWNWbmNIbmtkXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="02_类的成员方法">02_类的成员方法</h1>
+<p><strong>使用类去封装属性，并基于类创建出一个个对象来使用</strong></p>
+<h2 id="类的使用语法">类的使用语法</h2>
+<p><strong>class 类名称：</strong></p>
+<p><strong>类的属性</strong></p>
+<p><strong>类的行为</strong></p>
+<ul>
+<li>class是关键字，表示要定义类了</li>
+<li>类的属性，是定义在类中的变量（成员变量）</li>
+<li>类的行为，是定义在类中的函数（成员方法）</li>
+</ul>
+<h2 id="创建类对象的语法">创建类对象的语法</h2>
+<p><strong>对象名称 = 类名称（）</strong></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjRhYzcyMjQxZmY4ODlmNzc4ZDhmYjIyOWZkYTUxNmJfNkM3MHNjcEJFeUo5SXl4d1hXaTNDaU42THVBOFlVazVfVG9rZW46UXJDdGJGSGRHb25vMmh4anBLbGNhU2NJblJiXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjRhYzcyMjQxZmY4ODlmNzc4ZDhmYjIyOWZkYTUxNmJfNkM3MHNjcEJFeUo5SXl4d1hXaTNDaU42THVBOFlVazVfVG9rZW46UXJDdGJGSGRHb25vMmh4anBLbGNhU2NJblJiXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="成员变量和成员方法">成员变量和成员方法</h2>
+<h3 id="成员方法的定义语法">成员方法的定义语法</h3>
+<p><strong>Def 方法名(<strong><strong>self</strong></strong>,<strong><strong>形参</strong></strong>1,&hellip;&hellip;,形参N)：</strong></p>
+<p><strong>方法体</strong></p>
+<p><strong>其中self关键字是必须写的</strong>，</p>
+<ul>
+<li>表示类对象自身的意思</li>
+<li>当使用类对象调用方法的时候，self会被python自动传入</li>
+<li>在方法内部，想要访问类的成员变量，必须使用self</li>
+<li>但是在传参的时候可以忽略</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OTdmOWI3NTg0YzE3MzEzMGEwNGU0ODM3ZDQ4YjUzY2RfSktmRmE4YnVVTjFPaXFUSmR5VHJrZFhtcUhMNGtid01fVG9rZW46UDBXNWJKZ0M2bzRaN3Z4a0Fmd2NzVlltbkx4XzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OTdmOWI3NTg0YzE3MzEzMGEwNGU0ODM3ZDQ4YjUzY2RfSktmRmE4YnVVTjFPaXFUSmR5VHJrZFhtcUhMNGtid01fVG9rZW46UDBXNWJKZ0M2bzRaN3Z4a0Fmd2NzVlltbkx4XzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzY4ZWY2NDAzMjZlOThhNWJhNTBmYWYyYTVjMDZjZmNfVkFvNXdEVjFIclZEeFEyUjlJZVBpZFZlbU04YWdSbUNfVG9rZW46Q2xjR2JGdnhub0hRd3N4c2V2ZmMzbDdMblZjXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzY4ZWY2NDAzMjZlOThhNWJhNTBmYWYyYTVjMDZjZmNfVkFvNXdEVjFIclZEeFEyUjlJZVBpZFZlbU04YWdSbUNfVG9rZW46Q2xjR2JGdnhub0hRd3N4c2V2ZmMzbDdMblZjXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MTJhZjgzMmUyMTgyN2JjMjc5ZDA0Y2ExZDMwOWQxZjFfVDFPaEtEWHByb2w4WG1rSzRkMGM0dmFzMWFrUFYyOTFfVG9rZW46QmRvQWJaS1FGb3dBd1N4VlJCUmNmYjM0bk5kXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MTJhZjgzMmUyMTgyN2JjMjc5ZDA0Y2ExZDMwOWQxZjFfVDFPaEtEWHByb2w4WG1rSzRkMGM0dmFzMWFrUFYyOTFfVG9rZW46QmRvQWJaS1FGb3dBd1N4VlJCUmNmYjM0bk5kXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h3 id="注意-2">注意</h3>
+<p>函数是写在类之外的，定义在类内部的，都称之为方法</p>
+<h1 id="03_类和对象">03_类和对象</h1>
+<h2 id="现实世界的事物和类">现实世界的事物和类</h2>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDk5MmU2N2U1MzQxNGI2MGZlN2VjMWRmYzg5ZmMxNmRfVUhURzFXSTNzUFM4bGxOcERaMk1lZTVxRWZWS01IOVFfVG9rZW46R3p1c2JHcGRub1RNa3l4a0VTMmNJVTB2bnpnXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDk5MmU2N2U1MzQxNGI2MGZlN2VjMWRmYzg5ZmMxNmRfVUhURzFXSTNzUFM4bGxOcERaMk1lZTVxRWZWS01IOVFfVG9rZW46R3p1c2JHcGRub1RNa3l4a0VTMmNJVTB2bnpnXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>现实世界的事物也有属性和行为，类也有属性和行为</p>
+<p>使用程序中的类，可以完美的描述现实世界的事物</p>
+<h2 id="类和对象">类和对象</h2>
+<p>基于类创建对象的语法：对象名 = 类名称()</p>
+<h2 id="为什么非要创建对象才能使用呢">为什么非要创建对象才能使用呢？</h2>
+<p>**类只是一种程序内的“设计图纸”，需要基于图纸生产实体“对象”，才能正常工作，这种套路，称之为：**<strong>面向对象编程</strong></p>
+<h2 id="使用类和对象描述现实事物">使用类和对象描述现实事物</h2>
+<h3 id="在现实中生产事物">在现实中，生产事物</h3>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDZiZmY1ODVmMWQzODViZjM4NTczYThmODRjZDhkYzNfbktLY0t2QkJySGZYZFpaOHlxMWJaajNmeG9zY21NQ0pfVG9rZW46RlZ6OWJ3TUNyb1ZvRVh4SHRXV2NMZmlSbjNlXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDZiZmY1ODVmMWQzODViZjM4NTczYThmODRjZDhkYzNfbktLY0t2QkJySGZYZFpaOHlxMWJaajNmeG9zY21NQ0pfVG9rZW46RlZ6OWJ3TUNyb1ZvRVh4SHRXV2NMZmlSbjNlXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h3 id="在程序中通过类来描述">在程序中通过类来描述</h3>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTk2NDYxNGY4MWY5YjM3ODU3OGJlNDI4YjA2MjE1MDBfNzFrUlFDRHJjSnZ2a05ESDJpY1hBWmFBV01sRTZ4ajdfVG9rZW46UlY5SGJJdkM0b2JNVlh4OHQzcGNtUUpublJiXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTk2NDYxNGY4MWY5YjM3ODU3OGJlNDI4YjA2MjE1MDBfNzFrUlFDRHJjSnZ2a05ESDJpY1hBWmFBV01sRTZ4ajdfVG9rZW46UlY5SGJJdkM0b2JNVlh4OHQzcGNtUUpublJiXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h3 id="基于类创建对象">基于类创建对象</h3>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=Njk4OTEyNmVhYzdjMWJmYTdhMTlhMTA3MzlkZWIyZWFfRnpHQU5INXgzcFBTMlhZcDNJbmtYTzdlZlVWQk5YTUZfVG9rZW46Q2NnVmJWQWlLb1EzRUh4NEFjcGNnOTlUbkViXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=Njk4OTEyNmVhYzdjMWJmYTdhMTlhMTA3MzlkZWIyZWFfRnpHQU5INXgzcFBTMlhZcDNJbmtYTzdlZlVWQk5YTUZfVG9rZW46Q2NnVmJWQWlLb1EzRUh4NEFjcGNnOTlUbkViXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><strong>这就是<strong><strong>面向对象编程</strong></strong>，设计类，基于类去创建对象，由对象做具体的工作</strong></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTBlNTYxYzhkOWViMjY1ZDRkNWUxZGIxODcyZmM5NWJfbUFYQ1p3Z3JIVXoxTThNWWJsWG92YkZlbk0yclhrQ25fVG9rZW46QnlVcGJyMmhrb2V2RFR4MFFMY2NwVnNKbmNjXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTBlNTYxYzhkOWViMjY1ZDRkNWUxZGIxODcyZmM5NWJfbUFYQ1p3Z3JIVXoxTThNWWJsWG92YkZlbk0yclhrQ25fVG9rZW46QnlVcGJyMmhrb2V2RFR4MFFMY2NwVnNKbmNjXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YWQzZDBkMDc4ZWM2N2IxOGE2YTBjYjMzMDE1NGM0NjFfczhBRzZNdEZSWDhyRzRCR1ZNT2lLYVhaOEpPelFWVDFfVG9rZW46RUcwM2JQZUJDb2NXcTN4amt0ZmM4OTZ0blRkXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YWQzZDBkMDc4ZWM2N2IxOGE2YTBjYjMzMDE1NGM0NjFfczhBRzZNdEZSWDhyRzRCR1ZNT2lLYVhaOEpPelFWVDFfVG9rZW46RUcwM2JQZUJDb2NXcTN4amt0ZmM4OTZ0blRkXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="04_构造方法">04_构造方法</h1>
+<p>为对象的属性赋值需要依次进行，略显繁琐，选择更加高效的构造方法的方式，使其一行代码就能完成</p>
+<h2 id="语法-5">语法</h2>
+<p>Python类可以使用：**_ <em>init</em> _()**方法，称之为构造方法</p>
+<p>可以实现：</p>
+<ul>
+<li>在创建类对象（构造类）的时候，会自动执行</li>
+<li>在创建类对象（构造类）的时候，将传入参数自动传递给_ <em>init</em> _()方法使用</li>
+</ul>
+<h2 id="注意事项-4">注意事项</h2>
+<ol>
+<li>
+<h3 id="构造方法名称_-_init_-_千万不能忘记init前后都有2个下划线">构造方法名称：_ <em>init</em> _（）,<strong>千万不能忘记init前后都有2个下划线</strong></h3>
+</li>
+<li>
+<h3 id="构造方法也是成员方法不要忘记在参数列表中提供self">构造方法也是成员方法，不要忘记在参数列表中提供：self</h3>
+</li>
+<li>
+<h3 id="在构造方法内定义成员变量需要使用self关键字">在构造方法内定义成员变量，需要使用self关键字</h3>
+</li>
+</ol>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MDZkMGM0ODBlOTA1OWIyOWFkOTg2ODAzOTNjODUwNmVfRk5malNUT0FLWWNXUjZLVmdFSjY5SnJ2Y2lTNlNUYjlfVG9rZW46R0w4TmI2akk3b0Jxbzd4MFg4YWNkN2g5bnpiXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MDZkMGM0ODBlOTA1OWIyOWFkOTg2ODAzOTNjODUwNmVfRk5malNUT0FLWWNXUjZLVmdFSjY5SnJ2Y2lTNlNUYjlfVG9rZW46R0w4TmI2akk3b0Jxbzd4MFg4YWNkN2g5bnpiXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NDRjYjRkNTYwZDI1N2M5OWFmYTY2NDU4MGY0YmY5MGRfV0RUWWNPZ2FNaDhCNHc3aTBSUFpuMjNiOUhJR1IwTnNfVG9rZW46REhydGIweElLb3BsVk54WnZOTmM5ZmszbjdnXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NDRjYjRkNTYwZDI1N2M5OWFmYTY2NDU4MGY0YmY5MGRfV0RUWWNPZ2FNaDhCNHc3aTBSUFpuMjNiOUhJR1IwTnNfVG9rZW46REhydGIweElLb3BsVk54WnZOTmM5ZmszbjdnXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="05_魔术方法">05_魔术方法</h1>
+<p>Python内置的类方法，统称为：魔术方法</p>
+<p>常见的有：</p>
+<ol>
+<li>
+<h2 id="_-_init_-_-构造方法">_ <em>init</em> _() 构造方法</h2>
+</li>
+<li>
+<h2 id="_-_str_-_-字符串方法">_ <em>str</em> _() 字符串方法</h2>
+</li>
+</ol>
+<p>当类对象需要被转换为字符串时，输出结果为：内存地址</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YWQ2MjBiODA4YThjYWEzNjAxYjAyZGRlMGQwY2U1ODdfQXZmNndOa2VDbk9JelpxY1RQRG5qNTZ2bkxZY3N5MTBfVG9rZW46VTA1UGJ4TWNWb3dMR054QlA0dmNPWlBsbklnXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YWQ2MjBiODA4YThjYWEzNjAxYjAyZGRlMGQwY2U1ODdfQXZmNndOa2VDbk9JelpxY1RQRG5qNTZ2bkxZY3N5MTBfVG9rZW46VTA1UGJ4TWNWb3dMR054QlA0dmNPWlBsbklnXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>内存地址没有多大作用，我们可以通过__str__方法，控制类转换为字符串的行为。</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTFiYzg4NDE2ZGQwNjQ5MjU2MGEyYjIxMmM4ZjY1ZWZfUGFQbDdsd0haelU2c0dCcVhtakN6WmVNVkMxbXJWU0ZfVG9rZW46RHRiN2J1b0Fub2NRS3R4Ukkzd2NTd1d2bjZmXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTFiYzg4NDE2ZGQwNjQ5MjU2MGEyYjIxMmM4ZjY1ZWZfUGFQbDdsd0haelU2c0dCcVhtakN6WmVNVkMxbXJWU0ZfVG9rZW46RHRiN2J1b0Fub2NRS3R4Ukkzd2NTd1d2bjZmXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ol>
+<li>
+<h2 id="_-_lt_-_-小于大于符号比较">_ <em>lt</em> _() 小于、大于符号比较</h2>
+</li>
+</ol>
+<p>直接对2个对象进行比较是不可以的</p>
+<p>但是在类中使用_ <em>lt</em> _()方法，即可同时完成：小于符号 和 大于符号的比较</p>
+<p><strong>方法名：_ <em>lt</em> _</strong></p>
+<p><strong>传入参数：other，另一个类对象</strong></p>
+<p><strong>返回值：True或者False</strong></p>
+<p><strong>内容：自定义</strong></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDY0M2JjODcxMjlmMTVhMWQ2MDgwZWE5OGM5YjM4ZDhfdzVtYTFSYXBPN2RhOHM2cjJPY05MUlNNUk1UVkRaa1NfVG9rZW46U3FrcGI4WER2b0NqM3V4dURTTGNVWFh0bjFXXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDY0M2JjODcxMjlmMTVhMWQ2MDgwZWE5OGM5YjM4ZDhfdzVtYTFSYXBPN2RhOHM2cjJPY05MUlNNUk1UVkRaa1NfVG9rZW46U3FrcGI4WER2b0NqM3V4dURTTGNVWFh0bjFXXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OGUzOGI4MGJkMWJiNzY4YmM4NzZjZDQzN2IwNThlZjBfckhHbFVZQjBRRzVMbnltcEZlRUdCeFdMZXIzdGRVMzRfVG9rZW46TWpRa2JPRUF6b05Gejh4VTlIaWNCNkV3bjNnXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OGUzOGI4MGJkMWJiNzY4YmM4NzZjZDQzN2IwNThlZjBfckhHbFVZQjBRRzVMbnltcEZlRUdCeFdMZXIzdGRVMzRfVG9rZW46TWpRa2JPRUF6b05Gejh4VTlIaWNCNkV3bjNnXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ol>
+<li>
+<h2 id="_-_le_-_-小于等于大于等于符号比较">_ <em>le</em> _() 小于等于、大于等于符号比较</h2>
+</li>
+</ol>
+<p>可用于 &gt;=大于等于和 &lt;=小于等于 两种比较运算符</p>
+<p><strong>方法名：_ <em>le</em> _</strong></p>
+<p><strong>传入参数：other，另一个类对象</strong></p>
+<p><strong>返回值：True和False</strong></p>
+<p><strong>内容：自定义</strong></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTdlYWI5YzMyYTUxZmExNTQ3MmU2NjgwZjY1MDU1MGRfVkxsSkNoTjdnanBqTFlSYk41aWtKRFAxcUpqckxtS0NfVG9rZW46TEZlU2I2WksxbzV6RHd4UFBGSWNtMm9hbmdkXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTdlYWI5YzMyYTUxZmExNTQ3MmU2NjgwZjY1MDU1MGRfVkxsSkNoTjdnanBqTFlSYk41aWtKRFAxcUpqckxtS0NfVG9rZW46TEZlU2I2WksxbzV6RHd4UFBGSWNtMm9hbmdkXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YzdjMjgwZDYzYjg5OWQ2ZTM0NDM0MmE4YjVlMzdjYmNfUE9pejEyY1dqRVF4cG82bFJ6UUhJR2tveEYxMUFGdEVfVG9rZW46QUVCYWJZTTB2b3p4cHV4dWFoZ2NOYnlFblpUXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YzdjMjgwZDYzYjg5OWQ2ZTM0NDM0MmE4YjVlMzdjYmNfUE9pejEyY1dqRVF4cG82bFJ6UUhJR2tveEYxMUFGdEVfVG9rZW46QUVCYWJZTTB2b3p4cHV4dWFoZ2NOYnlFblpUXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ol>
+<li>
+<h2 id="_-_eq_-_-符号比较">_ <em>eq</em> _() ==符号比较</h2>
+</li>
+</ol>
+<p>不使用__eq__方法，对象之间可以比较，但是是比较内存地址，也即是：不同对象==比较一定是False结果。</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NmI5M2JhMGQwZDg4ZTg0Y2MyOWZiYmEzNDI0OGQxOGJfRnI0QzNKSFc2Z3FpTjVYNVQyazVMNDhzSlVUUFNTbjhfVG9rZW46UTlGUmJIdWFab3lsZzJ4NTEwUWNtcmhMbkRNXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NmI5M2JhMGQwZDg4ZTg0Y2MyOWZiYmEzNDI0OGQxOGJfRnI0QzNKSFc2Z3FpTjVYNVQyazVMNDhzSlVUUFNTbjhfVG9rZW46UTlGUmJIdWFab3lsZzJ4NTEwUWNtcmhMbkRNXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>使用_ <em>eq</em> _方法，就可以按照自己的想法来决定2个对象是否相等了</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTRmMTc4ZmJjN2VkN2Y5MWZiZWYzMGZhZmYyODc4YTBfUlljOEVqZHcyMnlxZ09oRHdDeElYVjVXeVNSMGN6VkRfVG9rZW46Ulc2Z2JGSVNMbzNycm14ZnVxU2NOZ015bmhlXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTRmMTc4ZmJjN2VkN2Y5MWZiZWYzMGZhZmYyODc4YTBfUlljOEVqZHcyMnlxZ09oRHdDeElYVjVXeVNSMGN6VkRfVG9rZW46Ulc2Z2JGSVNMbzNycm14ZnVxU2NOZ015bmhlXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="06_封装">06_封装</h1>
+<h2 id="面向对象的三大特性">面向对象的三大特性</h2>
+<p><strong>基于模板（类）去创建实体（对象），使用对象完成功能开发</strong></p>
+<h3 id="封装">封装</h3>
+<h3 id="继承">继承</h3>
+<h3 id="多态">多态</h3>
+<h2 id="封装的定义">封装的定义</h2>
+<p>封装表示的是，将现实世界事物的：</p>
+<ul>
+<li>属性</li>
+<li>行为</li>
+</ul>
+<p>封装到类中，描述为：</p>
+<ul>
+<li>成员变量</li>
+<li>成员方法</li>
+</ul>
+<p>从而完成程序对现实世界事物的描述</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=Njc4NzM4YjkxOTJkZTU0YjM5MTkyOWZkN2E3YTk3N2FfdlRTUzB5RnkxTXVPYm4wVHprSWRic0M2SzRzTmdTSnVfVG9rZW46UDdVUWI4bkJPb1dNVWV4RGJPQmNsR2l1bkpjXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=Njc4NzM4YjkxOTJkZTU0YjM5MTkyOWZkN2E3YTk3N2FfdlRTUzB5RnkxTXVPYm4wVHprSWRic0M2SzRzTmdTSnVfVG9rZW46UDdVUWI4bkJPb1dNVWV4RGJPQmNsR2l1bkpjXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="对用户隐藏的属性和行为">对用户隐藏的属性和行为</h2>
+<h3 id="现实世界中有属性和行为">现实世界中，有属性和行为</h3>
+<p>但是不代表所有的属性和行为都是开放给用户使用的，如手机：</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDg5NmE3MjYyMWQzM2FlN2NkMDEzMzcxOGI4M2Y2OWZfQ3JjZFBtdmFuM3dzZHBPa1N5VE85ckcwbGY4SFZ0NThfVG9rZW46SHRTYWI0b21mb0pHaUd4enVRcGNpclBXbkZsXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDg5NmE3MjYyMWQzM2FlN2NkMDEzMzcxOGI4M2Y2OWZfQ3JjZFBtdmFuM3dzZHBPa1N5VE85ckcwbGY4SFZ0NThfVG9rZW46SHRTYWI0b21mb0pHaUd4enVRcGNpclBXbkZsXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>苹果越狱、安卓root，也是为了突破权限使用这些对用户隐藏的属性和行为</p>
+<h3 id="私有成员和私有方法">私有成员和私有方法</h3>
+<p>在现实世界中，事物不公开的属性和行为，那么作为现实事物在程序中映射的类，也同样支持</p>
+<h4 id="定义方法">定义方法</h4>
+<p>私有成员变量：变量名以_ _开头（两个下划线）</p>
+<p>私有成员方法：方法名以_ _开头（两个下划线）</p>
+<h3 id="私有成员的访问限制">私有成员的访问限制</h3>
+<ul>
+<li>类对象无法访问私有成员</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzUyYjhkODc0OTBkMzA4NGM5ZGMzNjVjZjc2ZmI2YjdfeDFZcUdLcHdiMVM2bDBydjk0WUQ5WFpRVm5LVnUzME9fVG9rZW46Q1FSeGJHUlVYbzI2cWt4V29wZmN4cVN6bnBnXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzUyYjhkODc0OTBkMzA4NGM5ZGMzNjVjZjc2ZmI2YjdfeDFZcUdLcHdiMVM2bDBydjk0WUQ5WFpRVm5LVnUzME9fVG9rZW46Q1FSeGJHUlVYbzI2cWt4V29wZmN4cVN6bnBnXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ul>
+<li>类中的其他成员可以访问私有成员</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDhlNzc2NzA3Y2JmNmNiYTM0NDFlNDc2ODQ5ZTVhYzVfaUNhU2h0akExNTZPRllNU2pmSVEyRFdMc2NCN2ZtOUhfVG9rZW46TGgwbWJ0OFRqb1Rtem94TnYwbmN4RmJXbmtmXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDhlNzc2NzA3Y2JmNmNiYTM0NDFlNDc2ODQ5ZTVhYzVfaUNhU2h0akExNTZPRllNU2pmSVEyRFdMc2NCN2ZtOUhfVG9rZW46TGgwbWJ0OFRqb1Rtem94TnYwbmN4RmJXbmtmXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTk3ZGFkYjI2MjVlNGRjMTJmNmNkN2Y1NDk1OGE4NzBfR2VNNmxPTmdRRkRmRVpHMWtBZUYxWHBGTVRrbUtxYTlfVG9rZW46TjN1YmJ1eEVRb3k2Ym14V0pDQmNpV3VlbndnXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTk3ZGFkYjI2MjVlNGRjMTJmNmNkN2Y1NDk1OGE4NzBfR2VNNmxPTmdRRkRmRVpHMWtBZUYxWHBGTVRrbUtxYTlfVG9rZW46TjN1YmJ1eEVRb3k2Ym14V0pDQmNpV3VlbndnXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h3 id="实际意义">实际意义</h3>
+<p><strong>在类中提供仅供内部使用的属性和方法，而不对外开放（类对象无法使用）</strong></p>
+<h1 id="07_封装的课后练习题讲解">07_封装的课后练习题讲解</h1>
+<h1 id="08_继承的基础语法">08_继承的基础语法</h1>
+<h2 id="继承的定义">继承的定义</h2>
+<p>继承就是一个类，继承另外一个类的成员变量和成员方法（<strong>不含私有</strong>）</p>
+<h2 id="分类-1">分类</h2>
+<ul>
+<li>单继承</li>
+<li>多继承</li>
+</ul>
+<h2 id="单继承">单继承</h2>
+<h3 id="语法-6">语法</h3>
+<p>class 类名(父类名):</p>
+<p>类内容体</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjdiMDcxY2NkNGVhNWJhOGY1MDFkN2RmMmI0ZDI3YzJfTnZJanRObWgyVEJDQ3prSU1WbkpOMjRZR3IyZDVHOTVfVG9rZW46VlFta2JucUlXb3VwUDF4Q0xEZWNEejU5bjFyXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjdiMDcxY2NkNGVhNWJhOGY1MDFkN2RmMmI0ZDI3YzJfTnZJanRObWgyVEJDQ3prSU1WbkpOMjRZR3IyZDVHOTVfVG9rZW46VlFta2JucUlXb3VwUDF4Q0xEZWNEejU5bjFyXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="多继承">多继承</h2>
+<p>一个类，可以继承多个父类</p>
+<h3 id="语法-7">语法</h3>
+<p>class 类名(父类1，父类2，&hellip;.，父类N)</p>
+<p>类内容体</p>
+<h3 id="注意事项-5">注意事项</h3>
+<p>多个父类中，如果有同名的成员，那么默认<strong>以<strong><strong>继承</strong></strong>顺序（从左到右）为优先级</strong></p>
+<p>即：<strong>先<strong><strong>继承</strong></strong>的保留，后继承的被覆盖</strong></p>
+<h2 id="pass关键字">pass关键字</h2>
+<p>pass是占位语句，用来保证函数（方法）或类定义的完整性，表示无内容，空的意思</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzFiNTBjNDM2Y2JhYjQ1NzNmYWQyMTg0YTZiMjE4ZmJfaVhZRUpKNkxpQlJKeUJ1ZWJTNHY5Qk05UktkaEZ1bkNfVG9rZW46U3FmTWJyRTNHb0NYRVR4ZW5vN2N6ak5nbktmXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MzFiNTBjNDM2Y2JhYjQ1NzNmYWQyMTg0YTZiMjE4ZmJfaVhZRUpKNkxpQlJKeUJ1ZWJTNHY5Qk05UktkaEZ1bkNfVG9rZW46U3FmTWJyRTNHb0NYRVR4ZW5vN2N6ak5nbktmXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ODg3NjUxMWM1NDNmOGM4ODA3MzU1ZDQyYTQwZTAyZDBfTUlRUlRmeWZiRTZKRllpN0NtbUw0Ulh4MldBa2hSdXhfVG9rZW46QkV4bmJVdUFxb1V2WU14d3l3Z2NaelFybkZiXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ODg3NjUxMWM1NDNmOGM4ODA3MzU1ZDQyYTQwZTAyZDBfTUlRUlRmeWZiRTZKRllpN0NtbUw0Ulh4MldBa2hSdXhfVG9rZW46QkV4bmJVdUFxb1V2WU14d3l3Z2NaelFybkZiXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="09_复写父类成员和调用父类成员">09_复写父类成员和调用父类成员</h1>
+<h2 id="复写">复写</h2>
+<p>子类继承父类的成员属性和成员方法后，如果对其“不满意”，那么可以进行复写</p>
+<p>即：在子类中重新定义同名的属性或方法即可</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OWJlMzYwMWZiNmYxN2FjOTFkMzk3NTFlMTVmM2QwNmZfcGxIeXFCZGZ0b3V5SU1QbUZvaVZSNnR4UjZvZkhGN3pfVG9rZW46T0VDbGJjaVdjb2xWNEN4UVZQbWMxMW5IbkloXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=OWJlMzYwMWZiNmYxN2FjOTFkMzk3NTFlMTVmM2QwNmZfcGxIeXFCZGZ0b3V5SU1QbUZvaVZSNnR4UjZvZkhGN3pfVG9rZW46T0VDbGJjaVdjb2xWNEN4UVZQbWMxMW5IbkloXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NDc3YzEzM2MzMjFmNTRkOGQ2YzRiMTI2MTBlNTZhMWFfeWNjT1hrb21zQ2huTHRMUDZCOFVjUlJoZ0oydmFYRkJfVG9rZW46TEpiOWJPZ2E2b2I2aXd4SU1URWNHZDZ4bmVkXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NDc3YzEzM2MzMjFmNTRkOGQ2YzRiMTI2MTBlNTZhMWFfeWNjT1hrb21zQ2huTHRMUDZCOFVjUlJoZ0oydmFYRkJfVG9rZW46TEpiOWJPZ2E2b2I2aXd4SU1URWNHZDZ4bmVkXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="调用父类同名成员">调用父类同名成员</h2>
+<p>一旦复写父类成员，那么类对象调用成员的时候，就会调用复写后的新成员</p>
+<p>如果需要使用被复写的父类的成员，需要特殊的调用方式：</p>
+<h3 id="方式1">方式1</h3>
+<p>调用父类成员</p>
+<ul>
+<li>使用成员变量方法：父类名.成员变量</li>
+<li>使用成员方法：父类名.成员方法(self)</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjZlYzkxM2FjYzlkMWQ0NWMxMDZjMjI3MGZiNjM5NDZfeW1yeFZQNEtWRlhJUjNHemJPVnp2UldPOGx2Z3VWSExfVG9rZW46V1htUGI5NGpRb2V0R1l4amhMbWNoZnFHbmdoXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjZlYzkxM2FjYzlkMWQ0NWMxMDZjMjI3MGZiNjM5NDZfeW1yeFZQNEtWRlhJUjNHemJPVnp2UldPOGx2Z3VWSExfVG9rZW46V1htUGI5NGpRb2V0R1l4amhMbWNoZnFHbmdoXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h3 id="方式2">方式2</h3>
+<p>使用**super()**调用父类成员</p>
+<ul>
+<li>使用成员变量：super().成员变量</li>
+<li>使用成员方法：super().成员方法()</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTZiMjg3MzU3ZmUzZTIxNzFmMzJiMTMwZTUzYzEyODhfZnN0VnA4Zzl6T0dBMktEa3JMc095bUJOQXE3ekNvZEVfVG9rZW46TUZhZmJ1Y2ZybzRYcHh4SjdFWWNMNXFNbkJjXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTZiMjg3MzU3ZmUzZTIxNzFmMzJiMTMwZTUzYzEyODhfZnN0VnA4Zzl6T0dBMktEa3JMc095bUJOQXE3ekNvZEVfVG9rZW46TUZhZmJ1Y2ZybzRYcHh4SjdFWWNMNXFNbkJjXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h3 id="注意-3">注意</h3>
+<p>只可以在子类内部调用父类的同名成员</p>
+<p>子类的实体对象调用默认是调用子类复写的</p>
+<h1 id="10_变量的类型注解">10_变量的类型注解</h1>
+<h2 id="什么是类型注解有什么作用">什么是类型注解？有什么作用？</h2>
+<p>在代码中涉及数据交互之时，对数据类型进行显示的说明，可以帮助:</p>
+<ul>
+<li>PyCharm等开发工具对代码做类型推断协助做代码提示</li>
+<li>开发者自身做类型的备注</li>
+</ul>
+<h2 id="类型注解支持">类型注解支持</h2>
+<ol>
+<li>
+<h3 id="变量的类型注解">变量的类型注解</h3>
+</li>
+<li>
+<h3 id="函数方法的形参和返回值的类型注解">函数（方法）的形参和返回值的类型注解</h3>
+</li>
+</ol>
+<h2 id="变量的类型注解语法">变量的类型注解语法</h2>
+<ul>
+<li>语法1：变量:类型</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NWVkNjc2ZjhiMjVhOTcxYWY3Y2ZiMTM1MzhkMGIzNzdfaDhpeWc1TGthdEVBMGt0OUxiRWU1VnUzVFdTemJUOFRfVG9rZW46WTkzUGJ3ZHBUb1QwUU94SFNPYmNEZTBhbldmXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=NWVkNjc2ZjhiMjVhOTcxYWY3Y2ZiMTM1MzhkMGIzNzdfaDhpeWc1TGthdEVBMGt0OUxiRWU1VnUzVFdTemJUOFRfVG9rZW46WTkzUGJ3ZHBUb1QwUU94SFNPYmNEZTBhbldmXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ul>
+<li>语法2：在注释中，#type:类型</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjhiZDcwZmE1ZTE4OTUxODlmODE2ZWQwNjc2Y2MwMTFfTDM5YXJjODkxMjJLclA0M3JtUkRkUlVvV2M1VGd5WTZfVG9rZW46UWd6VWJuSXR1b3J2NXh4ejRwc2NiYldJbkFnXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MjhiZDcwZmE1ZTE4OTUxODlmODE2ZWQwNjc2Y2MwMTFfTDM5YXJjODkxMjJLclA0M3JtUkRkUlVvV2M1VGd5WTZfVG9rZW46UWd6VWJuSXR1b3J2NXh4ejRwc2NiYldJbkFnXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h2 id="注意事项-6">注意事项</h2>
+<p>类型注解只是提示性的，并非决定性的，数据类型和注解类型无法对应也不会导致错误</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MGMxMTA2Zjk2MGJiNjViYmEzZGFiYzNjM2NjZTllYjZfb0Q2RmphbUtscEF2UjJuZjFxbUwwSEIxSGtZcDhWNkFfVG9rZW46T01ySWJmSTVLb1JIWUh4VzFzMWNvMkZ6blFoXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=MGMxMTA2Zjk2MGJiNjViYmEzZGFiYzNjM2NjZTllYjZfb0Q2RmphbUtscEF2UjJuZjFxbUwwSEIxSGtZcDhWNkFfVG9rZW46T01ySWJmSTVLb1JIWUh4VzFzMWNvMkZ6blFoXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="11_函数和方法类型注解">11_函数和方法类型注解</h1>
+<h2 id="函数方法可以为哪里添加注解">函数（方法）可以为哪里添加注解</h2>
+<ul>
+<li>形参的类型注解</li>
+<li>返回值的类型注解</li>
+</ul>
+<h2 id="函数方法的类型注解语法">函数（方法）的类型注解语法</h2>
+<p>def 函数方法名（形参：类型，&hellip;.，形参：类型） -&gt; 返回值类型：</p>
+<p>​    pass</p>
+<p>注意：返回值类型注解的符号使用</p>
+<p>-&gt;</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YjQ0NzU5M2M1ZjA4ZDdiMmMxOGQwODdjMTM1NmE3NzNfb1E3dHlTeTVUdXhaUVRMM3VjMW1nTGdoQVdaYllZT3dfVG9rZW46UmZYZ2JLVFhib0VydTB4WE5zcGNnenhtblBkXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YjQ0NzU5M2M1ZjA4ZDdiMmMxOGQwODdjMTM1NmE3NzNfb1E3dHlTeTVUdXhaUVRMM3VjMW1nTGdoQVdaYllZT3dfVG9rZW46UmZYZ2JLVFhib0VydTB4WE5zcGNnenhtblBkXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="12_union联合类型注解">12_Union联合类型注解</h1>
+<h2 id="什么是union类型">什么是Union类型？</h2>
+<p>使用Union可以定义联合类型注解</p>
+<p>Union的使用方式</p>
+<ul>
+<li>导包：from typing import Union</li>
+<li>使用：Union[类型，&hellip;，类型]</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTRkM2FhYjdkNjhlZWQyODAwYmQ4MjI3ZDY2MzNkZmRfMnE0UU9Vd0VQdkZmc2U0WW5IalhZNXZnd2ZPU0ZwYjRfVG9rZW46VFdNQWJ3NVRob2o2d1J4YWhWRmNoVWF1bmRjXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTRkM2FhYjdkNjhlZWQyODAwYmQ4MjI3ZDY2MzNkZmRfMnE0UU9Vd0VQdkZmc2U0WW5IalhZNXZnd2ZPU0ZwYjRfVG9rZW46VFdNQWJ3NVRob2o2d1J4YWhWRmNoVWF1bmRjXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h1 id="13_多态">13_多态</h1>
+<ol>
+<li>
+<h2 id="多态的定义">多态的定义</h2>
+</li>
+</ol>
+<p>多态指的是，同一个行为，使用不同的对象获得不同的状态。 如，定义函数（方法），通过类型注解声明需要父类对象，实际传入子类对象进行工作，从而获得不同的工作状态</p>
+<ol>
+<li>
+<h2 id="什么是抽象类接口">什么是抽象类（接口）</h2>
+</li>
+</ol>
+<p>包含抽象方法的类，称之为抽象类。</p>
+<p>抽象方法是指：没有具体实现的方法（pass）称之为抽象方法</p>
+<ol>
+<li>
+<h2 id="抽象类的作用">抽象类的作用</h2>
+</li>
+</ol>
+<p>多用于做顶层设计（设计标准），以便子类做具体实现。 也是对子类的一种软性约束，要求子类必须复写（实现）父类的一些方法并配合多态使用，获得不同的工作状态。</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=Y2RjYjA3MDY5NjdmMjA0NmM2ZmVlZjE2YmMwZGJjY2FfWkNZMk9GTjZYTHJYaDdORFZFRW1tNFhYOWpRRXRGaVpfVG9rZW46SkNHQ2JUa2tUb09iSEh4c1FyR2NvZXN1bldjXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=Y2RjYjA3MDY5NjdmMjA0NmM2ZmVlZjE2YmMwZGJjY2FfWkNZMk9GTjZYTHJYaDdORFZFRW1tNFhYOWpRRXRGaVpfVG9rZW46SkNHQ2JUa2tUb09iSEh4c1FyR2NvZXN1bldjXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<ul>
+<li><strong>以<strong><strong>父类</strong></strong>做定义声明</strong></li>
+<li><strong>以子类做实际工作</strong></li>
+<li>用以获得同一行为, 不同状态</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTI0NWUzOTVmY2RkMDRhOTJiMjk3NGI4ZDQzOTdiMWFfWjBLWkxsZkJ5OUJyeTEwbW5nUHpkTU5pdFdTa25hOUlfVG9rZW46SkJ4U2JCSVJHb3g5UUV4aXpQOWNtSFk4bndiXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YTI0NWUzOTVmY2RkMDRhOTJiMjk3NGI4ZDQzOTdiMWFfWjBLWkxsZkJ5OUJyeTEwbW5nUHpkTU5pdFdTa25hOUlfVG9rZW46SkJ4U2JCSVJHb3g5UUV4aXpQOWNtSFk4bndiXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZWZjMTNlN2I1MTQwNWRkN2M5YjhlMTZlODFkZjRkMjNfdlRwcXJFYko2SFZWWFRKcmluTFV0VjRnbVdRRWhxSXJfVG9rZW46Q0hPNmJMaWNxbzlwbWZ4VURlMGNxeDdxbkliXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZWZjMTNlN2I1MTQwNWRkN2M5YjhlMTZlODFkZjRkMjNfdlRwcXJFYko2SFZWWFRKcmluTFV0VjRnbVdRRWhxSXJfVG9rZW46Q0hPNmJMaWNxbzlwbWZ4VURlMGNxeDdxbkliXzE3MTUzNTY0NjI6MTcxNTM2MDA2Ml9WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/%E7%9C%9F%E4%BC%9Acsharp%E5%90%97%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">真会CSharp吗学习文档</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2024 think hy how to learn
+    </section>
+    
+    <section class="powerby">
+         <br />
+        
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<!doctype html>
+<html lang="en">
+<head>
+   
+</head>
+
+
+
+
+
+
+
+
+
+<body>
+</body>
+
+</html>
+
+
+    </body>
+</html>

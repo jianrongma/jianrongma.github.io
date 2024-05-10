@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='帆软FineReport笔记 帆软官网： [FineReport报表 - 专业的企业级Web报表工具](
+学习计划表：https://bbs.fanruan.com/thread-77147-1-1.html
+数据决策系统 (finereport.com)
+FineReport V10.0新手入门 - 视频课 - 帆软学院 (fanruan.com)
+28课时，3h49分；
+FineReport帮助文档 - 全面的报表使用教程和学习资料 (fanruan.com)
+视频课 - 帆软学院 (fanruan.com)
+新手入门视频：层次坐标-10‘40，动态格间运算
+超级链接；
+决策报表入门示例；快速搭建大屏
+Tomcat部署包的下载
+各种例子；
+问题1：！！！SQL Server数据库连接常见错误（帆软文档）—https://help.fanruan.com/finereport/doc-view-306.html
+问题所在：让sqlserver支持以ip作为服务器名称，然后用sa用户名和密码登录服务器——https://blog.csdn.net/qq_42636010/article/details/89344993
+sqlserver身份验证登录如何设置：https://jingyan.baidu.com/article/0a52e3f4e0d6a6bf62ed7232.html
+SQL数据库、帆软自带的数据库属于模板数据集还是服务器数据集
+报表：普通报表；填报报表；决策报表
+一般 X 轴表示分类，系列表示图例，Y 轴表示分类下系列的值。
+当查询结果为空值/NULL时，如何在报表中显示为0？
+数据形态&amp;mdash;公式形态&amp;ndash;if($$$=null,0,$$$)
+超级链接&amp;ndash;当前报表决策 report0 &amp;mdash;&amp;ndash; &amp;gt; report1 超级链接-当前决策报表对象
+添加参数p 值的公式为$$$ 用户点击 report0 中的哪个订单ID 就将该ID作为参数传递给 report1
+report1 在接收到 report0 的参数后 希望只对该参数对应的订单展示相关信息 设置对应的过滤条件
+随着标题联动
+塑胶部-生产线-三十天的产能
+逻辑：
+产能统计获取事业部与生产线参数
+产能趋势分析图标题接收参数
+趋势图折现趋势根据对应标题展示对应信息'><title>FineBInote</title>
+
+<link rel='canonical' href='https://jianrongma.github.io/p/finebinote/'>
+
+<link rel="stylesheet" href="/scss/style.min.css">
+<style>
+     
+    body{
+        background-repeat: repeat;
+        background-attachment: fixed;
+        background-size:cover;
+         cursor: url(https://files.cnblogs.com/files/monster-jian/cursor.ico),auto;
+    }
+     
+    #div_digg {
+      position: fixed;
+      bottom: 10px;
+      right: 15px;
+      border: 2px solid #ECD7B1;
+      padding: 10px;
+      width: 140px;
+      background-color: #fff;
+      border-radius: 5px 5px 5px 5px !important;
+      box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+    }
+    </style><script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://files.cnblogs.com/files/liyhbk/js.js" color="0,0,255" opacity="1" count="119" zindex="-2"></script>
+<script src="https://files.cnblogs.com/files/liyhbk/js.js" color="0,0,255" opacity="1" count="119" zindex="-2">
+</script>
+<script type="text/javascript" color="255,0,0" pointcolor="255,0,0" opacity="0.7" zindex="-2" count="100" src="/dist/canvas-nest.js"></script>
+<script type="text/javascript" src="/dist/canvas-nest.umd.js"></script>
+<script type="text/javascript">
+    var cn = new CanvasNest(document.getElementById('area-render'), {
+        color: '255,0,255',
+        count: 50,
+      });
+      
+      function asyncLoad() {
+        
+        var i = document.createElement("iframe");
+        i.src = "https://ghbtns.com/github-btn.html?user=hustcc&repo=canvas-nest.js&type=star&count=true";
+        i.scrolling = "no";
+        i.frameborder = "0";
+        i.border = "0";
+        i.setAttribute("frameborder", "0", 0);
+        i.width = "100px";
+        i.height = "20px";
+        document.getElementById("github-iframe").appendChild(i);
+      }
+      function loadGitHubBtn() {
+        if (window.addEventListener) {window.addEventListener("load", asyncLoad, false);}
+        else if (window.attachEvent) {window.attachEvent("onload", asyncLoad);}
+        else {window.onload = asyncLoad;}
+      }
+      loadGitHubBtn();
+</script>
+<script src="/canvas-nest.js?version=10"></script><canvas width="1536" height="454" style="display: block; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; overflow: hidden; pointer-events: none;"></canvas>
+<script src="https://files.cnblogs.com/files/monster-jian/mouse-click.js"></script>
+<script type="text/javascript">
+    
+     
+    var a_idx = 0;
+    jQuery(document).ready(function($) {
+        $("body").click(function(e) {
+            var a = new Array("❤不做咸鱼！❤","❤拒绝懒惰！❤","❤想做吃货❤","❤向大佬学习❤","❤扶我起来~❤","❤come on❤","❤一直在路上~❤","❤累了~❤","❤再趴一会❤","❤66666❤","❤高兴的飞起*****❤");
+            var $i = $("<span></span>").text(a[a_idx]);
+            a_idx = (a_idx + 1) % a.length;
+            var x = e.pageX,
+            y = e.pageY;
+            $i.css({
+                "z-index": 999999999999999999999999999999999999999999999999999999999999999999999,
+                "top": y - 20,
+                "left": x,
+                "position": "absolute",
+                "font-weight": "bold",
+                "color": "rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"
+            });
+            $("body").append($i);
+            $i.animate({
+                "top": y - 180,
+                "opacity": 0
+            },
+            1500,
+            function() {
+                $i.remove();
+            });
+        });
+    });
+    </script>
+
+    <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>  
+
+ 
+   
+      
+      
+          
+         <script>         
+            L2Dwidget.init({ "model": { jsonPath:          "https://unpkg.com/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json",  
+                  "scale": 1 }, "display": { "position": "right", "width": 66, "height": 88,        "hOffset": 0, "vOffset": -20 },
+                   "mobile": { "show": true, "scale": 0.5 },      "react": { "opacityDefault": 0.8, "opacityOnHover": 0.1 } }); 
+                    </script><meta property='og:title' content='FineBInote'>
+<meta property='og:description' content='帆软FineReport笔记 帆软官网： [FineReport报表 - 专业的企业级Web报表工具](
+学习计划表：https://bbs.fanruan.com/thread-77147-1-1.html
+数据决策系统 (finereport.com)
+FineReport V10.0新手入门 - 视频课 - 帆软学院 (fanruan.com)
+28课时，3h49分；
+FineReport帮助文档 - 全面的报表使用教程和学习资料 (fanruan.com)
+视频课 - 帆软学院 (fanruan.com)
+新手入门视频：层次坐标-10‘40，动态格间运算
+超级链接；
+决策报表入门示例；快速搭建大屏
+Tomcat部署包的下载
+各种例子；
+问题1：！！！SQL Server数据库连接常见错误（帆软文档）—https://help.fanruan.com/finereport/doc-view-306.html
+问题所在：让sqlserver支持以ip作为服务器名称，然后用sa用户名和密码登录服务器——https://blog.csdn.net/qq_42636010/article/details/89344993
+sqlserver身份验证登录如何设置：https://jingyan.baidu.com/article/0a52e3f4e0d6a6bf62ed7232.html
+SQL数据库、帆软自带的数据库属于模板数据集还是服务器数据集
+报表：普通报表；填报报表；决策报表
+一般 X 轴表示分类，系列表示图例，Y 轴表示分类下系列的值。
+当查询结果为空值/NULL时，如何在报表中显示为0？
+数据形态&amp;mdash;公式形态&amp;ndash;if($$$=null,0,$$$)
+超级链接&amp;ndash;当前报表决策 report0 &amp;mdash;&amp;ndash; &amp;gt; report1 超级链接-当前决策报表对象
+添加参数p 值的公式为$$$ 用户点击 report0 中的哪个订单ID 就将该ID作为参数传递给 report1
+report1 在接收到 report0 的参数后 希望只对该参数对应的订单展示相关信息 设置对应的过滤条件
+随着标题联动
+塑胶部-生产线-三十天的产能
+逻辑：
+产能统计获取事业部与生产线参数
+产能趋势分析图标题接收参数
+趋势图折现趋势根据对应标题展示对应信息'>
+<meta property='og:url' content='https://jianrongma.github.io/p/finebinote/'>
+<meta property='og:site_name' content='think hy how to learn'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2022-12-10T23:27:40&#43;08:00'/><meta property='article:modified_time' content='2022-12-10T23:27:40&#43;08:00'/><meta property='og:image' content='https://jianrongma.github.io/img/avatar.png' />
+<meta name="twitter:site" content="@ljsljs56495989">
+    <meta name="twitter:creator" content="@ljsljs56495989"><meta name="twitter:title" content="FineBInote">
+<meta name="twitter:description" content="帆软FineReport笔记 帆软官网： [FineReport报表 - 专业的企业级Web报表工具](
+学习计划表：https://bbs.fanruan.com/thread-77147-1-1.html
+数据决策系统 (finereport.com)
+FineReport V10.0新手入门 - 视频课 - 帆软学院 (fanruan.com)
+28课时，3h49分；
+FineReport帮助文档 - 全面的报表使用教程和学习资料 (fanruan.com)
+视频课 - 帆软学院 (fanruan.com)
+新手入门视频：层次坐标-10‘40，动态格间运算
+超级链接；
+决策报表入门示例；快速搭建大屏
+Tomcat部署包的下载
+各种例子；
+问题1：！！！SQL Server数据库连接常见错误（帆软文档）—https://help.fanruan.com/finereport/doc-view-306.html
+问题所在：让sqlserver支持以ip作为服务器名称，然后用sa用户名和密码登录服务器——https://blog.csdn.net/qq_42636010/article/details/89344993
+sqlserver身份验证登录如何设置：https://jingyan.baidu.com/article/0a52e3f4e0d6a6bf62ed7232.html
+SQL数据库、帆软自带的数据库属于模板数据集还是服务器数据集
+报表：普通报表；填报报表；决策报表
+一般 X 轴表示分类，系列表示图例，Y 轴表示分类下系列的值。
+当查询结果为空值/NULL时，如何在报表中显示为0？
+数据形态&amp;mdash;公式形态&amp;ndash;if($$$=null,0,$$$)
+超级链接&amp;ndash;当前报表决策 report0 &amp;mdash;&amp;ndash; &amp;gt; report1 超级链接-当前决策报表对象
+添加参数p 值的公式为$$$ 用户点击 report0 中的哪个订单ID 就将该ID作为参数传递给 report1
+report1 在接收到 report0 的参数后 希望只对该参数对应的订单展示相关信息 设置对应的过滤条件
+随着标题联动
+塑胶部-生产线-三十天的产能
+逻辑：
+产能统计获取事业部与生产线参数
+产能趋势分析图标题接收参数
+趋势图折现趋势根据对应标题展示对应信息"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://jianrongma.github.io/img/avatar.png' />
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <style>
+            * {
+              margin: 0;
+              padding: 0;
+            }
+            html, body {
+              height: 100%;
+              width: 100%;
+            }
+            #github-iframe {
+              position: fixed;
+              left: 32px;
+              top: 32px;
+            }
+             
+        </style>
+   
+
+
+<link rel="stylesheet" type="texts" href="https://blog-static.cnblogs.com/files/monster-jian/waifu.css"/>
+
+
+</head>
+
+
+
+
+
+
+
+<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1280473365'%3E%3C/span%3E%3Cscript src='https://s9.cnzz.com/z_stat.php%3Fid%3D1280473365%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<body size-sensor-id="1" style="position: relative;">
+    
+    <div id="area-render"></div>
+   
+
+</body>
+
+<canvas width="1777" height="841" style="position: fixed; left: 0px; top: 0px; z-index: 2147483647; pointer-events: none;"></canvas>
+
+</html>
+
+
+    </head>
+    <body class="
+    article-page 
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        on-phone--column extended
+    
+">
+    
+        <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/hanbagui_hu1992e2ef3ca17530e3489d97af7cbea6_3164_300x0_resize_box.bmp" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        <h1 class="site-name"><a href="https://jianrongma.github.io/">think hy how to learn</a></h1>
+        <h2 class="site-description">好运暴富,就在今日.</h2>
+    </header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/-%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/" >
+                -项目相关
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/finebinote/">FineBInote</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 10, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 1 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <h2 id="帆软finereport笔记">帆软FineReport笔记</h2>
+<h5 id="帆软官网">帆软官网：</h5>
+<p>[FineReport报表 - 专业的企业级Web报表工具](</p>
+<p>学习计划表：https://bbs.fanruan.com/thread-77147-1-1.html</p>
+<p><a class="link" href="http://demo.finereport.com/decision"  target="_blank" rel="noopener"
+    >数据决策系统 (finereport.com)</a></p>
+<p><a class="link" href="https://edu.fanruan.com/video/81"  target="_blank" rel="noopener"
+    >FineReport V10.0新手入门 - 视频课 - 帆软学院 (fanruan.com)</a></p>
+<p>28课时，3h49分；</p>
+<p><a class="link" href="https://help.fanruan.com/finereport/"  target="_blank" rel="noopener"
+    >FineReport帮助文档 - 全面的报表使用教程和学习资料 (fanruan.com)</a></p>
+<p><a class="link" href="https://edu.fanruan.com/video?class1=0&amp;class2=0"  target="_blank" rel="noopener"
+    >视频课 - 帆软学院 (fanruan.com)</a></p>
+<p>新手入门视频：层次坐标-10‘40，动态格间运算</p>
+<p>超级链接；</p>
+<p>决策报表入门示例；快速搭建大屏</p>
+<p>Tomcat部署包的下载</p>
+<p>各种例子；</p>
+<p>问题1：！！！SQL Server数据库连接常见错误（帆软文档）—https://help.fanruan.com/finereport/doc-view-306.html</p>
+<p>问题所在：<strong>让sqlserver支持以ip作为服务器名称，然后用sa用户名和密码登录服务器</strong>——https://blog.csdn.net/qq_42636010/article/details/89344993</p>
+<p>sqlserver身份验证登录如何设置：https://jingyan.baidu.com/article/0a52e3f4e0d6a6bf62ed7232.html</p>
+<p>SQL数据库、帆软自带的数据库属于模板数据集还是服务器数据集</p>
+<p>报表：普通报表；填报报表；决策报表</p>
+<p>一般 X 轴表示分类，系列表示图例，Y 轴表示分类下系列的值。</p>
+<ul>
+<li>
+<p>当查询结果为空值/NULL时，如何在报表中显示为0？</p>
+<p>数据形态&mdash;公式形态&ndash;if($$$=null,0,$$$)</p>
+</li>
+<li>
+<h3 id="超级链接--当前报表决策">超级链接&ndash;当前报表决策</h3>
+<p>report0 &mdash;&ndash; &gt;  report1   <a class="link" href="https://help.fanruan.com/finereport/doc-view-4494.html"  target="_blank" rel="noopener"
+    >超级链接-当前决策报表对象</a></p>
+<p>添加参数p 值的公式为$$$ 用户点击 report0 中的哪个订单ID 就将该ID作为参数传递给 report1</p>
+<p>report1 在接收到 report0 的参数后 希望只对该参数对应的订单展示相关信息  设置对应的过滤条件</p>
+</li>
+<li>
+<p>随着标题联动</p>
+<p>塑胶部-生产线-三十天的产能</p>
+<p>逻辑：</p>
+<p>产能统计获取事业部与生产线参数</p>
+<p>产能趋势分析图标题接收参数</p>
+<p>趋势图折现趋势根据对应标题展示对应信息</p>
+</li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/%E6%B1%9F%E6%B7%AE%E8%94%9A%E6%9D%A5%E6%B6%82%E8%A3%85fas%E6%8A%A5%E8%A1%A8%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">江淮蔚来涂装FAS报表过程记录</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/windows%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%8F%91%E5%A4%87%E5%BF%98/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">windows服务开发备忘</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2024 think hy how to learn
+    </section>
+    
+    <section class="powerby">
+         <br />
+        
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<!doctype html>
+<html lang="en">
+<head>
+   
+</head>
+
+
+
+
+
+
+
+
+
+<body>
+</body>
+
+</html>
+
+
+    </body>
+</html>

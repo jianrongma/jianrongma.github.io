@@ -6,11 +6,41 @@
     <description>Recent content in -后端语言 on think hy how to learn</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 30 Jan 2021 00:17:57 +0800</lastBuildDate><atom:link href="https://jianrongma.github.io/categories/-%E5%90%8E%E7%AB%AF%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 10 Apr 2024 23:47:37 +0800</lastBuildDate><atom:link href="https://jianrongma.github.io/categories/-%E5%90%8E%E7%AB%AF%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>PythonLearning</title>
+      <link>https://jianrongma.github.io/p/pythonlearning/</link>
+      <pubDate>Wed, 10 Apr 2024 23:47:37 +0800</pubDate>
+      
+      <guid>https://jianrongma.github.io/p/pythonlearning/</guid>
+      <description>Python学习 第一章 一个基本的原理：计算机只认识二进制，即：0和1 img什么是编程语言 用于人类和计算机进行交流的一种专有领域语言，通过编写编程语言的代码，去指挥计算机工作。但它无法直接和计算机沟通，需要翻译工具（解释器****或编译器）将代码翻译成二进制，提交计算机执行，从而实现和计算机的顺畅沟通。
+img注 IDE 集成开发环境，是用于提供程序开发环境的应用程序，一般包括代码编辑器、编译器、调试器和图形用户界面等工具。集成了代码编写功能、分析功能、编译功能、调试功能等一体化的开发软件服务套。所有具备这一特性的软件或者软件套（组）都可以叫集成开发环境。如Visual Studio&amp;hellip;&amp;hellip;
+Python解释器 一个基本的原理是：计算机只认识二进制，即0和1 其实，计算机是不会认识Python代码的，但是Python有解释器程序，如下图
+img安装Python环境，本质上，就是在电脑中安装：Python解释器程序
+代码随时写，但是能不能运行，就要看电脑里有没有解释器程序了
+Python解释器，是一个计算机程序，用来翻译Python代码，并提交给计算机执行
+功能： 翻译代码为计算机认识的二进制（0和1）的形式并提交给计算机执行； 在解释器环境内可以一行行的执行我们输入的代码； 也可以使用解释器程序，去执行代码文件 解释器存放位置 &amp;lt;Python安装目录&amp;gt;/python.exe
+img我们在CMD（命令提示符）程序内，执行的python，就是上图的python.exe程序
+img不使用解释器，计算机就不认识Python代码
+img使用Python解释器程序，就能执行Python代码了
+img思考 在python解释器程序内，写完一行代码并回车后，会直接运行他
+如何一次性运行好多行代码？ 可以将代码，写入一个以”.py”结尾的文件中，使用python命令去运行它
+如，在Windows系统的某盘，新建一个名为：test.py 的文件，通过记事本程序打开，输入如下内容：
+img在“命令提示符”程序内，使用python命令，运行，如图：
+img第一个Python程序 print(&amp;ldquo;Hello World!!!&amp;rdquo;)
+含义：向屏幕上输出(显示)，Hello World!!!
+注 括号和引号都是英文状态下输入
+打开CMD（命令提示符）程序，输入Python并回车 然后，在里面输入代码回车即可立即执行
+img练习 请在“命令提示符”（CMD）程序内，通过Python，向屏幕上输出：零基础，学Python，月薪过万，就来黑马程序员
+img常见问题 找不到“命令提示符”程序在哪里 使用快捷键：win + r 打开运行框，输入cmd后回车即可打开命令提示符程序
+命令提示符内，输入python出现：&amp;lsquo;python&amp;rsquo; 不是内部或外部命令，也不是可运行的程序或批处理文件 img是因为在安装python的时候，没有勾选 add python 3.10 to PATH的选项
+img卸载Python，重新安装python，勾选这个选项。 然后重新打开命令提示符程序，即可</description>
+    </item>
+    
     <item>
       <title>真会CSharp吗学习文档</title>
       <link>https://jianrongma.github.io/p/%E7%9C%9F%E4%BC%9Acsharp%E5%90%97%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</link>
-      <pubDate>Sat, 30 Jan 2021 00:17:57 +0800</pubDate>
+      <pubDate>Sat, 30 Oct 2021 00:17:57 +0800</pubDate>
       
       <guid>https://jianrongma.github.io/p/%E7%9C%9F%E4%BC%9Acsharp%E5%90%97%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</guid>
       <description>C#5.0+学习文档 特点：

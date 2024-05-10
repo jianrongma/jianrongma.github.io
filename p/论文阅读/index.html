@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='1.供应链环境下基于Kriging模型的订单优先级评估 2021SCIQ2 IEEE Access Order Priority Evaluation Based on Kriging Model Under Supply Chain Environment
+关键词 order production priority;supply chain;make-to-order;Kriging model
+摘要 供应链环境下，传统的方法具有局限性； &amp;mdash;- 有哪些局限性？
+建立了供应链环境下订单生产优先级的评价指标体系；
+提出了基于Kriging模型的订单生产优先级评价模型来确定订单生产优先级。
+结果表明，该模型适用于小样本问题，**（什么是小样本问题？）**是一个可行、有效的订单优先级评估模型；
+与其他模型相比**（与其他哪些模型相比？），该模型提高了订单优先级的评估精度**。同时，该模型具有较高的可靠性和稳定性，扩充了订单生产优先级的计算方法。
+I.引言 第一段 对于按订单生产的企业来说，如何处理订单是生产调度中的一个关键问题。良好的订单处理速度和准确性不仅可以为客户提供更好的服务，还可以节省流动资金，降低成本。
+[1-3]
+探讨了按订单制造企业的订单接受和调度问题
+对核心供应商的订单进行选择和维护
+[4-6]
+对供应链环境下的订单处理进行了大量的研究工作
+[7]
+因此，需要确定接受哪些订单，按照什么顺序进行处理，而如何确定订单生产优先级是订单处理的关键步骤
+另一方面，次序优先问题是一个复杂而关键的过程，是多种标准可能相互冲突的结果。因此，不同的研究采用了理论、实践和建模等多种方法和技术来解决顺序优先级的确定问题。
+第二段 研究序求值问题的方法有很多。
+首先，提出一些传统方法 [8]
+使用混合整数线性规划(MILP)和包括遗传算法在内的各种启发式方法来解决订单接受问题
+[9]
+提出了一个混合整数规划公式，并使用数值分析来研究同时定价、订单接受、调度和提前期决策
+[10]
+利用层次分析法(AHP)的多属性专家支持系统对买方订单进行评估
+[11]
+将Dempster-Shafer理论与信念熵相结合，提出了一种新的证据模糊多准则决策方法(EFMCDM)来确定最优方案
+[12]
+提出了Atanassov型直觉模糊集来确定供给选择和排序
+[13]
+提出了一种基于模糊数的层次分析法
+[14]
+综合考虑了生产策略、约束理论和线性规划，提出了生产策略和生产调度相结合的综合方法
+总结传统方法的不足 这些方法从不同的角度讨论了订单优先级（跟订单优先级的关联在？），可以有效地**帮助制造商解决供应商排序中的多标准决策问题。**线性规划假设顺序优先级与其影响因素之间存在线性关系。实际上，订单优先级评价模型受多种因素影响，不能进行非线性推广。AHP的优点是为决策问题提供了一个结构化但相对简单的解决方案，但它严重依赖于人类对知识和经验的判断[15]。
+近年来，神经网络模型和支持向量机(SVM)等机器学习[16]-[18]因其相对于传统方法能够处理复杂性和不确定性而得到了广泛的应用 在介绍每种算法的同时就指出了其缺点，不适合于处理订单优先级问题 [19-21]
+采用支持向量机处理质量监控、质量评估。但是，Oh也指出，传统的SVM没有考虑到明确的缺陷类型和保修费用。此外，SVM的泛化能力很大程度上取决于参数的选择，选择参数[21]需要大量的计算。
+泛化能力：指的是机器学习算法对新鲜样本的适应能力 [22-24]
+提出了基于径向基函数(RBF)神经网络的非线性订单优先级评价模型
+总结其优缺点：
+优点：
+提高了评价精度； 不需要复杂的工艺决策，只依赖历史数据。 缺点：'><title>论文阅读</title>
+
+<link rel='canonical' href='https://jianrongma.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/'>
+
+<link rel="stylesheet" href="/scss/style.min.css">
+<style>
+     
+    body{
+        background-repeat: repeat;
+        background-attachment: fixed;
+        background-size:cover;
+         cursor: url(https://files.cnblogs.com/files/monster-jian/cursor.ico),auto;
+    }
+     
+    #div_digg {
+      position: fixed;
+      bottom: 10px;
+      right: 15px;
+      border: 2px solid #ECD7B1;
+      padding: 10px;
+      width: 140px;
+      background-color: #fff;
+      border-radius: 5px 5px 5px 5px !important;
+      box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+    }
+    </style><script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://files.cnblogs.com/files/liyhbk/js.js" color="0,0,255" opacity="1" count="119" zindex="-2"></script>
+<script src="https://files.cnblogs.com/files/liyhbk/js.js" color="0,0,255" opacity="1" count="119" zindex="-2">
+</script>
+<script type="text/javascript" color="255,0,0" pointcolor="255,0,0" opacity="0.7" zindex="-2" count="100" src="/dist/canvas-nest.js"></script>
+<script type="text/javascript" src="/dist/canvas-nest.umd.js"></script>
+<script type="text/javascript">
+    var cn = new CanvasNest(document.getElementById('area-render'), {
+        color: '255,0,255',
+        count: 50,
+      });
+      
+      function asyncLoad() {
+        
+        var i = document.createElement("iframe");
+        i.src = "https://ghbtns.com/github-btn.html?user=hustcc&repo=canvas-nest.js&type=star&count=true";
+        i.scrolling = "no";
+        i.frameborder = "0";
+        i.border = "0";
+        i.setAttribute("frameborder", "0", 0);
+        i.width = "100px";
+        i.height = "20px";
+        document.getElementById("github-iframe").appendChild(i);
+      }
+      function loadGitHubBtn() {
+        if (window.addEventListener) {window.addEventListener("load", asyncLoad, false);}
+        else if (window.attachEvent) {window.attachEvent("onload", asyncLoad);}
+        else {window.onload = asyncLoad;}
+      }
+      loadGitHubBtn();
+</script>
+<script src="/canvas-nest.js?version=10"></script><canvas width="1536" height="454" style="display: block; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; overflow: hidden; pointer-events: none;"></canvas>
+<script src="https://files.cnblogs.com/files/monster-jian/mouse-click.js"></script>
+<script type="text/javascript">
+    
+     
+    var a_idx = 0;
+    jQuery(document).ready(function($) {
+        $("body").click(function(e) {
+            var a = new Array("❤不做咸鱼！❤","❤拒绝懒惰！❤","❤想做吃货❤","❤向大佬学习❤","❤扶我起来~❤","❤come on❤","❤一直在路上~❤","❤累了~❤","❤再趴一会❤","❤66666❤","❤高兴的飞起*****❤");
+            var $i = $("<span></span>").text(a[a_idx]);
+            a_idx = (a_idx + 1) % a.length;
+            var x = e.pageX,
+            y = e.pageY;
+            $i.css({
+                "z-index": 999999999999999999999999999999999999999999999999999999999999999999999,
+                "top": y - 20,
+                "left": x,
+                "position": "absolute",
+                "font-weight": "bold",
+                "color": "rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"
+            });
+            $("body").append($i);
+            $i.animate({
+                "top": y - 180,
+                "opacity": 0
+            },
+            1500,
+            function() {
+                $i.remove();
+            });
+        });
+    });
+    </script>
+
+    <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>  
+
+ 
+   
+      
+      
+          
+         <script>         
+            L2Dwidget.init({ "model": { jsonPath:          "https://unpkg.com/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json",  
+                  "scale": 1 }, "display": { "position": "right", "width": 66, "height": 88,        "hOffset": 0, "vOffset": -20 },
+                   "mobile": { "show": true, "scale": 0.5 },      "react": { "opacityDefault": 0.8, "opacityOnHover": 0.1 } }); 
+                    </script><meta property='og:title' content='论文阅读'>
+<meta property='og:description' content='1.供应链环境下基于Kriging模型的订单优先级评估 2021SCIQ2 IEEE Access Order Priority Evaluation Based on Kriging Model Under Supply Chain Environment
+关键词 order production priority;supply chain;make-to-order;Kriging model
+摘要 供应链环境下，传统的方法具有局限性； &amp;mdash;- 有哪些局限性？
+建立了供应链环境下订单生产优先级的评价指标体系；
+提出了基于Kriging模型的订单生产优先级评价模型来确定订单生产优先级。
+结果表明，该模型适用于小样本问题，**（什么是小样本问题？）**是一个可行、有效的订单优先级评估模型；
+与其他模型相比**（与其他哪些模型相比？），该模型提高了订单优先级的评估精度**。同时，该模型具有较高的可靠性和稳定性，扩充了订单生产优先级的计算方法。
+I.引言 第一段 对于按订单生产的企业来说，如何处理订单是生产调度中的一个关键问题。良好的订单处理速度和准确性不仅可以为客户提供更好的服务，还可以节省流动资金，降低成本。
+[1-3]
+探讨了按订单制造企业的订单接受和调度问题
+对核心供应商的订单进行选择和维护
+[4-6]
+对供应链环境下的订单处理进行了大量的研究工作
+[7]
+因此，需要确定接受哪些订单，按照什么顺序进行处理，而如何确定订单生产优先级是订单处理的关键步骤
+另一方面，次序优先问题是一个复杂而关键的过程，是多种标准可能相互冲突的结果。因此，不同的研究采用了理论、实践和建模等多种方法和技术来解决顺序优先级的确定问题。
+第二段 研究序求值问题的方法有很多。
+首先，提出一些传统方法 [8]
+使用混合整数线性规划(MILP)和包括遗传算法在内的各种启发式方法来解决订单接受问题
+[9]
+提出了一个混合整数规划公式，并使用数值分析来研究同时定价、订单接受、调度和提前期决策
+[10]
+利用层次分析法(AHP)的多属性专家支持系统对买方订单进行评估
+[11]
+将Dempster-Shafer理论与信念熵相结合，提出了一种新的证据模糊多准则决策方法(EFMCDM)来确定最优方案
+[12]
+提出了Atanassov型直觉模糊集来确定供给选择和排序
+[13]
+提出了一种基于模糊数的层次分析法
+[14]
+综合考虑了生产策略、约束理论和线性规划，提出了生产策略和生产调度相结合的综合方法
+总结传统方法的不足 这些方法从不同的角度讨论了订单优先级（跟订单优先级的关联在？），可以有效地**帮助制造商解决供应商排序中的多标准决策问题。**线性规划假设顺序优先级与其影响因素之间存在线性关系。实际上，订单优先级评价模型受多种因素影响，不能进行非线性推广。AHP的优点是为决策问题提供了一个结构化但相对简单的解决方案，但它严重依赖于人类对知识和经验的判断[15]。
+近年来，神经网络模型和支持向量机(SVM)等机器学习[16]-[18]因其相对于传统方法能够处理复杂性和不确定性而得到了广泛的应用 在介绍每种算法的同时就指出了其缺点，不适合于处理订单优先级问题 [19-21]
+采用支持向量机处理质量监控、质量评估。但是，Oh也指出，传统的SVM没有考虑到明确的缺陷类型和保修费用。此外，SVM的泛化能力很大程度上取决于参数的选择，选择参数[21]需要大量的计算。
+泛化能力：指的是机器学习算法对新鲜样本的适应能力 [22-24]
+提出了基于径向基函数(RBF)神经网络的非线性订单优先级评价模型
+总结其优缺点：
+优点：
+提高了评价精度； 不需要复杂的工艺决策，只依赖历史数据。 缺点：'>
+<meta property='og:url' content='https://jianrongma.github.io/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/'>
+<meta property='og:site_name' content='think hy how to learn'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2023-05-07T23:34:19&#43;08:00'/><meta property='article:modified_time' content='2023-05-07T23:34:19&#43;08:00'/><meta property='og:image' content='https://jianrongma.github.io/img/avatar.png' />
+<meta name="twitter:site" content="@ljsljs56495989">
+    <meta name="twitter:creator" content="@ljsljs56495989"><meta name="twitter:title" content="论文阅读">
+<meta name="twitter:description" content="1.供应链环境下基于Kriging模型的订单优先级评估 2021SCIQ2 IEEE Access Order Priority Evaluation Based on Kriging Model Under Supply Chain Environment
+关键词 order production priority;supply chain;make-to-order;Kriging model
+摘要 供应链环境下，传统的方法具有局限性； &amp;mdash;- 有哪些局限性？
+建立了供应链环境下订单生产优先级的评价指标体系；
+提出了基于Kriging模型的订单生产优先级评价模型来确定订单生产优先级。
+结果表明，该模型适用于小样本问题，**（什么是小样本问题？）**是一个可行、有效的订单优先级评估模型；
+与其他模型相比**（与其他哪些模型相比？），该模型提高了订单优先级的评估精度**。同时，该模型具有较高的可靠性和稳定性，扩充了订单生产优先级的计算方法。
+I.引言 第一段 对于按订单生产的企业来说，如何处理订单是生产调度中的一个关键问题。良好的订单处理速度和准确性不仅可以为客户提供更好的服务，还可以节省流动资金，降低成本。
+[1-3]
+探讨了按订单制造企业的订单接受和调度问题
+对核心供应商的订单进行选择和维护
+[4-6]
+对供应链环境下的订单处理进行了大量的研究工作
+[7]
+因此，需要确定接受哪些订单，按照什么顺序进行处理，而如何确定订单生产优先级是订单处理的关键步骤
+另一方面，次序优先问题是一个复杂而关键的过程，是多种标准可能相互冲突的结果。因此，不同的研究采用了理论、实践和建模等多种方法和技术来解决顺序优先级的确定问题。
+第二段 研究序求值问题的方法有很多。
+首先，提出一些传统方法 [8]
+使用混合整数线性规划(MILP)和包括遗传算法在内的各种启发式方法来解决订单接受问题
+[9]
+提出了一个混合整数规划公式，并使用数值分析来研究同时定价、订单接受、调度和提前期决策
+[10]
+利用层次分析法(AHP)的多属性专家支持系统对买方订单进行评估
+[11]
+将Dempster-Shafer理论与信念熵相结合，提出了一种新的证据模糊多准则决策方法(EFMCDM)来确定最优方案
+[12]
+提出了Atanassov型直觉模糊集来确定供给选择和排序
+[13]
+提出了一种基于模糊数的层次分析法
+[14]
+综合考虑了生产策略、约束理论和线性规划，提出了生产策略和生产调度相结合的综合方法
+总结传统方法的不足 这些方法从不同的角度讨论了订单优先级（跟订单优先级的关联在？），可以有效地**帮助制造商解决供应商排序中的多标准决策问题。**线性规划假设顺序优先级与其影响因素之间存在线性关系。实际上，订单优先级评价模型受多种因素影响，不能进行非线性推广。AHP的优点是为决策问题提供了一个结构化但相对简单的解决方案，但它严重依赖于人类对知识和经验的判断[15]。
+近年来，神经网络模型和支持向量机(SVM)等机器学习[16]-[18]因其相对于传统方法能够处理复杂性和不确定性而得到了广泛的应用 在介绍每种算法的同时就指出了其缺点，不适合于处理订单优先级问题 [19-21]
+采用支持向量机处理质量监控、质量评估。但是，Oh也指出，传统的SVM没有考虑到明确的缺陷类型和保修费用。此外，SVM的泛化能力很大程度上取决于参数的选择，选择参数[21]需要大量的计算。
+泛化能力：指的是机器学习算法对新鲜样本的适应能力 [22-24]
+提出了基于径向基函数(RBF)神经网络的非线性订单优先级评价模型
+总结其优缺点：
+优点：
+提高了评价精度； 不需要复杂的工艺决策，只依赖历史数据。 缺点："><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://jianrongma.github.io/img/avatar.png' />
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <style>
+            * {
+              margin: 0;
+              padding: 0;
+            }
+            html, body {
+              height: 100%;
+              width: 100%;
+            }
+            #github-iframe {
+              position: fixed;
+              left: 32px;
+              top: 32px;
+            }
+             
+        </style>
+   
+
+
+<link rel="stylesheet" type="texts" href="https://blog-static.cnblogs.com/files/monster-jian/waifu.css"/>
+
+
+</head>
+
+
+
+
+
+
+
+<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1280473365'%3E%3C/span%3E%3Cscript src='https://s9.cnzz.com/z_stat.php%3Fid%3D1280473365%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<body size-sensor-id="1" style="position: relative;">
+    
+    <div id="area-render"></div>
+   
+
+</body>
+
+<canvas width="1777" height="841" style="position: fixed; left: 0px; top: 0px; z-index: 2147483647; pointer-events: none;"></canvas>
+
+</html>
+
+
+    </head>
+    <body class="
+    article-page 
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        on-phone--column extended
+    
+">
+    
+        <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/hanbagui_hu1992e2ef3ca17530e3489d97af7cbea6_3164_300x0_resize_box.bmp" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        <h1 class="site-name"><a href="https://jianrongma.github.io/">think hy how to learn</a></h1>
+        <h2 class="site-description">好运暴富,就在今日.</h2>
+    </header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/-%E8%AE%BA%E6%96%87%E7%9B%B8%E5%85%B3/" >
+                -论文相关
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 07, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <h2 id="1供应链环境下基于kriging模型的订单优先级评估-2021sciq2-ieee-access">1.供应链环境下基于Kriging模型的订单优先级评估 2021SCIQ2 IEEE Access</h2>
+<p>Order Priority Evaluation Based on Kriging Model Under Supply Chain Environment</p>
+<h3 id="关键词">关键词</h3>
+<p>order production priority;supply chain;make-to-order;Kriging model</p>
+<h3 id="摘要">摘要</h3>
+<p>供应链环境下，传统的方法具有局限性； &mdash;- <strong>有哪些局限性？</strong></p>
+<p>建立了供应链环境下订单生产优先级的评价指标体系；</p>
+<p>提出了基于Kriging模型的订单生产优先级评价模型来确定订单生产优先级。</p>
+<p>结果表明，该模型适用于<strong>小样本问题</strong>，**（什么是小样本问题？）**是一个可行、有效的订单优先级评估模型；</p>
+<p>与其他模型相比**（与其他哪些模型相比？）<strong>，该模型提高了订单优先级的评估</strong>精度**。同时，该模型具有<strong>较高的可靠性和稳定性</strong>，扩充了订单生产优先级的计算方法。</p>
+<h3 id="i引言">I.引言</h3>
+<h4 id="第一段">第一段</h4>
+<p>对于按订单生产的企业来说，<strong>如何处理订单</strong>是<strong>生产调度</strong>中的一个关键问题。<strong>良好的订单处理速度和准确性</strong>不仅可以为客户提供更好的服务，还可以节省流动资金，降低成本。</p>
+<ol>
+<li>
+<p>[1-3]</p>
+<p>探讨了按订单制造企业的订单接受和调度问题</p>
+<p>对核心供应商的订单进行选择和维护</p>
+</li>
+<li>
+<p>[4-6]</p>
+<p>对供应链环境下的订单处理进行了大量的研究工作</p>
+</li>
+<li>
+<p>[7]</p>
+<p>因此，需要确定<strong>接受哪些订单</strong>，<strong>按照什么顺序进行处理</strong>，而如何确定订单生产优先级是订单处理的关键步骤</p>
+</li>
+<li>
+<p>另一方面，次序优先问题是一个复杂而关键的过程，是多种标准可能相互冲突的结果。因此，不同的研究采用了理论、实践和建模等多种方法和技术来解决顺序优先级的确定问题。</p>
+</li>
+</ol>
+<h4 id="第二段">第二段</h4>
+<p>研究序求值问题的方法有很多。</p>
+<h5 id="首先提出一些传统方法">首先，提出一些传统方法</h5>
+<ol>
+<li>
+<p>[8]</p>
+<p>使用混合整数线性规划(MILP)和包括遗传算法在内的各种启发式方法来解决<strong>订单接受问题</strong></p>
+</li>
+<li>
+<p>[9]</p>
+<p>提出了一个混合整数规划公式，并使用数值分析来研究<strong>同时定价、订单接受、调度和提前期决策</strong></p>
+</li>
+<li>
+<p>[10]</p>
+<p>利用层次分析法(AHP)的多属性专家支持系统对<strong>买方订单进行评估</strong></p>
+</li>
+<li>
+<p>[11]</p>
+<p>将Dempster-Shafer理论与信念熵相结合，提出了一种新的证据模糊多准则决策方法(EFMCDM)来<strong>确定最优方案</strong></p>
+</li>
+<li>
+<p>[12]</p>
+<p>提出了Atanassov型直觉模糊集来<strong>确定供给选择和排序</strong></p>
+</li>
+<li>
+<p>[13]</p>
+<p>提出了一种基于模糊数的层次分析法</p>
+</li>
+<li>
+<p>[14]</p>
+<p>综合考虑了生产策略、约束理论和线性规划，提出了<strong>生产策略和生产调度相结合的综合方法</strong></p>
+</li>
+</ol>
+<h5 id="总结传统方法的不足">总结传统方法的不足</h5>
+<p>这些方法从不同的角度讨论了订单优先级（跟订单优先级的关联在？），可以有效地**帮助制造商解决供应商排序中的多标准决策问题。**线性规划假设顺序优先级与其影响因素之间存在线性关系。实际上，订单优先级评价模型受多种因素影响，不能进行非线性推广。AHP的优点是为决策问题提供了一个结构化但相对简单的解决方案，但它严重依赖于人类对知识和经验的判断[15]。</p>
+<h5 id="近年来神经网络模型和支持向量机svm等机器学习16-18因其相对于传统方法能够处理复杂性和不确定性而得到了广泛的应用">近年来，<strong>神经网络模型</strong>和支持向量机(SVM)<strong>等机器学习</strong>[16]-[18]因其相对于传统方法<strong>能够处理复杂性和不确定性</strong>而得到了广泛的应用</h5>
+<h5 id="在介绍每种算法的同时就指出了其缺点不适合于处理订单优先级问题">在介绍每种算法的同时就指出了其缺点，不适合于处理订单优先级问题</h5>
+<ol>
+<li>
+<p>[19-21]</p>
+<p><strong>采用支持向量机处理质量监控、质量评估</strong>。但是，Oh也指出，传统的SVM没有考虑到明确的缺陷类型和保修费用。此外，SVM的泛化能力很大程度上取决于<strong>参数的选择</strong>，选择参数[21]需要大量的计算。</p>
+<ul>
+<li>
+<ul>
+<li>泛化能力：指的是机器学习算法对新鲜样本的适应能力</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>[22-24]</p>
+<p>提出了<strong>基于径向基函数(RBF)神经网络的非线性订单优先级评价模型</strong></p>
+<p>总结其优缺点：</p>
+<p>优点：</p>
+<ul>
+<li>提高了评价精度；</li>
+<li>不需要复杂的工艺决策，只依赖历史数据。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>而RBF神经网络模型是一种基于经验风险最小化原则和“大样本”理论的机器学习算法</li>
+<li>由于<strong>订单历史数据是一种小样本问题</strong>，因此不适合处理订单优先级问题</li>
+<li>RBF模型网络结构复杂，容易过拟合</li>
+</ul>
+</li>
+</ol>
+<h4 id="第三段">第三段</h4>
+<h5 id="提出本文的方法kriging模型">提出本文的方法——Kriging模型</h5>
+<ol>
+<li>
+<p>Kriging模型的提出</p>
+<p>[25]</p>
+<p>近二十年来，Kriging模型作为计算机实验中常用的模型，具有极大的复杂性，是一种非线性泛函逼近器[25]。它吸引了工程、统计和供应链管理领域的广泛兴趣</p>
+</li>
+<li>
+<p>Kriging模型的应用</p>
+<p>[26]</p>
+<p>使用Kriging模型开发了一种鲁棒方法，并通过经典的经济订货数量(EOQ)库存模型说明了该方法的验证</p>
+<p>[27]</p>
+<p>使用Kriging模型对(s, s)库存系统的仿真模型进行了近似，并证明了Kriging模型具有作为仿真工具的能力</p>
+</li>
+<li>
+<p>与传统的方法相比，<strong>Kriging模型可以处理复杂、不确定性和非线性</strong>[28]，[29]</p>
+</li>
+</ol>
+<h4 id="第四段">第四段</h4>
+<h5 id="本文的主要贡献">本文的主要贡献</h5>
+<h6 id="首先克里格模型目前尚未应用于供应链环境下的订单优先级引入克里格元建模技术建立了供应链订单优先级确定模型">首先，克里格模型目前尚未应用于供应链环境下的订单优先级。引入克里格元建模技术，建立了供应链订单优先级确定模型</h6>
+<h6 id="其次将本文提出的方法与订单处理中常用的rbf模型进行了比较结果表明本文提出的方法更有效更具优势更重要的是基于我们的方法得到的结果更接近实际情况">其次，将本文提出的方法与订单处理中常用的RBF模型进行了比较，结果表明本文提出的方法更有效，更具优势。更重要的是，基于我们的方法得到的结果更接近实际情况</h6>
+<h6 id="最后该方法提供了一种新的研究思路拓宽了供应链环境下订单优先级确定的研究领域">最后，该方法提供了一种新的研究思路，拓宽了供应链环境下订单优先级确定的研究领域</h6>
+<h3 id="ii元建模方法概述">II.元建模方法概述</h3>
+<h4 id="a-rbf">A. RBF</h4>
+<h4 id="b-kriging-model">B. Kriging model</h4>
+<h3 id="iii提出了一种基于kriging模型的排序优先级方法">III.提出了一种基于kriging模型的排序优先级方法</h3>
+<h4 id="a-建立供应链环境下订单优先级评价指标体系">A. 建立供应链环境下订单优先级评价指标体系</h4>
+<p>由于订单优先级受处理能力、订单利润、客户订单趋势等诸多因素的影响。<strong>在供应链环境下，信息共享也扮演着非常重要的角色</strong>。订单优先级的评价指标变得更加复杂。</p>
+<p>将影响订单优先级的相关因素大致分为三类</p>
+<ul>
+<li>
+<p>第一个标准是订单条款</p>
+<p>主要包括订单数量、订单利润、交货时间、订购产品数量和订单产品类别</p>
+</li>
+<li>
+<p>第二个标准是从供应链的角度出发考虑信息共享的客户条款</p>
+<p>包括交易总额、客户信用等级、客户订单趋势、客户合作期限以及订单紧急能力</p>
+</li>
+<li>
+<p>第三个标准是生产方面</p>
+<p>由加工能力、生产成本和<strong>产品质量</strong>组成</p>
+</li>
+<li>
+<p>供应链信息共享由下游企业的营销信息、库存和客户订单决定，采用订单紧急度指标来衡量供应链信息共享。</p>
+<p><figure 
+	>
+	<a href="/D:%5csoftwares%5cTypora%5c%e7%ac%94%e8%ae%b0%5c[%e4%be%9b%e5%ba%94%e9%93%be%e5%b1%82%e7%ba%a7]%5c%e8%ae%a2%e5%8d%95%e8%af%84%e7%ba%a7%5c%e7%bb%86%e7%9c%8b%e6%96%87%e7%8c%ae.assets%5cimage-20230330155622311.png" >
+		<img src="/D:%5csoftwares%5cTypora%5c%e7%ac%94%e8%ae%b0%5c[%e4%be%9b%e5%ba%94%e9%93%be%e5%b1%82%e7%ba%a7]%5c%e8%ae%a2%e5%8d%95%e8%af%84%e7%ba%a7%5c%e7%bb%86%e7%9c%8b%e6%96%87%e7%8c%ae.assets%5cimage-20230330155622311.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20230330155622311">
+	</a>
+	
+	<figcaption>image-20230330155622311</figcaption>
+	
+</figure></p>
+</li>
+</ul>
+<h4 id="b基于kriging的订单优先级模型框架">B.基于kriging的订单优先级模型框架</h4>
+<h4 id="c我们提出的方法的实施步骤">C.我们提出的方法的实施步骤</h4>
+<p><figure 
+	>
+	<a href="/D:%5csoftwares%5cTypora%5c%e7%ac%94%e8%ae%b0%5c[%e4%be%9b%e5%ba%94%e9%93%be%e5%b1%82%e7%ba%a7]%5c%e8%ae%a2%e5%8d%95%e8%af%84%e7%ba%a7%5c%e7%bb%86%e7%9c%8b%e6%96%87%e7%8c%ae.assets%5cimage-20230330160012904.png" >
+		<img src="/D:%5csoftwares%5cTypora%5c%e7%ac%94%e8%ae%b0%5c[%e4%be%9b%e5%ba%94%e9%93%be%e5%b1%82%e7%ba%a7]%5c%e8%ae%a2%e5%8d%95%e8%af%84%e7%ba%a7%5c%e7%bb%86%e7%9c%8b%e6%96%87%e7%8c%ae.assets%5cimage-20230330160012904.png"
+			
+			
+			
+			loading="lazy"
+			alt="image-20230330160012904">
+	</a>
+	
+	<figcaption>image-20230330160012904</figcaption>
+	
+</figure></p>
+<h5 id="1量化指标值">1.量化指标值</h5>
+<p>根据订单优先级指标体系，首先对样本订单的指标值进行线性归一化。当指标为定性时，通过专家打分将其转化为定量指标，再对实际数据进行预处理得到定量指标。这些量化指标被用作输入变量(或向量)</p>
+<h5 id="2收集数据集">2.收集数据集</h5>
+<p>由专家对订单优先级评价指标体系进行综合分析，给出预期的总体评价y。y的值也是经过定量处理后给出的。总体评价值y越大，优先级越高，其中y∈(0,1)。然后给出用于构建顺序优先级模型的样本。</p>
+<p>为了消除指标维度差异的不利影响，对排序优先级评价样本(x, y)进行归一化处理</p>
+<h5 id="3建立基于kriging模型的订单优先级模型">3.建立基于Kriging模型的订单优先级模型</h5>
+<p>将步骤2获得的数据集分为两个子集，即<strong>训练数据集</strong>和<strong>测试数据集</strong>。利用训练样本，通过文献所采用的<strong>遗一交叉验证</strong>的估计方法，在训练集的基础上，通过交叉验证确定<strong>超参数θ</strong>，使预测均方误差(MSE)最小化，同时选择合适的回归模型和相关模型。为此，建立了基于Kriging模型的订单优先级评价模型。</p>
+<h5 id="4获取输出预测器">4.获取输出预测器</h5>
+<p>根据试验数据和步骤3给出的建立的Kriging模型，得到总体评价的预测值。</p>
+<h5 id="5确定排序顺序">5.确定排序顺序</h5>
+<h3 id="iv仿真实验">IV.仿真实验</h3>
+<h4 id="主要是给出了基于rbf和kriging元建模技术的排序优先级的比较">主要是给出了基于RBF和Kriging元建模技术的排序优先级的比较</h4>
+<h3 id="v结论">V.结论</h3>
+<h4 id="限制">限制</h4>
+<p>尽管克里格模型在随机模拟中得到了广泛的应用，但有时它不能很好地处理随机模拟中的噪声，如何测量随机因素并采用随机克里格模型来确定订单优先级是我们未来的研究方向</p>
+<h2 id="2客户订单优先级的决策框架建议一个结构钢公司的案例研究-2015-sciq1-international-journal-of-production-economics">2.客户订单优先级的决策框架建议:一个结构钢公司的案例研究 2015 SCIQ1 International Journal of Production Economics</h2>
+<p>A decision framework proposal for customer order prioritization: A case study for a structural steel company</p>
+<h3 id="关键词-1">关键词</h3>
+<p>Structural steel industry   结构钢行业</p>
+<p>Manufacturing company   制造公司</p>
+<p>Order prioritization  优先级顺序</p>
+<p>Multiple criteria applications  多标准应用程序</p>
+<p>Analytic Network Process 网络分析过程</p>
+<h3 id="摘要-1">摘要</h3>
+<p>在制造公司的能力有限的前提下，确定客户订单的优先次序</p>
+<p>当前的项目已经占用了公司大部分的设计和制造能力，如何选择下一个客户订单来适当分配剩余的稀缺能力的决策问题</p>
+<p>确定相关标准：文献调查 + 决策者确认</p>
+<p>根据这些标准对客户订单进行评估</p>
+<p>多标准决策过程</p>
+<p>基于网络分析过程的决策框架</p>
+<p>这些标准被确定为单位时间的潜在利润率、潜在订单与可用产能的兼容性、未来利润更高的潜在订单水平、未来商业机会的客户信用以及订单生产计划的谈判水平。其中，未来商机标准中的客户信用是最重要的标准。根据客户订单的优先级，向案例公司提出了建议。根据这一建议，公司选择并实施了具有高优先级的订单。</p>
+<h3 id="1引言">1.引言</h3>
+<p>介绍钢结构行业的发展、特点、性质等</p>
+<p>引出问题：由于钢结构行业的性质，绝大多数的工作，近90%，是在设计和制造阶段完成的;剩下的10%是用非常少的工艺完成的安装。因此，当设计和制造能力被陈述为这些公司的能力约束时，安装人力的需求并没有被陈述为一个。由于成本和产能的挑战，结构钢生产企业要想获得竞争优势，必须解决一些问题。</p>
+<ol>
+<li>第一个是能够有足够的订单来使用他们所有的能力，以避免处理每个产品单位额外的直接和间接成本。</li>
+<li>当公司成功地解决了这个问题时，它还面临着另一个重要的问题:<strong>应该考虑哪个客户订单。</strong></li>
+</ol>
+<p>根据上述的问题提出具体的解决问题</p>
+<p>在竞争激烈的环境中，在满足公司要求和期望的同时，拥有有效的方法来决定是否接受或拒绝订单是非常重要的。因此，当公司必须做出订单优先级决定时，应该考虑基于这些需求和期望的几个评估标准。</p>
+<p>考虑订单的优先级是用来决定接受或拒绝订单</p>
+<p>提出本文中的评估标准</p>
+<p>提出：处理消费者订单优先排序的决策问题需要多标准决策(MCDM)方法。</p>
+<p>在本研究中，基于分析网络过程(ANP)的群体决策框架将允许公司在考虑评估标准的情况下，在有限的能力范围内选择最合适的项目。</p>
+<p>为什么要选择基于ANP的群体决策框架</p>
+<p>虽然层次分析法(AHP)是目前应用最广泛的标准和备选方案的优先排序方法之一，但当标准和备选方案之间存在依赖和反馈时，AHP就失效了。由于网络模型的这些相互联系，单独不那么重要的成分在集体评估时可能会变得更重要。这就是为什么Saaty(1996)介绍的ANP被选为研究方法。</p>
+<p>文献中ANP应用的一些例子</p>
+<p>本文旨在研究<strong>结构钢企业</strong>在<strong>潜在订单超过现有产能的情况下</strong>，面对上述产能问题时，<strong>如何优先考虑满足多个标准的一组潜在客户订单</strong>。此外，还揭示了用于排序订单的评价标准的重要性。</p>
+<h3 id="2背景">2.背景</h3>
+<h4 id="21钢铁行业客户订单优先排序">2.1钢铁行业客户订单优先排序</h4>
+<h4 id="22-订单优先级的评估标准">2.2 订单优先级的评估标准</h4>
+<h3 id="3研究方法">3.研究方法</h3>
+<h4 id="31决策过程">3.1决策过程</h4>
+<p>当客户的订单适合公司的能力，并且客户认为公司是合格的，该订单就成为几个潜在订单之一。如果潜在的订单超过了公司的能力，那么它必须在其中进行选择。</p>
+<h4 id="32网络分析过程">3.2网络分析过程</h4>
+<h5 id="321-选择anp的原因">3.2.1 选择ANP的原因</h5>
+<h5 id="322-网络分析过程的背景">3.2.2. 网络分析过程的背景</h5>
+<h5 id="323-网络分析过程的基本步骤">3.2.3. 网络分析过程的基本步骤</h5>
+<h3 id="4案例研究">4.案例研究</h3>
+<h4 id="41-案例公司和决策者">4.1. 案例公司和决策者</h4>
+<h3 id="5结论和进一步的建议">5.结论和进一步的建议</h3>
+<h2 id="3多产品制造系统中的优先级优化与制造-库存制造-订单决策-2018-sciq2-international-transactions-in-operational-research">3.多产品制造系统中的优先级优化与制造-库存/制造-订单决策 2018 SCIQ2 International Transactions in Operational Research</h2>
+<p>Priority optimization and make-to-stock/make-to-order decision in multiproduct manufacturing systems</p>
+<h3 id="关键词-2">关键词</h3>
+<p>Priority optimization and make-to-stock/make-to-order decision in multiproduct manufacturing systems</p>
+<p>make-to-stock(MTS)    按库存制造</p>
+<p>make-to-order(MTO)   按订单制造</p>
+<p>priority level   优先级</p>
+<p>heterogeneous multiproduct production/inventory sysytem   异构多产品生产/库存系统</p>
+<p>queuing model   排队模型</p>
+<h3 id="摘要-2">摘要</h3>
+<p>研究对象：生产大量最终产品的单阶段多产品制造设施</p>
+<p>研究问题：项目优先级优化MTO/MTS决策中起着关键作用</p>
+<p>研究方法：</p>
+<p>制造设施 &mdash;-&gt; 多产品多优先级类排队系统</p>
+<p>提出了一个通用的优化过程，它选择了接近最优的优先级，给出了每个产品的相关流控制模式(MTO或MTS)，并提供了关于最优成本的下界和上界。</p>
+<p>与文献中的两种备选启发式方法进行比较</p>
+<h3 id="1引言-1">1.引言</h3>
+<p>生产管理中的两类生产策略：MTS/MTO的解释</p>
+<p>通过一些混合生产行业的介绍，提出：有效的MTO/MTS分配取决于每个产品类型参数，例如需求行为(间歇vs定期，低量vs大批量)，所需的客户交货时间(长vs短)，或库存持有成本(高vs低)。</p>
+<p>除了产品参数以外，决策的可行性和相关的库存成本绩效还取决于：需求过程和生产订单之间的优先机制引起的拥塞效应</p>
+<ul>
+<li>为了直观地说明优先级影响的重要性，让我们从生产/库存设置开始，其中工作订单之间没有特定的优先级规则。在这种情况下，拥塞机制有效地对所有生产订单起类似的作用，并且具有非常短的允许交付提前期的项目必须自动在MTS中进行管理，因为MTO对它们来说是不可行的。相反，如果某些项目被优先考虑，这些项目的拥塞效应就会减少，这就可以允许在MTO政策下生产它们，同时仍然满足客户所需的交付提前时间。显然，权衡出现了，因为非优先级项目的拥堵效应将增加，这些项目将需要额外的库存。重点是，在典型的大规模问题中，当优先级分配优化时，可以预期权衡是显著正的。</li>
+</ul>
+<p>本文的目的是提供一个通用的优化过程，<strong>在考虑与优化优先级分配策略相关的拥塞影响和库存成本时，将最优流量控制(MTO或MTS)关联到每个产品。</strong></p>
+<p>在这里分析的战术MTO/MTS决策中，优先级机制的优化并不旨在解决操作层面的实时调度策略，而是捕获连接优先级、拥塞和MTO/MTS优化的主要全局效应。一旦做出了MTO/MTS决策，车间级别的操作流管理决策将在战术级别指定的框架内确定最佳的短期调度决策</p>
+<h2 id="4mtsmto混合生产模式下订单优先级及批量优化控制技术-2021-ical-20212021第八届国际自动化与物流会议">4.MTS/MTO混合生产模式下订单优先级及批量优化控制技术 2021 ICAL 2021：2021第八届国际自动化与物流会议</h2>
+<p>Order Priority and Batch Optimization Control Technology Under MTS/MTO Mixed Production Mode</p>
+<h3 id="关键词-3">关键词</h3>
+<p>MTS/MTO mixed production mode       MTS/MTO混合生产模式</p>
+<p>scheduling system    调度系统</p>
+<p>order priority control    订单优先级控制</p>
+<p>batch optimization control    批量优化控制</p>
+<h3 id="摘要-3">摘要</h3>
+<p>针对目前制造企业订单生产与库存生产相结合的生产模式，设计开发了MTS / MTO混合模式下的生产调度系统。深入探讨了MTS / MTO混合模式下如何处理<strong>订单优先级</strong>和<strong>批处理问题</strong>，并提出了具体的处理方法，从而在<strong>有限资源</strong>下快速形成优化的生产调度方案，实现交货时间最大化，提高企业效率。</p>
+<h3 id="引言">引言</h3>
+<h4 id="11-mtsmto混合生产模式">1.1 MTS/MTO混合生产模式</h4>
+<p>分别介绍了制造型企业的四种生产模式：</p>
+<p>库存生产</p>
+<p>按订单组装生产</p>
+<p>按订单生产</p>
+<p>按订单设计生产</p>
+<p>克服不同生产模式的缺点和不足 研究新的生产方式 &mdash; 	MTS/MTO混合生产模式，实现MTO和MTS生产方式的优势互补。从而显著提高生产效率和科学水平</p>
+<h4 id="12-mtsmto混合模式下的生产调度特征">1.2 MTS/MTO混合模式下的生产调度特征</h4>
+<p>介绍了MTS/MTO混合生产模式的调度特点（1-7）</p>
+<h4 id="13国内外研究现状">1.3国内外研究现状</h4>
+<p>本文以MTS/MTO混合生产模式为基础，研究了MTS/MTO混合生产模式下的调度系统。该系统涉及混合生产模式下的订单优先级处理方法、混合生产模式下的批量处理方法、混合生产模式下的自动调度算法、混合生产模式下的扰动处理算法。</p>
+<h3 id="2mtsmto混合生产模式下调度系统的设计">2.MTS/MTO混合生产模式下调度系统的设计</h3>
+<h4 id="21系统架构设计">2.1系统架构设计</h4>
+<h4 id="22系统功能模块">2.2系统功能模块</h4>
+<h4 id="23系统工作流程">2.3系统工作流程</h4>
+<h3 id="3mtsmto混合生产模式下的调度算法框架">3.MTS/MTO混合生产模式下的调度算法框架</h3>
+<p>调度算法包括，自动调度算法和扰动处理算法</p>
+<p>自动调度算法仅限于读取和处理调度所需的所有基本数据，然后使用<strong>顺序优先处理方法</strong>和批处理方法进行顺序优先处理和批处理;对生产工艺进行调度，按照<strong>顺序优先级排序</strong>后，按照设备选择规则将工艺安排到最优资源，计算开始和结束时间，直到所有工艺安排完成;最后保存结果数据。</p>
+<h3 id="4混合模式下mtsmto订单优先级处理技术">4.混合模式下MTS/MTO订单优先级处理技术</h3>
+<p>在调度生产时，在订单数据读取阶段，对订单进行订单优先级处理，根据混合企业独特的生产方式，将订单分为<strong>销售订单和库存订单</strong>，构建了适用于MTS/MTO混合生产模式的订单优先级处理模型</p>
+<h2 id="5具有外部到期日的按订单生产系统中优先级排序决策对订单准时概率和预期延迟的影响-2017-sciq1-european-journal-of-operational-research">5.具有<em>外部到期日</em>的按订单生产系统中<em>优先级排序决策</em>对<em>订单准时概率</em>和<em>预期延迟</em>的影响 2017 SCIQ1 European Journal of Operational Research</h2>
+<p>Impact of Priority Sequencing Decisions on On-Time Probability and Expected Tardiness of Orders in Make-To-Order Production Systems with External Due-Dates</p>
+<h3 id="关键词-4">关键词</h3>
+<p>马尔可夫过程</p>
+<p>优先排序</p>
+<p>按订单生产</p>
+<p>交货日期</p>
+<h3 id="摘要-4">摘要</h3>
+<p>建模MTO系统中的优先级排序问题</p>
+<p>马尔可夫决策过程：订单交货期 &mdash; 客户指定他们愿意等待订单完成的时间量</p>
+<p>目标函数：一个固定的和可变的延迟成本之和，结合了两个外部客户相关标准：“订单的准时性概率”和订单的预期延迟“</p>
+<p>将几种简单规则与最优策略进行比较，分析准时概率和预期延迟的有效前沿。结果表明，使用简单的规则就可以接近最优的性能。</p>
+<p>当涉及到延迟的固定成本时，最优优先级排序策略偏离最早到期( EDD )原则，但调整后的EDD规则表现良好。此外，将优先级排序决策推迟到下一次完成提高了性能。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/order_priority/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Order_Priority</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E6%99%BA%E8%83%BD%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">智能优化算法笔记</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2024 think hy how to learn
+    </section>
+    
+    <section class="powerby">
+         <br />
+        
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<!doctype html>
+<html lang="en">
+<head>
+   
+</head>
+
+
+
+
+
+
+
+
+
+<body>
+</body>
+
+</html>
+
+
+    </body>
+</html>

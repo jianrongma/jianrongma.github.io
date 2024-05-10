@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>-hunt job on think hy how to learn</title>
+    <link>https://jianrongma.github.io/categories/-hunt-job/</link>
+    <description>Recent content in -hunt job on think hy how to learn</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 23 Jul 2023 11:52:38 +0800</lastBuildDate><atom:link href="https://jianrongma.github.io/categories/-hunt-job/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>行为认知测评技巧</title>
+      <link>https://jianrongma.github.io/p/%E8%A1%8C%E4%B8%BA%E8%AE%A4%E7%9F%A5%E6%B5%8B%E8%AF%84%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Sun, 23 Jul 2023 11:52:38 +0800</pubDate>
+      
+      <guid>https://jianrongma.github.io/p/%E8%A1%8C%E4%B8%BA%E8%AE%A4%E7%9F%A5%E6%B5%8B%E8%AF%84%E6%8A%80%E5%B7%A7/</guid>
+      <description>数字规律题 标序列号 把变量和序列号放在一起比较看看 公因式法 找出最小公因式 看看有无规律 对每一位数减去第一位数 替换掉第2&amp;hellip;.位 结合上面的看看有无规律 对每一位数同时加上/乘以/除以第一位数 结合上面看看有无规律 同时除以1/2/3 加法和减法可能性稍大 能否分成奇数和偶数数组 看增幅 是否有规律 +1 +2 +4 +8 等比或者等差 前两个和/积是后一个 类斐波那契数列 前一个数是后一个数的比例关系 图形推理题 是否间隔排列或者对称排列 寻找共同特征 顺时针/逆时针 变化 白*黑=白 重合的题目 对称与不对称 轴对称与中心对称 切割三角形 相交相切 一全一半 叠加 求同存异 相对位置 内部还是外部 </description>
+    </item>
+    
+    <item>
+      <title>面试薄弱复习</title>
+      <link>https://jianrongma.github.io/p/%E9%9D%A2%E8%AF%95%E8%96%84%E5%BC%B1%E5%A4%8D%E4%B9%A0/</link>
+      <pubDate>Tue, 18 Jul 2023 16:34:40 +0800</pubDate>
+      
+      <guid>https://jianrongma.github.io/p/%E9%9D%A2%E8%AF%95%E8%96%84%E5%BC%B1%E5%A4%8D%E4%B9%A0/</guid>
+      <description> 算法
+树 平衡二叉树 镜像二叉树 最低公共祖先 前序后续便利构造二叉树 节点和等于整数的路径 两个节点的最长距离 二叉查找树 链表 奇升偶降 如何有序 数组 二维数组旋转90° 2sum问题 位运算 动态规划 背包问题 0-1 背包问题 完全 排序 复杂度 冒泡 插入 归并 快排 希尔 堆排序 基数排序 桶排序 如何求中位数 大根堆与小根堆 优先队列 单调栈 单调队列 接雨水 最大矩形 滑动窗口 二分 DFS BFS 递归 回溯 LRU 辅助栈 并查集 堆栈
+内存中的堆、栈、静态区 </description>
+    </item>
+    
+  </channel>
+</rss>

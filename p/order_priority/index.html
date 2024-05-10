@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='资源约束/生产能力不确定&#43;订单优先级相关文献
+基于优先级的柔性车间调度算法 Research on Priority-based Flexible Job Shop Scheduling Algorithm
+研究对象 航空发动机制造过程中的柔性作业车间调度问题
+柔性作业车间调度问题（FJSP）定义 在一个加工过程中，工件的集合W（W1,W2,W3,&amp;hellip;&amp;hellip;.)在一组机器M（M1,M2,M3,&amp;hellip;..）上加工，每道工序可由一台或多台机床加工，且满足以下约束条件：(1)机床一次只能加工一个工件。(2)工件一次只能用一台机器加工。(3)工件必须按照工艺规定的顺序加工。(4)不得中断进程。(5)不同工件、不同工艺之间不相互干扰。(6)优先考虑具有强制交付节点的工件。当工件在交付期之前完成时，会产生存储和维护费用，当工件在交付期之后完成，则无法按期交付，建立了评价函数如下：
+imge 是逾期工件的评估权重，a 是提前交付工件的评估权重，l 为工件完成时间，d 为工件交付时间。调度目标是获得评价函数的最小值。
+解决了什么问题 当前车间作业调度过程中存在订单强制节点（一些重要的订单必须在某个时间点准时交付，这往往会影响车间调度结果的质量）、设备选择等真实需求。
+研究现状 现有的分支定界法[9]、整数规划法[10]、遗传算法[11]、禁止搜索[12]等算法在设备选型过程中没有考虑到加工工艺是否存在强制交货时间，也没有根据设备负荷对加工工艺进行进一步优化。
+研究方法 根据工件的优先级和加工过程中设备的负荷，分两个阶段解决柔性车间作业调度问题。第一阶段：确定当前要加工的工件，第二阶段：确定用于加工该工件的设备。
+设计了一种人工干预的订单优先级计算方法：引入强制交货节点提出优先级计算函数 准确衡量订单溢出的风险，其中计算出的订单优先级越大，该订单溢出的风险越大。同时，决策者能够提前为强制节点订单设置优先级，从而确保强制节点订单在优先级的基础上得到处理
+img改进了应用于机加工过程的层次分析方法 设计了一种基于层次分析法的设备选型方法。该方法可以对每台机器进行综合评价，从而选择最合适的机器，达到提高调度效率的目的；
+基于矩阵构造方法[13]、作业调度和设备负荷满足一致性检验的信息，改进了层次分析法。改进的层次分析法可以自动构造满足一致性检验的比较矩阵。
+设备最早可以开始加工的点 C1，越早，工件逾期的概率越低，优先选择C1小的设备； 设备上的总负荷 C2，越大，工件等待的概率越大，超限的概率也越大，优先选择C2小的设备； 设备上所有工件可以加工的总时长 C3，越大，该设备的资源竞争概率越大(两个工件在同一时间段内需要同一台机器加工)，工件超限的概率越大，优先选择较C3小的设备。 贡献 实验表明，所提出的车间作业调度算法有效地提高了车间作业调度结果的质量
+与现有算法相比，本文提出的求解算法是有效的，保证了强制节点工件在评价值最小化的情况下按时交付，既保证了工件完成率，又显著降低了库存，提高了企业的生产率和资金流动性。
+客户订单优先级的决策框架建议：一家结构钢公司的案例研究 A decision framework proposal for customer order prioritization: A case study for a structural steel company
+当目前被授予的项目开始覆盖公司的大部分设计和制造能力时，公司面临着选择下一个客户订单来合理分配剩余稀缺能力的决策问题。
+由于钢结构行业的性质，绝大多数的工作，近90%，是在设计和制造阶段完成的;剩下的10%是用非常少的工艺完成的安装
+表 1 评估标准
+标准 解释 单位时间的潜在利润率 考虑一定时期内利润的潜在利润率 潜在订单与可用容量的兼容性 潜在订单在公司有限产能方面的适用性水平 利润更高的潜在未来订单水平 接受比考虑中的需求更有利可图的未来需求的可能性水平 未来商机的客户信用 成为制造公司忠实客户的水平 订单生产计划的可协商性级别 项目在项目进度方面的灵活性水平 利润最大化是企业营利性的强制性目标。与利润率较低但运营时间较短的订单相比，利润率较高但运营时间较长的订单可能无利可图。因此，可以定义&amp;quot;单位时间****潜在利润率&amp;ldquo;代替总利润作为订单优先级决策的评价标准。'><title>Order_Priority</title>
+
+<link rel='canonical' href='https://jianrongma.github.io/p/order_priority/'>
+
+<link rel="stylesheet" href="/scss/style.min.css">
+<style>
+     
+    body{
+        background-repeat: repeat;
+        background-attachment: fixed;
+        background-size:cover;
+         cursor: url(https://files.cnblogs.com/files/monster-jian/cursor.ico),auto;
+    }
+     
+    #div_digg {
+      position: fixed;
+      bottom: 10px;
+      right: 15px;
+      border: 2px solid #ECD7B1;
+      padding: 10px;
+      width: 140px;
+      background-color: #fff;
+      border-radius: 5px 5px 5px 5px !important;
+      box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+    }
+    </style><script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://files.cnblogs.com/files/liyhbk/js.js" color="0,0,255" opacity="1" count="119" zindex="-2"></script>
+<script src="https://files.cnblogs.com/files/liyhbk/js.js" color="0,0,255" opacity="1" count="119" zindex="-2">
+</script>
+<script type="text/javascript" color="255,0,0" pointcolor="255,0,0" opacity="0.7" zindex="-2" count="100" src="/dist/canvas-nest.js"></script>
+<script type="text/javascript" src="/dist/canvas-nest.umd.js"></script>
+<script type="text/javascript">
+    var cn = new CanvasNest(document.getElementById('area-render'), {
+        color: '255,0,255',
+        count: 50,
+      });
+      
+      function asyncLoad() {
+        
+        var i = document.createElement("iframe");
+        i.src = "https://ghbtns.com/github-btn.html?user=hustcc&repo=canvas-nest.js&type=star&count=true";
+        i.scrolling = "no";
+        i.frameborder = "0";
+        i.border = "0";
+        i.setAttribute("frameborder", "0", 0);
+        i.width = "100px";
+        i.height = "20px";
+        document.getElementById("github-iframe").appendChild(i);
+      }
+      function loadGitHubBtn() {
+        if (window.addEventListener) {window.addEventListener("load", asyncLoad, false);}
+        else if (window.attachEvent) {window.attachEvent("onload", asyncLoad);}
+        else {window.onload = asyncLoad;}
+      }
+      loadGitHubBtn();
+</script>
+<script src="/canvas-nest.js?version=10"></script><canvas width="1536" height="454" style="display: block; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; overflow: hidden; pointer-events: none;"></canvas>
+<script src="https://files.cnblogs.com/files/monster-jian/mouse-click.js"></script>
+<script type="text/javascript">
+    
+     
+    var a_idx = 0;
+    jQuery(document).ready(function($) {
+        $("body").click(function(e) {
+            var a = new Array("❤不做咸鱼！❤","❤拒绝懒惰！❤","❤想做吃货❤","❤向大佬学习❤","❤扶我起来~❤","❤come on❤","❤一直在路上~❤","❤累了~❤","❤再趴一会❤","❤66666❤","❤高兴的飞起*****❤");
+            var $i = $("<span></span>").text(a[a_idx]);
+            a_idx = (a_idx + 1) % a.length;
+            var x = e.pageX,
+            y = e.pageY;
+            $i.css({
+                "z-index": 999999999999999999999999999999999999999999999999999999999999999999999,
+                "top": y - 20,
+                "left": x,
+                "position": "absolute",
+                "font-weight": "bold",
+                "color": "rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"
+            });
+            $("body").append($i);
+            $i.animate({
+                "top": y - 180,
+                "opacity": 0
+            },
+            1500,
+            function() {
+                $i.remove();
+            });
+        });
+    });
+    </script>
+
+    <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>  
+
+ 
+   
+      
+      
+          
+         <script>         
+            L2Dwidget.init({ "model": { jsonPath:          "https://unpkg.com/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json",  
+                  "scale": 1 }, "display": { "position": "right", "width": 66, "height": 88,        "hOffset": 0, "vOffset": -20 },
+                   "mobile": { "show": true, "scale": 0.5 },      "react": { "opacityDefault": 0.8, "opacityOnHover": 0.1 } }); 
+                    </script><meta property='og:title' content='Order_Priority'>
+<meta property='og:description' content='资源约束/生产能力不确定&#43;订单优先级相关文献
+基于优先级的柔性车间调度算法 Research on Priority-based Flexible Job Shop Scheduling Algorithm
+研究对象 航空发动机制造过程中的柔性作业车间调度问题
+柔性作业车间调度问题（FJSP）定义 在一个加工过程中，工件的集合W（W1,W2,W3,&amp;hellip;&amp;hellip;.)在一组机器M（M1,M2,M3,&amp;hellip;..）上加工，每道工序可由一台或多台机床加工，且满足以下约束条件：(1)机床一次只能加工一个工件。(2)工件一次只能用一台机器加工。(3)工件必须按照工艺规定的顺序加工。(4)不得中断进程。(5)不同工件、不同工艺之间不相互干扰。(6)优先考虑具有强制交付节点的工件。当工件在交付期之前完成时，会产生存储和维护费用，当工件在交付期之后完成，则无法按期交付，建立了评价函数如下：
+imge 是逾期工件的评估权重，a 是提前交付工件的评估权重，l 为工件完成时间，d 为工件交付时间。调度目标是获得评价函数的最小值。
+解决了什么问题 当前车间作业调度过程中存在订单强制节点（一些重要的订单必须在某个时间点准时交付，这往往会影响车间调度结果的质量）、设备选择等真实需求。
+研究现状 现有的分支定界法[9]、整数规划法[10]、遗传算法[11]、禁止搜索[12]等算法在设备选型过程中没有考虑到加工工艺是否存在强制交货时间，也没有根据设备负荷对加工工艺进行进一步优化。
+研究方法 根据工件的优先级和加工过程中设备的负荷，分两个阶段解决柔性车间作业调度问题。第一阶段：确定当前要加工的工件，第二阶段：确定用于加工该工件的设备。
+设计了一种人工干预的订单优先级计算方法：引入强制交货节点提出优先级计算函数 准确衡量订单溢出的风险，其中计算出的订单优先级越大，该订单溢出的风险越大。同时，决策者能够提前为强制节点订单设置优先级，从而确保强制节点订单在优先级的基础上得到处理
+img改进了应用于机加工过程的层次分析方法 设计了一种基于层次分析法的设备选型方法。该方法可以对每台机器进行综合评价，从而选择最合适的机器，达到提高调度效率的目的；
+基于矩阵构造方法[13]、作业调度和设备负荷满足一致性检验的信息，改进了层次分析法。改进的层次分析法可以自动构造满足一致性检验的比较矩阵。
+设备最早可以开始加工的点 C1，越早，工件逾期的概率越低，优先选择C1小的设备； 设备上的总负荷 C2，越大，工件等待的概率越大，超限的概率也越大，优先选择C2小的设备； 设备上所有工件可以加工的总时长 C3，越大，该设备的资源竞争概率越大(两个工件在同一时间段内需要同一台机器加工)，工件超限的概率越大，优先选择较C3小的设备。 贡献 实验表明，所提出的车间作业调度算法有效地提高了车间作业调度结果的质量
+与现有算法相比，本文提出的求解算法是有效的，保证了强制节点工件在评价值最小化的情况下按时交付，既保证了工件完成率，又显著降低了库存，提高了企业的生产率和资金流动性。
+客户订单优先级的决策框架建议：一家结构钢公司的案例研究 A decision framework proposal for customer order prioritization: A case study for a structural steel company
+当目前被授予的项目开始覆盖公司的大部分设计和制造能力时，公司面临着选择下一个客户订单来合理分配剩余稀缺能力的决策问题。
+由于钢结构行业的性质，绝大多数的工作，近90%，是在设计和制造阶段完成的;剩下的10%是用非常少的工艺完成的安装
+表 1 评估标准
+标准 解释 单位时间的潜在利润率 考虑一定时期内利润的潜在利润率 潜在订单与可用容量的兼容性 潜在订单在公司有限产能方面的适用性水平 利润更高的潜在未来订单水平 接受比考虑中的需求更有利可图的未来需求的可能性水平 未来商机的客户信用 成为制造公司忠实客户的水平 订单生产计划的可协商性级别 项目在项目进度方面的灵活性水平 利润最大化是企业营利性的强制性目标。与利润率较低但运营时间较短的订单相比，利润率较高但运营时间较长的订单可能无利可图。因此，可以定义&amp;quot;单位时间****潜在利润率&amp;ldquo;代替总利润作为订单优先级决策的评价标准。'>
+<meta property='og:url' content='https://jianrongma.github.io/p/order_priority/'>
+<meta property='og:site_name' content='think hy how to learn'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2023-08-10T23:57:10&#43;08:00'/><meta property='article:modified_time' content='2023-08-10T23:57:10&#43;08:00'/><meta property='og:image' content='https://jianrongma.github.io/img/avatar.png' />
+<meta name="twitter:site" content="@ljsljs56495989">
+    <meta name="twitter:creator" content="@ljsljs56495989"><meta name="twitter:title" content="Order_Priority">
+<meta name="twitter:description" content="资源约束/生产能力不确定&#43;订单优先级相关文献
+基于优先级的柔性车间调度算法 Research on Priority-based Flexible Job Shop Scheduling Algorithm
+研究对象 航空发动机制造过程中的柔性作业车间调度问题
+柔性作业车间调度问题（FJSP）定义 在一个加工过程中，工件的集合W（W1,W2,W3,&amp;hellip;&amp;hellip;.)在一组机器M（M1,M2,M3,&amp;hellip;..）上加工，每道工序可由一台或多台机床加工，且满足以下约束条件：(1)机床一次只能加工一个工件。(2)工件一次只能用一台机器加工。(3)工件必须按照工艺规定的顺序加工。(4)不得中断进程。(5)不同工件、不同工艺之间不相互干扰。(6)优先考虑具有强制交付节点的工件。当工件在交付期之前完成时，会产生存储和维护费用，当工件在交付期之后完成，则无法按期交付，建立了评价函数如下：
+imge 是逾期工件的评估权重，a 是提前交付工件的评估权重，l 为工件完成时间，d 为工件交付时间。调度目标是获得评价函数的最小值。
+解决了什么问题 当前车间作业调度过程中存在订单强制节点（一些重要的订单必须在某个时间点准时交付，这往往会影响车间调度结果的质量）、设备选择等真实需求。
+研究现状 现有的分支定界法[9]、整数规划法[10]、遗传算法[11]、禁止搜索[12]等算法在设备选型过程中没有考虑到加工工艺是否存在强制交货时间，也没有根据设备负荷对加工工艺进行进一步优化。
+研究方法 根据工件的优先级和加工过程中设备的负荷，分两个阶段解决柔性车间作业调度问题。第一阶段：确定当前要加工的工件，第二阶段：确定用于加工该工件的设备。
+设计了一种人工干预的订单优先级计算方法：引入强制交货节点提出优先级计算函数 准确衡量订单溢出的风险，其中计算出的订单优先级越大，该订单溢出的风险越大。同时，决策者能够提前为强制节点订单设置优先级，从而确保强制节点订单在优先级的基础上得到处理
+img改进了应用于机加工过程的层次分析方法 设计了一种基于层次分析法的设备选型方法。该方法可以对每台机器进行综合评价，从而选择最合适的机器，达到提高调度效率的目的；
+基于矩阵构造方法[13]、作业调度和设备负荷满足一致性检验的信息，改进了层次分析法。改进的层次分析法可以自动构造满足一致性检验的比较矩阵。
+设备最早可以开始加工的点 C1，越早，工件逾期的概率越低，优先选择C1小的设备； 设备上的总负荷 C2，越大，工件等待的概率越大，超限的概率也越大，优先选择C2小的设备； 设备上所有工件可以加工的总时长 C3，越大，该设备的资源竞争概率越大(两个工件在同一时间段内需要同一台机器加工)，工件超限的概率越大，优先选择较C3小的设备。 贡献 实验表明，所提出的车间作业调度算法有效地提高了车间作业调度结果的质量
+与现有算法相比，本文提出的求解算法是有效的，保证了强制节点工件在评价值最小化的情况下按时交付，既保证了工件完成率，又显著降低了库存，提高了企业的生产率和资金流动性。
+客户订单优先级的决策框架建议：一家结构钢公司的案例研究 A decision framework proposal for customer order prioritization: A case study for a structural steel company
+当目前被授予的项目开始覆盖公司的大部分设计和制造能力时，公司面临着选择下一个客户订单来合理分配剩余稀缺能力的决策问题。
+由于钢结构行业的性质，绝大多数的工作，近90%，是在设计和制造阶段完成的;剩下的10%是用非常少的工艺完成的安装
+表 1 评估标准
+标准 解释 单位时间的潜在利润率 考虑一定时期内利润的潜在利润率 潜在订单与可用容量的兼容性 潜在订单在公司有限产能方面的适用性水平 利润更高的潜在未来订单水平 接受比考虑中的需求更有利可图的未来需求的可能性水平 未来商机的客户信用 成为制造公司忠实客户的水平 订单生产计划的可协商性级别 项目在项目进度方面的灵活性水平 利润最大化是企业营利性的强制性目标。与利润率较低但运营时间较短的订单相比，利润率较高但运营时间较长的订单可能无利可图。因此，可以定义&amp;quot;单位时间****潜在利润率&amp;ldquo;代替总利润作为订单优先级决策的评价标准。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://jianrongma.github.io/img/avatar.png' />
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <style>
+            * {
+              margin: 0;
+              padding: 0;
+            }
+            html, body {
+              height: 100%;
+              width: 100%;
+            }
+            #github-iframe {
+              position: fixed;
+              left: 32px;
+              top: 32px;
+            }
+             
+        </style>
+   
+
+
+<link rel="stylesheet" type="texts" href="https://blog-static.cnblogs.com/files/monster-jian/waifu.css"/>
+
+
+</head>
+
+
+
+
+
+
+
+<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1280473365'%3E%3C/span%3E%3Cscript src='https://s9.cnzz.com/z_stat.php%3Fid%3D1280473365%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<body size-sensor-id="1" style="position: relative;">
+    
+    <div id="area-render"></div>
+   
+
+</body>
+
+<canvas width="1777" height="841" style="position: fixed; left: 0px; top: 0px; z-index: 2147483647; pointer-events: none;"></canvas>
+
+</html>
+
+
+    </head>
+    <body class="
+    article-page 
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        on-phone--column extended
+    
+">
+    
+        <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/hanbagui_hu1992e2ef3ca17530e3489d97af7cbea6_3164_300x0_resize_box.bmp" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        <h1 class="site-name"><a href="https://jianrongma.github.io/">think hy how to learn</a></h1>
+        <h2 class="site-description">好运暴富,就在今日.</h2>
+    </header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+    
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/-%E8%AE%BA%E6%96%87%E7%9B%B8%E5%85%B3/" >
+                -论文相关
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/order_priority/">Order_Priority</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Aug 10, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    <p>资源约束/生产能力不确定+订单优先级相关文献</p>
+<ol>
+<li>
+<h1 id="基于优先级的柔性车间调度算法">基于优先级的柔性车间调度算法</h1>
+</li>
+</ol>
+<p>Research on Priority-based Flexible Job Shop Scheduling Algorithm</p>
+<h2 id="研究对象">研究对象</h2>
+<p>航空发动机制造过程中的柔性作业车间调度问题</p>
+<h2 id="柔性作业车间调度问题fjsp定义">柔性作业车间调度问题（FJSP）定义</h2>
+<p>在一个加工过程中，工件的集合W（W1,W2,W3,&hellip;&hellip;.)在一组机器M（M1,M2,M3,&hellip;..）上加工，每道工序可由一台或多台机床加工，且满足以下约束条件：(1)机床一次只能加工一个工件。(2)工件一次只能用一台机器加工。(3)工件必须按照工艺规定的顺序加工。(4)不得中断进程。(5)不同工件、不同工艺之间不相互干扰。(6)优先考虑具有强制交付节点的工件。当工件在交付期之前完成时，会产生存储和维护费用，当工件在交付期之后完成，则无法按期交付，建立了评价函数如下：</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZWRhYjY1NmU4MTU3Y2NlMGVjMDQ2YzE3ZTRhNjI4ZjVfcnlCbU5hZmcyMFozWHJkTVdLVFB6dXRmTW9uYkw0S0dfVG9rZW46VUg1a2JSVGRPb2R2OEx4amY4N2NIYVVHbkNKXzE3MTUzNTY1OTM6MTcxNTM2MDE5M19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=ZWRhYjY1NmU4MTU3Y2NlMGVjMDQ2YzE3ZTRhNjI4ZjVfcnlCbU5hZmcyMFozWHJkTVdLVFB6dXRmTW9uYkw0S0dfVG9rZW46VUg1a2JSVGRPb2R2OEx4amY4N2NIYVVHbkNKXzE3MTUzNTY1OTM6MTcxNTM2MDE5M19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>e 是逾期工件的评估权重，a 是提前交付工件的评估权重，l 为工件完成时间，d 为工件交付时间。调度目标是获得评价函数的最小值。</p>
+<h2 id="解决了什么问题">解决了什么问题</h2>
+<p>当前车间作业调度过程中存在<strong>订单强制节点</strong>（一些重要的订单必须在某个时间点准时交付，这往往会影响车间调度结果的质量）、设备选择等真实需求。</p>
+<h2 id="研究现状">研究现状</h2>
+<p>现有的分支定界法[9]、整数规划法[10]、遗传算法[11]、禁止搜索[12]等算法在设备选型过程中没有考虑到加工工艺是否存在强制交货时间，也没有根据设备负荷对加工工艺进行进一步优化。</p>
+<h2 id="研究方法">研究方法</h2>
+<p>根据工件的优先级和加工过程中设备的负荷，分两个阶段解决柔性车间作业调度问题。第一阶段：确定当前要加工的工件，第二阶段：确定用于加工该工件的设备。</p>
+<h3 id="设计了一种人工干预的订单优先级计算方法引入强制交货节点提出优先级计算函数">设计了一种人工干预的订单优先级计算方法：引入强制交货节点提出优先级计算函数</h3>
+<p>准确衡量订单溢出的风险，其中计算出的订单优先级越大，该订单溢出的风险越大。同时，决策者能够提前为强制节点订单设置优先级，从而确保强制节点订单在优先级的基础上得到处理</p>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=N2M5YzhmZDU5YjE5ODZlMGUzY2I5MTU2MmI0M2NmY2RfSzE2TDkyYTZ0ekF6akFTWFc2SVpOMFpyOUtGYngzMU5fVG9rZW46THdiWmJFUWc2b3R1VW54RGI5QmNFM1JSbnVlXzE3MTUzNTY1OTM6MTcxNTM2MDE5M19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=N2M5YzhmZDU5YjE5ODZlMGUzY2I5MTU2MmI0M2NmY2RfSzE2TDkyYTZ0ekF6akFTWFc2SVpOMFpyOUtGYngzMU5fVG9rZW46THdiWmJFUWc2b3R1VW54RGI5QmNFM1JSbnVlXzE3MTUzNTY1OTM6MTcxNTM2MDE5M19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<h3 id="改进了应用于机加工过程的层次分析方法">改进了应用于机加工过程的层次分析方法</h3>
+<p>设计了一种基于层次分析法的设备选型方法。该方法可以对每台机器进行综合评价，从而选择最合适的机器，达到提高调度效率的目的；</p>
+<p>基于矩阵构造方法[13]、作业调度和设备负荷满足一致性检验的信息，改进了层次分析法。改进的层次分析法可以自动构造满足一致性检验的比较矩阵。</p>
+<ul>
+<li>设备最早可以开始加工的点 C1，越早，工件逾期的概率越低，优先选择C1小的设备；</li>
+<li>设备上的总负荷 C2，越大，工件等待的概率越大，超限的概率也越大，优先选择C2小的设备；</li>
+<li>设备上所有工件可以加工的总时长 C3，越大，该设备的资源竞争概率越大(两个工件在同一时间段内需要同一台机器加工)，工件超限的概率越大，优先选择较C3小的设备。</li>
+</ul>
+<h2 id="贡献">贡献</h2>
+<p>实验表明，所提出的车间作业调度算法有效地提高了车间作业调度结果的质量</p>
+<p>与现有算法相比，本文提出的求解算法是有效的，保证了强制节点工件在评价值最小化的情况下按时交付，既保证了工件完成率，又显著降低了库存，提高了企业的生产率和资金流动性。</p>
+<ol>
+<li>
+<h1 id="客户订单优先级的决策框架建议一家结构钢公司的案例研究">客户订单优先级的决策框架建议：一家结构钢公司的案例研究</h1>
+</li>
+</ol>
+<p>A decision framework proposal for customer order prioritization: A case study for a structural steel company</p>
+<p>当目前被授予的项目开始覆盖公司的大部分设计和制造能力时，公司面临着选择下一个客户订单来合理分配剩余稀缺能力的决策问题。</p>
+<p>由于钢结构行业的性质，绝大多数的工作，近90%，是在设计和制造阶段完成的;剩下的10%是用非常少的工艺完成的安装</p>
+<p>表 1 评估标准</p>
+<table>
+<thead>
+<tr>
+<th>标准</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单位时间的潜在利润率</td>
+<td>考虑一定时期内利润的潜在利润率</td>
+</tr>
+<tr>
+<td>潜在订单与可用容量的兼容性</td>
+<td>潜在订单在公司有限产能方面的适用性水平</td>
+</tr>
+<tr>
+<td>利润更高的潜在未来订单水平</td>
+<td>接受比考虑中的需求更有利可图的未来需求的可能性水平</td>
+</tr>
+<tr>
+<td>未来商机的客户信用</td>
+<td>成为制造公司忠实客户的水平</td>
+</tr>
+<tr>
+<td>订单生产计划的可协商性级别</td>
+<td>项目在项目进度方面的灵活性水平</td>
+</tr>
+</tbody>
+</table>
+<p>利润最大化是企业营利性的强制性目标。与利润率较低但运营时间较短的订单相比，利润率较高但运营时间较长的订单可能无利可图。因此，可以定义&quot;<strong>单位时间****潜在利润率</strong>&ldquo;代替总利润作为订单优先级决策的评价标准。</p>
+<ol>
+<li>
+<h1 id="在具有外部到期日的按订单生产系统中优先级排序决策对订单准时概率和预期延迟的影响">在具有外部到期日的按订单生产系统中，优先级排序决策对订单准时概率和预期延迟的影响</h1>
+</li>
+</ol>
+<p>Impact of priority sequencing decisions on on-time probability and expected tardiness of orders in make-to-order production systems with external due-dates</p>
+<p>探讨了按订单制造（MTO）生产系统中的优先级排序问题，使用马尔可夫决策过程（MDP）对该问题进行建模。目标函数被定义为一个固定的和一个可变的延迟成本的和，分别考虑“订单准时率”和“订单预期延迟”两个绩效标准。</p>
+<p>通过基准测试和数值结果分析发现通过采用简单的基于到期日期的规则，可以实现接近最优的系统性能。</p>
+<p>然而，最优策略以及性能最接近的简单规则在很大程度上取决于延迟惩罚中固定成本的相对价值。出现了固定成本并且难以满足到期日期时，坚持使用到期日期的规则反而会导致超过56%的百分比成本差距。因此，提出将优先级排序决策推迟到下一个订单完成，而不是在订单到达时决定的建议</p>
+<ol>
+<li>
+<h1 id="资源约束和不同订单优先级下的作业车间调度">资源约束和不同订单优先级下的作业车间调度</h1>
+</li>
+</ol>
+<p>JOB SHOP SCHEDULING UNDER RESOURCE CONSTRAINTS AND VARYING ORDER PRIORITIES</p>
+<ul>
+<li>摘要</li>
+</ul>
+<p>在资源约束下，基于客户重要性和订单优先级的动态调度规则的作业车间调度系统的开发。</p>
+<p>计划和调度的一个重要部分是能够预测未来的订单并平衡不同类别之间的工作量，其中客户重要性和订单优先级都是不同的</p>
+<ul>
+<li>生产调度中的作业车间调度问题，从而开发了作业车间调度系统，满足以下约束</li>
+</ul>
+<p>A)每个中心的可用资源;</p>
+<p>B)每个订单的时间限制；</p>
+<p>C)顺序优先。</p>
+<ul>
+<li>根据优先级指数（PI）选择要处理的订单或作业，其中PI = F(剩余时间、客户或订单类别)。</li>
+<li>生产调度系统包括</li>
+</ul>
+<p>a)输入:机器、工装、人工、原材料、订单</p>
+<p>b)调度算法和到期日预测</p>
+<p>c)输出:机器、劳动力和订单的时间表文件</p>
+<p>输入和输出之间的联系是调度算法</p>
+<ul>
+<li>优先级指数PI的计算</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YzM4ZDZiOGM3ZjUwNjQ2OThjMjZhMjUxNmIxNDljOWNfcHN5NXBTeGZ3NkhoWEdtdENXeTI2anJtTzJDdlFrYklfVG9rZW46UHBkM2JNYkFob01MelF4ejdHd2NYTHJsbmliXzE3MTUzNTY1OTM6MTcxNTM2MDE5M19WNA" >
+		<img src="https://i6k1mi7e64.feishu.cn/space/api/box/stream/download/asynccode/?code=YzM4ZDZiOGM3ZjUwNjQ2OThjMjZhMjUxNmIxNDljOWNfcHN5NXBTeGZ3NkhoWEdtdENXeTI2anJtTzJDdlFrYklfVG9rZW46UHBkM2JNYkFob01MelF4ejdHd2NYTHJsbmliXzE3MTUzNTY1OTM6MTcxNTM2MDE5M19WNA"
+			
+			
+			
+			loading="lazy"
+			alt="img">
+	</a>
+	
+	<figcaption>img</figcaption>
+	
+</figure></p>
+<p>TR 剩余时间</p>
+<p>NO 剩余操作数</p>
+<p>CR 顾客抱怨(1,2,3,4)</p>
+<p>OR 排序(1,2,3,4,5)</p>
+<p>PI值越低，调度订单就越重要。客户排名越低，客户就越重要。OR值越大，表示订单变得越紧急或“匆忙”</p>
+<ul>
+<li>深入了解动态调度规则是如何工作的</li>
+</ul>
+<p>对象：维护部门的研究结果</p>
+<p>历史的调度规则是静态的，分为五个基本组件：</p>
+<p>紧急情况(E) -立即启动</p>
+<p>紧急(C) -尽快开始。</p>
+<p>优先级1 -在1周内开始</p>
+<p>优先级2:在两周内开始工作</p>
+<p>优先级3:3周内开始工作</p>
+<ol>
+<li>
+<h1 id="利用遗传规划演化资源受限项目调度问题的优先级规则">利用遗传规划演化资源受限项目调度问题的优先级规则</h1>
+</li>
+</ol>
+<p>On the use of genetic programming to evolve priority rules for resource constrained project scheduling problems</p>
+<p>针对资源受限的项目调度问题，提出一种基于遗传规划的超启发式算法来生成高效的优先级规则（来确定执行项目所需活动的顺序）。</p>
+<p>构建一个不断发展的优先级规则框架：</p>
+<p>两种类型的优先级规则：纯算术的优先级规则；算术和决策算子的组合优先级规则</p>
+<ol>
+<li>
+<h1 id="静态环境下资源受限项目调度问题的优先级规则研究">静态环境下资源受限项目调度问题的优先级规则研究</h1>
+</li>
+</ol>
+<p>Using priority rules for resource-constrained project scheduling problem in static environment</p>
+<p>优先级规则启发式方法来解决资源约束项目调度问题</p>
+<ol>
+<li>
+<h1 id="双向规划改进基于优先级规则的启发式调度资源受限项目">双向规划:改进基于优先级规则的启发式调度资源受限项目</h1>
+</li>
+</ol>
+<p>Bidirectional planning: improving priority rule-based heuristics for scheduling resource-constrained projects</p>
+<ul>
+<li>介绍了在项目管理中解决资源约束项目调度问题的启发式方法，启发式方法通过执行与优先约束相关的一组作业来尽早完成项目，并通过灵活使用包括双向规划在内的不同规划方向来扩展构建可行计划的串行和并行调度方案。通过逆向规划策略和双向规划策略，并将其纳入基于规则的优先程序进行验证。实验表明，规划方向对基于优先级规则的启发式算法的性能有相当大的影响，从而影响了所采用的调度方案。另外，双向规划也应该应用于其他启发式调度方案中，如抽样程序和基于元启发式的方法。</li>
+<li>优先级规则</li>
+</ul>
+<p>优先级规则用于选择下一个必须调度的作业。为每个作业计算一个优先级值，根据规则选择最小或者最大的优先级值。在本文评估了一共73个优先级规则。取决于规则所使用的信息、事件类型规则可以大致分为以下几类：</p>
+<p>基于网络的规则利用项目网络中包含的信息，从而丢弃资源数据。例如工作期限、继任者的数量等等。</p>
+<p>基于关键路径的规则是基于向前和向后传球的结果。最常见的是指最早和最晚的开始和结束时间。</p>
+<p>基于资源的规则是指作业对资源的需求。例如，他们可以计算一个作业从所有资源类型中需要的平均相对量。</p>
+<p>复合规则试图克服专注于单一类型信息的缺点。为此，它们通常通过计算各自规则获得的优先级值的加权和来组合基于网络、时间和资源的规则。</p>
+<p>静态规则在启动调度进程之祈安只计算一次优先级值。相反的，在每次调度作业时，动态规则会更新优先级值。</p>
+<ol>
+<li>
+<h1 id="随机资源约束项目调度问题的有效优先规则">随机资源约束项目调度问题的有效优先规则</h1>
+</li>
+</ol>
+<p>Efficient priority rules for the stochastic resource-constrained project scheduling problem</p>
+<ul>
+<li>在本研究中，考察了17种优先级规则启发式方法和证明技术在随机资源约束项目调度问题(SRCPSP)上的性能。在这17个优先级规则中，有12个是从解决确定性资源约束项目调度问题(RCPSP)的文献中选择的，另外5个是基于确定性资源约束项目调度的随机信息而新设计的。我们评估了17个优先级规则在基准数据集PSPLIB上的效率，并分析了用于创建该数据集的项目特征的影响。最后的结果表明，RCPSP的最佳优先级规则并不适用于SRCPSP。当活动持续时间的方差为中等时，SRCPSP的最佳优先级规则执行得与最佳元启发式规则一样好，并且当该方差较大时优于所有现有算法。在SRCPSP上证明的有效性取决于优先级规则和活动持续时间的差异。项目特征、网络复杂性和<strong>资源因素</strong>对最优优先规则的选择没有影响，而<strong>资源强度</strong>对最优优先规则的选择有影响。我们的研究结果可以帮助管理者在面对不确定性时更有效地安排项目活动。</li>
+<li>在满足优先级和资源约束的同时最小化项目持续时间</li>
+<li>在现实世界中，项目受制于相当大的不确定性，可能来自于多方面：项目范围的变化、资源可用性的变化、天气条件导致某些活动的延迟等等</li>
+<li>在SRCPSP中，项目活动具有已知的持续时间分布，其目标通常是最小化项目的预期完工时间。</li>
+<li>将项目的执行视为一个多阶段决策过程，在每个决策点，策略充当调度规则，确定下一步要启动哪些活动。</li>
+<li>优先级规则启发式算法在资源约束型多项目调度问题和资源约束型多项目调度问题中发挥着重要作用。它们之所以重要，有以下几个原因:(1)与其他启发式方法相比，pr速度快，需要的计算时间更少;(2)许多高级启发式方法和精确程序将pr作为其算法的组成部分，例如群优化方法通常使用pr构建初始解;(3)pr简单直观。由于它们的简单性，它们也被商业项目调度软件广泛使用。在实践中，即使没有计算机的帮助，项目经理也可以很容易地应用这种方法，并获得快速安排项目的解决方案。</li>
+</ul>
+<ol>
+<li>
+<h1 id="资源约束和社区优先下的生产决策优化">资源约束和社区优先下的生产决策优化</h1>
+</li>
+</ol>
+<p>Optimization of Production Decisions Under Resource Constraints and Community Priorities</p>
+<p>资源最优配置问题使得收益最大化</p>
+<ol>
+<li>
+<h1 id="一种复杂作业车间自主控制的新方法集成订单释放排序和产能控制以满足交货期">一种复杂作业车间自主控制的新方法——集成订单释放、排序和产能控制以满足交货期</h1>
+</li>
+</ol>
+<p>A new method for autonomous control of complex job shops – Integrating order release, sequencing and capacity control to meet due dates</p>
+<p>提出了自主生产控制方法(APC)，该方法集成了所有控制任务-订单释放，排序和产能控制-以满足交付日期</p>
+<ul>
+<li>网络物理生产系统（CPPS）</li>
+<li>生产计划（调度）通常决定一个时间表，它包括操作开始或结束的确切日期，因此也决定了考虑可用资源的生产订单顺序。
+<ul>
+<li>在CPPS设想的自主控制的工厂中，生产控制将基于主计划的到期日期和产能限制分散/自主地控制生产。因此，生产控制具有排序(包括调度和队列处理顺序)、订单释放和产能控制的功能。</li>
+</ul>
+</li>
+<li>第3节介绍了APC方法的概念，考虑到ICT进步和CPPS发展的可能性和要求，APC方法包括CPPS中生产控制的三个任务-排序，订单释放和容量控制-用于作业车间制造。
+<ul>
+<li>概念：APC方法需要一定的计划数据作为决策依据:每个作业车间的计划加工开始时间和完成时间(截止日期)以及最终完成日期。不需要详细的生产计划，包括各工位的分配。</li>
+<li>3.1.2. 负载平衡设置和截止日期导向的订单释放，调度，排序和容量控制与自我学习程序
+<ul>
+<li>APC方法的总体指导方针是保持到期日期，同时在定义的水平上平衡工作负载</li>
+<li>完成了订单释放和调度之后，在接下来的步骤中，确定是否保留了到期日期和范围限制。顺序首先选择保留所有到期日的站点，然后是由于顺序而使总范围增加最少的站点。将截止日期遵守和完成时间导向作为第二个标准的高优先级。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>
+<h1 id="产能不确定和随机成品率装配系统的零件排序策略">产能不确定和随机成品率装配系统的零件排序策略</h1>
+</li>
+</ol>
+<p>Component ordering strategies in assembly systems with uncertain capacity and random yield</p>
+<ul>
+<li>由于外包和供应链延伸的盛行，将大量零部件组装成最终产品的制造企业面临着严重的供应不确定性</li>
+<li>在一个复杂的全球供应商网络中采购组件可能会导致高度的供应不确定性。诸如意外的生产缺陷或供应商能力不足等事件可能导致所需部件的意外短缺，并使最终产品的组装停止。因此，装配企业必须在零部件订购决策中有效地管理各种供应不确定性，以避免零部件短缺。在这些问题的指导下，本研究探讨了在两种供应不确定性情况下，装配商的最优订货策略:标准部件(组件1)的生产能力不确定和核心部件(组件2)的随机生产成品率。在这些供应不确定性实现之前，装配商做出了零件订购决策。对最优排序决策进行了刻画，发现装配商应按固定比例对组件1和组件2进行排序，该比例仅取决于组件2的随机产量和组件1的生产成本，而不取决于组件1的不确定产能。</li>
+<li>组件排序策略分析
+<ul>
+<li>最优排序决策</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>
+<h1 id="基于混合mcdm技术的作业车间调度中最优优先级排序规则的评估与选择">基于混合MCDM技术的作业车间调度中最优优先级排序规则的评估与选择</h1>
+</li>
+</ol>
+<p>Evaluation and Selection of Best Priority Sequencing Rule in Job Shop Scheduling using Hybrid MCDM Technique</p>
+<ul>
+<li>优先级排序规则为工作站上处理作业的顺序提供指导。在作业车间调度中应用不同的优先级规则，会产生不同的调度顺序。研究了作业车间调度中7种不同的优先级排序规则。对于最佳优先排序规则的评价和选择，考虑了一组8个标准。本研究的目的是通过使用混合多准则决策技术(MCDM)，即层次分析法(AHP)和理想解相似性排序偏好技术(TOPSIS)，展示评估和选择最佳优先排序规则的方法。采用层次分析法计算各优先级排序规则的权重，基于TOPSIS法计算各优先级排序规则的相对接近值，并利用某制造企业的车间数据。最后，根据本工作的发现，将优先排序规则从最重要到最不重要进行排序。本文所提出的综合方法对于工作站的管理是非常必要的，以便在可选方案中选择最佳优先级排序规则来处理最大效益的作业。</li>
+<li>模型
+<ul>
+<li>在确定研究区域后，即作业车间排序，确定不同优先级排序规则。然后确定了最佳优先排序规则的评价和选择标准。根据这些标准，从相关工作站收集整个过程所需的数据。在建立评价标准层次结构后，运用层次分析法确定评价标准的权重。执行与评价准则相对应的备选方案的性能并将其制成表格。最后，利用MCDM技术TOPSIS得到最终的排序结果。</li>
+<li></li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>
+<h1 id="云制造下多供应链c2b订单决策">云制造下多供应链C2B订单决策</h1>
+</li>
+</ol>
+<p>C2B Orders Decision-making in Multiple Supply Chains Under Cloud Manufacturing</p>
+<h1 id="优先级规则">优先级规则</h1>
+<p>优先级规则是进行生产作业计划排序时适用的规则。有时生产作业计划排序可能很简单，仅根据一条数据就可对作业进行排序，如加工时间、交货日期或者到达的顺序。有时生产作业计划排序需要根据紧迫系数、最小单个工序平均时差、最早订单完成日期等因素来确定优先级别</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/p/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">论文阅读</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/p/%E6%99%BA%E8%83%BD%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">智能优化算法笔记</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2024 think hy how to learn
+    </section>
+    
+    <section class="powerby">
+         <br />
+        
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<!doctype html>
+<html lang="en">
+<head>
+   
+</head>
+
+
+
+
+
+
+
+
+
+<body>
+</body>
+
+</html>
+
+
+    </body>
+</html>
